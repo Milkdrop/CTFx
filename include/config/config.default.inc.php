@@ -29,18 +29,18 @@
 //];
 
 // paths below must end in a "/" !
-Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/mellivora/');
+Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/ctfx/');
 
 // language
 Config::set('MELLIVORA_CONFIG_SITE_LANGUAGE', 'en');
 
 // general site settings
-Config::set('MELLIVORA_CONFIG_SITE_NAME', 'Mellivora');
-Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'Mellivora, the CTF engine');
+Config::set('MELLIVORA_CONFIG_SITE_NAME', 'CTF Name');
+Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'CTFx, Based on mellivora');
 Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', '');
 
-Config::set('MELLIVORA_CONFIG_SITE_URL', 'http://127.0.0.1/');
-Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', 'http://127.0.0.1/');
+Config::set('MELLIVORA_CONFIG_SITE_URL', 'http://192.168.1.113/');
+Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', 'http://192.168.1.113/');
 
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH', 'admin/');
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_URL', Config::get('MELLIVORA_CONFIG_SITE_URL') . Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH'));

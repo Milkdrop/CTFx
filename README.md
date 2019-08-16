@@ -45,6 +45,38 @@ Mellivora scales well on Amazon Elastic Beanstalk and has support for S3 file st
 Mellivora is lightweight. And fast. Very fast. Want to run a large competition on an EC2 micro instance? No problem!? See [benchmarks.md](benchmarks.md) for some possibly unhelpful benchmarks.
 
 ### Installation
+- Install the following packages:
+- nginx-light
+- php-fpm
+- php-xml
+- php-curl
+- php-mysql
+- php-mbstring
+- composer
+- mysql-server
+
+- Run `composer install --no-dev --optimize-autoloader`
+
+- Setup mysql server with `mysql_secure_installation`
+- remove anonymous users
+- disable root login
+- remove test database
+
+- Setup website parameters /etc/nginx/sites-enabled/default
+
+- sudo mysql:
+- CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;
+- GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';
+- sudo mysql < install/sql/001-mellivora.sql
+- sudo mysql < install/sql/002-countries.sql
+
+- Create your admin account on the website (and enable 2FA Authentication preferably)
+- Make it admin:
+- sudo mysql
+- USE mellivora; UPDATE users SET class=100 WHERE id=1;
+
+- Make the folder `writable` writable
+
  * You can find detailed setup instructions in [install/README.md](install/README.md).
  * Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
 

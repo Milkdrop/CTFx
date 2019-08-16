@@ -24,11 +24,13 @@ form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_ca
 form_input_text('Title', $category['title']);
 form_textarea('Description', $category['description']);
 form_input_checkbox('Exposed', $category['exposed']);
+form_button_submit('Save changes');
+
+section_subhead ("Advanced Settings:");
 form_input_text('Available from', date_time($category['available_from']));
 form_input_text('Available until', date_time($category['available_until']));
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
-form_button_submit('Save changes');
 form_end();
 
 section_subhead('Delete category: ' . $category['title']);
