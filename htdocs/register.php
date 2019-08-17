@@ -13,7 +13,7 @@ head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
     echo '
-    <h2>',lang_get('register_your_team'),'</h2>
+    <h2 class="typewriter">Registration:</h2>
     <p>
         ',lang_get(
             'account_signup_information',
@@ -22,7 +22,7 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
             )
         ),'
     </p>
-    <form method="post" id="registerForm" class="form-signin" action="actions/register">
+    <form method="post" id="registerForm" class="form-signin" style="margin-top: 20px" action="actions/register">
         <input name="team_name" type="text" class="form-control" placeholder="Team name" minlength="',Config::get('MELLIVORA_CONFIG_MIN_TEAM_NAME_LENGTH'),'" maxlength="',Config::get('MELLIVORA_CONFIG_MAX_TEAM_NAME_LENGTH'),'" required />
         <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control" placeholder="Email address" id="register-email-input" required />
         ',(!Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ? '<input name="'.md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD').'" type="password" class="form-control" placeholder="Password" id="register-password-input" required />' : '');
@@ -58,7 +58,7 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
 
     echo '
     <input type="hidden" name="action" value="register" />
-    <button class="btn btn-primary btn-lg" type="submit" id="register-team-button">Register team</button>
+    <button class="btn btn-primary btn-lg" type="submit" id="register-team-button">Register</button>
 </form>
 ';
 

@@ -11,7 +11,7 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
         head(lang_get('error'));
     }
 
-    section_subhead(lang_get('error'));
+    section_typewriter(lang_get('error'));
 
     message_inline_red($message);
 

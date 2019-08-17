@@ -28,8 +28,7 @@ if (!isset($_GET['action'])) {
 
     head(lang_get('reset_password'));
     echo '
-    <form method="post" class="form-signin" action="actions/reset_password">
-        <h2 class="form-signin-heading">',lang_get('reset_password'),'</h2>
+    <form method="post" class="form-signin" action="actions/reset_password"><div class="form-signin-heading">',section_typewriter ("Reset Password:"),'<div>
         <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'EMAIL'),'" type="text" class="form-control" placeholder="',lang_get('email_address'),'" required autofocus />
         <input type="hidden" name="action" value="reset_password" />
         ';

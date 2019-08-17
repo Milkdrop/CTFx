@@ -26,13 +26,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     // no user types
     if (empty($user_types)) {
-        section_head(
-            lang_get('scoreboard'),
-            '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard">
-                <img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/json.png" title="View json" alt="json" class="discreet-inline small-icon" />
-            </a>',
-            false
-        );
+        echo '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard">', section_typewriter_with_dropdown (lang_get('scoreboard')), '</a>';
 
         $scores = db_query_fetch_all('
             SELECT
@@ -98,7 +92,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
         <div class="col-lg-6">
         ';
 
-    section_head(lang_get('challenges'));
+    section_head (lang_get('challenges'));
 
     $categories = db_query_fetch_all('
         SELECT
