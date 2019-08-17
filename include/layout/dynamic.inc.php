@@ -24,6 +24,7 @@ function dynamic_menu_content() {
         foreach($entries as $entry) {
             echo '
             <li>
+                <span></span>
                 <a class="chaffle" href="',($entry['internal_page'] ? Config::get('MELLIVORA_CONFIG_SITE_URL').'content?show='.$entry['permalink'] : htmlspecialchars($entry['url'])),'">',htmlspecialchars($entry['title']),'</a>
             </li>
             ';

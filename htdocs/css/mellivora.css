@@ -24,7 +24,7 @@ body {
 }
 
 .container {
-	padding: 10px 65px 85px 65px;
+	padding: 10px 65px 160px 65px;
 }
 
 /**
@@ -58,12 +58,14 @@ body {
 }
 
 #footer p {
+	text-shadow: 2px 2px 16px #000000;
 	float: left;
 	padding: 0;
 	margin: 0;
 }
 
 #footer a {
+	text-shadow: 2px 2px 16px #000000;
 	color: #42a0ff;
 }
 
@@ -77,17 +79,126 @@ body {
 	opacity: 1;
 }
 
+/**
+	Misc
+**/
+
+.background-dot {
+	position: fixed;
+	z-index: -5;
+}
+
+.background-dot::selection {
+	background-color: #0a0a0a;
+	color: #f5f5f5;
+}
+
 #dotCanvas {
 	position: absolute;
 	opacity: 0;
 	bottom: 0;
-	z-index: -1;
+	z-index: -10;
 	width: 100%;
 }
 
 .dotCanvasLoaded {
 	opacity: 1 !important;
 	transition: opacity 0.5s ease-in;
+}
+
+.typewriter {
+	display: inline-block;
+    border-right: 2px solid rgba(255,255,255,.75);
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+	animation: typewriter 1s steps(44) 0.25s 1 normal both,
+               blinkTextCursor 500ms steps(44) infinite;
+}
+
+@keyframes typewriter{
+  from {max-width: 0;}
+  to {max-width: 100%; border-right: none;}
+}
+
+@keyframes blinkTextCursor{
+  from{border-right-color: rgba(255,255,255,.75);}
+  to{border-right-color: transparent;}
+}
+
+#ctfx-main-logo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.main-intro-text {
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.blue {
+	color: #42a0ff;
+	display: inline-block;
+}
+
+/**
+	UI Elements
+**/
+	
+.dropdown {
+	width: 34px;
+	height: 34px;
+	top: 6px;
+	display: inline-block;
+	background: url("/img/ui/dropdownActive.png");
+}
+
+.dropdown-a {
+	width: 34px;
+	height: 34px;
+	position: absolute;
+	background: url("/img/ui/dropdownInactive.png");
+	animation: maskdown-first 3s infinite ease-out;
+}
+
+.dropdown-b {
+	width: 34px;
+	height: 34px;
+	position: absolute;
+	background: url("/img/ui/dropdownActive.png");
+	animation: maskdown-second 3s infinite ease-out;
+}
+
+@keyframes maskdown-first {
+ 0% {
+  height: 0px;
+ }
+ 20% {
+  height: 34px;
+ }
+ 100% {
+  height: 34px;
+ }
+}
+
+@keyframes maskdown-second {
+ 0% {
+  height: 0px;
+ }
+ 50% {
+  height: 0px;
+ }
+ 70% {
+  height: 34px;
+ }
+ 100% {
+  height: 34px;
+ }
 }
 
 /**
@@ -133,6 +244,15 @@ body {
 	}
 }
 
+/**
+	News
+**/
+
+.news-body {
+	margin-top: -10px;
+	padding: 5px 5px 5px 15px;
+}
+
 /**Pill overrides**/
 
 .nav-pills > li {
@@ -141,6 +261,27 @@ body {
 
 .nav-pills > li + li {
 	margin-left: 0px;
+}
+
+#menu-main li:hover span, #menu-main .active span {
+	left: -16px;
+	opacity: 1;
+}
+
+#menu-main span {
+	background: url("/img/pointer.png");
+	width: 13px;
+	height: 11px;
+	cursor: default;
+	position: absolute;
+	margin-top: 8px;
+	left: -10px;
+	opacity: 0;
+	transition: all 0.15s ease-in-out;
+}
+
+#menu-main span::selection {
+	color: #42a0ff;
 }
 
 #menu-main .active a {
@@ -157,7 +298,7 @@ body {
 	text-transform: uppercase;
 	background: none;
 	text-decoration: none;
-	transition: opacity 0.1s ease-in-out;
+	transition: opacity 0.15s ease-in-out;
 }
 
 #menu-main a:focus, #menu-main a:active {
@@ -166,7 +307,6 @@ body {
 
 #menu-main a:hover {
 	opacity: 1;
-	transition: opacity 0.1s ease-in-out;
 }
 
 #menu-main button {
@@ -377,9 +517,9 @@ body {
 }
 
 .page-header {
-	padding-bottom: 5px;
+	border-bottom: 2px solid #42a0ff;
+	padding: 5px 5px 5px 15px;
 	margin: 10px 0 10px;
-	border-bottom: 1px solid #eeeeee;
 }
 
 .no-padding-or-margin {

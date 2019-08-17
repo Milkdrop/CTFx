@@ -65,25 +65,25 @@ echo '
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
+                            echo '<li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
-                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
+                            <li><span></span><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><span></span><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
+                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li>',form_logout(),'</li>
                             ';
 
                     } else {
                         echo '
-                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><span></span><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><span></span><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
+                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
+                            <li><span></span><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
                         ';
                     }
                     echo '
@@ -92,6 +92,7 @@ echo '
         </div>
     </nav><!-- navbar -->
 
+    <div id="background-dots"></div>
     <div class="container" id="body-container">
 
         <div id="content-container">
@@ -154,6 +155,12 @@ function section_head ($title, $tagline = '', $strip_html = true) {
           <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
         </div>
     </div>
+    ';
+}
+
+function section_typewriter ($title, $tagline = '', $strip_html = true) {
+    echo '
+        <h2 class="typewriter">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
     ';
 }
 
