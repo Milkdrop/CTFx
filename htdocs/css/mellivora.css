@@ -32,13 +32,13 @@ body {
 **/
 
 #footer {
-	background-color: #0a0a0a;
 	font-size: 10px;
 	text-align: center;
 	padding: 10px 65px 5px 65px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
+	z-index: 10;
 }
 
 #footer .logo {
@@ -77,12 +77,24 @@ body {
 	opacity: 1;
 }
 
+#dotCanvas {
+	position: absolute;
+	opacity: 0;
+	bottom: 0;
+	z-index: -1;
+	width: 100%;
+}
+
+.dotCanvasLoaded {
+	opacity: 1 !important;
+	transition: opacity 0.5s ease-in;
+}
+
 /**
 	Header / nav bar
 **/
 
 #header {
-	text-align: center;
 	width: 100%;
 }
 
@@ -132,25 +144,34 @@ body {
 }
 
 #menu-main .active a {
-	color: #ffffff;
-}
-
-#menu-main :not(.active) a:hover, #menu-main :not(.active) form:hover {
-	background-color: rgba(0, 0, 0, 0);
+	opacity: 1;
 }
 
 #menu-main a {
 	color: #0a0a0a;
+	opacity: 0.7;
 	font-family: Sans-serif;
 	font-size: 13px;
 	padding: 10px 5px;
 	margin: -5px 0px;
-	border-radius: 4px;
 	text-transform: uppercase;
+	background: none;
+	text-decoration: none;
+	transition: opacity 0.1s ease-in-out;
+}
+
+#menu-main a:focus, #menu-main a:active {
+	outline: none;
+}
+
+#menu-main a:hover {
+	opacity: 1;
+	transition: opacity 0.1s ease-in-out;
 }
 
 #menu-main button {
 	color: #0a0a0a;
+	opacity: 0.7;
 	font-size: 13px;
 	width: 120px;
 	padding: 0px 5px;
@@ -159,6 +180,13 @@ body {
 	border: none;
 	cursor: pointer;
 	text-transform: uppercase;
+	text-align: inherit;
+	transition: opacity 0.1s ease-in-out;
+}
+
+#menu-main button:hover {
+	opacity: 1;
+	transition: opacity 0.1s ease-in-out;
 }
 
 #categories-menu a {

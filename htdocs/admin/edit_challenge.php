@@ -21,19 +21,22 @@ menu_management();
 
 section_subhead('Edit challenge: ' . $challenge['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
+$opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
+
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
+form_input_text('Flag', $challenge['flag']);
+form_input_text('Points', $challenge['points']);
+form_select($opts, 'Category', 'id', $challenge['category'], 'title');
+form_input_checkbox('Exposed', $challenge['exposed']);
 
-form_textarea('Flag', $challenge['flag']);
+form_button_submit('Save changes');
+
+section_subhead ("Advanced Settings:");
 form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
-
-form_input_text('Points', $challenge['points']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
 form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions']);
-
-$opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
-form_select($opts, 'Category', 'id', $challenge['category'], 'title');
 
 $opts = db_query_fetch_all('
     SELECT
@@ -46,10 +49,8 @@ $opts = db_query_fetch_all('
 );
 
 array_unshift($opts, array('id'=>0, 'title'=> '-- This challenge will become available after the selected challenge is solved (by any user) --'));
-
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
-form_input_checkbox('Exposed', $challenge['exposed']);
 form_input_text('Available from', date_time($challenge['available_from']));
 form_input_text('Available until', date_time($challenge['available_until']));
 

@@ -55,35 +55,30 @@ Mellivora is lightweight. And fast. Very fast. Want to run a large competition o
 - composer
 - mysql-server
 
-- Run `composer install --no-dev --optimize-autoloader`
-
 - Setup mysql server with `mysql_secure_installation`
 - remove anonymous users
 - disable root login
 - remove test database
 
-- Setup website parameters /etc/nginx/sites-enabled/default
+- Copy repo contents to /var/www/ctfx/
+- Run `composer install --no-dev --optimize-autoloader` under /var/www/ctfx
+- Make the folder `writable` writable
+
+- Setup website config at `/etc/nginx/sites-enabled/default`
+- Remember to change the php-fpm socket to your current .sock file
 
 - sudo mysql:
 - CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;
-- GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';
+- GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass'; # if you change the pass, make sure to also change it in `include/config/db.inc.php`
 - sudo mysql < install/sql/001-mellivora.sql
 - sudo mysql < install/sql/002-countries.sql
 
+- Change the variables `MELLIVORA_CONFIG_SITE_URL` and `MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES` under `include/config/config.inc.php` to your current server's accessible address
+
 - Create your admin account on the website (and enable 2FA Authentication preferably)
-- Make it admin:
+- Logout of your account
 - sudo mysql
 - USE mellivora; UPDATE users SET class=100 WHERE id=1;
-
-- Make the folder `writable` writable
-
- * You can find detailed setup instructions in [install/README.md](install/README.md).
- * Run Mellivora easily with docker-compose. See [install/docker/README.md](install/docker/README.md).
-
-### Development
-[![Build Status](https://travis-ci.org/Nakiami/mellivora.svg?branch=master)](https://travis-ci.org/Nakiami/mellivora)
-
-PRs gladly accepted. Test using [Codeception](http://codeception.com/). Read [more about testing here](tests/README.md).
 
 ### License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.

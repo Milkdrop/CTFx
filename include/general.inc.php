@@ -425,7 +425,7 @@ function check_server_writable_dirs() {
     // check that our writable dirs are writable
     foreach (get_directory_list_recursive(CONST_PATH_FILE_WRITABLE) as $dir) {
         if (!is_writable($dir)) {
-            message_inline_red('Directory ('.$dir.') must be writable by Apache.');
+            message_inline_red('Directory ('.$dir.') must be writable.');
         }
     }
 }

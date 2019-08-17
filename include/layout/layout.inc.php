@@ -69,8 +69,8 @@ echo '
                         }
 
                         echo '
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
                             <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
                             <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
@@ -79,8 +79,8 @@ echo '
 
                     } else {
                         echo '
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
                             <li><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
@@ -129,25 +129,19 @@ function foot () {
     </div>
 </div>
 
+<video autoplay="true" loop="true" id="dotCanvas" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/dotCanvas.mp4"></video>
+
 </div> <!-- /page -->
 
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.js"></script>
+<audio id="audio-navbar" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navbar.mp3"></audio>
+<audio id="audio-navclick" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navclick.mp3"></audio>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/chaffle.min.js"></script>
+<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
 <script>
-const elements = document.getElementsByClassName ("chaffle");
-Array.prototype.forEach.call(elements, function (el) {
-    const chaffle = new Chaffle(el, {speed: 20, delay: 100});
-    el.addEventListener("mouseover", function () {
-        chaffle.init();
-    });
-});
-
-$("nav a").mouseover(function() {
-  console.log ("eee");
-});
+    window.addEventListener ("load", function () {dotCanvas.className = "dotCanvasLoaded";});
 </script>
 </body>
 </html>';
@@ -283,24 +277,24 @@ function bbcode_manual () {
             <ul>
             <li><b>Text Styles:</b>
                 <ul>
-                <li>[b]...[/b]</li>
-                <li>[i]...[/i]</li>
-                <li>[u]...[/u]</li>
-                <li>[s]...[/s]</li>
-                <li>[sup]...[/sup]</li>
-                <li>[sub]...[/sub]</li>
-                <li>[spoiler]...[/spoiler]</li>
-                <li>[acronym]...[/acronym]</li>
-                <li>[size=6]...[/size]</li>
-                <li>[color=red]...[/color]</li>
-                <li>[font=verdana]...[/font]</li>
+                <li>[b]<b> Bold </b>[/b]</li>
+                <li>[i]<i> Italics </i>[/i]</li>
+                <li>[u]<u> Underline </u>[/u]</li>
+                <li>[s]<strike> Strikethrough </strike>[/s]</li>
+                <li>[sup]<sup> Superscript </sup>[/sup]</li>
+                <li>[sub]<sub> Subscript </sub>[/sub]</li>
+                <li>[spoiler] Spoiler [/spoiler]</li>
+                <li>[acronym] Acronym [/acronym]</li>
+                <li>[size=6] Custom Size [/size]</li>
+                <li>[color=red] Custom Color [/color]</li>
+                <li>[font=verdana] Custom Font [/font]</li>
                 </ul>
             </li>
             <li><b>Links:</b>
                 <ul>
-                <li>[url]...[/url]</li>
-                <li>[url=...]text[/url]</li>
-                <li>[email]...[/email]</li>
+                <li>[url] URL [/url]</li>
+                <li>[url=url] Text [/url]</li>
+                <li>[email] E-Mail [/email]</li>
                 <li>[wiki]</li>
                 </ul>
             </li>
@@ -310,7 +304,7 @@ function bbcode_manual () {
             <ul>
             <li><b>Replaced Items:</b>
                 <ul>
-                <li>[img]...[/img]</li>
+                <li>[img] Image [/img]</li>
                 <li>[rule]</li>
                 <li>[br]</li>
                 </ul>
