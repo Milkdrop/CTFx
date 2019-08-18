@@ -49,23 +49,22 @@ function message_inline_bland ($message) {
 }
 
 function message_inline_blue ($message, $strip_html = true) {
-    echo '<div class="alert alert-info">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-info"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_red ($message, $strip_html = true) {
-    echo '<div class="alert alert-danger">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-danger"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_yellow ($message, $strip_html = true) {
-    echo '<div class="alert alert-warning">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-warning"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_green ($message, $strip_html = true) {
-    echo '<div class="alert alert-success">',($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-success"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_dialog ($message, $title, $closeText, $class) {
-
     echo '
     <div class="modal fade ',$class,'">
         <div class="modal-dialog">

@@ -72,6 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'reset_password') {
+
+        if (!$_POST['reset_confirmation']) {
+            message_error('Please confirm password reset');
+        }
+
         $new_password = generate_random_string(8);
         $new_passhash = make_passhash($new_password);
 

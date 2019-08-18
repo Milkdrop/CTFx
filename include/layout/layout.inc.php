@@ -99,11 +99,11 @@ echo '
         ';
 
     if (isset($_GET['generic_success'])) {
-        message_inline_green('<h3>'.lang_get('action_success').'</h3>', false);
+        message_inline_green("Action Successful", false);
     } else if (isset($_GET['generic_failure'])) {
-        message_inline_red('<h3>'.lang_get('action_failure').'</h3>', false);
+        message_inline_red("Action Failed", false);
     } else if (isset($_GET['generic_warning'])) {
-        message_inline_red('<h3>'.lang_get('action_something_went_wrong').'</h3>', false);
+        message_inline_red("Something Went Wrong", false);
     }
 
     $head_sent = true;
@@ -144,6 +144,8 @@ function foot () {
 <audio id="audio-button-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_click.mp3"></audio>
 <audio id="audio-button-cancel-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_mouseover.mp3"></audio>
 <audio id="audio-button-cancel-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_click.mp3"></audio>
+<audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
+<audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
 <audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/chaffle.min.js"></script>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
