@@ -41,6 +41,8 @@ if (!isset($_GET['action'])) {
         <button class="btn btn-primary" type="submit">',lang_get('reset_password'),'</button>
     </form>
     ';
+
+    echo '</div></div>';
     foot();
 }
 
@@ -58,5 +60,7 @@ else if ($_GET['action']=='choose_password' && is_valid_id($auth['user_id'])) {
         <button class="btn btn-primary" type="submit">',lang_get('reset_password'),'</button>
     </form>
     ';
+
+    echo '</div></div>';
     foot();
 }

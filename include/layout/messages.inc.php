@@ -31,7 +31,7 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
         head($title);
     }
 
-    section_subhead($title);
+    section_typewriter($title);
 
     message_inline_blue($message);
 

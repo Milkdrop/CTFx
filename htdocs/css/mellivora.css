@@ -121,7 +121,7 @@ body {
 #footer {
 	font-size: 10px;
 	text-align: center;
-	padding: 10px 65px 5px 65px;
+	padding: 10px 65px 0px 65px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -133,13 +133,15 @@ body {
 	font-family: Sans-Serif;
 	font-weight: bold;
 	float: left;
+	padding-right: 5px;
 }
 
 #footer .limiter {
 	height: 30px;
 	border-left: 2px solid;
 	float: left;
-	margin: 2px 5px 0px 5px;
+	margin-top: 2px;
+	padding-right: 5px;
 }
 
 #footer p {
@@ -153,6 +155,7 @@ body {
 #footer .fade {
 	opacity: 0.20;
 	display: inline-block;
+	padding-bottom: 5px;
 }
 
 #footer .fade:hover {
@@ -187,17 +190,18 @@ body {
 /** Landing Page **/
 
 #ctfx-main-logo {
-	display: block;
+	position: absolute;
+	width: 740px;
 	margin-left: auto;
 	margin-right: auto;
-	width: 80%;
-	margin-top: 10px;
-	margin-bottom: 20px;
+	left: 0;
+	right: 0;
 }
 
 .main-intro-text {
 	font-size: 20px;
 	margin-bottom: 20px;
+	padding-top: 320px;
 	text-align: center;
 }
 
@@ -261,9 +265,7 @@ body {
  100% { height: 34px; }
 }
 
-.btn-primary {
-	background-color: #fff;
-	color: #000;
+.form-group .btn, .modal-content .btn-primary, .form-signin .btn {
 	border: none;
 	border-radius: 0px;
 	position: relative;
@@ -277,10 +279,23 @@ body {
 	opacity: 1 !important;
 	font-family: Arial;
 	font-size: 20px;
-	transition: color 200ms ease-in-out;
+	transition: color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.btn-primary::before {
+.modal-content .btn-default {
+	min-width: 120px;
+}
+
+.form-group .btn:hover, .form-signin .btn:hover {
+	color: #fff;
+}
+
+.form-group .btn, .form-signin .btn {
+	background-color: #fff !important;
+	color: #000;
+}
+
+.form-group .btn::before, .modal-content .btn::before, .form-signin .btn::before {
 	width: 100%;
 	height: 5px;
 	position: absolute;
@@ -288,17 +303,31 @@ body {
 	bottom: 0;
 	left: 0;
 	content: "";
-	background: #42a0ff;
-	transition: height 200ms ease-in-out;
+	transition: height 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-	background-color: #fff;
-}
-
-.btn-primary:hover::before, .btn-primary:active::before, .btn-primary:focus::before {
+.form-group .btn:hover::before, .modal-content .btn:hover::before, .form-signin .btn:hover::before {
 	height: 100%;
-	background: #42a0ff;
+}
+
+.form-group .btn-primary::before, .modal-content .btn-primary::before, .form-signin .btn-primary::before {
+	background-color: #42a0ff;
+}
+
+.form-group .btn-danger::before {
+	background-color: #ff4242;
+}
+
+.modal-content .btn-default::before {
+	background-color: #505050;
+}
+
+.form-group .btn-warning::before {
+	background-color: #cfff42;
+}
+
+.form-group .btn-warning:hover {
+	color: #000 !important;
 }
 
 /**
@@ -395,13 +424,17 @@ img::selection {
 	font-weight: normal;
 }
 
-.form-control {
+.form-control, select {
 	position: relative;
 	font-weight: bold;
 	font-size: 20px;
 	color: #0a0a0a;
 	height: auto;
 	box-sizing: border-box;
+	padding: 5px 5px 5px 12px;
+}
+
+select {
 }
 
 .form-signin .form-control {
@@ -572,6 +605,20 @@ pre {
 
 /**  Messages / Modal dialogs **/
 
+.modal-header .close {
+	position: absolute;
+	right: 20px;
+	z-index: 1;
+	font-family: Sans-serif;
+	font-weight: normal;
+	font-size: 40px;
+	transition: opacity 200ms ease-in-out;
+}
+
+.modal-header .close:hover {
+	opacity: 1;
+}
+
 .modal-content {
 	max-width: 1100px;
 	padding: 0 15px 15px 15px;
@@ -580,8 +627,9 @@ pre {
 	border-radius: 0px;
 }
 
-.modal-content .typewriter {
-	margin-top: 15px;
+.modal-content .page-header {
+	margin-top: 20px;
+	margin-bottom: 0px;
 }
 
 .modal-content .form-control {
@@ -595,13 +643,9 @@ pre {
 	color: #000;
 }
 
-.modal-content .btn-primary {
-	background-color: #0a0a0a;
+.modal-content .btn {
+	background-color: #0a0a0a !important;
 	color: #f8f8f8;
-}
-
-.modal-content .btn-primary:hover, .modal-content .btn-primary:focus, .modal-content .btn-primary:active {
-	background-color: #0a0a0a;
 }
 
 .modal-content a {

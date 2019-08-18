@@ -116,13 +116,13 @@ function foot () {
 
 </div> <!-- /container -->
 <div id="footer">
-    <div class="fade">
+    <div id="footer-fade" class="fade">
         <div class="logo">
 			<p>CTF</p>
 			<p class="blue">x</p>
 		</div>
         <div class="limiter"></div>
-        <p style="margin-top: 2px">
+        <p style="padding-top: 2px">
 			Made with 💙 by <a href="https://github.com/MoonfireSeco">Milkdrop</a>
 			<br>
 			Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a
@@ -139,8 +139,12 @@ function foot () {
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <audio id="audio-navbar" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navbar.mp3"></audio>
 <audio id="audio-navclick" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navclick.mp3"></audio>
+<audio id="audio-footer-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/footer_mouseover.mp3"></audio>
 <audio id="audio-button-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_mouseover.mp3"></audio>
 <audio id="audio-button-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_click.mp3"></audio>
+<audio id="audio-button-cancel-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_mouseover.mp3"></audio>
+<audio id="audio-button-cancel-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_click.mp3"></audio>
+<audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/chaffle.min.js"></script>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
 <script>
@@ -167,9 +171,7 @@ function section_typewriter ($title, $tagline = '', $strip_html = true) {
 }
 
 function section_typewriter_with_dropdown ($title, $tagline = '', $strip_html = true) {
-    echo '
-        <h2 class="typewriter">',($strip_html ? htmlspecialchars($title) : $title),
-        ' <div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div>',
+    echo '<h2 class="typewriter"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
         ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
         </h2>
     ';

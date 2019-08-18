@@ -8,7 +8,7 @@ function login_dialog() {
                 <form id="login-dialog-form" method="post" class="form-signin" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        ',section_typewriter ("Login:"),'
+                        ',section_head ("Login:"),'
                     </div>
                     <div class="modal-body">
                             <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />

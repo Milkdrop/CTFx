@@ -36,7 +36,7 @@ form_hidden('action', 'edit');
 form_button_submit(lang_get('save_changes'));
 form_end();
 
-section_subhead(lang_get('two_factor_auth'), lang_get('using_totp'));
+section_subhead(lang_get('two_factor_auth'), "using Google Authenticator (TOTP)");
 form_start('actions/profile');
 if ($user['2fa_status'] == 'generated') {
     form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="'.lang_get('scan_with_totp_app').'" />');
