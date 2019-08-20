@@ -144,6 +144,7 @@ function foot () {
 <audio id="audio-button-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_click.mp3"></audio>
 <audio id="audio-button-cancel-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_mouseover.mp3"></audio>
 <audio id="audio-button-cancel-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_click.mp3"></audio>
+<audio id="audio-button-small-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_mouseover.mp3"></audio>
 <audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
 <audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
 <audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>

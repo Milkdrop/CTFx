@@ -226,9 +226,7 @@ body {
   to{border-right-color: transparent;}
 }
 
-/**
-	UI Elements
-**/
+/** UI Elements **/
 	
 .dropdown {
 	width: 34px;
@@ -276,18 +274,14 @@ body {
 	transition: all 200ms ease-in-out;
 }
 
-#page-header > small {
-	position: absolute;
-}
-
-small > .btn-xs {
-	position: relative;
-	bottom: 8px;
-}
-
 .open > .btn-warning, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning:focus:active, .btn-warning:hover:active {
 	background-color: #cfff42 !important;
 	color: #000 !important;
+	transition: all 200ms ease-in-out;
+}
+
+.open > .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary:hover:active {
+	background-color: #42a0ff !important;
 }
 
 .form-group .btn, .modal-content .btn-primary, .form-signin .btn {
@@ -355,9 +349,22 @@ small > .btn-xs {
 	color: #000 !important;
 }
 
-/**
-	Default HTML Elements
-**/
+.btn-group.open .dropdown-toggle {
+	box-shadow: none;
+}
+
+.page-header .btn {
+	position: relative;
+	bottom: 5px;
+	margin-left: 2px;
+	transition: background-color 200ms ease-in-out;
+}
+
+.page-header .btn:hover {
+	background-color: #42a0ff !important;
+}
+
+/** Default HTML Elements **/
 
 .table-striped > tbody > tr:nth-of-type(2n+1) {
 	background: none;
@@ -441,12 +448,35 @@ img::selection {
 	margin-bottom: 10px;
 }
 
-.form-group input[type="checkbox"] {
-	margin-top: 12px;
-}
-
 .form-signin .checkbox {
 	font-weight: normal;
+}
+
+.form-group input[type='checkbox'] {
+    -webkit-appearance: none;
+    width: 34px;
+    height: 34px;
+    background-image: url("/img/ui/checkboxUnchecked.png");
+    border-bottom: 0px solid #505050;
+    transition: border-bottom 200ms ease-in-out;
+}
+
+.form-group input[type='checkbox']:hover {
+    border-bottom: 5px solid #42a0ff;
+    cursor: pointer;
+}
+
+.form-group input[type='checkbox']:checked:hover {
+    border-bottom: 5px solid #505050;
+}
+
+.form-group input[type='checkbox']:checked {
+    background-image: url("/img/ui/checkboxChecked.png");
+    border-bottom: 0px solid #505050;
+}
+
+.form-group input[type='checkbox']:focus {
+	outline: none;
 }
 
 .form-control, select {
@@ -457,9 +487,6 @@ img::selection {
 	height: auto;
 	box-sizing: border-box;
 	padding: 5px 5px 5px 12px;
-}
-
-select {
 }
 
 .form-signin .form-control {
@@ -553,7 +580,7 @@ select {
 	margin-bottom: 10px;
 }
 
-.news-container .page-header {
+.page-header {
 	border-bottom: 2px solid #42a0ff;
 	margin: 20px 0 20px;
 }
