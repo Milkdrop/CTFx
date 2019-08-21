@@ -226,6 +226,12 @@ body {
   to{border-right-color: transparent;}
 }
 
+/** Admin Menu **/
+
+#menu-management {
+	margin-bottom: 40px;
+}
+
 /** UI Elements **/
 	
 .dropdown {
