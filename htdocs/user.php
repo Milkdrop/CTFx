@@ -29,8 +29,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         );
     }
 
-    section_typewriter_with_dropdown (htmlspecialchars($user['team_name']), country_flag_link($user['country_name'], $user['country_code'], true), false);
-    echo "<br>";
+    section_title_no_underline (htmlspecialchars($user['team_name']), "green", country_flag_link($user['country_name'], $user['country_code'], true), false);
 
     if (!$user['competing']) {
         message_inline_blue(lang_get('non_competing_user'));

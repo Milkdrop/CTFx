@@ -30,7 +30,7 @@ body {
 	display: inline-block;
 }
 
-/** Header / Navbar **/
+/** Header **/
 
 #header {
 	background-color: #f8f8f8;
@@ -51,10 +51,8 @@ body {
 	opacity: 1;
 	float: left;
 	display: inline-block;
-	font-family: Sans-serif;
 	font-weight: bold;
-	line-height: 40px;
-	margin-top: 2px;
+	margin-top: 7px;
 }
 
 @media (max-width: 800px) {
@@ -63,56 +61,42 @@ body {
 	}
 }
 
-#menu-main a {
+#menu-main a, #menu-main button {
 	color: #0a0a0a;
 	opacity: 0.7;
 	width: 120px;
-	margin: 2px 0px 0px 0px;
+	margin-top: 2px;
 	padding: 10px 5px;
 	text-transform: uppercase;
 	background: none;
-	transition: opacity 0.15s ease-in-out;
+	border: none;
+	cursor: pointer;
+	text-align: inherit;
+	transition: opacity 200ms ease-in-out;
 }
 
-#menu-main .active a, #header a:hover {
+#menu-main .active a, #header a:hover, #menu-main button:hover {
 	opacity: 1;
 }
 
-#menu-main a:focus, #menu-main a:active {
+#menu-main a:focus {
 	outline: none;
 }
 
-#menu-main li:hover span, #menu-main .active span {
-	left: -16px;
-	opacity: 1;
-}
-
-#menu-main span {
-	background: url("/img/pointer.png");
+#menu-main li::before {
+	background-image: url("/img/pointer.png");
 	width: 13px;
 	height: 11px;
 	position: absolute;
 	margin-top: 15px;
 	left: -10px;
 	opacity: 0;
-	transition: all 0.15s ease-in-out;
+	content: "";
+	transition: all 200ms ease-in-out;
 }
 
-#menu-main button {
-	color: #0a0a0a;
-	opacity: 0.7;
-	width: 120px;
-	margin: 2px 0px 0px 0px;
-	padding: 10px 5px;
-	background: none;
-	border: none;
-	cursor: pointer;
-	text-transform: uppercase;
-	text-align: inherit;
-	transition: opacity 0.1s ease-in-out;
-}
-
-#menu-main button:hover {
+#menu-main li:hover::before, #menu-main .active::before {
+	left: -16px;
 	opacity: 1;
 }
 
@@ -162,7 +146,7 @@ body {
 	opacity: 1;
 }
 
-/** Background Stuff **/
+/** Background **/
 
 .background-dot {
 	position: fixed;
@@ -180,10 +164,6 @@ body {
 	bottom: 0;
 	z-index: -10;
 	width: 100%;
-}
-
-.dotCanvasLoaded {
-	opacity: 1 !important;
 	transition: opacity 0.5s ease-in;
 }
 
@@ -232,7 +212,11 @@ body {
 	margin-bottom: 40px;
 }
 
-/** UI Elements **/
+#menu-management .btn-xs {
+	margin-top: 5px;
+}
+
+/** Dropdowns **/
 	
 .dropdown {
 	width: 34px;
@@ -256,6 +240,22 @@ body {
 	animation: maskdown-second 3s infinite ease-out;
 }
 
+.dropdown-blue .dropdown {
+	background: url("/img/ui/dropdownBlue.png");
+}
+
+.dropdown-blue .dropdown-b {
+	background: url("/img/ui/dropdownBlue.png");
+}
+
+.dropdown-red .dropdown {
+	background: url("/img/ui/dropdownRed.png");
+}
+
+.dropdown-red .dropdown-b {
+	background: url("/img/ui/dropdownRed.png");
+}
+
 @keyframes maskdown-first {
  0% { height: 0px; }
  20% { height: 34px; }
@@ -269,6 +269,8 @@ body {
  100% { height: 34px; }
 }
 
+/** Buttons **/
+
 .btn-xs {
 	border: none;
 	border-radius: 0px;
@@ -276,18 +278,24 @@ body {
 	opacity: 1 !important;
 	padding: 5px 10px 5px 10px;
 	font-size: 16px;
-	margin-top: 5px;
+	transition: all 200ms ease-in-out;
+	min-width: 34px;
+}
+
+.btn-primary:hover, .open > .btn-primary, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary:hover:active {
+	background-color: #42a0ff !important;
 	transition: all 200ms ease-in-out;
 }
 
-.open > .btn-warning, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning:focus:active, .btn-warning:hover:active {
+.btn-warning:hover, .open > .btn-warning, .btn-warning:focus, .btn-warning:active, .btn-warning:focus:active, .btn-warning:hover:active {
 	background-color: #cfff42 !important;
 	color: #000 !important;
 	transition: all 200ms ease-in-out;
 }
 
-.open > .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:focus:active, .btn-primary:hover:active {
-	background-color: #42a0ff !important;
+.btn-danger:hover, .open > .btn-danger, .btn-danger:focus, .btn-danger:active, .btn-danger:focus:active, .btn-danger:hover:active {
+	background-color: #ff4242 !important;
+	transition: all 200ms ease-in-out;
 }
 
 .form-group .btn, .modal-content .btn-primary, .form-signin .btn {
@@ -357,17 +365,6 @@ body {
 
 .btn-group.open .dropdown-toggle {
 	box-shadow: none;
-}
-
-.page-header .btn {
-	position: relative;
-	bottom: 5px;
-	margin-left: 2px;
-	transition: background-color 200ms ease-in-out;
-}
-
-.page-header .btn:hover {
-	background-color: #42a0ff !important;
 }
 
 /** Default HTML Elements **/
@@ -462,23 +459,31 @@ img::selection {
     -webkit-appearance: none;
     width: 34px;
     height: 34px;
-    background-image: url("/img/ui/checkboxUnchecked.png");
-    border-bottom: 0px solid #505050;
-    transition: border-bottom 200ms ease-in-out;
-}
-
-.form-group input[type='checkbox']:hover {
-    border-bottom: 5px solid #42a0ff;
-    cursor: pointer;
-}
-
-.form-group input[type='checkbox']:checked:hover {
-    border-bottom: 5px solid #505050;
+    background-color: transparent;
+    background-image: url("/img/ui/unchecked.png");
 }
 
 .form-group input[type='checkbox']:checked {
-    background-image: url("/img/ui/checkboxChecked.png");
-    border-bottom: 0px solid #505050;
+    background-image: url("/img/ui/checked.png");
+}
+
+.form-group input[type='checkbox']:hover {
+    cursor: pointer;
+}
+
+.form-group input[type='checkbox']::before {
+    content: "";
+    width: 34px;
+    height: 34px;
+    background-color: #505050;
+    border-bottom: 0px solid #42a0ff;
+	z-index: -1;
+    position: absolute;
+    transition: border-bottom 200ms ease-in-out;
+}
+
+.form-group input[type='checkbox']:checked::before {
+    border-bottom: 34px solid #42a0ff;
 }
 
 .form-group input[type='checkbox']:focus {

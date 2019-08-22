@@ -26,7 +26,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     // no user types
     if (empty($user_types)) {
-        echo '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard">', section_typewriter_with_dropdown (lang_get('scoreboard')), '</a>';
+        echo '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_URL').'json?view=scoreboard">', section_title (lang_get('scoreboard')), '</a>';
 
         $scores = db_query_fetch_all('
             SELECT

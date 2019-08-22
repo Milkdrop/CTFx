@@ -65,25 +65,25 @@ echo '
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
+                            echo '<li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
-                            <li><span></span><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><span></span><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
+                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li>',form_logout(),'</li>
                             ';
 
                     } else {
                         echo '
-                            <li><span></span><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><span></span><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
-                            <li><span></span><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><span></span><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
+                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
+                            <li><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
                         ';
                     }
                     echo '
@@ -137,6 +137,8 @@ function foot () {
 <!-- JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>
 <audio id="audio-navbar" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navbar.mp3"></audio>
 <audio id="audio-navclick" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navclick.mp3"></audio>
 <audio id="audio-footer-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/footer_mouseover.mp3"></audio>
@@ -147,23 +149,40 @@ function foot () {
 <audio id="audio-button-small-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_mouseover.mp3"></audio>
 <audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
 <audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
-<audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>
+<audio id="audio-checkbox-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/checkbox_click.mp3"></audio>
+
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/chaffle.min.js"></script>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
 <script>
-    window.addEventListener ("load", function () {dotCanvas.className = "dotCanvasLoaded";});
+    window.addEventListener ("load", function () {});
 </script>
 </body>
 </html>';
 }
 
-function section_head ($title, $tagline = '', $strip_html = true) {
+function section_title ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
     echo '
     <div class="row">
-        <div class="col-lg-12">
-          <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
+        <div class="col-lg-12 page-header">
+            <h2 class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
+            ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
+            </h2>
         </div>
     </div>
+    ';
+}
+
+function section_title_no_underline ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
+    echo '<h2 class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
+        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
+        </h2><br>
+    ';
+}
+
+function section_dropdown ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
+    echo '<h2 class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
+        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
+        </h2>
     ';
 }
 
@@ -173,10 +192,13 @@ function section_typewriter ($title, $tagline = '', $strip_html = true) {
     ';
 }
 
-function section_typewriter_with_dropdown ($title, $tagline = '', $strip_html = true) {
-    echo '<h2 class="typewriter"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
-        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
-        </h2>
+function section_head ($title, $tagline = '', $strip_html = true) {
+    echo '
+    <div class="row">
+        <div class="col-lg-12">
+          <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
+        </div>
+    </div>
     ';
 }
 

@@ -101,7 +101,7 @@ foreach ($files as $file) {
             form_hidden('action', 'delete_file');
             form_hidden('id', $file['id']);
             form_hidden('challenge_id', $_GET['id']);
-            form_button_submit('Delete');
+            form_button_submit_small ('Delete', 'btn-danger');
             form_end();
           echo '
           </td>

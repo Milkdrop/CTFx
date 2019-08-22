@@ -128,6 +128,12 @@ function form_button_submit ($name, $type = 'primary') {
     ';
 }
 
+function form_button_submit_small ($name, $type = 'btn-primary') {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '<button type="submit" id="',$field_name,'" class="btn btn-xs ',htmlspecialchars($type),'">',$name,'</button>';
+}
+
 function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
@@ -183,7 +189,6 @@ function form_logout() {
     echo '
     <form action="/actions/logout" method="post">
         ',form_xsrf_token(),'
-        <span></span>
         <button class="chaffle" type="submit" id="logout-button">',lang_get('log_out'),'</button>
     </form>
     ';
