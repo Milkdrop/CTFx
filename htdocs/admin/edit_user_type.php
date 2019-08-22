@@ -8,7 +8,7 @@ validate_id($_GET['id']);
 
 head('Site management');
 menu_management();
-section_subhead('Edit user type');
+section_title ('Edit user type');
 
 $user_type = db_select_one(
     'user_types',
@@ -26,7 +26,7 @@ form_end();
 
 section_subhead('Delete user type');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_user_type');
-form_input_checkbox('Delete confirmation');
+form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 message_inline_red('Warning! Any users of this type will be without a type.

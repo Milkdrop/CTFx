@@ -6,7 +6,8 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Dynamic menu items');
 menu_management();
-section_head('Dynamic menu items', button_link('New menu item', 'new_dynamic_menu_item'), false);
+section_title('Dynamic menu items ' . button_link('New menu item', 'new_dynamic_menu_item'), 'green', '', false);
+
 $menu_items = db_query_fetch_all(
     'SELECT
         dm.id,
@@ -49,7 +50,7 @@ foreach($menu_items as $item) {
         </td>
         <td>',visibility_enum_to_name($item['visibility']), '</td>
         <td>',user_class_name($item['min_user_class']), '</td>
-        <td><a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'edit_dynamic_menu_item?id=',$item['id'],'" class="btn btn-xs btn-primary">Edit</a></td>
+        <td><a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'edit_dynamic_menu_item?id=',$item['id'],'" class="btn btn-xs btn-warning">✎</a></td>
     </tr>
     ';
 }

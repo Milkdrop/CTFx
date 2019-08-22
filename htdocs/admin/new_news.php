@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_title ('New news item');
+section_title ('Add news item');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_news');
 form_input_text('Title');
 form_textarea('Body');

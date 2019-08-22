@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_subhead('Test signup rules');
+section_title ('Test signup rules');
 
 message_inline_blue('Enter an email addess to test.');
 

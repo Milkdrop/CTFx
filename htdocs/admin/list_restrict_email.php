@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Email signup rules');
 menu_management();
-section_head('Email signup rules', button_link('Add new rule', 'new_restrict_email'), false);
+section_title ('Email signup rules ' . button_link('Add new rule', 'new_restrict_email'), 'green', '', false);
 
 message_inline_blue('Rules in list below are applied top-down. Rules further down on the list override rules above.
                      List is ordered by "priority". A higher "priority" value puts a rule further down the list.
@@ -57,7 +57,7 @@ foreach($rules as $rule) {
         <td>',number_format($rule['priority']),'</td>
         <td>',($rule['enabled'] ? 'Yes' : 'No'), '</td>
         <td>
-            <a href="edit_restrict_email.php?id=',htmlspecialchars($rule['id']),'" class="btn btn-xs btn-primary">Edit</a>
+            <a href="edit_restrict_email.php?id=',htmlspecialchars($rule['id']),'" class="btn btn-xs btn-warning">✎</a>
         </td>
     </tr>
     ';

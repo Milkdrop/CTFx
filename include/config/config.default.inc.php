@@ -39,8 +39,8 @@ Config::set('MELLIVORA_CONFIG_SITE_NAME', 'CTFx');
 Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'CTFx, Based on mellivora');
 Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', '');
 
-Config::set('MELLIVORA_CONFIG_SITE_URL', 'http://0f2cf6bc.ngrok.io/');
-Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', 'http://0f2cf6bc.ngrok.io/');
+Config::set('MELLIVORA_CONFIG_SITE_URL', 'http://df6ce6f0.ngrok.io/');
+Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', 'http://df6ce6f0.ngrok.io/');
 
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH', 'admin/');
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_URL', Config::get('MELLIVORA_CONFIG_SITE_URL') . Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH'));

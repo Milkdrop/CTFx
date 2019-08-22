@@ -8,7 +8,7 @@ validate_id($_GET['id']);
 
 head('Site management');
 menu_management();
-section_subhead('Edit hint');
+section_title ('Edit hint');
 
 $hint = db_select_one(
     'hints',
@@ -38,7 +38,7 @@ form_end();
 
 section_subhead('Delete hint');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_hint');
-form_input_checkbox('Delete confirmation');
+form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 form_button_submit('Delete hint', 'danger');

@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_subhead('New challenge');
+section_title ('New challenge');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_challenge');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 
@@ -37,8 +37,8 @@ $opts = db_query_fetch_all('
     ORDER BY ca.title, ch.title'
 );
 
+array_unshift($opts, array('id'=>0, 'title'=> '-- No Challenge --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
-array_unshift($opts, array('id'=>0, 'title'=> '-- This challenge will become available after the selected challenge is solved (by any user) --'));
 
 form_input_text('Available from', date_time());
 form_input_text('Available until', date_time(time() + 31536000));

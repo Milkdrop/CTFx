@@ -19,7 +19,7 @@ if (empty($challenge)) {
 head('Site management');
 menu_management();
 
-section_subhead('Edit challenge: ' . $challenge['title']);
+section_title ('Edit challenge: ' . $challenge['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 
@@ -48,7 +48,7 @@ $opts = db_query_fetch_all('
     ORDER BY ca.title, ch.title'
 );
 
-//array_unshift($opts, array('id'=>0, 'title'=> '- Available after the selected challenge is solved -'));
+array_unshift($opts, array('id'=>0, 'title'=> '-- No Challenge --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
 form_input_text('Available from', date_time($challenge['available_from']));
@@ -60,7 +60,55 @@ form_hidden('id', $_GET['id']);
 form_button_submit('Save changes');
 form_end();
 
-section_subhead('Files');
+section_small_dropdown ('Hints');
+echo '
+<table id="hints" class="table table-striped table-hover">
+<thead>
+  <tr>
+    <th>Added</th>
+    <th>Hint</th>
+    <th>Manage</th>
+  </tr>
+</thead>
+<tbody>
+';
+
+$hints = db_select_all(
+    'hints',
+    array(
+        'id',
+        'added',
+        'body'
+    ),
+    array(
+        'challenge' => $_GET['id']
+    )
+);
+
+foreach ($hints as $hint) {
+  echo '
+  <tr>
+      <td>',date_time($hint['added']),'</td>
+      <td>',htmlspecialchars($hint['body']),'</td>
+      <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 100)),'" class="btn btn-xs btn-warning">✎</a></td>
+  </tr>
+  ';
+}
+echo '
+</tbody>
+</table>
+<div class="form-group">
+  <label class="col-sm-2 control-label" for="Add a new hint"></label>
+  <div class="col-sm-10" style="padding-left: 0px">
+    <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-warning">
+      Add a new hint
+    </a>
+  </div>
+</div>
+';
+
+echo '<br><br><br>';
+section_small_dropdown ('Files');
 echo '
   <table id="files" class="table table-striped table-hover">
     <thead>
@@ -116,56 +164,16 @@ echo '
 
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge','','multipart/form-data');
 form_file('file');
+echo '<br>';
 form_hidden('action', 'upload_file');
 form_hidden('id', $_GET['id']);
 form_button_submit('Upload file');
-echo 'Max file size: ',bytes_to_pretty_size(max_file_upload_size());
+echo '(Max file size: ',bytes_to_pretty_size(max_file_upload_size()), ')';
 form_end();
-
-section_subhead('Hints');
-echo '
-<table id="hints" class="table table-striped table-hover">
-<thead>
-  <tr>
-    <th>Added</th>
-    <th>Hint</th>
-    <th>Manage</th>
-  </tr>
-</thead>
-<tbody>
-';
-
-$hints = db_select_all(
-    'hints',
-    array(
-        'id',
-        'added',
-        'body'
-    ),
-    array(
-        'challenge' => $_GET['id']
-    )
-);
-
-foreach ($hints as $hint) {
-  echo '
-  <tr>
-      <td>',date_time($hint['added']),'</td>
-      <td>',htmlspecialchars($hint['body']),'</td>
-      <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 100)),'" class="btn btn-xs btn-primary">Edit</a></td>
-  </tr>
-  ';
-}
-echo '
-</tbody>
-</table>
-
-<a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-sm btn-warning">Add a new hint</a>
-';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
-form_input_checkbox('Delete confirmation');
+form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');

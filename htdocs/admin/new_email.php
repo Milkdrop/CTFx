@@ -20,7 +20,7 @@ if (array_get($_GET, 'bcc') == 'all') {
     $bcc = trim($bcc);
 }
 
-section_subhead('New email');
+section_title ('New email');
 
 message_inline_blue('Separate receiver emails with a comma and optional whitespace. You can use BBCode. If you do, you must send as HTML email.');
 

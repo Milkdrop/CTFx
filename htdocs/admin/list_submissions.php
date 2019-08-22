@@ -31,11 +31,11 @@ if (!empty($where)) {
 }
 
 if (array_get($_GET, 'user_id')) {
-    section_head('User submissions', button_link('List all submissions', 'list_submissions?only_needing_marking=0'), false);
+    section_title ('User submissions ' . button_link('List all submissions', 'list_submissions?only_needing_marking=0'), 'green', '', false);
 } else if ($only_needing_marking) {
-    section_head('Submissions in need of marking', button_link('List all submissions', 'list_submissions?only_needing_marking=0'), false);
+    section_title ('Submissions in need of marking ' . button_link('List all submissions', 'list_submissions?only_needing_marking=0'), 'green', '', false);
 } else {
-    section_head('All submissions', button_link('Show only submissions in need of marking', 'list_submissions?only_needing_marking=1'), false);
+    section_title ('All submissions ' . button_link('Show only submissions in need of marking', 'list_submissions?only_needing_marking=1'), 'green', '', false);
 }
 
 $num_subs = db_query_fetch_one('
@@ -99,7 +99,7 @@ foreach($submissions as $submission) {
     echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-sm btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
+                <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? 'warning' : 'primary'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
             <form method="post" action="actions/list_submissions" class="discreet-inline">';
@@ -107,7 +107,7 @@ foreach($submissions as $submission) {
     echo '
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                <button type="submit" class="btn btn-xs btn-danger">Delete</button>
             </form>
         </td>
     </tr>

@@ -370,11 +370,16 @@ body {
 /** Default HTML Elements **/
 
 .table-striped > tbody > tr:nth-of-type(2n+1) {
-	background: none;
+	background-color: #222;
 }
 
 .table-striped > tbody > tr:nth-of-type(2n):hover {
 	background: none;
+}
+
+.table > tbody > tr > td {
+	vertical-align: middle;
+	font-size: 16px;
 }
 
 h2 {
@@ -467,8 +472,16 @@ img::selection {
     background-image: url("/img/ui/checked.png");
 }
 
+.form-group .checkbox-green input[type='checkbox']:checked {
+    background-image: url("/img/ui/checkedBlack.png");
+}
+
 .form-group input[type='checkbox']:hover {
     cursor: pointer;
+}
+
+.form-group input[type='checkbox']:focus {
+	outline: none;
 }
 
 .form-group input[type='checkbox']::before {
@@ -486,8 +499,20 @@ img::selection {
     border-bottom: 34px solid #42a0ff;
 }
 
-.form-group input[type='checkbox']:focus {
-	outline: none;
+.form-group .checkbox-red input[type='checkbox']::before {
+    border-bottom: 0px solid #ff4242;
+}
+
+.form-group .checkbox-red input[type='checkbox']:checked::before {
+    border-bottom: 34px solid #ff4242;
+}
+
+.form-group .checkbox-green input[type='checkbox']::before {
+    border-bottom: 0px solid #cfff42;
+}
+
+.form-group .checkbox-green input[type='checkbox']:checked::before {
+    border-bottom: 34px solid #cfff42;
 }
 
 .form-control, select {
@@ -651,6 +676,11 @@ pre {
 	font-size: 8pt;
 	overflow: auto;
 	line-height: 100%;
+}
+
+pre::selection {
+	background-color: #0a0a0a;
+	color: #f8f8f8;
 }
 
 .inline-pre {

@@ -12,10 +12,8 @@ prefer_ssl();
 head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
-    echo '
-    <h2 class="typewriter">Registration:</h2>
-    <p>
-        ',lang_get(
+    section_title('Registration:');
+    echo lang_get(
             'account_signup_information',
             array(
                 'password_information' => (Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ? lang_get('email_password_on_signup') : '')

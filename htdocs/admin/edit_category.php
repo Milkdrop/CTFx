@@ -19,7 +19,7 @@ if (empty($category)) {
 head('Site management');
 menu_management();
 
-section_subhead('Edit category: ' . $category['title']);
+section_title ('Edit category: ' . $category['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_category');
 form_input_text('Title', $category['title']);
 form_textarea('Description', $category['description']);
@@ -35,7 +35,7 @@ form_end();
 
 section_subhead('Delete category: ' . $category['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_category');
-form_input_checkbox('Delete confirmation');
+form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 message_inline_red('Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!');

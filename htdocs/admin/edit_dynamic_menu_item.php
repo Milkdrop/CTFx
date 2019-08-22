@@ -8,7 +8,7 @@ validate_id($_GET['id']);
 
 head('Site management');
 menu_management();
-section_subhead('Edit dynamic menu item');
+section_title ('Edit dynamic menu item');
 
 $menu_item = db_select_one(
     'dynamic_menu',
@@ -46,7 +46,7 @@ form_end();
 
 section_subhead('Delete menu item');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_dynamic_menu_item');
-form_input_checkbox('Delete confirmation');
+form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 form_button_submit('Delete menu item', 'danger');

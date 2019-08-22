@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_subhead('New hint');
+section_title ('New hint');
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_hint');
 form_textarea('Body');
 

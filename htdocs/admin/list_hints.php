@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Hints');
 menu_management();
-section_head('Hints',button_link('Add new hint', 'new_hint'), false);
+section_title ('Hints ' . button_link('Add new hint', 'new_hint'), 'green', '', false);
 
 echo '
     <table id="hints" class="table table-striped table-hover">
@@ -37,7 +37,7 @@ foreach($hints as $hint) {
         <td>',htmlspecialchars($hint['title']),'</td>
         <td>',date_time($hint['added']),'</td>
         <td>',htmlspecialchars($hint['body']), '</td>
-        <td><a href="edit_hint.php?id=',$hint['id'],'" class="btn btn-xs btn-primary">Edit</a></td>
+        <td><a href="edit_hint.php?id=',$hint['id'],'" class="btn btn-xs btn-warning">✎</a></td>
     </tr>
     ';
 }

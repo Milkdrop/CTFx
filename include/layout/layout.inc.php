@@ -186,6 +186,13 @@ function section_dropdown ($title, $dropdown_color = "green", $tagline = '', $st
     ';
 }
 
+function section_small_dropdown ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
+    echo '<h3 class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
+        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
+        </h3>
+    ';
+}
+
 function section_typewriter ($title, $tagline = '', $strip_html = true) {
     echo '
         <h2 class="typewriter">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>

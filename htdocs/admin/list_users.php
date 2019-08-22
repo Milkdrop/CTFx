@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Users');
 menu_management();
-section_head('Users');
+section_title ('Users');
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -89,7 +89,7 @@ foreach($users as $user) {
         <td class="center">',($user['enabled'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove red"></span>'),'</td>
         <td class="center"><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td class="center">
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-primary">Edit</a>
+            <a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-warning">✎</a>
         </td>
     </tr>
     ';

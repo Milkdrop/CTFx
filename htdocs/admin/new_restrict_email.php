@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_subhead('New email signup restriction rule');
+section_title ('New email signup restriction rule');
 
 message_inline_blue('Add rules to restrict which emails can sign up.
                      Rules in list below are applied top-down. Rules further down on the list override rules above.

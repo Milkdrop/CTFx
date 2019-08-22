@@ -76,13 +76,13 @@ function form_input_captcha($position = 'private') {
     }
 }
 
-function form_input_checkbox ($name, $checked = 0) {
+function form_input_checkbox ($name, $checked = 0, $color = "blue") {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
+      <div class="col-sm-10 checkbox-', $color, '">
           <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       </div>
     </div>

@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Dynamic pages');
 menu_management();
 
-section_head('Dynamic pages', button_link('New page', 'new_dynamic_page'), false);
+section_title ('Dynamic pages ' . button_link('New page', 'new_dynamic_page'), 'green', '', false);
 
 $pages = db_select_all(
     'dynamic_pages',
@@ -40,7 +40,7 @@ foreach($pages as $item) {
         <td>',htmlspecialchars($item['title']),'</td>
         <td>',visibility_enum_to_name($item['visibility']), '</td>
         <td>',user_class_name($item['min_user_class']), '</td>
-        <td><a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'edit_dynamic_page?id=',$item['id'],'" class="btn btn-xs btn-primary">Edit</a></td>
+        <td><a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'edit_dynamic_page?id=',$item['id'],'" class="btn btn-xs btn-warning">✎</a></td>
     </tr>
     ';
 }
