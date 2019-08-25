@@ -17,7 +17,7 @@ function print_submissions_left($challenge) {
 }
 
 function print_time_left($challenge) {
-    echo '<span data-countdown="', $challenge['available_until'],'">
+    echo '<span class="time-left" data-countdown="', $challenge['available_until'],'">
     ',lang_get(
         'time_remaining',
         array('time' => time_remaining($challenge['available_until']))
@@ -26,16 +26,21 @@ function print_time_left($challenge) {
 }
 
 function print_time_left_tooltip($challenge) {
-    echo ' <span class="glyphicon glyphicon-time"></span> ';
-    print_time_left($challenge);
+    if ($challenge['available_until'] <= 60 * 60 * 24 * 14) { // Don't print for challenges that are far away
+        print_time_left($challenge);
+        echo ' <span class="time-left glyphicon glyphicon-time"></span> ';
+    }
 }
 
 function print_submit_metadata($challenge) {
     echo '<p>';
     print_submissions_left($challenge);
     echo '</p><p>';
+
+    echo "<!--"; // Commenting this out to avoid some clutter
     print_submit_interval($challenge);
     echo '</p>';
+    echo "-->";
 }
 
 function get_challenge_files($challenge) {

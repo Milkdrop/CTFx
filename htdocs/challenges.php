@@ -10,9 +10,9 @@ head('Challenges');
 
 if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
-        message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Yay!', 'challenge-attempt correct on-page-load');
+        message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Lovely', 'challenge-attempt correct on-page-load form-group');
     } else if ($_GET['status']=='incorrect') {
-        message_dialog('Sorry! That wasn\'t correct', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load');
+        message_dialog('Sorry! That wasn\'t correct.', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load form-group', 'default');
     } else if ($_GET['status']=='manual') {
         message_inline_blue('<h1>Your submission is awaiting manual marking.</h1>', false);
     }
@@ -77,16 +77,21 @@ if (empty($current_category)) {
     message_generic('Challenges', 'Your CTF is looking a bit empty! Start by adding a category using the management console.');
 }
 
+// write category name
+echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';
+
 // write out our categories menu
-echo '<div id="categories-menu">
-<ul id="categories-menu">';
+echo '<div>
+<ul id="categories-menu">
+<div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div>';
+
 foreach ($categories as $cat) {
     if ($now < $cat['available_from'] || $now > $cat['available_until']) {
         echo '<li class="disabled">
         <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
         </li>';
     } else {
-        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
+        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a class="category-link" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
     }
 }
 echo '</ul>
@@ -159,7 +164,7 @@ foreach($challenges as $challenge) {
     <div class="panel ', get_submission_box_class($challenge, $has_remaining_submissions), ' challenge-container">
         <div class="panel-heading">
             <h4 class="challenge-head">
-            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> (', number_format($challenge['points']), 'pts)';
+            <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
 
             if ($challenge['correct_submission_added']) {
                 $solve_position = db_query_fetch_one('
@@ -177,8 +182,8 @@ foreach($challenges as $challenge) {
                     )
                 );
 
-                echo ' <span class="glyphicon glyphicon-ok"></span>';
-                echo get_position_medal($solve_position['pos']);
+                echo '<div class="challenge-solved">SOLVED <span></span></div>';
+                echo ' ', get_position_medal($solve_position['pos']);
             }
 
     echo '</h4>';
@@ -214,7 +219,8 @@ foreach($challenges as $challenge) {
     // if this challenge relies on another, and the user hasn't solved that requirement
     if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
         echo '
-            <div class="challenge-description relies-on">',
+            <div class="challenge-description relies-on">
+            <span class="glyphicon glyphicon-lock"></span> ',
                 lang_get(
                     'challenge_relies_on',
                     array(
@@ -256,8 +262,8 @@ foreach($challenges as $challenge) {
 
                 echo '
                 <div class="challenge-submit">
-                    <form method="post" class="form-flag" action="actions/challenges">
-                        <textarea name="flag" id="flag-input-'.htmlspecialchars($challenge['id']).'" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></textarea>
+                    <form method="post" class="form-group form-flag" action="actions/challenges">
+                        <input name="flag" id="flag-input-'.htmlspecialchars($challenge['id']).'" type="text" class="flag-input form-control" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></input>
                         <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
                         <input type="hidden" name="action" value="submit_flag" />';
 

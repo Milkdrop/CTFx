@@ -154,7 +154,17 @@ function validate_integer ($id) {
 }
 
 function validate_url ($url) {
-    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+    $valid = false;
+
+    if (filter_var ($url, FILTER_VALIDATE_URL)) {
+        $valid = true;
+    } else {
+        $url = "http://test.com" . $url;
+        if (filter_var ($url, FILTER_VALIDATE_URL))
+            $valid = true;
+    }
+
+    if (!$valid) {
         log_exception(new Exception('Invalid URL in redirect: ' . $url));
         message_error('Invalid redirect URL. This has been reported.');
     }

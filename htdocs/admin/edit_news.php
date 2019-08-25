@@ -15,7 +15,7 @@ $news = db_select_one(
 head('Site management');
 menu_management();
 
-section_subhead('Edit news item: ' . $news['title']);
+section_title ('Edit news item: ' . $news['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_news');
 form_input_text('Title', $news['title']);
 form_textarea('Body', $news['body']);

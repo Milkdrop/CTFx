@@ -64,7 +64,7 @@ function message_inline_green ($message, $strip_html = true) {
     echo '<div class="alert alert-success"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
-function message_dialog ($message, $title, $closeText, $class) {
+function message_dialog ($message, $title, $closeText, $class, $buttonType = "primary") {
     echo '
     <div class="modal fade ',$class,'">
         <div class="modal-dialog">
@@ -74,7 +74,7 @@ function message_dialog ($message, $title, $closeText, $class) {
                 </div>
                 <div class="modal-body">
                     <p>',$message,'</p>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">',$closeText,'</button>
+                    <button type="button" class="btn btn-',$buttonType,'" data-dismiss="modal">',$closeText,'</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

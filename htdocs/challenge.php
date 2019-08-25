@@ -58,7 +58,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         array('id' => $_GET['id'])
     );
 
-    section_head($challenge['title']);
+    section_title ($challenge['title']);
 
     $num_correct_solves = count($submissions);
 
