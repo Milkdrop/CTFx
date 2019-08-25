@@ -103,19 +103,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // lots of people submit with trailing whitespace..
             // we probably never want automarked keys with whitespace
             // at beginning or end, so trimming is probably fine.
+
             $_POST['flag'] = trim($_POST['flag']);
             $challenge['flag'] = trim($challenge['flag']);
 
             if ($challenge['case_insensitive']) {
-                if (strcasecmp($_POST['flag'], $challenge['flag']) == 0) {
+                if (strcasecmp($_POST['flag'], $challenge['flag']) === 0) {
                     $correct = true;
                 }
             } else {
-                if (strcmp($_POST['flag'], $challenge['flag']) == 0) {
+                if (strcmp($_POST['flag'], $challenge['flag']) === 0) {
                     $correct = true;
                 }
             }
         }
+
+        if ($correct)
+            challengeSolve ($_POST['challenge']);
 
         db_insert(
             'submissions',

@@ -147,7 +147,8 @@ function valid_email ($email) {
 
 function validate_email ($email) {
     if (!valid_email($email)) {
-        log_exception(new Exception('Invalid Email'));
+        // Don't show stack trace here in order to hide any plaintext passwords showing up in the logs
+        log_exception(new Exception('Invalid Email'), false, "User tried to register with invalid e-mail: " . $email);
 
         message_error(lang_get('not_a_valid_email'));
     }

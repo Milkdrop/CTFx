@@ -26,17 +26,15 @@ $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
 form_input_text('Flag', $challenge['flag']);
-form_input_text('Points', $challenge['points']);
 form_select($opts, 'Category', 'id', $challenge['category'], 'title');
 form_input_checkbox('Exposed', $challenge['exposed']);
 
 form_button_submit('Save changes');
 
 section_subhead ("Advanced Settings:");
-form_input_checkbox('Automark', $challenge['automark']);
-form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
-form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
-form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions']);
+form_input_text('Initial Points', $challenge['initial_points']);
+form_input_text('Minimum Points', $challenge['minimum_points']);
+form_input_text('Solve Decay', $challenge['solve_decay']);
 
 $opts = db_query_fetch_all('
     SELECT
@@ -53,6 +51,11 @@ form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'categor
 
 form_input_text('Available from', date_time($challenge['available_from']));
 form_input_text('Available until', date_time($challenge['available_until']));
+
+form_input_checkbox('Automark', $challenge['automark']);
+form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
+form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
+form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions']);
 
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);

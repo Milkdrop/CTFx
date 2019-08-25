@@ -209,10 +209,13 @@ foreach($challenges as $challenge) {
             FROM
               challenges AS c
             LEFT JOIN categories AS cat ON cat.id = c.category
-            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1
+            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1 AND s.user_id = :user_id
             WHERE
               c.id = :relies_on',
-            array('relies_on'=>$challenge['relies_on'])
+            array(
+                'user_id'=>$_SESSION['id'],
+                'relies_on'=>$challenge['relies_on']
+            )
         );
     }
 

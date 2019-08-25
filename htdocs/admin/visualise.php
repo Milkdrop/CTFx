@@ -159,13 +159,6 @@ echo "
     // initialize your network!
     var network = new vis.Network(container, data, options);
 
-</script>
-<style>
-#visualise-competition {
-    background-color: rgba(255,255,255,0.1);
-    border: 5px solid #42a0ff    
-}
-
-</style>";
+</script>";
 
 foot();

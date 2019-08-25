@@ -45,7 +45,11 @@ Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', '/');
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH', 'admin/');
 Config::set('MELLIVORA_CONFIG_SITE_ADMIN_URL', Config::get('MELLIVORA_CONFIG_SITE_URL') . Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH'));
 
-// redirects:
+// CTF default start and end times, in unix timestamp
+Config::set('MELLIVORA_CONFIG_CTF_START_TIME', time ());
+Config::set('MELLIVORA_CONFIG_CTF_END_TIME', time () + 31536000);
+
+// redirects
 Config::set('MELLIVORA_CONFIG_INDEX_REDIRECT_TO', 'home');
 Config::set('MELLIVORA_CONFIG_LOGIN_REDIRECT_TO', 'home');
 Config::set('MELLIVORA_CONFIG_REGISTER_REDIRECT_TO', 'home');

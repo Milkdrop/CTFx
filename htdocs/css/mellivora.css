@@ -596,10 +596,11 @@ img::selection {
 	text-decoration: none;
 	color: #fff;
 	padding: 5px 10px 5px 10px;
-	transition: color 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
 }
 
 #categories-menu a:hover {
+	background-color: #cfff42;
 	color: #000;
 }
 
@@ -607,7 +608,7 @@ img::selection {
 	outline: none;
 }
 
-#categories-menu li:hover, #categories-menu li.active {
+#categories-menu li.active {
 	background-color: #cfff42;
 }
 
@@ -970,7 +971,22 @@ pre::selection {
 
 /** Misc **/
 
+.bbcode_spoiler {
+	background-color: #f8f8f8;
+	color: #f8f8f8;
+}
+
+.bbcode_spoiler::selection {
+	background-color: rgba(255, 255, 255, 0.99);
+	color: #fff;
+}
+
+.bbcode_spoiler:hover {
+	color: #000;
+}
+
 #visualise-competition {
+    background-color: rgba(255,255,255,0.1);
 	width: 1000px;
 	height: 700px;
 }

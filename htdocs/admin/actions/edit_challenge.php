@@ -10,6 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
     if ($_POST['action'] == 'edit') {
+        $challenge = db_select_one(
+            'challenges',
+            array(
+                'solves'
+            ),
+            array(
+                'id' => $_POST['id']
+            )
+        );
 
        db_update(
             'challenges',
@@ -19,7 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'flag'=>$_POST['flag'],
                 'automark'=>$_POST['automark'],
                 'case_insensitive'=>$_POST['case_insensitive'],
-                'points'=>$_POST['points'],
+                'points' => dynamicScoringFormula ($_POST['initial_points'], $_POST['minimum_points'], $_POST['solve_decay'], $challenge['solves']),
+                'initial_points' => empty_to_zero($_POST['initial_points']),
+                'minimum_points' => empty_to_zero($_POST['minimum_points']),
+                'solve_decay' => empty_to_zero($_POST['solve_decay']),
                 'category'=>$_POST['category'],
                 'exposed'=>$_POST['exposed'],
                 'available_from'=>strtotime($_POST['available_from']),

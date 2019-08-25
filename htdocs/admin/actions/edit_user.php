@@ -38,6 +38,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_error('Please confirm delete');
         }
 
+        $correct_submissions = db_select_all(
+            'submissions',
+            array ('challenge'),
+            array(
+                'user_id'=>$_POST['id'],
+                'correct'=>1
+            )
+        );
+
+        foreach ($correct_submissions as $submission) {
+            echo $submission['challenge'];
+            challengeUnsolve ($submission['challenge']);
+        }
+
         db_delete(
             'users',
             array(

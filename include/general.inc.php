@@ -174,10 +174,11 @@ function is_integer_value ($val) {
     return is_int($val) ? true : ctype_digit($val);
 }
 
-function log_exception ($exception) {
+function log_exception ($exception, $showStackTrace = true, $customMessage = "") {
 
     // write exception to php's default error handler
     // in case we fail to insert it into the db
+
     error_log($exception);
 
     try {
@@ -188,7 +189,7 @@ function log_exception ($exception) {
                 'added_by'=>array_get($_SESSION, 'id', 0),
                 'message'=>$exception->getMessage(),
                 'code'=>$exception->getCode(),
-                'trace'=>$exception->getTraceAsString(),
+                'trace'=>$showStackTrace? $exception->getTraceAsString() : $customMessage,
                 'file'=>$exception->getFile(),
                 'line'=>$exception->getLine(),
                 'user_ip'=>get_ip(true),
@@ -540,4 +541,57 @@ function empty_to_zero($val) {
         return 0;
     }
     return $val;
+}
+
+function dynamicScoringFormula ($initial, $min, $decay, $solves) {
+    if ($decay == 0)
+        return $initial; // Avoid divide by 0 exception
+    else if ($solves >= $decay)
+        return $min; // Clamp at minimum solves
+    else
+        return $initial - (($initial - $min) / ($decay * $decay)) * ($solves * $solves);
+}
+
+function challengeSolve ($id) {
+    $challenge = db_select_one(
+        'challenges',
+        array(
+            'initial_points',
+            'minimum_points',
+            'solve_decay',
+            'solves'
+        ),
+        array ('id' => $id)
+    );
+
+    db_update(
+        'challenges',
+        array(
+            'solves'=>$challenge['solves'] + 1,
+            'points'=>dynamicScoringFormula ($challenge['initial_points'], $challenge['minimum_points'], $challenge['solve_decay'], $challenge['solves'] + 1)
+        ),
+        array('id'=>$id)
+    );
+}
+
+function challengeUnsolve ($id) {
+    $challenge = db_select_one(
+        'challenges',
+        array(
+            'initial_points',
+            'minimum_points',
+            'solve_decay',
+            'solves'
+        ),
+        array('id' => $id)
+    );
+
+    db_update(
+        'challenges',
+        array(
+            'solves'=>$challenge['solves'] - 1,
+            'points'=>dynamicScoringFormula ($challenge['initial_points'], $challenge['minimum_points'], $challenge['solve_decay'], $challenge['solves'] - 1)
+        ),
+        array('id'=>$id)
+    );
 }

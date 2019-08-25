@@ -54,6 +54,31 @@ function db_insert ($table, array $fields) {
     }
 }
 
+function db_update_all ($table, array $fields) {
+    $db = get_global_db_pdo();
+
+    try {
+        $sql = 'UPDATE '.$table.' SET ';
+        $sql .= implode('=?, ', array_keys($fields)).'=? ';
+
+        $stmt = $db->prepare($sql);
+
+        // fix null values
+        array_walk($fields, 'null_to_bool');
+
+        // get the field values and "WHERE" values. merge them into one array.
+        $values = array_values($fields);
+
+        // execute the statement
+        $stmt->execute($values);
+
+        return $stmt->rowCount();
+
+    } catch (PDOException $e) {
+        sql_exception($e);
+    }
+}
+
 function db_update ($table, array $fields, array $where, $whereGlue = 'AND') {
     $db = get_global_db_pdo();
 

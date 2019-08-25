@@ -317,6 +317,13 @@ function menu_management () {
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'search">', lang_get('search'), '</a></li>
         </ul>
     </div>
+
+    <div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Edit CTF <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_ctf">Edit CTF</a></li>
+        </ul>
+    </div>
 </div>
 ';
 }
