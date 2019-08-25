@@ -169,7 +169,7 @@ function print_user_submissions($user_id, $limit = false) {
         echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-sm btn-',($submission['correct'] ? 'warning' : 'success'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
+                <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? 'warning' : 'primary'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
             <form method="post" action="actions/list_submissions" class="discreet-inline">';
@@ -177,7 +177,7 @@ function print_user_submissions($user_id, $limit = false) {
         echo '
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                <button type="submit" class="btn btn-xs btn-danger">Delete</button>
             </form>
         </td>
     </tr>

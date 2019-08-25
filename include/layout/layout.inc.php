@@ -65,25 +65,25 @@ echo '
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
+                            echo '<li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
-                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
+                            <li><a class="shuffle-text" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             ',dynamic_menu_content(),'
                             <li>',form_logout(),'</li>
                             ';
 
                     } else {
                         echo '
-                            <li><a class="chaffle" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="chaffle" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a class="shuffle-text" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             ',dynamic_menu_content(),'
-                            <li><a class="chaffle" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a class="chaffle" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
+                            <li><a class="shuffle-text" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
                         ';
                     }
                     echo '
@@ -150,12 +150,7 @@ function foot () {
 <audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
 <audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
 <audio id="audio-checkbox-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/checkbox_click.mp3"></audio>
-
-<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/chaffle.min.js"></script>
 <script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
-<script>
-    window.addEventListener ("load", function () {});
-</script>
 </body>
 </html>';
 }
@@ -173,7 +168,7 @@ function section_title ($title, $dropdown_color = "green", $tagline = '', $strip
 }
 
 function section_title_no_underline ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
-    echo '<h2 class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
+    echo '<h2 style="margin-top: 20px" class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
         ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
         </h2><br>
     ';
@@ -221,41 +216,32 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
 
 function menu_management () {
     echo '
-<div id="menu-management">
+<div id="menu-management" class="menu">
     <div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('news'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_news" id="ssssssd">', lang_get('add_news_item'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_news">', lang_get('list_news_item'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('categories'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_category">', lang_get('add_category'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">', lang_get('list_categories'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('challenges'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_challenge">', lang_get('add_challenge'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">', lang_get('list_challenges'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('submissions'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_submissions?only_needing_marking=1">', lang_get('list_submissions_in_need_of_marking'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_submissions">', lang_get('list_all_submissions'), '</a></li>
         </ul>
-    </div>
-
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('users'), '  <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">', lang_get('users'), ' </li>
@@ -264,35 +250,27 @@ function menu_management () {
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_user_type">', lang_get('add_user_type'), ' </a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_user_types">', lang_get('list_user_types'), ' </a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('signup_rules'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_restrict_email">', lang_get('new_rule'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_restrict_email">', lang_get('list_rules'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'test_restrict_email">', lang_get('test_rule'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Email <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email">', lang_get('single_email'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email?bcc=all">', lang_get('email_all_users'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('hints'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_hint">', lang_get('new_hint'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_hints">', lang_get('list_hints'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown"> ', lang_get('dynamic_content'), '<span class="caret"></span></button>
+    </div><div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('dynamic_content'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li role="presentation" class="dropdown-header">', lang_get('menu'), '</li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_dynamic_menu_item">', lang_get('new_menu_item'), '</a></li>
@@ -301,24 +279,18 @@ function menu_management () {
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_dynamic_page">', lang_get('new_page'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_dynamic_pages">', lang_get('list_pages'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('exceptions'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_exceptions">', lang_get('list_exceptions'), '</a></li>
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_exceptions">', lang_get('clear_exceptions'), '</a></li>
         </ul>
-    </div>
-    
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('search'), ' <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'search">', lang_get('search'), '</a></li>
         </ul>
-    </div>
-
-    <div class="btn-group">
+    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Edit CTF <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_ctf">Edit CTF</a></li>

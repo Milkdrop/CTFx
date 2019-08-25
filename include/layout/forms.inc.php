@@ -83,7 +83,7 @@ function form_input_checkbox ($name, $checked = 0, $color = "blue") {
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
       <div class="col-sm-10 checkbox-', $color, '">
-          <input type="checkbox" id="',$field_name,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+          <input type="checkbox" id="',$field_name,'" class="form-control" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       </div>
     </div>
     ';
@@ -122,7 +122,7 @@ function form_button_submit ($name, $type = 'primary') {
     <div class="form-group">
       <label class="col-sm-2 control-label" for="',$field_name,'"></label>
       <div class="col-sm-10">
-          <button type="submit" id="',$field_name,'" class="btn btn-',htmlspecialchars($type),'">',$name,'</button>
+          <button type="submit" id="',$field_name,'" class="btn btn-lg btn-',htmlspecialchars($type),'">',$name,'</button>
       </div>
     </div>
     ';
@@ -142,7 +142,7 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
         <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
         <div class="col-sm-10">
 
-        <select id="',$field_name,'" name="',$field_name,'">';
+        <select class="form-control" id="',$field_name,'" name="',$field_name,'">';
 
     $group = '';
     foreach ($opts as $opt) {
@@ -189,7 +189,7 @@ function form_logout() {
     echo '
     <form action="/actions/logout" method="post">
         ',form_xsrf_token(),'
-        <button class="chaffle" type="submit" id="logout-button">',lang_get('log_out'),'</button>
+        <button class="shuffle-text" type="submit" id="logout-button">',lang_get('log_out'),'</button>
     </form>
     ';
 }
@@ -205,7 +205,7 @@ function country_select() {
         'country_name ASC'
     );
 
-    echo '<select name="country" class="form-control" required="required">
+    echo '<select name="country" class="form-control form-group" required="required">
             <option disabled selected>-- ',lang_get('please_select_country'),' --</option>';
 
     foreach ($countries as $country) {

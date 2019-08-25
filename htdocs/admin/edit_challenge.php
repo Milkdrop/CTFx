@@ -103,7 +103,7 @@ echo '
 <div class="form-group">
   <label class="col-sm-2 control-label" for="Add a new hint"></label>
   <div class="col-sm-10" style="padding-left: 0px">
-    <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-warning">
+    <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
       Add a new hint
     </a>
   </div>
