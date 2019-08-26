@@ -326,6 +326,7 @@ body {
 }
 
 .btn-lg {
+	position: relative;
 	text-transform: uppercase;
 	min-width: 240px;
 	padding: 7px 20px 7px 20px;
@@ -410,6 +411,10 @@ body {
 
 .table > tbody > tr > td {
 	vertical-align: middle;
+}
+
+h4 {
+	font-size: 22px;
 }
 
 h2 {
@@ -766,14 +771,85 @@ textarea {
 
 /** Score table **/
 
+.our-team {
+	color: #42a0ff;
+}
+
+.team-table > tbody > tr > td {
+	vertical-align: top;
+}
+
+.team-table td {
+	border-top: none !important;
+}
+
+.team-table a {
+	color: #f5f5f5;
+}
+
 .team-table {
-	max-width: 450px;
+	font-weight: bold;
+}
+
+.team-table > tbody > tr:nth-of-type(2n+1) {
+	background-color: rgba(10, 10, 10, 0.125);
+}
+
+.team-table .team-number {
+	padding-left: 0px;
+	padding-right: 3px;
+	width: 5px;
+	display: inline;
+	color: #505050;
 }
 
 .team-table .team-name {
-	max-width: 300px;
+	max-width: 200px;
+	width: 20px;
+	text-align: right;
 	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
+	padding-left: 0px;
+}
+
+.team-table .team-flag {
+	padding-left: 0px;
+	width: 10px;
+}
+
+.team-table .team-progress-bar {
+	float: left;
+	width: 100%;
+	border-bottom: 5px solid #505050;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 2px;
+}
+
+.team-table .progress {
+	background: none;
+	margin-bottom: 0px;
+	border-radius: 0px;
+	height: 23px;
+}
+
+.progress svg {
+	width: 0px;
+}
+
+.team-table .progress svg {
+	width: 23px;
+	float: right;
+}
+
+.team-table .progress-bar {
+	background-color: #42a0ff;
+}
+
+.team-table .team-score {
+	position: absolute;
+	margin-left: -3px;
 }
 
 .challenge-table .team-name {

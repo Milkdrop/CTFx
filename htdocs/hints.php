@@ -35,7 +35,7 @@ if (cache_start(CONST_CACHE_NAME_HINTS, Config::get('MELLIVORA_CONFIG_CACHE_TIME
         );
     }
 
-    section_head('Hints');
+    section_title ('Hints');
 
     echo '
         <table id="files" class="table table-striped table-hover">

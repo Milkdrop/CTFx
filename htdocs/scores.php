@@ -14,7 +14,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     echo '
     <div class="row">
-        <div class="col-lg-6">';
+        <div class="col-xl-12">';
 
     $user_types = db_select_all(
         'user_types',
@@ -86,9 +86,13 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
         }
     }
 
+    echo '</div></div>';
+
+    /*
     echo '
         </div>  <!-- / span6 -->
 
+        <!--
         <div class="col-lg-6">
         ';
 
@@ -113,7 +117,8 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
     echo '
         </div> <!-- / span6 -->
     </div> <!-- / row -->
-    ';
+    -->
+    ';*/
 
     cache_end(CONST_CACHE_NAME_SCORES);
 }

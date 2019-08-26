@@ -125,7 +125,7 @@ function foot () {
         <p style="padding-top: 2px">
 			Made with 💙 by <a href="https://github.com/MoonfireSeco">Milkdrop</a>
 			<br>
-			Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a
+			Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a>
 		</p>
     </div>
 </div>
@@ -397,16 +397,19 @@ function js_global_dict () {
     </script>';
 }
 
-function progress_bar ($percent, $type = false) {
+function progress_bar ($percent, $type = false, $striped = true) {
 
     if (!$type) {
         $type = ($percent >= 100 ? 'success' : 'info');
     }
 
     echo '
-    <div class="progress progress-striped">
+    <div class="progress',$striped ? ' progress-striped' : '','">
         <div class="progress-bar progress-bar-',$type,'" role="progressbar" aria-valuenow="',$percent,'" aria-valuemin="0" aria-valuemax="100" style="width: ',$percent,'%">
             <span class="sr-only">',$percent,'% complete</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" preserveAspectRatio="none">
+                <polygon fill="#0a0a0a" points="0,0 10,10 10,0"/>
+            </svg>
         </div>
     </div>
     ';

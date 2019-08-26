@@ -4,34 +4,29 @@ function scoreboard ($scores) {
 
     echo '
     <table class="team-table table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>',lang_get('team'),'</th>
-          <th class="text-center">',lang_get('country'),'</th>
-          <th>',lang_get('points'),'</th>
-        </tr>
-      </thead>
       <tbody>
      ';
 
+    //$fd = fopen("/var/www/ctfx/include/layout/custom_scores.json", "r") or die ("unable to open json scoreboard");
+    //$scores = json_decode (fread($fd, filesize ("/var/www/ctfx/include/layout/custom_scores.json")), true);
+
     $i = 1;
+    $maxScore = $scores[0]['score'];
+
     foreach($scores as $score) {
 
-        echo '
-        <tr>
-          <td>',number_format($i++),'</td>
+        echo '<tr>
           <td class="team-name">
+            <p class="team-number" style="', ($i <= 3) ? 'color: #42a0ff' : '','">',number_format($i++),'.</p>
             <a href="user?id=',htmlspecialchars($score['user_id']),'">
               <span class="team_',htmlspecialchars($score['user_id']),'">
                 ',htmlspecialchars($score['team_name']),'
               </span>
             </a>
           </td>
-          <td class="text-center">
-            ',country_flag_link($score['country_name'], $score['country_code']),'
-          </td>
-          <td>',number_format($score['score']),'</td>
+          <td class="team-flag">',country_flag_link($score['country_name'], $score['country_code']),'</td>
+          <td class="team-progress-bar">',progress_bar(($score['score'] / $maxScore) * 100, false, false),'</td>
+          <td class="team-score">',number_format($score['score']),' Points</td>
         </tr>
         ';
     }

@@ -197,7 +197,7 @@ function typeWriterSFX () {
 }
 
 function highlightLoggedOnTeamName() {
-    $(".team_" + global_dict["user_id"]).addClass("label label-info");
+    $(".team_" + global_dict["user_id"]).addClass("our-team");
 }
 
 function initialiseCountdowns() {
