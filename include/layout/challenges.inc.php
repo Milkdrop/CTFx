@@ -26,10 +26,8 @@ function print_time_left($challenge) {
 }
 
 function print_time_left_tooltip($challenge) {
-    if ($challenge['available_until'] <= 60 * 60 * 24 * 14) { // Don't print for challenges that are far away
-        print_time_left($challenge);
-        echo ' <span class="time-left glyphicon glyphicon-time"></span> ';
-    }
+    print_time_left($challenge);
+    echo ' <span class="time-left glyphicon glyphicon-time"></span> ';
 }
 
 function print_submit_metadata($challenge) {
