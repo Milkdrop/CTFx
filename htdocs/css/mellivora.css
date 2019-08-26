@@ -707,6 +707,10 @@ textarea {
 	font-size: 15pt;
 }
 
+.challenge-container .alert {
+	margin-bottom: 0px;
+}
+
 .challenge-metadata ul {
 	list-style-type: none;
 	padding-left: 25px;

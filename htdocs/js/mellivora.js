@@ -3,7 +3,6 @@ $(document).ready(function() {
     highlightLoggedOnTeamName ();
 
     createBackground ();
-    enableDotCanvas ();
     typeWriterSFX ();
 
     addNavbarMouseoverEffects ();
@@ -17,7 +16,9 @@ $(document).ready(function() {
     initialiseCountdowns ();
 
     setFormSubmissionBehaviour();
-}
+});
+
+window.addEventListener ("load", enableDotCanvas);
 
 function enableDotCanvas () {
     document.getElementById ("dotCanvas").style.opacity = "1";
