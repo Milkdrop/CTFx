@@ -16,6 +16,7 @@ CTFx is a CTF Platform forked from [mellivora](https://github.com/Nakiami/melliv
 - Admin Panel with competition overview, IP logging, user/email search, exception log (that includes the users that caused them)
 - Create/edit front page news
 - Arbitrary menu items and internal pages
+- BBCode Support for challenge and category descriptions, news, etc ...
 - Optional solve count limit per challenge
 - [reCAPTCHA](https://www.google.com/recaptcha/) support
 - User-defined or auto-generated passwords on signup
