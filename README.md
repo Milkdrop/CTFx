@@ -1,7 +1,7 @@
-Mellivora
+CTFx
 =========
 
-Mellivora is a CTF engine written in PHP. Want a quick overview? Check out a [screenshot gallery on imgur](http://mellivora.imgur.com/). Want a quick start? Use [Mellivora with Docker](install/docker/README.md).
+CTFx is a CTF Platform forked from [mellivora](https://github.com/Nakiami/mellivora), that focuses on low memory footprint and low server CPU usage. It has a futuristic interface that's optimized for slower hardware, meaning that there is no bulky Javascript running in the background, nor length CSS stylesheets. CTFx improves on the mellivora CTF engine by the UI redesign and the addition of new features.
 
 <p align="center">
   <img src="https://cdn.rawgit.com/Nakiami/mellivora/e1a47ff10ab55e67d8cf6bda001491d5c7867fc8/htdocs/img/mellivora.svg" width="250" alt="Mellivora logo"/>

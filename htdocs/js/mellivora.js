@@ -197,7 +197,11 @@ function typeWriterSFX () {
 }
 
 function highlightLoggedOnTeamName() {
-    $(".team_" + global_dict["user_id"]).addClass("our-team");
+    var teamLabel = document.getElementsByClassName ("team_" + global_dict["user_id"])[0];
+    if (teamLabel != undefined) {
+        teamLabel.classList.add ("our-team");
+        teamLabel.parentNode.style.textDecorationColor = "#42a0ff";
+    }
 }
 
 function initialiseCountdowns() {

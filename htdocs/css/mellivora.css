@@ -618,6 +618,10 @@ textarea {
 	color: #505050;
 }
 
+#categories-menu li.disabled a:hover {
+	background-color: #f5f5f5;
+}
+
 #categories-menu {
 	overflow: auto;
 	padding: 0px;

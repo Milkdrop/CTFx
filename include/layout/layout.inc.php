@@ -27,7 +27,7 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.css" rel="stylesheet">';
+    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.min.css" rel="stylesheet">';
 
     js_global_dict();
 
