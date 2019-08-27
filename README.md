@@ -36,7 +36,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 ## Installation
 **- Install the following dependencies**
-  - `nginx-light php-fpm php-xml php-curl php-mysql php-mbstring composer mysql-server`
+  - `nginx php-fpm php-xml php-curl php-mysql php-mbstring composer mysql-server`
 
 **- Secure mysql server**
   - Run the command `mysql_secure_installation` and remove anonymous users, disable root login and remove the test database
@@ -46,7 +46,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
   - Make the folder `writable` writable
 
 **- Setup nginx**
-  - Copy the recommended nginx config `recommended_nginx_config` to `/etc/nginx/sites-enabled/default`
+  - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/sites-enabled/default`
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:
@@ -66,6 +66,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 - If you have issues with executing PHP you should check if the php-fpm .sock file present in the nginx config exists.
 - It is **recommended** that you change the default database password, and if you do so you must also change it in `include/config/db.inc.php`
 - You can change the homepage to your liking by modifying `htdocs/home.php`. Make sure to also change the css rules in `htdocs/css/mellivora.min.css` for #ctfx-main-logo and .main-intro-text, if you want a different overall style.
+- You might want to change the `MELLIVORA_CONFIG_CTF_START_TIME` and `MELLIVORA_CONFIG_CTF_END_TIME` variables in `include/config/config.inc.php`, so that each new challenge you create will have these times set as default.
 
 ## License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
