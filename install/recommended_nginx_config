@@ -17,7 +17,7 @@ server {
 	gzip_proxied any;
 	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript audio/mpeg video/mp4;
 	gzip_vary on;
-	gzip_disable “MSIE [1–6]\.(?!.*SV1)”;
+	gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
 	location / {
 		limit_req zone=throttled burst=20 nodelay;
@@ -31,15 +31,15 @@ server {
 	location ~ \.php$ {
 		try_files $uri =404;
 
-	    include fastcgi_params;
-	    fastcgi_buffers 8 16k;
+		include fastcgi_params;
+		fastcgi_buffers 8 16k;
 		fastcgi_buffer_size 32k;
 		fastcgi_connect_timeout 60;
-	 	fastcgi_send_timeout 300;
+		fastcgi_send_timeout 300;
 		fastcgi_read_timeout 300;
-	    fastcgi_pass unix:/var/run/php/php7.2-fpm.sock; # Change this to your current php fpm .sock file
-	    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-	    fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock; # Change this to your current php fpm .sock file
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_param SCRIPT_NAME $fastcgi_script_name;
 	}
 
 	location @extensionless-php {
