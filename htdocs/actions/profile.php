@@ -91,7 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else if ($_POST['action'] == 'reset_password') {
-
+        
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC')) {
+            validate_captcha();
+        }
+        
         $user = db_select_one(
             'users',
             array('passhash'),
