@@ -13,11 +13,11 @@ function scoreboard ($scores) {
     $i = 1;
     $maxScore = $scores[0]['score'];
 
-    foreach($scores as $score) {
+    foreach ($scores as $score) {
 
         echo '<tr>
           <td class="team-name">
-            <p class="team-number" style="', ($i <= 3) ? 'color: #42a0ff' : '','">',number_format($i++),'.</p>
+            <p class="team-number"',($i <= 3)?' style="color: #42a0ff"':'','>',number_format($i++),'.</p>
             <a href="user?id=',htmlspecialchars($score['user_id']),'">
               <span class="team_',htmlspecialchars($score['user_id']),'">
                 ',htmlspecialchars($score['team_name']),'
@@ -27,8 +27,7 @@ function scoreboard ($scores) {
           <td class="team-flag">',country_flag_link($score['country_name'], $score['country_code']),'</td>
           <td class="team-progress-bar">',progress_bar(($score['score'] / $maxScore) * 100, false, false),'</td>
           <td class="team-score">',number_format($score['score']),' Points</td>
-        </tr>
-        ';
+        </tr>';
     }
 
     echo '
