@@ -1,48 +1,117 @@
-limit_req_zone $binary_remote_addr zone=throttled:1m rate=5r/s;
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
 
-server {
-	listen 80;
-	listen [::]:80;
+events {
+    worker_connections 1024;
+    use epoll;
+    # multi_accept on;
+}
 
-	root /var/www/ctfx/htdocs;
+http {
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    types_hash_max_size 2048;
+    server_tokens off;
 
-	index index.php index.html;
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
-	server_name ctfx;
-	server_tokens off;
+    ### IP Limit
 
-	keepalive_timeout 30s;
+    limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
+    limit_req_zone $binary_remote_addr zone=req_limit_per_ip:10m rate=20r/s;
 
-	gzip on;
-	gzip_proxied any;
-	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript audio/mpeg video/mp4;
-	gzip_vary on;
-	gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+    ### Logging
 
-	location / {
-		limit_req zone=throttled burst=20 nodelay;
-		try_files $uri $uri/ $uri.html @extensionless-php;
-	}
+    access_log /var/log/nginx/access.log combined buffer=16k;
+    error_log /var/log/nginx/error.log;
 
-	location ~* \.(jpg|jpeg|png|gif|ico|css|js|mp3|mp4)$ {
-		expires 365d;
-	}
+    ### Cache
 
-	location ~ \.php$ {
-		try_files $uri =404;
+    open_file_cache max=1000 inactive=20s;
+    open_file_cache_valid 60s;
+    open_file_cache_min_uses 5;
+    open_file_cache_errors off;
 
-		include fastcgi_params;
-		fastcgi_buffers 8 16k;
-		fastcgi_buffer_size 32k;
-		fastcgi_connect_timeout 60;
-		fastcgi_send_timeout 300;
-		fastcgi_read_timeout 300;
-		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock; # Change this to your current php fpm .sock file
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_param SCRIPT_NAME $fastcgi_script_name;
-	}
+    ### Gzip
 
-	location @extensionless-php {
-		rewrite ^(.*)$ $1.php last;
-	}
+    gzip on;
+
+    gzip_vary on;
+    gzip_comp_level 2;
+    gzip_min_length 4096;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+    ### Max request size
+
+    client_body_buffer_size 64k;
+    client_header_buffer_size 2k;
+    large_client_header_buffers 4 64k;
+
+    ### Timeouts
+
+    client_body_timeout 15;
+    client_header_timeout 15;
+    keepalive_timeout 15;
+    send_timeout 10;
+
+    ### Vhosts
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen 80 reuseport;
+        listen [::]:80 reuseport;
+
+        root /var/www/ctfx/htdocs;
+        index index.php index.html;
+
+        server_name ctf;
+
+        # Enable request limiting if you need it
+        #limit_conn conn_limit_per_ip 10;
+        #limit_req zone=req_limit_per_ip burst=10 nodelay;
+
+        # deny access to . files, for security
+        location ~ /\. {
+            log_not_found off; 
+            deny all;
+        }
+
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js|mp3|mp4)$ {
+            expires 365d;
+        }
+
+        location / {
+            try_files $uri $uri/ $uri.html @extensionless-php;
+        }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+            include fastcgi_params;
+
+            fastcgi_buffer_size 64k;
+            fastcgi_buffers 64 16k;
+
+            fastcgi_connect_timeout 60;
+            fastcgi_send_timeout 300;
+            fastcgi_read_timeout 300;
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock; # Change this to your current php fpm .sock file
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        }
+
+        location @extensionless-php {
+            rewrite ^(.*)$ $1.php last;
+        }
+
+        if ($http_user_agent ~* (^w3af.sourceforge.net|dirbuster|nikto|SF|sqlmap|fimap|nessus|whatweb|Openvas|jbrofuzz|libwhisker|webshag) ) {
+            return 403;
+        }
+    }
 }

@@ -46,7 +46,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
   - Make the folder `writable` writable
 
 **- Setup nginx**
-  - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/sites-enabled/default`
+  - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/nginx.conf`
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:

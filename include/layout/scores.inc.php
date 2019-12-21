@@ -7,23 +7,23 @@ function scoreboard ($scores) {
       <tbody>
      ';
 
-    //$fd = fopen("/var/www/ctfx/include/layout/custom_scores.json", "r") or die ("unable to open json scoreboard");
-    //$scores = json_decode (fread($fd, filesize ("/var/www/ctfx/include/layout/custom_scores.json")), true);
+    //$scores = json_decode (file_get_contents ("/var/www/ctfx/include/layout/custom_scores.json"), true);
 
     $i = 1;
+
     $maxScore = $scores[0]['score'];
+    if ($maxScore == 0) {
+        $maxScore = 1;
+    }
 
     foreach ($scores as $score) {
 
         echo '<tr>
           <td class="team-name">
             <p class="team-number"',($i <= 3)?' style="color: #42a0ff"':'','>',number_format($i++),'.</p>
-            <a href="user?id=',htmlspecialchars($score['user_id']),'">
-              <span class="team_',htmlspecialchars($score['user_id']),'">
+            <a href="user?id=',htmlspecialchars($score['user_id']),'" class="team_',htmlspecialchars($score['user_id']),'">
                 ',htmlspecialchars($score['team_name']),'
-              </span>
-            </a>
-          </td>
+            </a></td>
           <td class="team-flag">',country_flag_link($score['country_name'], $score['country_code']),'</td>
           <td class="team-progress-bar">',progress_bar(($score['score'] / $maxScore) * 100, false, false),'</td>
           <td class="team-score">',number_format($score['score']),' Points</td>

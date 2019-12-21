@@ -23,7 +23,7 @@ message_inline_blue('Create and edit challenge to add files.');
 section_subhead ("Advanced Settings:");
 form_input_text('Initial Points', 500);
 form_input_text('Minimum Points', 50);
-form_input_text('Solve Decay', 50);
+form_input_text('Solve Decay', 100);
 
 $opts = db_query_fetch_all('
     SELECT

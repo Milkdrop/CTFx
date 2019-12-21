@@ -5,7 +5,8 @@ html {
 }
 
 body {
-	background-color: #0a0a0a;
+	background-color: #000;
+	background-image: url("/img/StarryBG.jpg");
 	color: #f5f5f5;
 	min-height: 100%;
 	position: relative;
@@ -446,6 +447,7 @@ textarea {
 /** News **/
 
 .news-body {
+	font-size:20px;
 	margin-top: -10px;
 	padding: 5px 5px 5px 15px;
 }
@@ -776,7 +778,7 @@ textarea {
 /** Score table **/
 
 .our-team {
-	color: #42a0ff;
+	color: #42a0ff !important;
 }
 
 .team-table > tbody > tr > td {
@@ -1046,4 +1048,16 @@ pre::selection {
 .jumbotron .btn {
 	font-size: 21px;
 	padding: 14px 24px;
+}
+
+.progress {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.progress-striped .progress-bar-info, .progress-striped .progress-bar-success {
+	background-image: linear-gradient(45deg,rgb(255, 255, 255) 25%,transparent 25%,transparent 50%,rgb(255, 255, 255) 50%,rgb(255, 255, 255) 75%,transparent 75%,transparent)
+}
+
+.progress-bar-info, .progress-bar-success {
+	background-color: #ff4242;
 }

@@ -2,7 +2,7 @@ $(document).ready(function() {
     highlightSelectedMenuItem ();
     highlightLoggedOnTeamName ();
 
-    createBackground ();
+    //createBackground ();
     typeWriterSFX ();
 
     addNavbarMouseoverEffects ();

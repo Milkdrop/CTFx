@@ -130,7 +130,7 @@ function foot () {
     </div>
 </div>
 
-<video autoplay="true" loop="true" id="dotCanvas" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/dotCanvas.mp4"></video>
+<!--<video autoplay="true" loop="true" id="dotCanvas" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/dotCanvas.mp4"></video>-->
 
 </div> <!-- /page -->
 
