@@ -101,7 +101,7 @@ http {
             fastcgi_connect_timeout 60;
             fastcgi_send_timeout 300;
             fastcgi_read_timeout 300;
-            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock; # Change this to your current php fpm .sock file
+            fastcgi_pass unix:/var/run/php/phpVERSION.HERE-fpm.sock; # Change this to your current php fpm .sock file
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_param SCRIPT_NAME $fastcgi_script_name;
         }
