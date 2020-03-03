@@ -80,13 +80,12 @@ This software is licenced under the [GNU General Public License v3 (GPL-3)](http
 - Support No-JS users
 
 ### Fixes
-- Visual dropdown implementation is a mess
 - Some titles shouldn't be underlined (like the login modal)
 - New Challenge page is messy
 - Improve UX for dynamic pages / dynamic content
 - Generally improve UX in the admin interface
 - Make challenge / category availability dates more intuitive
-- There's a lot of code to be cleaned
+- Fix login modal checkbox
 
 ### Reminders
 - Remove bloat from composer when pushing to production

@@ -81,7 +81,7 @@ if (empty($current_category)) {
 echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';
 
 // write out our categories menu
-echo '<div id="categories-menu btn-group">
+echo '<div id="categories-menu">
 ', title_decorator ("green");
 
 foreach ($categories as $cat) {
