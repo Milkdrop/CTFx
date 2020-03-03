@@ -97,6 +97,7 @@ foreach ($hints as $hint) {
   </tr>
   ';
 }
+
 echo '
 </tbody>
 </table>

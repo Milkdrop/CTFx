@@ -115,18 +115,7 @@ function foot () {
 
 </div> <!-- /container -->
 <div id="footer">
-    <div id="footer-fade" class="fade">
-        <div class="logo">
-			<p>CTF</p>
-			<p class="blue">x</p>
-		</div>
-        <div class="limiter"></div>
-        <p style="padding-top: 2px">
-			Made with 💙 by <a href="https://github.com/MoonfireSeco">Milkdrop</a>
-			<br>
-			Powered by <a href="https://github.com/Nakiami/mellivora">Mellivora</a>
-		</p>
-    </div>
+	CTFx v1.0 - Work-In-Progress. Made by <a href="https://github.com/MoonfireSeco">Milkdrop</a>
 </div>
 
 <!--<video autoplay="true" loop="true" id="dotCanvas" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/dotCanvas.mp4"></video>-->
@@ -149,16 +138,16 @@ function foot () {
 <audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
 <audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
 <audio id="audio-checkbox-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/checkbox_click.mp3"></audio>
-<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.min.js"></script>
+<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.js"></script>
 </body>
 </html>';
 }
 
-function section_title ($title, $tagline = '', $dropdown_color = "green") {
+function section_title ($title, $tagline = '', $decorator_color = "green") {
     echo '
     <div class="row">
         <div class="col-lg-12 page-header">
-            <h2 class="typewriter">', dropdown_element ($dropdown_color), htmlspecialchars ($title),
+            <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
             '<small>'.$tagline.'</small>','
             </h2>
         </div>
@@ -182,8 +171,11 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
     ';
 }
 
-function dropdown_element ($dropdown_color) {
-    echo '<div class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div></div> ';
+function title_decorator ($color) {
+    echo '<div class="title-decorator-container">
+        <div class="title-decorator title-decorator-',$color,'"></div>
+        <div class="title-decorator title-decorator-gray"></div>
+    </div> ';
 }
 
 function menu_management () {

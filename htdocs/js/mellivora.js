@@ -1,349 +1,181 @@
-$(document).ready(function() {
-    highlightSelectedMenuItem ();
-    highlightLoggedOnTeamName ();
-
-    //createBackground ();
-    typeWriterSFX ();
-
-    addNavbarMouseoverEffects ();
-    addButtonMouseoverEffects ();
-    addFooterMouseoverEffects ();
-    addDropdownMouseoverEffects ();
-    addCheckboxClickEffects ();
-
-    initialiseDialogs ();
-    initialiseTooltips ();
-    initialiseCountdowns ();
-
-    setFormSubmissionBehaviour();
-});
-
-window.addEventListener ("load", enableDotCanvas);
-
-function enableDotCanvas () {
-    document.getElementById ("dotCanvas").style.opacity = "1";
-}
-
 function initialiseDialogs() {
-    initialiseLoginDialog();
-    showPageLoadModalDialogs();
+    initialiseLoginDialog(), showPageLoadModalDialogs()
 }
 
 function initialiseLoginDialog() {
-    $('#login-dialog').on('shown.bs.modal', function (e) {
-        $('#login-dialog').find('input').first().focus();
-    });
+    $("#login-dialog").on("shown.bs.modal", function(t) {
+        $("#login-dialog").find("input").first().focus()
+    })
 }
 
 function showPageLoadModalDialogs() {
-    $('.modal.on-page-load').modal();
+    $(".modal.on-page-load").modal()
 }
 
 function highlightSelectedMenuItem() {
-    var path = window.location.pathname;
-    var activeMenuItems = document.querySelectorAll('.nav a[href$="' + path + '"]');
-
-    for (var i = 0; i < activeMenuItems.length; i++) {
-        if (activeMenuItems[i] && activeMenuItems[i].parentNode) {
-            activeMenuItems[i].parentNode.className = 'active';
-        }
-    }
+    for (var t = window.location.pathname, e = document.querySelectorAll('.nav a[href$="' + t + '"]'), n = 0; n < e.length; n++) e[n] && e[n].parentNode && (e[n].parentNode.className = "active")
 }
 
-function createBackground () {
-    var backgroundDots = document.getElementById ("background-dots");
-    var backgroundDotsCount = 15;
-
-    for (var i = 0; i < backgroundDotsCount; i++) {
-        var dot = document.createElement("div");
-        dot.className = "background-dot";
-        if (i == 0)
-            dot.innerText = "07";
-        else
-            dot.innerText = "+";
-
-        dot.style.top = (Math.random () * window.innerHeight) + "px";
-        dot.style.left = (Math.random () * window.innerWidth) + "px";
-        dot.style.transform = "scale(" + (0.5 + Math.random () * 0.5) + ")";
-        backgroundDots.appendChild (dot);
+function createBackground() {
+    for (var t = document.getElementById("background-dots"), e = 0; e < 15; e++) {
+        var n = document.createElement("div");
+        n.className = "background-dot", n.innerText = 0 == e ? "07" : "+", n.style.top = Math.random() * window.innerHeight + "px", n.style.left = Math.random() * window.innerWidth + "px", n.style.transform = "scale(" + (.5 + .5 * Math.random()) + ")", t.appendChild(n)
     }
 }
 
 function addNavbarMouseoverEffects() {
-    var navbarElements = document.getElementsByClassName ("shuffle-text");
-    var audio_navbar = document.getElementById ("audio-navbar");
-    var audio_navclick = document.getElementById ("audio-navclick");
-
-    for (var i = 0, len = navbarElements.length; i < len; i++) {
-        var element = navbarElements[i];
-
-        if (element.parentNode.classList.contains("active") == false) {
-            const shuffler = new shuffleText (element);
-
-            element.addEventListener("mouseenter", function () {
-                shuffler.init();
-                audio_navbar.currentTime = 0;
-                audio_navbar.play();
-            });
-
-            element.addEventListener("click", function () {
-                audio_navclick.play();
-            });
+    for (var t = document.getElementsByClassName("shuffle-text"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
+        var a = t[o];
+        if (0 == a.parentNode.classList.contains("active")) {
+            const t = new shuffleText(a);
+            a.addEventListener("mouseenter", function() {
+                t.init(), e.currentTime = 0, e.play()
+            }), a.addEventListener("click", function() {
+                n.play()
+            })
         }
     }
 }
 
 function addButtonMouseoverEffects() {
-    var buttons = [].concat ([].slice.call(document.getElementsByClassName ("btn")), [].slice.call(document.getElementsByClassName ("close")), [].slice.call(document.getElementsByClassName ("category-link")));
-
-    var audio_button_mouseover = document.getElementById ("audio-button-mouseover");
-    var audio_button_click = document.getElementById ("audio-button-click");
-
-    var audio_button_small_mouseover = document.getElementById ("audio-button-small-mouseover");
-    var audio_button_small_click = document.getElementById ("audio-button-small-click");
-
-    var audio_button_cancel_mouseover = document.getElementById ("audio-button-cancel-mouseover");
-    var audio_button_cancel_click = document.getElementById ("audio-button-cancel-click");
-
-    for (var i = 0, len = buttons.length; i < len; i++) {
-        if (buttons[i].classList.contains ("btn-default") || buttons[i].classList.contains ("close")) {
-            buttons[i].addEventListener("mouseenter", function () {
-                audio_button_cancel_mouseover.currentTime = 0;
-                audio_button_cancel_mouseover.play();
-            });
-
-            buttons[i].addEventListener("click", function () {
-                audio_button_cancel_click.currentTime = 0;
-                audio_button_cancel_click.play();
-            });
-        } else if (buttons[i].classList.contains ("btn-xs") || buttons[i].classList.contains ("category-link")) {
-            if (!buttons[i].parentNode.classList.contains("active")) {
-                buttons[i].addEventListener ("mouseenter", function () {
-                    audio_button_small_mouseover.currentTime = 0;
-                    audio_button_small_mouseover.play();
-                });
-
-                buttons[i].addEventListener ("click", function () {
-                    audio_button_small_click.currentTime = 0;
-                    audio_button_small_click.play();
-                });
-
-                buttons[i].addEventListener ("mouseout", function () {
-                    audio_button_small_mouseover.pause();
-                });
-            }
-        } else {
-            buttons[i].addEventListener ("mouseenter", function () {
-                audio_button_mouseover.currentTime = 0;
-                audio_button_mouseover.play();
-            });
-
-            buttons[i].addEventListener ("click", function () {
-                audio_button_click.currentTime = 0;
-                audio_button_click.play();
-            });
-
-            buttons[i].addEventListener ("mouseout", function () {
-                audio_button_mouseover.pause();
-            });
-        }
-    }
+    for (var t = [].concat([].slice.call(document.getElementsByClassName("btn")), [].slice.call(document.getElementsByClassName("close")), [].slice.call(document.getElementsByClassName("category-link"))), e = document.getElementById("audio-button-mouseover"), n = document.getElementById("audio-button-click"), o = document.getElementById("audio-button-small-mouseover"), i = document.getElementById("audio-button-small-click"), a = document.getElementById("audio-button-cancel-mouseover"), s = document.getElementById("audio-button-cancel-click"), l = 0, r = t.length; l < r; l++) t[l].classList.contains("btn-default") || t[l].classList.contains("close") ? (t[l].addEventListener("mouseenter", function() {
+        a.currentTime = 0, a.play()
+    }), t[l].addEventListener("click", function() {
+        s.currentTime = 0, s.play()
+    })) : t[l].classList.contains("btn-xs") || t[l].classList.contains("category-link") ? t[l].parentNode.classList.contains("active") || (t[l].addEventListener("mouseenter", function() {
+        o.currentTime = 0, o.play()
+    }), t[l].addEventListener("click", function() {
+        i.currentTime = 0, i.play()
+    }), t[l].addEventListener("mouseout", function() {
+        o.pause()
+    })) : (t[l].addEventListener("mouseenter", function() {
+        e.currentTime = 0, e.play()
+    }), t[l].addEventListener("click", function() {
+        n.currentTime = 0, n.play()
+    }), t[l].addEventListener("mouseout", function() {
+        e.pause()
+    }))
 }
 
-function addDropdownMouseoverEffects () {
-    var dropdowns = document.getElementsByClassName ("dropdown-menu");
-    var audio_dropdown_open = document.getElementById ("audio-dropdown-open");
-
-    for (var i = 0, len = dropdowns.length; i < len; i++) {
-        dropdowns[i].addEventListener("click", function () {
-            audio_dropdown_open.currentTime = 0;
-            audio_dropdown_open.play();
-        });
-    }
+function addDropdownMouseoverEffects() {
+    for (var t = document.getElementsByClassName("dropdown-menu"), e = document.getElementById("audio-dropdown-open"), n = 0, o = t.length; n < o; n++) t[n].addEventListener("click", function() {
+        e.currentTime = 0, e.play()
+    })
 }
 
-function addFooterMouseoverEffects () {
-    var footer = document.getElementById ("footer-fade");
-    var audio_footer_mouseover = document.getElementById ("audio-footer-mouseover");
-
-    footer.addEventListener ("mouseenter", function () {
-        audio_footer_mouseover.currentTime = 0;
-        audio_footer_mouseover.play();
-    });
+function addFooterMouseoverEffects() {
+    var t = document.getElementById("footer-fade"),
+        e = document.getElementById("audio-footer-mouseover");
+    t.addEventListener("mouseenter", function() {
+        e.currentTime = 0, e.play()
+    })
 }
 
-function addCheckboxClickEffects () {
-    var inputs = document.getElementsByTagName ("input");
-    var audio_checkbox_click = document.getElementById ("audio-checkbox-click");
-
-    for (var i = 0, len = inputs.length; i < len; i++) {
-        if (inputs[i].type == "checkbox") {
-            inputs[i].addEventListener("click", function () {
-                audio_checkbox_click.currentTime = 0;
-                audio_checkbox_click.play();
-            });
-        }
-    }
+function addCheckboxClickEffects() {
+    for (var t = document.getElementsByTagName("input"), e = document.getElementById("audio-checkbox-click"), n = 0, o = t.length; n < o; n++) "checkbox" == t[n].type && t[n].addEventListener("click", function() {
+        e.currentTime = 0, e.play()
+    })
 }
 
-function typeWriterSFX () {
-    var typewriter = document.getElementsByClassName('typewriter')[0];
-    var audio_typewriter = document.getElementById ("audio-typewriter");
-
-    if (typewriter != undefined) {
-        audio_typewriter.play ();
-        setTimeout (function () {audio_typewriter.pause ()}, 300 + (1000 / 65) * typewriter.innerText.length);
-    }
+function typeWriterSFX() {
+    var t = document.getElementsByClassName("typewriter")[0],
+        e = document.getElementById("audio-typewriter");
+    null != t && (e.play(), setTimeout(function() {
+        e.pause()
+    }, 300 + 1e3 / 65 * t.innerText.length))
 }
 
 function highlightLoggedOnTeamName() {
-    var teamLabel = document.getElementsByClassName ("team_" + global_dict["user_id"])[0];
-    if (teamLabel != undefined) {
-        teamLabel.classList.add ("our-team");
-        teamLabel.parentNode.style.textDecorationColor = "#42a0ff";
-    }
+    var t = document.getElementsByClassName("team_" + global_dict.user_id)[0];
+    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#42a0ff")
 }
 
 function initialiseCountdowns() {
-    var $countdowns = $('[data-countdown]');
-    var countdownsOnPage = $('[data-countdown]').length;
-
-    if (countdownsOnPage) {
-        setInterval(function() {
-            $countdowns.each(function () {
-                var $countdown = $(this);
-                var availableUntil = $countdown.data('countdown');
-                var availableUntilDate = new Date(availableUntil * 1000);
-                var secondsLeft = Math.floor((availableUntilDate.getTime() - Date.now()) / 1000);
-
-                var doneMessage = $countdown.attr('data-countdown-done') || 'No time remaining';
-                var countdownMessage = secondsLeft <= 0 ? doneMessage : prettyPrintTime(secondsLeft);
-                $countdown.text(countdownMessage);
-            });
-
-        }, 1000);
-    }
+    var t = $("[data-countdown]");
+    $("[data-countdown]").length && setInterval(function() {
+        t.each(function() {
+            var t = $(this),
+                e = t.data("countdown"),
+                n = new Date(1e3 * e),
+                o = Math.floor((n.getTime() - Date.now()) / 1e3),
+                i = t.attr("data-countdown-done") || "No time remaining",
+                a = o <= 0 ? i : prettyPrintTime(o);
+            t.text(a)
+        })
+    }, 1e3)
 }
 
 function initialiseTooltips() {
-    $('.has-tooltip').tooltip();
+    $(".has-tooltip").tooltip()
 }
 
-/**
- * Disable all buttons on page on form submit
- */
 function setFormSubmissionBehaviour() {
-    $('form').on('submit', function(e) {
-        $('button').prop('disabled', true);
-    });
+    $("form").on("submit", function(t) {
+        $("button").prop("disabled", !0)
+    })
 }
 
-function pluralise(number, name) {
-    if (!number) {
-        return '';
-    }
-
-    return number + ' ' + name + (number > 1 ? 's' : '');
-
+function pluralise(t, e) {
+    return t ? t + " " + e + (t > 1 ? "s" : "") : ""
 }
 
-function prettyPrintTime(seconds) {
-    seconds = Math.floor(seconds);
-
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
-    var days = Math.floor(hours / 24);
-
-    var daysWords = pluralise(days, 'day');
-    var hoursWords = pluralise(hours % 24, 'hour');
-    var minutesWords = pluralise(minutes % 60, 'minute');
-    var secondsWords = pluralise(seconds % 60, 'second');
-
-    var timeParts = [];
-    if (daysWords) timeParts.push(daysWords);
-    if (hoursWords) timeParts.push(hoursWords);
-    if (minutesWords) timeParts.push(minutesWords);
-    if (secondsWords) timeParts.push(secondsWords);
-
-    return timeParts.join(', ') + ' remaining';
+function prettyPrintTime(t) {
+    t = Math.floor(t);
+    var e = Math.floor(t / 60),
+        n = Math.floor(e / 60),
+        o = pluralise(Math.floor(n / 24), "day"),
+        i = pluralise(n % 24, "hour"),
+        a = pluralise(e % 60, "minute"),
+        s = pluralise(t % 60, "second"),
+        l = [];
+    return o && l.push(o), i && l.push(i), a && l.push(a), s && l.push(s), l.join(", ") + " remaining"
 }
 
-function shuffleText (element) {
-    var data = {};
-
-    this.element = element;
-    this.text = element.textContent;
-    this.substitution = "";
-    this.alphabet = "!#$^&*+=0123456789";
-    this.isShuffling = false;
-    this.speed = 15;
-    this.delay = 60;
-    this.shuffleProps = [];
-    this.reinstateProps = []
+function shuffleText(t) {
+    this.element = t, this.text = t.textContent, this.substitution = "", this.alphabet = "!#$^&*+=0123456789", this.isShuffling = !1, this.speed = 15, this.delay = 60, this.shuffleProps = [], this.reinstateProps = []
 }
 
-shuffleText.prototype = {
+$(document).ready(function() {
+    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addNavbarMouseoverEffects(), addButtonMouseoverEffects(), /*addFooterMouseoverEffects(),*/ addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
+}), shuffleText.prototype = {
     constructor: shuffleText,
     init: function() {
-        var self = this;
-        if (self.isShuffling) return;
-        self.clearShuffleTimer();
-        self.clearReinstateTimer();
-        self.isShuffling = true;
-        self.state = 0;
-        self.counter = 0;
-        self.substitution = "";
-        self.shuffleProps = [];
-        self.reinstateProps = [];
-        var shuffleTimer = setInterval(function() {
-            self.shuffle()
-        }, self.speed);
-        var reinstateTimer = setInterval(function() {
-            self.reinstate()
-        }, self.delay);
-        self.shuffleProps = shuffleTimer;
-        self.reinstateProps = reinstateTimer
+        var t = this;
+        if (!t.isShuffling) {
+            t.clearShuffleTimer(), t.clearReinstateTimer(), t.isShuffling = !0, t.state = 0, t.counter = 0, t.substitution = "", t.shuffleProps = [], t.reinstateProps = [];
+            var e = setInterval(function() {
+                    t.shuffle()
+                }, t.speed),
+                n = setInterval(function() {
+                    t.reinstate()
+                }, t.delay);
+            t.shuffleProps = e, t.reinstateProps = n
+        }
     },
     shuffle: function() {
         this.element.textContent = this.substitution;
-        var textLength = this.text.length;
-        var substitutionLength = this.substitution.length;
-        if (textLength - substitutionLength > 0) {
-            for (var i = 0; i <= textLength - substitutionLength - this.counter; i++) {
-                this.element.textContent = this.element.textContent + this.randomStr()
-            }
-        } else {
-            this.clearShuffleTimer()
-        }
+        var t = this.text.length,
+            e = this.substitution.length;
+        if (t - e > 0)
+            for (var n = 0; n <= t - e - this.counter; n++) this.element.textContent = this.element.textContent + this.randomStr();
+        else this.clearShuffleTimer()
     },
     reinstate: function() {
-        if (this.state == 0) { // Shrink encryption size
-            if (this.counter < 2) {
-                this.counter++;
-                return;
-            } else
-                this.state = 1;
-        } else { // Expand the word back
-            if (this.counter > 0)
-                this.counter--;
-        }
-
-        var textLength = this.text.length;
-        var substitutionLength = this.substitution.length;
-
-        if (substitutionLength < textLength)
-            this.element.textContent = this.substitution = this.text.substr(0, substitutionLength + 1);
-        else
-            this.clearReinstateTimer();
+        if (0 == this.state) {
+            if (this.counter < 2) return void this.counter++;
+            this.state = 1
+        } else this.counter > 0 && this.counter--;
+        var t = this.text.length,
+            e = this.substitution.length;
+        e < t ? this.element.textContent = this.substitution = this.text.substr(0, e + 1) : this.clearReinstateTimer()
     },
     clearShuffleTimer: function() {
-        this.isShuffling = false;
-        return clearInterval(this.shuffleProps);
+        return this.isShuffling = !1, clearInterval(this.shuffleProps)
     },
     clearReinstateTimer: function() {
-        return clearInterval(this.reinstateProps);
+        return clearInterval(this.reinstateProps)
     },
     randomStr: function() {
-        return this.alphabet.charAt(Math.floor(Math.random() * this.alphabet.length));
+        return this.alphabet.charAt(Math.floor(Math.random() * this.alphabet.length))
     }
 };

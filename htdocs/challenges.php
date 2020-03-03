@@ -81,21 +81,17 @@ if (empty($current_category)) {
 echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';
 
 // write out our categories menu
-echo '<div>
-<ul id="categories-menu">
-', dropdown_element ("green");
+echo '<div id="categories-menu btn-group">
+', title_decorator ("green");
 
 foreach ($categories as $cat) {
     if ($now < $cat['available_from'] || $now > $cat['available_until']) {
-        echo '<li class="disabled">
-        <a data-container="body" data-toggle="tooltip" data-placement="top" class="has-tooltip" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</a>
-        </li>';
+        echo '<div class="btn btn-xs btn-warning disabled has-tooltip" data-container="body" data-toggle="tooltip" data-placement="top" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</div>';
     } else {
-        echo '<li ',($current_category['id'] == $cat['id'] ? ' class="active"' : ''),'><a class="category-link" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a></li>';
+        echo '<a class="btn btn-xs btn-warning ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
     }
 }
-echo '</ul>
-</div>';
+echo '</div><br>';
 
 // check that the category is actually available for display
 if ($now < $current_category['available_from'] || $now > $current_category['available_until']) {

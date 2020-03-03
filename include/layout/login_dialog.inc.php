@@ -5,7 +5,7 @@ function login_dialog() {
     <div class="modal fade" id="login-dialog" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="login-dialog-form" method="post" class="form-signin form-black" action="/actions/login">
+                <form id="login-dialog-form" method="post" class="form-signin light-theme" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         ',section_title ("Login:", "", "blue"),'

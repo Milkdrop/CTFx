@@ -49,25 +49,25 @@ function message_inline_bland ($message) {
 }
 
 function message_inline_blue ($message, $strip_html = true) {
-    echo '<div class="alert alert-info">', dropdown_element ('blue'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-info">', title_decorator ('blue'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_red ($message, $strip_html = true) {
-    echo '<div class="alert alert-danger">', dropdown_element ('red'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-danger">', title_decorator ('red'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_yellow ($message, $strip_html = true) {
-    echo '<div class="alert alert-warning">', dropdown_element ('yellow'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-warning">', title_decorator ('green'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_green ($message, $strip_html = true) {
-    echo '<div class="alert alert-success">', dropdown_element ('green'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-success">', title_decorator ('green'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_dialog ($message, $title, $closeText, $class, $buttonType = "primary") {
     echo '
     <div class="modal fade ',$class,'">
-        <div class="modal-dialog form-black">
+        <div class="modal-dialog light-theme">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">',$title,'</h4>
