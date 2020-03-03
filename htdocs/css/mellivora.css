@@ -217,6 +217,18 @@ body {
 	background: url("/img/ui/dropdownGreen.png");
 }
 
+.dropdown-blue {
+	display: inline-block;
+}
+
+.dropdown-red {
+	display: inline-block;
+}
+
+.dropdown-green {
+	display: inline-block;
+}
+
 .dropdown-a {
 	width: 34px;
 	position: absolute;
@@ -742,8 +754,8 @@ textarea {
 }
 
 .page-header {
-	border-bottom: 2px solid #42a0ff;
 	margin: 20px 0 20px;
+	border-bottom: 2px solid #42a0ff;
 }
 
 .no-padding-or-margin {

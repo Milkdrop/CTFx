@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Site management');
 menu_management();
-section_title_no_underline ('News ' . button_link('Add News Item','new_news'), "green", '', false);
+section_title ('News ', button_link ('Add News Item','new_news'), "green");
 
 $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 foreach($news as $item) {

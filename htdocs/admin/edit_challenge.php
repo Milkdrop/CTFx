@@ -63,7 +63,7 @@ form_hidden('id', $_GET['id']);
 form_button_submit('Save changes');
 form_end();
 
-section_small_dropdown ('Hints');
+section_subhead ('Hints');
 echo '
 <table id="hints" class="table table-striped table-hover">
 <thead>
@@ -111,7 +111,7 @@ echo '
 ';
 
 echo '<br><br><br>';
-section_small_dropdown ('Files');
+section_subhead ('Files');
 echo '
   <table id="files" class="table table-striped table-hover">
     <thead>

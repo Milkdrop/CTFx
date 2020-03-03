@@ -7,8 +7,6 @@ if (user_is_logged_in()) {
     exit();
 }
 
-prefer_ssl();
-
 head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {

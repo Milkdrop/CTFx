@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Dynamic menu items');
 menu_management();
-section_title('Dynamic menu items ' . button_link('New menu item', 'new_dynamic_menu_item'), 'green', '', false);
+section_title('Dynamic menu items ', button_link('New menu item', 'new_dynamic_menu_item'));
 
 $menu_items = db_query_fetch_all(
     'SELECT

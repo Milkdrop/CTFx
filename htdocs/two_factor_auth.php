@@ -2,8 +2,6 @@
 
 require('../include/mellivora.inc.php');
 
-prefer_ssl();
-
 head(lang_get('two_factor_auth_required'));
 
 section_title (lang_get('two_factor_auth_required'));

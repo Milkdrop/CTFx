@@ -27,7 +27,7 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.min.css" rel="stylesheet">';
+    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -41,17 +41,16 @@ function head($title = '') {
         ';
     }
 
-echo '
-</head>
+    echo '
+    </head>
+    <body>';
 
-<body>';
+    if (!user_is_logged_in()) {
+        login_dialog();
+    }
 
-if (!user_is_logged_in()) {
-    login_dialog();
-}
-
-echo '
-<div class="page">
+    echo '
+    <div class="page">
     <nav class="header" id="header">
         <div id="header-inner">
             <div id="header-logo">
@@ -155,52 +154,21 @@ function foot () {
 </html>';
 }
 
-function section_title ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
+function section_title ($title, $tagline = '', $dropdown_color = "green") {
     echo '
     <div class="row">
         <div class="col-lg-12 page-header">
-            <h2 class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
-            ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
+            <h2 class="typewriter">', dropdown_element ($dropdown_color), htmlspecialchars ($title),
+            '<small>'.$tagline.'</small>','
             </h2>
         </div>
     </div>
     ';
 }
 
-function section_title_no_underline ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
-    echo '<h2 style="margin-top: 20px" class="typewriter dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
-        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
-        </h2><br>
-    ';
-}
-
-function section_dropdown ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
-    echo '<h2 class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
-        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
-        </h2>
-    ';
-}
-
-function section_small_dropdown ($title, $dropdown_color = "green", $tagline = '', $strip_html = true) {
-    echo '<h3 class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div> ',($strip_html ? htmlspecialchars($title) : $title),
-        ($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'
-        </h3>
-    ';
-}
-
-function section_typewriter ($title, $tagline = '', $strip_html = true) {
-    echo '
-        <h2 class="typewriter">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
-    ';
-}
-
 function section_head ($title, $tagline = '', $strip_html = true) {
     echo '
-    <div class="row">
-        <div class="col-lg-12">
-          <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
-        </div>
-    </div>
+        <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
     ';
 }
 
@@ -212,6 +180,10 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
         </div>
     </div>
     ';
+}
+
+function dropdown_element ($dropdown_color) {
+    echo '<div class="dropdown-',$dropdown_color,'"><div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div></div> ';
 }
 
 function menu_management () {

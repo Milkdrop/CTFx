@@ -8,9 +8,9 @@ head('Exceptions');
 menu_management();
 
 if (array_get($_GET, 'user_id')) {
-    section_title ('User exceptions ' . button_link('Show all exceptions', 'list_exceptions'), 'green', '', false);
+    section_title ('User exceptions ', button_link('Show all exceptions', 'list_exceptions'));
 } else {
-    section_title ('Exceptions ' . button_link('Clear exceptions', 'edit_exceptions'), 'green', '', false);
+    section_title ('Exceptions ', button_link('Clear exceptions', 'edit_exceptions'));
 }
 
 echo '

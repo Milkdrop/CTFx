@@ -11,6 +11,8 @@ RUN mkdir /var/www/ctfx
 COPY include /var/www/ctfx/include
 COPY install /var/www/ctfx/install
 COPY composer.* /var/www/ctfx/
+COPY writable /var/www/ctfx/writable
+RUN chmod -R 777 /var/www/ctfx/writable
 
 WORKDIR /var/www/ctfx
 RUN composer install --no-dev --optimize-autoloader
@@ -18,8 +20,6 @@ RUN composer install --no-dev --optimize-autoloader
 RUN cp install/recommended_nginx_config /etc/nginx/nginx.conf
 RUN sed -i 's/phpVERSION.HERE-fpm/'$(ls /etc/init.d/ | grep php)'/g' /etc/nginx/nginx.conf
 
-RUN mkdir writable
-RUN chmod -R 777 writable
 RUN chmod 777 install/docker/entrypoint.sh
 
 COPY htdocs /var/www/ctfx/htdocs

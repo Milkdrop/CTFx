@@ -121,16 +121,6 @@ CREATE TABLE hints (
   KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE interest (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  `name` varchar(255) NOT NULL,
-  email varchar(255) NOT NULL,
-  secret char(40) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY email (email)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   user_id int(10) unsigned NOT NULL,
@@ -148,17 +138,6 @@ CREATE TABLE news (
   added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   body text NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE recruit (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  user_id int(10) unsigned NOT NULL,
-  email varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  city varchar(255) NOT NULL,
-  country char(2) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

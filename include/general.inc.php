@@ -39,12 +39,6 @@ function php_bytes($val) {
     return $val;
 }
 
-function prefer_ssl() {
-    if (Config::get('MELLIVORA_CONFIG_SSL_COMPAT') && (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on')) {
-        redirect('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true);
-    }
-}
-
 function generate_random_int($min = 0, $max = PHP_INT_MAX) {
     $factory = new RandomLib\Factory;
     $generator = $factory->getMediumStrengthGenerator();

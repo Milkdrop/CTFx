@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Dynamic pages');
 menu_management();
 
-section_title ('Dynamic pages ' . button_link('New page', 'new_dynamic_page'), 'green', '', false);
+section_title ('Dynamic pages ', button_link('New page', 'new_dynamic_page'));
 
 $pages = db_select_all(
     'dynamic_pages',

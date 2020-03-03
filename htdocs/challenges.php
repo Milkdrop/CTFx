@@ -83,7 +83,7 @@ echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="
 // write out our categories menu
 echo '<div>
 <ul id="categories-menu">
-<div class="dropdown"><div class="dropdown-a"></div><div class="dropdown-b"></div></div>';
+', dropdown_element ("green");
 
 foreach ($categories as $cat) {
     if ($now < $cat['available_from'] || $now > $cat['available_until']) {

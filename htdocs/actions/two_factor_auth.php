@@ -2,8 +2,6 @@
 
 require('../../include/mellivora.inc.php');
 
-prefer_ssl();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'authenticate') {
         if (validate_two_factor_auth_code($_POST['code'])) {

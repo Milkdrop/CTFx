@@ -70,3 +70,24 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 ## License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.
+
+## devel-branch TODO
+
+### Features
+- Improve customization process and options
+- Nicer-looking UI
+- Better installation experience (w/ quick option to create an admin account)
+- Support No-JS users
+
+### Fixes
+- Visual dropdown implementation is a mess
+- Some titles shouldn't be underlined (like the login modal)
+- New Challenge page is messy
+- Improve UX for dynamic pages / dynamic content
+- Generally improve UX in the admin interface
+- Make challenge / category availability dates more intuitive
+- There's a lot of code to be cleaned
+
+### Reminders
+- Remove bloat from composer when pushing to production
+- Remove testing db
