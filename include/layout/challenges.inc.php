@@ -126,16 +126,16 @@ function has_remaining_submissions($challenge) {
 function get_submission_box_class($challenge, $remaining_submissions) {
     // we have solved the challenge
     if ($challenge['correct_submission_added']) {
-        return "panel-success";
+        return "challenge-solved";
     }
     // on an automark challenge, if we haven't solved a challenge, and we have no remaining submissions
     else if ($challenge['automark'] && !$challenge['correct_submission_added'] && !$remaining_submissions) {
-        return "panel-danger";
+        return "challenge-unavailable";
     }
     // if we have a manually marked challenge, and we have no submissions awaiting marking, we haven't solved it, and we have no remaining submissions
     else if (!$challenge['automark'] && !$challenge['unmarked'] && !$challenge['correct_submission_added'] && !$remaining_submissions) {
-        return "panel-danger";
+        return "challenge-unavailable";
     }
 
-    return "panel-default";
+    return "";
 }

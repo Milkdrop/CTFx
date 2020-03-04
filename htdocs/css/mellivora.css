@@ -222,12 +222,12 @@ body {
 .btn {
 	border: none;
 	border-radius: 0px;
+	opacity: 1 !important;
 }
 
 .btn-xs {
 	 /* !important because of bootstrap */
 	background-color: #505050 !important;
-	opacity: 1 !important;
 	box-shadow: none !important;
 	color: #fff;
 	padding: 5px 10px 5px 10px;
@@ -394,7 +394,7 @@ textarea {
 	color: #fff;
 }
 
-input[type='checkbox'] {
+.form-group input[type='checkbox'] {
     -webkit-appearance: none;
     width: 34px;
     height: 34px;
@@ -402,23 +402,23 @@ input[type='checkbox'] {
     background: url("/img/ui/unchecked.png");
 }
 
-input[type='checkbox']:checked {
+.form-group input[type='checkbox']:checked {
     background: url("/img/ui/checked.png");
 }
 
-.checkbox-green input[type='checkbox']:checked {
+.form-group .checkbox-green input[type='checkbox']:checked {
     background: url("/img/ui/checkedBlack.png");
 }
 
-input[type='checkbox']:hover {
+.form-group input[type='checkbox']:hover {
     cursor: pointer;
 }
 
-input[type='checkbox']:focus {
+.form-group input[type='checkbox']:focus {
 	outline: none;
 }
 
-input[type='checkbox']::before {
+.form-group input[type='checkbox']::before {
     position: absolute;
     content: "";
     width: 34px;
@@ -429,27 +429,32 @@ input[type='checkbox']::before {
 	transition: border-bottom 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-input[type='checkbox']:checked::before {
+.form-group input[type='checkbox']:checked::before {
     border-bottom: 34px solid #42a0ff;
 }
 
-.checkbox-red input[type='checkbox']::before {
+.form-group .checkbox-red input[type='checkbox']::before {
     border-bottom: 0px solid #ff4242;
 }
 
-.checkbox-red input[type='checkbox']:checked::before {
+.form-group .checkbox-red input[type='checkbox']:checked::before {
     border-bottom: 34px solid #ff4242;
 }
 
-.checkbox-green input[type='checkbox']::before {
+.form-group .checkbox-green input[type='checkbox']::before {
     border-bottom: 0px solid #cfff42;
 }
 
-.checkbox-green input[type='checkbox']:checked::before {
+.form-group .checkbox-green input[type='checkbox']:checked::before {
     border-bottom: 34px solid #cfff42;
 }
 
 /** Challenges page **/
+
+#categories-menu {
+	overflow: auto;
+	padding: 0px;
+}
 
 #category-name {
 	font-size: 42px;
@@ -458,61 +463,45 @@ input[type='checkbox']:checked::before {
     white-space: nowrap;
 }
 
-#categories-menu {
-	overflow: auto;
-	padding: 0px;
-}
-
 #category-description {
 	margin-bottom: 15px;
 	line-height: 1.3;
 }
 
-.category-tab-content {
-	padding: 20px;
-	background: #fff;
-	border-top: none;
-}
-
 .challenge-container {
-	margin-bottom: 20px;
-}
-
-.challenge-description {
-	word-break: break-word;
-}
-
-.panel-group .panel {
-	border: none;
-	border-radius: 0px;
-	margin-bottom: 15px;
 	background-color: #222;
 	color: #fff;
-}
-
-.panel-heading {
+	border: none;
 	border-radius: 0px;
-	color: #f5f5f5;
 }
 
-.panel-heading small {
+.challenge-head small {
+	display: inline-block; /* not yet */
 	color: #f5f5f5;
 	opacity: 0.6;
 }
 
-.panel-heading .time-left {
-	position: relative;
+.challenge-head .time-left {
 	float: right;
-	top: -32px;
 	color: #f5f5f5;
 }
 
-.panel-heading .glyphicon-time {
+.challenge-head .glyphicon-time {
 	margin-right: 5px;
-	top: -28px;
 }
 
-.challenge-solved {
+.challenge-title {
+	font-size: 24px;
+	margin-top: 0px;
+	color: #f5f5f5;
+}
+
+.challenge-title a {
+	color: #f5f5f5;
+	font-weight: bold;
+}
+
+.challenge-solved-text {
 	position: relative;
 	bottom: 12px;
     display: inline-block;
@@ -522,7 +511,7 @@ input[type='checkbox']:checked::before {
     font-weight: bold;
 }
 
-.challenge-solved span {
+.challenge-solved-text span {
 	position: relative;
 	bottom: -8px;
     background-image: url("/img/ui/checked.png");
@@ -531,34 +520,19 @@ input[type='checkbox']:checked::before {
     height: 34px;
 }
 
-.panel-default .panel-heading {
+.challenge-head {
 	background-color: #505050;
 	padding: 15px 15px 5px 15px;
 	border-bottom: 5px solid #42a0ff;
 }
 
-.panel-success .panel-heading {
+.challenge-solved .challenge-head {
 	background-color: #42a0ff;
 	padding: 15px 15px 5px 15px;
 }
 
-.challenge-head {
-	font-size: 24px;
-	margin-top: 0px;
-	color: #f5f5f5;
-}
-
-.challenge-head a {
-	color: #f5f5f5;
-	font-weight: bold;
-}
-
-.challenge-container h1 {
-	font-size: 15pt;
-}
-
-.challenge-container .alert {
-	margin-bottom: 0px;
+.challenge-description {
+	word-break: break-word;
 }
 
 .challenge-metadata ul {

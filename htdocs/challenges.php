@@ -134,7 +134,7 @@ $challenges = db_query_fetch_all('
     )
 );
 
-echo '<div id="challenges-container" class="panel-group">';
+echo '<div class="panel-group">';
 foreach($challenges as $challenge) {
 
     $has_remaining_submissions = has_remaining_submissions($challenge);
@@ -142,9 +142,9 @@ foreach($challenges as $challenge) {
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($challenge['available_from'] > $now) {
         echo '
-        <div class="panel panel-default challenge-container">
-            <div class="panel-heading">
-                <h4 class="challenge-head">Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
+        <div class="challenge-container">
+            <div class="challenge-head">
+                <h4 class="challenge-title">Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
             </div>
             <div class="panel-body">
                 <div class="challenge-description">
@@ -157,9 +157,9 @@ foreach($challenges as $challenge) {
     }
 
     echo '
-    <div class="panel ', get_submission_box_class($challenge, $has_remaining_submissions), ' challenge-container">
-        <div class="panel-heading">
-            <h4 class="challenge-head">
+    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' challenge-container">
+        <div class="challenge-head">
+            <h4 class="challenge-title">
             <a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
 
             if ($challenge['correct_submission_added']) {
@@ -178,7 +178,7 @@ foreach($challenges as $challenge) {
                     )
                 );
 
-                echo '<div class="challenge-solved">SOLVED <span></span></div>';
+                echo '<div class="challenge-solved-text">SOLVED <span></span></div>';
                 echo ' ', get_position_medal($solve_position['pos']);
             }
 
