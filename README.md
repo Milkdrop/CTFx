@@ -78,6 +78,7 @@ This software is licenced under the [GNU General Public License v3 (GPL-3)](http
 - Nicer-looking UI
 - Better installation experience (w/ quick option to create an admin account)
 - Support No-JS users
+- Add [code] BBCode
 
 ### Fixes
 - Some titles shouldn't be underlined (like the login modal)

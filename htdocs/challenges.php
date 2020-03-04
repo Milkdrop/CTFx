@@ -178,11 +178,14 @@ foreach($challenges as $challenge) {
                     )
                 );
 
-                echo '<div class="challenge-solved-text">SOLVED <span></span></div>';
                 echo ' ', get_position_medal($solve_position['pos']);
             }
 
     echo '</h4>';
+
+    if ($challenge['correct_submission_added']) {
+        echo '<div class="challenge-solved-text">SOLVED <span></span></div>';
+    }
 
     if (should_print_metadata($challenge)) {
         print_time_left_tooltip($challenge);

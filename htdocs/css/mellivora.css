@@ -247,7 +247,7 @@ body {
 	z-index: 1;
 	min-height: 45px;
 	font-size: 20px;
-	background-color: #fff;
+	background-color: #fff !important;
 	color: #000;
 	transition: color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 200ms ease-in-out;
 }
@@ -473,10 +473,10 @@ textarea {
 	color: #fff;
 	border: none;
 	border-radius: 0px;
+	margin-bottom: 20px;
 }
 
 .challenge-head small {
-	display: inline-block; /* not yet */
 	color: #f5f5f5;
 	opacity: 0.6;
 }
@@ -484,16 +484,19 @@ textarea {
 .challenge-head .time-left {
 	float: right;
 	color: #f5f5f5;
+	margin-top: 2px;
 }
 
 .challenge-head .glyphicon-time {
 	margin-right: 5px;
+	margin-top: 4px;
 }
 
 .challenge-title {
 	font-size: 24px;
 	margin-top: 0px;
 	color: #f5f5f5;
+	display: inline-block;
 }
 
 .challenge-title a {
@@ -504,7 +507,6 @@ textarea {
 .challenge-solved-text {
 	position: relative;
 	bottom: 12px;
-    display: inline-block;
     float: right;
     color: #f5f5f5;
     font-size: 20px;
@@ -529,6 +531,7 @@ textarea {
 .challenge-solved .challenge-head {
 	background-color: #42a0ff;
 	padding: 15px 15px 5px 15px;
+	border-bottom: 0px solid #42a0ff;
 }
 
 .challenge-description {
@@ -593,10 +596,6 @@ textarea {
 	color: #42a0ff !important;
 }
 
-.team-table > tbody > tr > td {
-	vertical-align: top;
-}
-
 .team-table td {
 	border-top: none !important;
 }
@@ -614,8 +613,6 @@ textarea {
 }
 
 .team-table .team-number {
-	padding-left: 0px;
-	padding-right: 3px;
 	width: 5px;
 	display: inline;
 	color: #505050;
@@ -628,7 +625,6 @@ textarea {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	padding-left: 0px;
 }
 
 .team-table .team-flag {
@@ -674,6 +670,7 @@ textarea {
 	max-width: 300px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .glyphicon {
@@ -694,14 +691,6 @@ pre::selection {
 .inline-pre {
 	display: inline;
 	padding: 2px;
-}
-
-.center {
-	text-align: center;
-}
-
-.red {
-	color: red;
 }
 
 /**  Messages / Modal dialogs **/
