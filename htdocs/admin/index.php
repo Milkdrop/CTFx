@@ -16,14 +16,13 @@ if (empty($categories)) {
 }
 
 section_title ('CTF Overview');
-echo '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'visualise">Visualise challenge availability</a>';
 
 foreach($categories as $category) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']),'
-    <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">+</a>
-    <a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-warning">✎</a>
+    <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">+</a>',
+    '<a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-warning">✎</a>
     </h4>
     ';
 
@@ -84,8 +83,8 @@ foreach($categories as $category) {
 
           </td>
           <td class="center">
-            <a href="new_hint.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>
-            <a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
+            <a href="new_hint.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
+            '<a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
           </td>
         </tr>
         ';

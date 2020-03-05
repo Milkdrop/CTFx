@@ -82,7 +82,7 @@ echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="
 
 // write out our categories menu
 echo '<div id="categories-menu">
-', title_decorator ("green");
+', title_decorator ("green", "270deg");
 
 foreach ($categories as $cat) {
     if ($now < $cat['available_from'] || $now > $cat['available_until']) {

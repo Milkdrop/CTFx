@@ -49,19 +49,19 @@ function message_inline_bland ($message) {
 }
 
 function message_inline_blue ($message, $strip_html = true) {
-    echo '<div class="alert alert-info">', title_decorator ('blue'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-info">', title_decorator ('blue', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_red ($message, $strip_html = true) {
-    echo '<div class="alert alert-danger">', title_decorator ('red'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-danger">', title_decorator ('red', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_yellow ($message, $strip_html = true) {
-    echo '<div class="alert alert-warning">', title_decorator ('green'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-warning">', title_decorator ('green', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_inline_green ($message, $strip_html = true) {
-    echo '<div class="alert alert-success">', title_decorator ('green'), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert alert-success">', title_decorator ('green', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
 }
 
 function message_dialog ($message, $title, $closeText, $class, $buttonType = "primary") {

@@ -29,8 +29,6 @@ function form_input_text($name, $prefill = false, array $options = null) {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
           <input
             type="text"
             id="',$field_name,'"
@@ -42,7 +40,6 @@ function form_input_text($name, $prefill = false, array $options = null) {
             ',(array_get($options, 'autocomplete') ? ' autocomplete="'.$options['autocomplete'].'"' : ''),'
             ',(array_get($options, 'autofocus') ? ' autofocus' : ''),'
           />
-      </div>
     </div>
     ';
 }
@@ -81,10 +78,10 @@ function form_input_checkbox ($name, $checked = 0, $color = "blue") {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10 checkbox-', $color, '">
+      <div class="checkbox-', $color, '">
           <input type="checkbox" id="',$field_name,'" class="form-control" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       </div>
+      <label class="control-label" for="',$field_name,'">',$name,'</label>
     </div>
     ';
 }
@@ -107,10 +104,13 @@ function form_textarea($name, $prefill = false) {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <textarea id="',$field_name,'" name="',$field_name,'" class="form-control" rows="10">',($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
-      </div>
+          <textarea
+            id="',$field_name,'"
+            name="',$field_name,'"
+            placeholder="',$name,'"
+            class="form-control"
+            rows="5">',
+            ($prefill !== false ? htmlspecialchars($prefill) : ''),'</textarea>
     </div>
     ';
 }
@@ -120,10 +120,7 @@ function form_button_submit ($name, $type = 'primary') {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'"></label>
-      <div class="col-sm-10">
-          <button type="submit" id="',$field_name,'" class="btn btn-lg btn-',htmlspecialchars($type),'">',$name,'</button>
-      </div>
+        <button type="submit" id="',$field_name,'" class="btn btn-lg btn-',htmlspecialchars($type),'">',$name,'</button>
     </div>
     ';
 }
@@ -139,9 +136,6 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-        <div class="col-sm-10">
-
         <select class="form-control" id="',$field_name,'" name="',$field_name,'">';
 
     $group = '';
@@ -167,8 +161,6 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
 
     echo '
         </select>
-
-        </div>
     </div>
     ';
 }

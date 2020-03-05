@@ -64,17 +64,6 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead ('Hints');
-echo '
-<table id="hints" class="table table-striped table-hover">
-<thead>
-  <tr>
-    <th>Added</th>
-    <th>Hint</th>
-    <th>Manage</th>
-  </tr>
-</thead>
-<tbody>
-';
 
 $hints = db_select_all(
     'hints',
@@ -89,29 +78,20 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  echo '
-  <tr>
-      <td>',date_time($hint['added']),'</td>
-      <td>',htmlspecialchars($hint['body']),'</td>
-      <td><a href="edit_hint.php?id=',htmlspecialchars(short_description($hint['id'], 100)),'" class="btn btn-xs btn-warning">✎</a></td>
-  </tr>
-  ';
+  echo '<a href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
+  message_inline_yellow ('<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), false);
 }
 
 echo '
 </tbody>
 </table>
 <div class="form-group">
-  <label class="col-sm-2 control-label" for="Add a new hint"></label>
-  <div class="col-sm-10" style="padding-left: 0px">
     <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
       Add a new hint
     </a>
-  </div>
 </div>
 ';
 
-echo '<br><br><br>';
 section_subhead ('Files');
 echo '
   <table id="files" class="table table-striped table-hover">
@@ -177,10 +157,10 @@ form_end();
 
 section_subhead('Delete challenge: ' . $challenge['title']);
 form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
+message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
 form_button_submit('Delete challenge', 'danger');
 form_end();
 

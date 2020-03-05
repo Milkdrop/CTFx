@@ -169,6 +169,10 @@ body {
 	background: url("/img/ui/dropdownRed.png");
 }
 
+.title-decorator-blue {
+	background: url("/img/ui/dropdownBlue.png");
+}
+
 @keyframes maskdown-first {
  0% { height: 0px; }
  20% { height: 34px; }
@@ -223,6 +227,7 @@ body {
 	border: none;
 	border-radius: 0px;
 	opacity: 1 !important;
+	outline: none;
 }
 
 .btn-xs {
@@ -354,6 +359,11 @@ select {
 	cursor: pointer;
 }
 
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
 textarea {
 	min-height: 38px;
 	resize: vertical;
@@ -368,8 +378,11 @@ textarea {
 
 /** Forms **/
 
-.form-group label {
+.form-horizontal .control-label {
 	font-size: 18px;
+	padding-top: 4px;
+	text-align: left;
+	white-space: nowrap;
 }
 
 .form-control {
@@ -394,12 +407,24 @@ textarea {
 	color: #fff;
 }
 
+.form-horizontal .form-group {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.form-group {
+	margin-bottom: 5px;
+	width: 100%;
+}
+
 .form-group input[type='checkbox'] {
     -webkit-appearance: none;
     width: 34px;
     height: 34px;
     margin-top: 0px;
+    margin-right: 5px;
     background: url("/img/ui/unchecked.png");
+    float: left;
 }
 
 .form-group input[type='checkbox']:checked {
@@ -536,6 +561,7 @@ textarea {
 
 .challenge-description {
 	word-break: break-word;
+	margin-bottom: 10px;
 }
 
 .challenge-metadata ul {
@@ -559,6 +585,11 @@ textarea {
 .page-header {
 	margin: 20px 0 20px;
 	border-bottom: 2px solid #42a0ff;
+}
+
+.page-header .typewriter small {
+	position: absolute;
+	margin-left: 5px;
 }
 
 .no-padding-or-margin {
@@ -716,20 +747,6 @@ pre::selection {
 	border-radius: 0px;
 }
 
-.modal-content .page-header {
-	margin-top: 20px;
-	margin-bottom: 0px;
-}
-
-.modal-content a {
-	color: #0a0a0a;
-	text-decoration: underline;
-}
-
-.modal-content a:hover {
-	color: #2a66a3;
-}
-
 .modal.challenge-attempt .modal-header {
 	background: no-repeat 50% 3px;
 	background-size: 70px;
@@ -739,13 +756,11 @@ pre::selection {
 
 .modal.challenge-attempt.incorrect .modal-header {
 	background-image: url('../img/padlock_white.svg');
-	border: none;
 	background-color: #ff4242;
 }
 
 .modal.challenge-attempt.correct .modal-header {
 	background-image: url('../img/flag_white.svg');
-	border: none;
 	background-color: #42a0ff;
 }
 
@@ -768,13 +783,11 @@ pre::selection {
 .alert {
 	vertical-align: middle;
 	border: none;
-	border-radius: 0px;
 	background: none;
 	padding: 0px;
-	margin-bottom: 15px;
 	font-family: Sans-serif;
-	font-size: 20px;
-	transform-style: preserve-3d;
+	font-size: 22px;
+	margin-bottom: 5px;
 }
 
 .alert-danger {
@@ -793,14 +806,6 @@ pre::selection {
 	color: #cfff42;
 }
 
-.alert .title-decorator-container {
-	transform: rotate(270deg);
-}
-
-#categories-menu .title-decorator-container, #menu-management .title-decorator-container {
-	transform: rotate(270deg);
-}
-
 /** Misc **/
 
 .bbcode_spoiler {
@@ -817,12 +822,6 @@ pre::selection {
 	color: #000;
 }
 
-#visualise-competition {
-    background-color: rgba(255,255,255,0.1);
-	width: 1000px;
-	height: 700px;
-}
-
 @media screen and (min-width: 768px) {
 	.masthead,
 	.marketing,
@@ -830,16 +829,6 @@ pre::selection {
 		padding-left: 0;
 		padding-right: 0;
 	}
-}
-
-.jumbotron {
-	text-align: center;
-	background-color: transparent;
-}
-
-.jumbotron .btn {
-	font-size: 21px;
-	padding: 14px 24px;
 }
 
 .progress {
@@ -867,6 +856,15 @@ pre::selection {
 .light-theme .btn {
 	background-color: #0a0a0a !important;
 	color: #f5f5f5;
+}
+
+.light-theme a {
+	color: #0a0a0a;
+	text-decoration: underline;
+}
+
+.light-theme a:hover {
+	color: #2a66a3;
 }
 
 @media (max-width: 800px) {

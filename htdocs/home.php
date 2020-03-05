@@ -31,7 +31,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     foreach ($news as $item) {
         echo '
         <div class="news-container">';
-            section_head($item['title'], "(" . date_time ($item['added']) . ")");
+            section_head($item['title'], date_time ($item['added']));
             echo '
             <div class="news-body">
                 ',get_bbcode()->parse($item['body']),'

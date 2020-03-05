@@ -55,7 +55,7 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
     echo '
     <input type="hidden" name="action" value="register" />
 
-    <button style="margin-top:10px" class="btn btn-primary btn-lg" type="submit" id="register-team-button">Register</button>
+    <button class="btn btn-primary btn-lg" type="submit" id="register-team-button">Register</button>
 </form>
 ';
 
