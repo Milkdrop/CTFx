@@ -69,8 +69,8 @@ $hints = db_select_all(
     'hints',
     array(
         'id',
-        'added',
-        'body'
+        'body',
+        'visible'
     ),
     array(
         'challenge' => $_GET['id']
@@ -78,8 +78,12 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  echo '<a href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
-  message_inline_yellow ('<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), false);
+  message_inline_yellow ('<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>' .
+  	'<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), false);
+
+  if ($hint["visible"] === 0) {
+  	echo '<span>(invisible)</span>';
+  }
 }
 
 echo '
@@ -87,7 +91,7 @@ echo '
 </table>
 <div class="form-group">
     <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
-      Add a new hint
+      Add hint
     </a>
 </div>
 ';

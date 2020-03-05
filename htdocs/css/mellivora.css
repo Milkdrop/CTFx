@@ -148,6 +148,7 @@ body {
 	display: inline-block;
 	vertical-align: bottom;
 	background: url("/img/ui/dropdownGray.png");
+	margin-right: 5px;
 }
 
 .title-decorator {

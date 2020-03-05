@@ -175,7 +175,7 @@ function title_decorator ($color, $rotation = "0deg") {
     echo '<div class="title-decorator-container" style="transform: rotate(',$rotation,')">
         <div class="title-decorator title-decorator-',$color,'"></div>
         <div class="title-decorator title-decorator-gray"></div>
-    </div> ';
+    </div>';
 }
 
 function menu_management () {
