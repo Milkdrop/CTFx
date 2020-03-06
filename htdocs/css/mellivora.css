@@ -709,23 +709,23 @@ textarea {
 	opacity: 0.8;
 }
 
-pre {
-	font-size: 8pt;
+.inline-tag {
+	background-color: #505050;
+	color: #fff;
+	display: inline;
+	font-size: 12px;
 	overflow: auto;
 	line-height: 100%;
-}
-
-pre::selection {
-	background-color: rgba(10, 10, 10, 0.99);
-	color: #f5f5f5;
-}
-
-.inline-pre {
-	display: inline;
-	padding: 2px;
+	padding: 2px 5px 2px 5px;
+	vertical-align: middle;
+	margin-left: 5px;
 }
 
 /**  Messages / Modal dialogs **/
+
+.modal-header {
+	border: none;
+}
 
 .modal-header .close {
 	position: absolute;

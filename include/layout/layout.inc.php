@@ -215,13 +215,6 @@ function menu_management () {
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_user_types">', lang_get('list_user_types'), ' </a></li>
         </ul>
     </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('signup_rules'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_restrict_email">', lang_get('new_rule'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_restrict_email">', lang_get('list_rules'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'test_restrict_email">', lang_get('test_rule'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
         <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Email <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email">', lang_get('single_email'), '</a></li>

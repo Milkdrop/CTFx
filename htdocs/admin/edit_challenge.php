@@ -46,7 +46,7 @@ $opts = db_query_fetch_all('
     ORDER BY ca.title, ch.title'
 );
 
-array_unshift($opts, array('id'=>0, 'title'=> '-- No Challenge --'));
+array_unshift($opts, array('id'=>0, 'title'=> '-- Depend on another challenge? --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
 form_input_text('Available from', date_time($challenge['available_from']));
@@ -78,12 +78,14 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  message_inline_yellow ('<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>' .
-  	'<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), false);
+  $msg = '<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
+  $msg .= '<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']);
 
   if ($hint["visible"] === 0) {
-  	echo '<span>(invisible)</span>';
+    $msg .= '<div class="inline-tag">(invisible)</div>';
   }
+
+  message_inline_yellow ($msg, false);
 }
 
 echo '

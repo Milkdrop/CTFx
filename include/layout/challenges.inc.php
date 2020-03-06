@@ -74,13 +74,13 @@ function print_challenge_files($files) {
             <div>
             <span class="glyphicon glyphicon-floppy-save"></span>
             <span class="challenge-attachment">
-            <a class="has-tooltip" data-toggle="tooltip" data-placement="right" title="', bytes_to_pretty_size($file['size']), '" href="download?file_key=', htmlspecialchars($file['download_key']), '&amp;team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>
-            ', ($file['md5'] ? '<span class="has-tooltip" data-toggle="tooltip" data-placement="right" title="MD5 file hash"><pre class="inline-pre">' . $file['md5'] . '</pre></span>' : ''), '
-            </span>
-            </div>
-        <p>
-        ';
+            <a target="_blank" href="download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>',
+            '<div class="inline-tag">Size: ', bytes_to_pretty_size($file['size']), '</div>',
+            ($file['md5'] ? '<div class="inline-tag">MD5: ' . $file['md5'] . '</div>' : ''),
+            '</div>
+        </p>';
         }
+
         echo '</p></div> <!-- / challenge-files -->';
     }
 }

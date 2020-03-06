@@ -245,11 +245,8 @@ foreach($challenges as $challenge) {
             </div> <!-- / challenge-description -->';
         }
 
-        // write out hints
-        print_hints($challenge);
-
-        // write out files
         print_challenge_files(get_challenge_files($challenge));
+        print_hints($challenge);
 
         // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
         if (!$challenge['correct_submission_added'] && $challenge['available_until'] > $now) {
