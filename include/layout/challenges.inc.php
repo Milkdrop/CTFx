@@ -67,21 +67,24 @@ function get_challenge_files($challenge) {
 
 function print_challenge_files($files) {
     if (count($files)) {
-        echo '<div class="challenge-files">';
+        echo '<div>';
         foreach ($files as $file) {
-            echo '
-        <p>
-            <div>
-            <span class="glyphicon glyphicon-floppy-save"></span>
-            <span class="challenge-attachment">
-            <a target="_blank" href="download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>',
-            '<div class="inline-tag">Size: ', bytes_to_pretty_size($file['size']), '</div>',
-            ($file['md5'] ? '<div class="inline-tag">MD5: ' . $file['md5'] . '</div>' : ''),
-            '</div>
-        </p>';
+            echo '<div class="challenge-file">';
+            title_decorator ("blue", "0deg", "package.png");
+            echo '<a target="_blank" href="download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
+
+            if ($file['size']) {
+                tag ('Size: ' . bytes_to_pretty_size($file['size']));
+            }
+
+            if ($file['md5']) {
+                tag ('MD5: ' . $file['md5']);
+            }
+        
+            echo '</div>';
         }
 
-        echo '</p></div> <!-- / challenge-files -->';
+        echo '</div> <!-- / challenge-files -->';
     }
 }
 

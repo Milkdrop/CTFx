@@ -32,9 +32,9 @@ form_input_checkbox('Exposed', $challenge['exposed']);
 form_button_submit('Save changes');
 
 section_subhead ("Advanced Settings:");
-form_input_text('Initial Points', $challenge['initial_points']);
-form_input_text('Minimum Points', $challenge['minimum_points']);
-form_input_text('Solve Decay', $challenge['solve_decay']);
+form_input_text('Initial Points', $challenge['initial_points'], null, "Initial Points");
+form_input_text('Minimum Points', $challenge['minimum_points'], null, "Minimum Points");
+form_input_text('Solve Decay', $challenge['solve_decay'], null, "Solve Decay");
 
 $opts = db_query_fetch_all('
     SELECT
@@ -49,13 +49,13 @@ $opts = db_query_fetch_all('
 array_unshift($opts, array('id'=>0, 'title'=> '-- Depend on another challenge? --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
-form_input_text('Available from', date_time($challenge['available_from']));
-form_input_text('Available until', date_time($challenge['available_until']));
+form_input_text('Available from', date_time($challenge['available_from']), null, "Available from");
+form_input_text('Available until', date_time($challenge['available_until']), null, "Available until");
 
 form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
-form_input_text('Num attempts allowed', $challenge['num_attempts_allowed']);
-form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions']);
+form_input_text('Num attempts allowed', $challenge['num_attempts_allowed'], null, "Max attempts allowed (0 for unlimited)");
+form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions'], null, "Submission cooldown");
 
 form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
@@ -88,29 +88,13 @@ foreach ($hints as $hint) {
   message_inline_yellow ($msg, false);
 }
 
-echo '
-</tbody>
-</table>
-<div class="form-group">
+echo '<div class="form-group">
     <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
       Add hint
     </a>
-</div>
-';
+</div>';
 
 section_subhead ('Files');
-echo '
-  <table id="files" class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Filename</th>
-        <th>Size</th>
-        <th>Added</th>
-        <th>Manage</th>
-      </tr>
-    </thead>
-    <tbody>
-  ';
 
 $files = db_select_all(
     'files',
@@ -127,36 +111,29 @@ $files = db_select_all(
 );
 
 foreach ($files as $file) {
-  echo '
-      <tr>
-          <td>
-              <a href="../download.php?id=',htmlspecialchars($file['id']),'&amp;file_key=', htmlspecialchars($file['download_key']),'&amp;team_key=', get_user_download_key(),'">',htmlspecialchars($file['title']),'</a>
-          </td>
-          <td>',bytes_to_pretty_size($file['size']), '</td>
-          <td>',date_time($file['added']),'</td>
-          <td>';
-            form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge', 'no-padding-or-margin');
-            form_hidden('action', 'delete_file');
-            form_hidden('id', $file['id']);
-            form_hidden('challenge_id', $_GET['id']);
-            form_button_submit_small ('Delete', 'btn-danger');
-            form_end();
-          echo '
-          </td>
-      </tr>
-  ';
+  echo '<div class="challenge-file">';
+  title_decorator ("blue", "0deg", "package.png");
+  echo '<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-primary">✎</a>';
+  echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
+
+  if ($file['size']) {
+    tag ('Size: ' . bytes_to_pretty_size($file['size']));
+  }
+  echo '</div>';
+
+  form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file', 'no-padding-or-margin');
+  form_hidden('action', 'delete_file');
+  form_hidden('id', $file['id']);
+  form_hidden('challenge_id', $_GET['id']);
+  form_button_submit_small ('Delete', 'btn-danger');
+  form_end();
 }
 
-echo '
-      </tbody>
-   </table>
-';
-
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge','','multipart/form-data');
+form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file','','multipart/form-data');
 form_file('file');
 echo '<br>';
 form_hidden('action', 'upload_file');
-form_hidden('id', $_GET['id']);
+form_hidden('challenge_id', $_GET['id']);
 form_button_submit('Upload file');
 echo '(Max file size: ',bytes_to_pretty_size(max_file_upload_size()), ')';
 form_end();

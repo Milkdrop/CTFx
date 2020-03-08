@@ -147,7 +147,7 @@ body {
 	height: 34px;
 	display: inline-block;
 	vertical-align: bottom;
-	background: url("/img/ui/dropdownGray.png");
+	background-color: #505050;
 	margin-right: 5px;
 }
 
@@ -157,21 +157,27 @@ body {
 	animation: maskdown-first 3s infinite ease-out;
 }
 
+.title-decorator-icon {
+	background-size: 34px;
+	animation: none;
+	height: 34px;
+}
+
 .title-decorator-gray {
-	background: url("/img/ui/dropdownGray.png");
+	background-color: #505050;
 	animation: maskdown-second 3s infinite ease-out;
 }
 
 .title-decorator-green {
-	background: url("/img/ui/dropdownGreen.png");
+	background-color: #CFFF42;
 }
 
 .title-decorator-red {
-	background: url("/img/ui/dropdownRed.png");
+	background-color: #FF4242;
 }
 
 .title-decorator-blue {
-	background: url("/img/ui/dropdownBlue.png");
+	background-color: #42A0FF;
 }
 
 @keyframes maskdown-first {
@@ -411,11 +417,18 @@ textarea {
 .form-horizontal .form-group {
 	margin-right: 0px;
 	margin-left: 0px;
+	position: relative;
 }
 
 .form-group {
 	margin-bottom: 5px;
 	width: 100%;
+}
+
+.form-group .form-tip {
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .form-group input[type='checkbox'] {
@@ -563,6 +576,11 @@ textarea {
 .challenge-description {
 	word-break: break-word;
 	margin-bottom: 10px;
+}
+
+.challenge-file {
+	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 .challenge-metadata ul {
@@ -715,10 +733,10 @@ textarea {
 	display: inline;
 	font-size: 12px;
 	overflow: auto;
-	line-height: 100%;
-	padding: 2px 5px 2px 5px;
+	padding: 2px 5px;
 	vertical-align: middle;
 	margin-left: 5px;
+	font-family: monospace;
 }
 
 /**  Messages / Modal dialogs **/
@@ -787,7 +805,7 @@ textarea {
 	background: none;
 	padding: 0px;
 	font-family: Sans-serif;
-	font-size: 22px;
+	font-size: 20px;
 	margin-bottom: 5px;
 }
 
@@ -821,6 +839,13 @@ textarea {
 
 .bbcode_spoiler:hover {
 	color: #000;
+}
+
+.icon {
+	display: inline-block;
+	background-size: 22px;
+	width: 22px;
+	height: 22px;
 }
 
 @media screen and (min-width: 768px) {

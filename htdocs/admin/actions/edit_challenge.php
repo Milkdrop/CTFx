@@ -59,22 +59,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . '?generic_success=1');
     }
-
-    else if ($_POST['action'] == 'upload_file') {
-
-        store_file($_POST['id'], $_FILES['file']);
-
-        invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
-
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id='.$_POST['id'].'&generic_success=1');
-    }
-
-    else if ($_POST['action'] == 'delete_file') {
-
-        delete_file($_POST['id']);
-
-        invalidate_cache(CONST_CACHE_NAME_FILES . $_POST['id']);
-
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_challenge.php?id='.$_POST['challenge_id'].'&generic_success=1');
-    }
 }

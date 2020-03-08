@@ -83,7 +83,7 @@ CREATE TABLE `challenges` (
   `relies_on` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `challenges` (
 
 LOCK TABLES `challenges` WRITE;
 /*!40000 ALTER TABLE `challenges` DISABLE KEYS */;
-INSERT INTO `challenges` VALUES (1,1583175721,1,'problema pwn1',1,'problema 1 saidj asd jasdad asd asqwd problema 1 saidj asd jasdad asd asqwd problema 1 saidj asd jasdad asd asqwd ',1,1576263600,1892487600,'flag',0,1,500,500,50,100,2,0,5,0),(2,1583175757,1,'problema pwn2',1,'pepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepe\r\n\r\npepepepepepepepepepe\r\n\r\npepepepe',1,1576263600,1576868400,'flag',0,1,500,500,50,100,0,0,5,0);
+INSERT INTO `challenges` VALUES (2,1583175757,1,'problema pwn2',1,'pepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepepe\r\n\r\npepepepepepepepepepe\r\n\r\npepepepe',1,1576263600,1576868400,'flag',0,1,500,500,50,100,0,0,5,0),(3,1583680283,1,'House of misu',1,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eget nisl laoreet, rhoncus ex et, pellentesque nunc. Pellentesque eget leo arcu. Duis eget turpis lorem. Maecenas sagittis, ipsum eget auctor consequat, lacus est sodales nibh, at pretium eros sapien at tortor. Aliquam porta tellus a dignissim facilisis. Fusce ut lacus vel elit auctor ultricies nec sed dolor. Nullam posuere tellus sed mi accumsan ullamcorper. ',1,1576263600,1892487600,'flag',0,1,500,500,50,100,1,0,5,0);
 /*!40000 ALTER TABLE `challenges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `cookie_tokens` (
   `ip_last` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_t_ts` (`user_id`,`token`,`token_series`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `cookie_tokens` (
 
 LOCK TABLES `cookie_tokens` WRITE;
 /*!40000 ALTER TABLE `cookie_tokens` DISABLE KEYS */;
-INSERT INTO `cookie_tokens` VALUES (4,1583188910,1,'YAOf+DWzqXyZbOzX','5bGg8O7xNSeMLLOuTdd+9Se+uDDb5VDwdV5S8u4HPGml91bkrkSFRm4cpoczCr4U',2886795265,2886795265),(5,1583189747,6,'pU9WFlrPrQb8usVm','6Vc/ceHx8VAOQdX7U4ed3xYtJSibaLvszTR5K3kX+d/y/ECB+JIUXjkZafv4vWje',2886795265,2886795265),(6,1583351177,1,'j461ndWJ+oSrrBEb','V2gP0bibGX7xOKweuMTi6mbaYrrc1S9vB7+/gtDzUXVbTvItAQyy/JLFXjkMvJ7P',2886795265,2886795265),(7,1583360580,2,'lFkmLbKMwfaY8ECA','1cIbXhBRjwJ47dm9WCs1yZ0cfLc3WUWDEbsd07rubjbJgFWl24sT0t37zWcFs2mp',2886795265,2886795265),(9,1583414434,1,'D5lDPl/iMHLuilTV','jKr2AGVdZLp4D4/MiQY18qp7Ne8h5sWOv9kab77vdG74iJuSxS8UIIO47fH1E8g3',2886795265,2886795265);
+INSERT INTO `cookie_tokens` VALUES (4,1583188910,1,'YAOf+DWzqXyZbOzX','5bGg8O7xNSeMLLOuTdd+9Se+uDDb5VDwdV5S8u4HPGml91bkrkSFRm4cpoczCr4U',2886795265,2886795265),(5,1583189747,6,'pU9WFlrPrQb8usVm','6Vc/ceHx8VAOQdX7U4ed3xYtJSibaLvszTR5K3kX+d/y/ECB+JIUXjkZafv4vWje',2886795265,2886795265),(6,1583351177,1,'j461ndWJ+oSrrBEb','V2gP0bibGX7xOKweuMTi6mbaYrrc1S9vB7+/gtDzUXVbTvItAQyy/JLFXjkMvJ7P',2886795265,2886795265),(7,1583360580,2,'lFkmLbKMwfaY8ECA','1cIbXhBRjwJ47dm9WCs1yZ0cfLc3WUWDEbsd07rubjbJgFWl24sT0t37zWcFs2mp',2886795265,2886795265),(9,1583414434,1,'D5lDPl/iMHLuilTV','jKr2AGVdZLp4D4/MiQY18qp7Ne8h5sWOv9kab77vdG74iJuSxS8UIIO47fH1E8g3',2886795265,2886795265),(10,1583671210,1,'zjBBcDgJ4pYgCK70','dx0fKY1Zd0TPRoQPeOjon+TaFE+VwgQwoHNUGnAlgTHk/Dbg3YVLcj3jyQ5zkjW2',2886795265,2886795265);
 /*!40000 ALTER TABLE `cookie_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +230,7 @@ CREATE TABLE `exceptions` (
   `user_agent` text NOT NULL,
   `unread` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +239,7 @@ CREATE TABLE `exceptions` (
 
 LOCK TABLES `exceptions` WRITE;
 /*!40000 ALTER TABLE `exceptions` DISABLE KEYS */;
-INSERT INTO `exceptions` VALUES (1,1583174252,0,'An invalid cookie token was used. Cookie likely stolen. TS: sAyve6XXmPnfDr6D','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/include/session.inc.php(398): login_session_refresh(false)\n#2 /var/www/ctfx/htdocs/challenges.php(5): enforce_authentication()\n#3 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(2,1583174266,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'admin, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'admin@admin.com\', \'admin\', \'admin\', \'15\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(3,1583174277,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user1, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user1@user1.com\', \'user1\', \'user1\', \'1\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(4,1583174287,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user2, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user2@user2.com\', \'user2\', \'user2\', \'5\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(5,1583174338,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user3, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user3@user3.com\', \'user3\', \'user3\', \'71\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(6,1583174350,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user4, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user4@user4.com\', \'user4\', \'user4\', \'71\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(7,1583174384,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'Nume lung salut...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user5@user5.com\', \'user5\', \'Nume lung salut...\', \'8\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(8,1583189494,1,'SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column \'priority\' at row 1','22003','#0 /var/www/ctfx/include/db.inc.php(99): PDOStatement->execute(Array)\n#1 /var/www/ctfx/htdocs/admin/actions/edit_dynamic_menu_item.php(26): db_update(\'dynamic_menu\', Array, Array)\n#2 {main}','/var/www/ctfx/include/db.inc.php',99,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(9,1583351124,0,'An invalid cookie token was used. Cookie likely stolen. TS: KXRB4Pb6guLQMtot','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(10,1583360544,0,'Invalid ID','0','#0 /var/www/ctfx/htdocs/challenge.php(5): validate_id(NULL)\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(11,1583360550,0,'Invalid ID','0','#0 /var/www/ctfx/htdocs/challenge.php(5): validate_id(NULL)\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(12,1583411219,0,'An invalid cookie token was used. Cookie likely stolen. TS: VhkYonsuHpII9dfo','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1);
+INSERT INTO `exceptions` VALUES (1,1583174252,0,'An invalid cookie token was used. Cookie likely stolen. TS: sAyve6XXmPnfDr6D','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/include/session.inc.php(398): login_session_refresh(false)\n#2 /var/www/ctfx/htdocs/challenges.php(5): enforce_authentication()\n#3 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(2,1583174266,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'admin, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'admin@admin.com\', \'admin\', \'admin\', \'15\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(3,1583174277,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user1, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user1@user1.com\', \'user1\', \'user1\', \'1\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(4,1583174287,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user2, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user2@user2.com\', \'user2\', \'user2\', \'5\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(5,1583174338,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user3, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user3@user3.com\', \'user3\', \'user3\', \'71\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(6,1583174350,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'user4, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user4@user4.com\', \'user4\', \'user4\', \'71\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(7,1583174384,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'Nume lung salut...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'user5@user5.com\', \'user5\', \'Nume lung salut...\', \'8\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(8,1583189494,1,'SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column \'priority\' at row 1','22003','#0 /var/www/ctfx/include/db.inc.php(99): PDOStatement->execute(Array)\n#1 /var/www/ctfx/htdocs/admin/actions/edit_dynamic_menu_item.php(26): db_update(\'dynamic_menu\', Array, Array)\n#2 {main}','/var/www/ctfx/include/db.inc.php',99,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(9,1583351124,0,'An invalid cookie token was used. Cookie likely stolen. TS: KXRB4Pb6guLQMtot','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(10,1583360544,0,'Invalid ID','0','#0 /var/www/ctfx/htdocs/challenge.php(5): validate_id(NULL)\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(11,1583360550,0,'Invalid ID','0','#0 /var/www/ctfx/htdocs/challenge.php(5): validate_id(NULL)\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(12,1583411219,0,'An invalid cookie token was used. Cookie likely stolen. TS: VhkYonsuHpII9dfo','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(13,1583671206,0,'An invalid cookie token was used. Cookie likely stolen. TS: j461ndWJ+oSrrBEb','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(14,1583680406,1,'Invalid ID','0','#0 /var/www/ctfx/htdocs/admin/actions/edit_file.php(10): validate_id(\'\')\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(15,1583682226,1,'Argument 3 passed to form_input_text() must be of the type array or null, string given, called in /var/www/ctfx/htdocs/admin/edit_challenge.php on line 57','0','#0 /var/www/ctfx/htdocs/admin/edit_challenge.php(57): form_input_text(\'Num attempts al...\', 0, \'Max attempts al...\')\n#1 {main}','/var/www/ctfx/include/layout/forms.inc.php',27,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1);
 /*!40000 ALTER TABLE `exceptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,7 +263,7 @@ CREATE TABLE `files` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `download_key` (`download_key`),
   KEY `challenge` (`challenge`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (3,1583177578,1,'fisier1',22,'36433f0f453a58069f92bb0eca5f100e','bf1449d79c6ea975d7c543d705de708f1b6aba9e3d9570f5ff1a3b963de54019',1,'local');
+INSERT INTO `files` VALUES (6,1583680464,1,'fisier2',825,'0f00161016ddcce3631ea4fa6998ecb4','220ef94fc78be853a7f313a0d9b2f52bb24b098dbcde14a866bf0ae195cf6484',3,'local');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +292,7 @@ CREATE TABLE `hints` (
   `body` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `challenge` (`challenge`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +301,7 @@ CREATE TABLE `hints` (
 
 LOCK TABLES `hints` WRITE;
 /*!40000 ALTER TABLE `hints` DISABLE KEYS */;
-INSERT INTO `hints` VALUES (1,1,1583192572,1,1,'indiciu'),(3,1,1583424629,1,0,'sal');
+INSERT INTO `hints` VALUES (4,3,1583680315,1,0,'You could try this and that... [url]https://github.com/AlexAltea/orbital[/url]. Also check some [b]other[/b] things out.'),(5,3,1583680363,1,0,'Another hint would be this. Another hint would be this. Another hint would be this. Another hint would be this. Another hint would be this. '),(6,3,1583680374,1,0,'Invisible hint.'),(7,3,1583680381,1,0,'test');
 /*!40000 ALTER TABLE `hints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +330,7 @@ CREATE TABLE `ip_log` (
 
 LOCK TABLES `ip_log` WRITE;
 /*!40000 ALTER TABLE `ip_log` DISABLE KEYS */;
-INSERT INTO `ip_log` VALUES (1,1,1583174265,1583414434,2886795265,7),(2,2,1583174276,1583360580,2886795265,2),(3,3,1583174286,1583174286,2886795265,1),(4,4,1583174337,1583174337,2886795265,1),(5,5,1583174349,1583174349,2886795265,1),(6,6,1583174383,1583189747,2886795265,2);
+INSERT INTO `ip_log` VALUES (1,1,1583174265,1583671210,2886795265,8),(2,2,1583174276,1583360580,2886795265,2),(3,3,1583174286,1583174286,2886795265,1),(4,4,1583174337,1583174337,2886795265,1),(5,5,1583174349,1583174349,2886795265,1),(6,6,1583174383,1583189747,2886795265,2);
 /*!40000 ALTER TABLE `ip_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,7 +435,7 @@ CREATE TABLE `submissions` (
   KEY `challenge` (`challenge`),
   KEY `user_id` (`user_id`),
   KEY `challenge_user_id` (`challenge`,`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -444,7 +444,7 @@ CREATE TABLE `submissions` (
 
 LOCK TABLES `submissions` WRITE;
 /*!40000 ALTER TABLE `submissions` DISABLE KEYS */;
-INSERT INTO `submissions` VALUES (1,1583186560,1,1,'test',0,1),(3,1583189757,1,6,'testt',0,1),(4,1583189762,1,6,'alo salut',0,1),(5,1583189768,1,6,'<b>ce</b>',0,1),(7,1583358669,1,1,'flag',1,1),(8,1583360588,1,2,'flag',1,1);
+INSERT INTO `submissions` VALUES (9,1583683217,3,1,'flag',1,1);
 /*!40000 ALTER TABLE `submissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -531,7 +531,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@admin.com','admin',1583174265,1583426171,'$2y$10$2FpMUnbALjvFjd.KvVpFDufINsUweOfPmAEUuXXJS3E3lc1RIHY2K','8bae36cc786c70dc31185cdd9e002a44474feb3157cfc905477d89d6d0261b5f',100,1,0,1,15,'disabled'),(2,'user1@user1.com','user1 NUME SUPER LUNG<b>ce</b>ccccccccaerr rea r ea ',1583174276,1583360580,'$2y$10$ZxI3.6NMX2/ywxji/o6cJeO2RlUa005OyhJ9TGFWCULIECx3SV2BG','55120cc6b3c831f7f1eb42252a88c9d0fc9f219fdcab3ebfbc3e3f08e2d39df0',0,1,0,1,1,'disabled'),(3,'user2@user2.com','user2',1583174286,0,'$2y$10$56P0Txo4dVi./LQIR5Lq2OWe4I5NnznKy4eY6d1YDQk276lSFerVu','61fa793386448a8d57f5650cf6a2aa96577904dee874f5c5dc2f7ddbde8cfe62',0,1,0,1,5,'disabled'),(4,'user3@user3.com','user3',1583174337,0,'$2y$10$zOcq5FdMRSmoHhtW0qxTZuBRE9V.3ZqZW56BmnvhkSSVmNyeJOZz2','1acae00ca0d78dc95d8ee0a6129102c7d438c8bb051023ed3d744be5d491e831',0,1,0,1,71,'disabled'),(5,'user4@user4.com','user4',1583174349,0,'$2y$10$zjk3g/w7BOUkL0ogzwt1XeaSbIOWFpflaePCvTLywWpvajuDqgs9a','b2f4f6ef64c680026322bd44863a0225929252f57cba74ff68e73aa2ead139ae',0,1,0,1,71,'disabled'),(6,'user5@user5.com','Nume lung salut <b>lol</b>',1583174383,1583189747,'$2y$10$Ei0n4KT08Ea.1GelgJ7vl.bysV38ia/wITTzxqR4ZA207o5aeerK.','b5c4b1c5be92e0604475df422d0e8d93208e330b639d71b0fb5c655df25e7669',0,1,0,1,8,'disabled');
+INSERT INTO `users` VALUES (1,'admin@admin.com','admin',1583174265,1583684093,'$2y$10$2FpMUnbALjvFjd.KvVpFDufINsUweOfPmAEUuXXJS3E3lc1RIHY2K','8bae36cc786c70dc31185cdd9e002a44474feb3157cfc905477d89d6d0261b5f',100,1,0,1,15,'disabled'),(2,'user1@user1.com','user1 NUME SUPER LUNG<b>ce</b>ccccccccaerr rea r ea ',1583174276,1583360580,'$2y$10$ZxI3.6NMX2/ywxji/o6cJeO2RlUa005OyhJ9TGFWCULIECx3SV2BG','55120cc6b3c831f7f1eb42252a88c9d0fc9f219fdcab3ebfbc3e3f08e2d39df0',0,1,0,1,1,'disabled'),(3,'user2@user2.com','user2',1583174286,0,'$2y$10$56P0Txo4dVi./LQIR5Lq2OWe4I5NnznKy4eY6d1YDQk276lSFerVu','61fa793386448a8d57f5650cf6a2aa96577904dee874f5c5dc2f7ddbde8cfe62',0,1,0,1,5,'disabled'),(4,'user3@user3.com','user3',1583174337,0,'$2y$10$zOcq5FdMRSmoHhtW0qxTZuBRE9V.3ZqZW56BmnvhkSSVmNyeJOZz2','1acae00ca0d78dc95d8ee0a6129102c7d438c8bb051023ed3d744be5d491e831',0,1,0,1,71,'disabled'),(5,'user4@user4.com','user4',1583174349,0,'$2y$10$zjk3g/w7BOUkL0ogzwt1XeaSbIOWFpflaePCvTLywWpvajuDqgs9a','b2f4f6ef64c680026322bd44863a0225929252f57cba74ff68e73aa2ead139ae',0,1,0,1,71,'disabled'),(6,'user5@user5.com','Nume lung salut <b>lol</b>',1583174383,1583189747,'$2y$10$Ei0n4KT08Ea.1GelgJ7vl.bysV38ia/wITTzxqR4ZA207o5aeerK.','b5c4b1c5be92e0604475df422d0e8d93208e330b639d71b0fb5c655df25e7669',0,1,0,1,8,'disabled');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -544,4 +544,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-05 16:36:53
+-- Dump completed on 2020-03-08 16:54:05

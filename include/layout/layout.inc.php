@@ -171,11 +171,20 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
     ';
 }
 
-function title_decorator ($color, $rotation = "0deg") {
+function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
     echo '<div class="title-decorator-container" style="transform: rotate(',$rotation,')">
         <div class="title-decorator title-decorator-',$color,'"></div>
         <div class="title-decorator title-decorator-gray"></div>
+        <div class="title-decorator title-decorator-icon" style="background-image: url(\'/img/ui/',$img,'\')"></div>
     </div>';
+}
+
+function tag ($text) {
+    echo '<div class="inline-tag">',$text,'</div>';
+}
+
+function icon ($img) {
+    echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
 }
 
 function menu_management () {

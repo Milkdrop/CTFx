@@ -24,7 +24,7 @@ function form_file ($name) {
     echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
 }
 
-function form_input_text($name, $prefill = false, array $options = null) {
+function form_input_text($name, $prefill = false, array $options = null, $tip = null) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
@@ -39,9 +39,12 @@ function form_input_text($name, $prefill = false, array $options = null) {
             ',(array_get($options, 'disabled') ? ' disabled' : ''),'
             ',(array_get($options, 'autocomplete') ? ' autocomplete="'.$options['autocomplete'].'"' : ''),'
             ',(array_get($options, 'autofocus') ? ' autofocus' : ''),'
-          />
-    </div>
-    ';
+          />';
+    if (isset ($tip)) {
+        echo '<div class="inline-tag form-tip">', htmlspecialchars($tip), "</div>";
+    }
+
+    echo '</div>';
 }
 
 function form_input_password($name, $prefill = false, array $options = null) {
