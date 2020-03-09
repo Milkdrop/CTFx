@@ -187,83 +187,34 @@ function icon ($img) {
     echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
 }
 
+function dropdown ($name, $options = null) {
+    echo '<div class="btn-group">
+        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
+        <ul class="dropdown-menu">';
+
+        foreach ($options as $option) {
+            echo '<li><a href="', $option[1], '">', $option[0], '</a></li>';
+        }
+    echo '</ul>
+    </div>';
+}
+
 function menu_management () {
-    echo '
-<div id="menu-management" class="menu">
-    <div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('news'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_news" id="ssssssd">', lang_get('add_news_item'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_news">', lang_get('list_news_item'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('categories'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_category">', lang_get('add_category'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">', lang_get('list_categories'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('challenges'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_challenge">', lang_get('add_challenge'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">', lang_get('list_challenges'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('submissions'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_submissions?only_needing_marking=1">', lang_get('list_submissions_in_need_of_marking'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_submissions">', lang_get('list_all_submissions'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('users'), '  <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li role="presentation" class="dropdown-header">', lang_get('users'), ' </li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_users">', lang_get('list_users'), ' </a></li>
-          <li role="presentation" class="dropdown-header">', lang_get('user_types'), ' </li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_user_type">', lang_get('add_user_type'), ' </a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_user_types">', lang_get('list_user_types'), ' </a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Email <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email">', lang_get('single_email'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email?bcc=all">', lang_get('email_all_users'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('hints'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_hint">', lang_get('new_hint'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_hints">', lang_get('list_hints'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('dynamic_content'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li role="presentation" class="dropdown-header">', lang_get('menu'), '</li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_dynamic_menu_item">', lang_get('new_menu_item'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_dynamic_menu">', lang_get('list_menu_items'), '</a></li>
-          <li role="presentation" class="dropdown-header">', lang_get('pages'), '</li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_dynamic_page">', lang_get('new_page'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_dynamic_pages">', lang_get('list_pages'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('exceptions'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_exceptions">', lang_get('list_exceptions'), '</a></li>
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_exceptions">', lang_get('clear_exceptions'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', lang_get('search'), ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'search">', lang_get('search'), '</a></li>
-        </ul>
-    </div><div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">Edit CTF <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_ctf">Edit CTF</a></li>
-        </ul>
-    </div>
-</div>
-';
+    echo '<div id="menu-management" class="menu">';
+    dropdown ("News", [["Add news item", "/admin/edit_news"], ["List news", "/admin/list/list_news"]]);
+    dropdown ("Categories", [["Add category", "/admin/edit_category"], ["List categories", "/admin/"]]);
+    dropdown ("Challenges", [["Add challenge", "/admin/edit_challenge"], ["List challenge", "/admin/"]]);
+    dropdown ("Submissions", [["List submissions", "/admin/list/list_submissions"],
+                            ["List submissions in need of marking", "/admin/list/list_submissions?only_needing_marking=1"]]);
+    dropdown ("Users", [["List users", "/admin/list/list_users"]]);
+    dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
+    dropdown ("Hints", [["New hint", "/admin/hints"], ["List hints", "/admin/list/list_hints"]]);
+    dropdown ("Dynamic navbar", [["New element", "/admin/edit_dynamic_menu_item"], ["List hints", "/admin/list/list_dynamic_menu"]]);
+    dropdown ("Dynamic pages", [["New page", "/admin/edit_dynamic_page"], ["List hints", "/admin/list/list_dynamic_pages"]]);
+    dropdown ("Exceptions", [["List exceptions", "/admin/list/list_exceptions"], ["Edit exceptions", "/admin/edit_exceptions"]]);
+    dropdown ("Search", [["Search", "/admin/search"]]);
+    dropdown ("Edit CTF", [["Edit ", "/admin/edit_ctf"]]);
+    echo '</div>';
 }
 
 function bbcode_manual () {

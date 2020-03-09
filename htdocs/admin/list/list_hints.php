@@ -1,12 +1,12 @@
 <?php
 
-require('../../include/mellivora.inc.php');
+require('../../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Hints');
 menu_management();
-section_title ('Hints ', button_link('Add new hint', 'new_hint'));
+section_title ('Hints ', button_link('Add new hint', 'hints'));
 
 echo '
     <table id="hints" class="table table-striped table-hover">
@@ -37,7 +37,7 @@ foreach($hints as $hint) {
         <td>',htmlspecialchars($hint['title']),'</td>
         <td>',date_time($hint['added']),'</td>
         <td>',htmlspecialchars($hint['body']), '</td>
-        <td><a href="edit_hint.php?id=',$hint['id'],'" class="btn btn-xs btn-warning">✎</a></td>
+        <td><a href="hints.php?id=',$hint['id'],'" class="btn btn-xs btn-warning">✎</a></td>
     </tr>
     ';
 }

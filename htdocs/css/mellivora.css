@@ -69,10 +69,6 @@ body {
 	opacity: 1;
 }
 
-#menu-main a:focus {
-	outline: none;
-}
-
 #menu-main li::before {
 	background-image: url("/img/pointer.png");
 	width: 13px;
@@ -142,11 +138,15 @@ body {
   to {border-right-color: transparent;}
 }
 
+#categories-menu .title-decorator-container {
+	vertical-align: bottom;
+}
+
 .title-decorator-container {
 	width: 34px;
 	height: 34px;
 	display: inline-block;
-	vertical-align: bottom;
+	vertical-align: middle;
 	background-color: #505050;
 	margin-right: 5px;
 }
@@ -212,10 +212,6 @@ body {
 .dropdown-menu li a:hover {
 	background-color: #cfff42;
 	color: #000;
-}
-
-.dropdown-menu li a:focus {
-	outline: none;
 }
 
 .dropdown-header {
@@ -351,6 +347,7 @@ h2 {
 
 a {
 	color: #42a0ff;
+	outline: none !important;
 	transition: color 200ms ease-in-out;
 }
 
@@ -807,6 +804,7 @@ textarea {
 	font-family: Sans-serif;
 	font-size: 20px;
 	margin-bottom: 5px;
+	line-height: normal;
 }
 
 .alert-danger {

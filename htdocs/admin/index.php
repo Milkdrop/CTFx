@@ -12,7 +12,7 @@ check_server_configuration();
 
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 if (empty($categories)) {
-    message_generic('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
+    message_generic ('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
 section_title ('CTF Overview');
@@ -83,7 +83,7 @@ foreach($categories as $category) {
 
           </td>
           <td class="center">
-            <a href="new_hint.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
+            <a href="hints.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
             '<a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
           </td>
         </tr>

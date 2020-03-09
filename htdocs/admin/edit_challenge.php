@@ -78,7 +78,7 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  $msg = '<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
+  $msg = '<a style="margin: 0px; margin-right: 5px" href="hints.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
   $msg .= '<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']);
 
   if ($hint["visible"] === 0) {
@@ -89,7 +89,7 @@ foreach ($hints as $hint) {
 }
 
 echo '<div class="form-group">
-    <a href="new_hint.php?id=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
+    <a href="hints.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
       Add hint
     </a>
 </div>';
@@ -113,7 +113,7 @@ $files = db_select_all(
 foreach ($files as $file) {
   echo '<div class="challenge-file">';
   title_decorator ("blue", "0deg", "package.png");
-  echo '<a style="margin: 0px; margin-right: 5px" href="edit_hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-primary">✎</a>';
+  echo '<a style="margin: 0px; margin-right: 5px" href="edit_file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-primary">✎</a>';
   echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
 
   if ($file['size']) {
@@ -122,9 +122,9 @@ foreach ($files as $file) {
   echo '</div>';
 
   form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file', 'no-padding-or-margin');
-  form_hidden('action', 'delete_file');
+  form_hidden('action', 'delete');
   form_hidden('id', $file['id']);
-  form_hidden('challenge_id', $_GET['id']);
+  form_hidden('challenge', $_GET['id']);
   form_button_submit_small ('Delete', 'btn-danger');
   form_end();
 }
@@ -133,7 +133,7 @@ form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_fi
 form_file('file');
 echo '<br>';
 form_hidden('action', 'upload_file');
-form_hidden('challenge_id', $_GET['id']);
+form_hidden('challenge', $_GET['id']);
 form_button_submit('Upload file');
 echo '(Max file size: ',bytes_to_pretty_size(max_file_upload_size()), ')';
 form_end();
