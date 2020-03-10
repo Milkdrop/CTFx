@@ -78,7 +78,7 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  $msg = '<a style="margin: 0px; margin-right: 5px" href="hints.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
+  $msg = '<a style="margin: 0px; margin-right: 5px" href="hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
   $msg .= '<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']);
 
   if ($hint["visible"] === 0) {
@@ -89,7 +89,7 @@ foreach ($hints as $hint) {
 }
 
 echo '<div class="form-group">
-    <a href="hints.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
+    <a href="hint.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
       Add hint
     </a>
 </div>';

@@ -208,7 +208,7 @@ function menu_management () {
                             ["List submissions in need of marking", "/admin/list/list_submissions?only_needing_marking=1"]]);
     dropdown ("Users", [["List users", "/admin/list/list_users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
-    dropdown ("Hints", [["New hint", "/admin/hints"], ["List hints", "/admin/list/list_hints"]]);
+    dropdown ("Hints", [["New hint", "/admin/hint"], ["List hints", "/admin/list/list_hints"]]);
     dropdown ("Dynamic navbar", [["New element", "/admin/edit_dynamic_menu_item"], ["List hints", "/admin/list/list_dynamic_menu"]]);
     dropdown ("Dynamic pages", [["New page", "/admin/edit_dynamic_page"], ["List hints", "/admin/list/list_dynamic_pages"]]);
     dropdown ("Exceptions", [["List exceptions", "/admin/list/list_exceptions"], ["Edit exceptions", "/admin/edit_exceptions"]]);

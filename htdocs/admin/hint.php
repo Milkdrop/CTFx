@@ -31,7 +31,7 @@ $opts = db_query_fetch_all(
     ORDER BY ca.title, ch.title'
 );
 
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/hints');
+form_start('/admin/actions/hint.php');
 form_textarea('Body', $hint['body']);
 
 form_select($opts, 'Challenge', 'id', isset ($hint)?$hint['challenge']:array_get($_GET, 'challenge', 0), 'title', 'category');
@@ -43,7 +43,7 @@ form_end();
 
 if (isset ($hint)) {
     section_subhead('Delete hint');
-    form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/hints');
+    form_start('/admin/actions/hint.php');
     form_input_checkbox('Delete confirmation', false, 'red');
     form_hidden('action', 'delete');
     form_hidden('id', $_GET['id']);

@@ -83,7 +83,7 @@ foreach($categories as $category) {
 
           </td>
           <td class="center">
-            <a href="hints.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
+            <a href="hint.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
             '<a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
           </td>
         </tr>

@@ -37,7 +37,7 @@ foreach($hints as $hint) {
         <td>',htmlspecialchars($hint['title']),'</td>
         <td>',date_time($hint['added']),'</td>
         <td>',htmlspecialchars($hint['body']), '</td>
-        <td><a href="hints.php?id=',$hint['id'],'" class="btn btn-xs btn-warning">✎</a></td>
+        <td><a href="../hint.php?id=',$hint['id'],'" class="btn btn-xs btn-warning">✎</a></td>
     </tr>
     ';
 }

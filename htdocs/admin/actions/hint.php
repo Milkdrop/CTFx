@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         if ($id) {
             invalidate_cache(CONST_CACHE_NAME_HINTS);
-            redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'hints.php?id=' . $id);
+            redirect('/admin/hint.php?id=' . $id);
         } else {
             message_error('Could not insert new hint.');
         }
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'id' => $_POST['id']
             ));
             
-            redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'hints.php?id=' . htmlspecialchars($_POST['id']) . '&generic_success=1');
+            redirect('/admin/hint.php?id=' . htmlspecialchars($_POST['id']) . '&generic_success=1');
         }
         
         else if ($_POST['action'] == 'delete') {
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'id' => $_POST['id']
             ));
             
-            redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_hints.php?generic_success=1');
+            redirect('/admin/list/list_hints.php?generic_success=1');
         }
     }
 } 
