@@ -88,38 +88,6 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     echo '</div></div>';
 
-    /*
-    echo '
-        </div>  <!-- / span6 -->
-
-        <!--
-        <div class="col-lg-6">
-        ';
-
-    section_head (lang_get('challenges'));
-
-    $categories = db_query_fetch_all('
-        SELECT
-           id,
-           title,
-           available_from,
-           available_until
-        FROM
-           categories
-        WHERE
-           available_from < '.$now.' AND
-           exposed = 1
-        ORDER BY title'
-    );
-
-    challenges($categories);
-
-    echo '
-        </div> <!-- / span6 -->
-    </div> <!-- / row -->
-    -->
-    ';*/
-
     cache_end(CONST_CACHE_NAME_SCORES);
 }
 

@@ -10,7 +10,6 @@ function print_solved_graph($user_id) {
            (SELECT SUM(ch.points) FROM challenges AS ch WHERE ch.category = ca.id GROUP BY ch.category) AS category_total
         FROM categories AS ca
         WHERE
-          ca.available_from < UNIX_TIMESTAMP() AND
           ca.exposed = 1
         ORDER BY ca.title ASC',
         array(

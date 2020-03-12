@@ -12,15 +12,13 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         SELECT
            ch.title,
            ch.description,
-           ch.available_from AS challenge_available_from,
-           ca.title AS category_title,
-           ca.available_from AS category_available_from
+           ch.available_from AS available_from,
+           ca.title AS category_title
         FROM challenges AS ch
         LEFT JOIN categories AS ca ON ca.id = ch.category
         WHERE
            ch.id = :id AND
-           ch.exposed = 1 AND
-           ca.exposed = 1',
+           ch.exposed = 1',
         array('id'=>$_GET['id'])
     );
     
@@ -33,7 +31,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
     }
 
     $now = time();
-    if ($challenge['challenge_available_from'] > $now || $challenge['category_available_from'] > $now) {
+    if ($challenge['available_from'] > $now) {
         message_generic(
             lang_get('sorry'),
             lang_get('challenge_not_available'),

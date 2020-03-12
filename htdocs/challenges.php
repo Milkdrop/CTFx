@@ -23,9 +23,7 @@ $categories = db_select_all(
     array(
         'id',
         'title',
-        'description',
-        'available_from',
-        'available_until'
+        'description'
     ),
     array(
         'exposed'=>1
@@ -55,23 +53,8 @@ if (isset($_GET['category'])) {
         redirect('challenges');
     }
 
-} else {
-    // if no category is selected, display
-    // the first available category
-    foreach ($categories as $cat) {
-        if ($now > $cat['available_from'] && $now < $cat['available_until']) {
-            $current_category = $cat;
-            break;
-        }
-    }
-    // if no category has been made available
-    // we'll just set it to the first one
-    // alphabetically and display an error
-    // message
-    if (!isset($current_category)) {
-        $current_category = $categories[0];
-    }
-}
+} else
+    $current_category = $categories[0];
 
 if (empty($current_category)) {
     message_generic('Challenges', 'Your CTF is looking a bit empty! Start by adding a category using the management console.');
@@ -85,18 +68,9 @@ echo '<div id="categories-menu">
 ', title_decorator ("green", "270deg");
 
 foreach ($categories as $cat) {
-    if ($now < $cat['available_from'] || $now > $cat['available_until']) {
-        echo '<div class="btn btn-xs btn-warning disabled has-tooltip" data-container="body" data-toggle="tooltip" data-placement="top" title="Available in '.time_remaining($cat['available_from']).'.">',htmlspecialchars($cat['title']),'</div>';
-    } else {
-        echo '<a class="btn btn-xs btn-warning ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
-    }
+    echo '<a class="btn btn-xs btn-warning ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
 }
 echo '</div><br>';
-
-// check that the category is actually available for display
-if ($now < $current_category['available_from'] || $now > $current_category['available_until']) {
-    message_generic('Category unavailable','This category is not available. It is open from ' . date_time($current_category['available_from']) . ' ('. time_remaining($current_category['available_from']) .' from now) until ' . date_time($current_category['available_until']) . ' ('. time_remaining($current_category['available_until']) .' from now)', false);
-}
 
 // write out the category description, if one exists
 if ($current_category['description']) {

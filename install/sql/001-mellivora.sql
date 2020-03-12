@@ -8,8 +8,6 @@ CREATE TABLE categories (
   title varchar(255) NOT NULL,
   description text NOT NULL,
   exposed tinyint(1) NOT NULL DEFAULT '1',
-  available_from int(10) unsigned NOT NULL DEFAULT '0',
-  available_until int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -24,12 +22,12 @@ CREATE TABLE challenges (
   available_from int(10) unsigned NOT NULL DEFAULT '0',
   available_until int(10) unsigned NOT NULL DEFAULT '0',
   flag text NOT NULL,
-  case_insensitive tinyint(1) NOT NULL DEFAULT '1',
+  case_insensitive tinyint(1) NOT NULL DEFAULT '0',
   automark tinyint(1) NOT NULL DEFAULT '1',
-  points int(10) unsigned NOT NULL DEFAULT '0',
-  initial_points int(10) unsigned NOT NULL DEFAULT '0',
-  minimum_points int(10) unsigned NOT NULL DEFAULT '0',
-  solve_decay int(10) unsigned NOT NULL DEFAULT '0',
+  points int(10) unsigned NOT NULL DEFAULT '500',
+  initial_points int(10) unsigned NOT NULL DEFAULT '500',
+  minimum_points int(10) unsigned NOT NULL DEFAULT '50',
+  solve_decay int(10) unsigned NOT NULL DEFAULT '100',
   solves int(10) unsigned NOT NULL DEFAULT '0',
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '0',
   min_seconds_between_submissions smallint(5) unsigned NOT NULL DEFAULT '0',

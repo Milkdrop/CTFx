@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
-    if ($_POST['action'] == 'change_times') {
+    if ($_POST['action'] === 'change_times') {
 
         require_fields(array('ctf_start_time'), $_POST);
         require_fields(array('ctf_end_time'), $_POST);
@@ -21,14 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        db_update_all (
-            'categories',
-            array(
-                'available_from'=>strtotime($_POST['ctf_start_time']),
-                'available_until'=>strtotime($_POST['ctf_end_time'])
-            )
-        );
-
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'edit_ctf.php?generic_success=1');
+        redirect('/admin/edit_ctf.php?generic_success=1');
     }
 }

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
     
-    if ($_POST['action'] == 'new') {
+    if ($_POST['action'] === 'new') {
         
         $id = db_insert('hints', array(
             'added' => time(),
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         invalidate_cache(CONST_CACHE_NAME_HINTS);
         invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
 
-        if ($_POST['action'] == 'edit') {
+        if ($_POST['action'] === 'edit') {
             db_update('hints', array(
                 'body' => $_POST['body'],
                 'challenge' => $_POST['challenge'],
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             redirect('/admin/hint.php?id=' . htmlspecialchars($_POST['id']) . '&generic_success=1');
         }
         
-        else if ($_POST['action'] == 'delete') {
+        else if ($_POST['action'] === 'delete') {
             
             if (!$_POST['delete_confirmation']) {
                 message_error('Please confirm delete');

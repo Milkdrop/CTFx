@@ -4,32 +4,39 @@ require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
-validate_id($_GET['id']);
+if (isset ($_GET['id'])) {
+    validate_id($_GET['id']);
 
-$challenge = db_select_one(
-    'challenges',
-    array('*'),
-    array('id' => $_GET['id'])
-);
+    $challenge = db_select_one(
+      'challenges',
+      array('*'),
+      array('id' => $_GET['id'])
+  );
 
-if (empty($challenge)) {
-    message_error('No challenge found with this ID');
+    if ($challenge === false)
+        unset ($challenge);
 }
 
 head('Site management');
 menu_management();
+section_title (isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
 
-section_title ('Edit challenge: ' . $challenge['title']);
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
+form_start('/admin/actions/challenge');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 
 form_input_text('Title', $challenge['title']);
 form_textarea('Description', $challenge['description']);
 form_input_text('Flag', $challenge['flag']);
-form_select($opts, 'Category', 'id', $challenge['category'], 'title');
+form_select($opts, 'Category', 'id', isset ($challenge)?$challenge['category']:$_GET['category'], 'title');
 form_input_checkbox('Exposed', $challenge['exposed']);
+form_hidden('action', isset ($challenge)?'edit':'new');
 
 form_button_submit('Save changes');
+
+if (!isset ($challenge)) {
+  form_end ();
+  die (foot ());
+}
 
 section_subhead ("Advanced Settings:");
 form_input_text('Initial Points', $challenge['initial_points'], null, "Initial Points");
@@ -56,8 +63,6 @@ form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed'], null, "Max attempts allowed (0 for unlimited)");
 form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions'], null, "Submission cooldown");
-
-form_hidden('action', 'edit');
 form_hidden('id', $_GET['id']);
 
 form_button_submit('Save changes');
@@ -113,7 +118,7 @@ $files = db_select_all(
 foreach ($files as $file) {
   echo '<div class="challenge-file">';
   title_decorator ("blue", "0deg", "package.png");
-  echo '<a style="margin: 0px; margin-right: 5px" href="edit_file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-primary">✎</a>';
+  echo '<a style="margin: 0px; margin-right: 5px" href="file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-primary">✎</a>';
   echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
 
   if ($file['size']) {
@@ -121,7 +126,7 @@ foreach ($files as $file) {
   }
   echo '</div>';
 
-  form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file', 'no-padding-or-margin');
+  form_start('/admin/actions/file', 'no-padding-or-margin');
   form_hidden('action', 'delete');
   form_hidden('id', $file['id']);
   form_hidden('challenge', $_GET['id']);
@@ -129,7 +134,7 @@ foreach ($files as $file) {
   form_end();
 }
 
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file','','multipart/form-data');
+form_start('/admin/actions/file','','multipart/form-data');
 form_file('file');
 echo '<br>';
 form_hidden('action', 'upload_file');
@@ -139,7 +144,7 @@ echo '(Max file size: ',bytes_to_pretty_size(max_file_upload_size()), ')';
 form_end();
 
 section_subhead('Delete challenge: ' . $challenge['title']);
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_challenge');
+form_start('/admin/actions/challenge');
 message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');

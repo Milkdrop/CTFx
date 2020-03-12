@@ -19,8 +19,6 @@ if (cache_start(CONST_CACHE_NAME_HINTS, Config::get('MELLIVORA_CONFIG_CACHE_TIME
         LEFT JOIN challenges AS c ON c.id = h.challenge
         LEFT JOIN categories AS ca ON ca.id = c.category
         WHERE
-          c.available_from < UNIX_TIMESTAMP() AND
-          c.available_until > UNIX_TIMESTAMP() AND
           h.visible = 1 AND
           c.exposed = 1 AND
           ca.exposed = 1

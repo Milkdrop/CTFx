@@ -201,9 +201,9 @@ function dropdown ($name, $options = null) {
 
 function menu_management () {
     echo '<div id="menu-management" class="menu">';
-    dropdown ("News", [["Add news item", "/admin/edit_news"], ["List news", "/admin/list/list_news"]]);
-    dropdown ("Categories", [["Add category", "/admin/edit_category"], ["List categories", "/admin/"]]);
-    dropdown ("Challenges", [["Add challenge", "/admin/edit_challenge"], ["List challenge", "/admin/"]]);
+    dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list/list_news"]]);
+    dropdown ("Categories", [["Add category", "/admin/category"], ["List categories", "/admin/"]]);
+    dropdown ("Challenges", [["Add challenge", "/admin/challenge"], ["List challenge", "/admin/"]]);
     dropdown ("Submissions", [["List submissions", "/admin/list/list_submissions"],
                             ["List submissions in need of marking", "/admin/list/list_submissions?only_needing_marking=1"]]);
     dropdown ("Users", [["List users", "/admin/list/list_users"]]);

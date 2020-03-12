@@ -12,6 +12,7 @@ check_server_configuration();
 
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 if (empty($categories)) {
+    echo '<br>';
     message_generic ('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
@@ -21,10 +22,9 @@ foreach($categories as $category) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']),'
-    <a href="new_challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">+</a>',
-    '<a href="edit_category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-warning">✎</a>
-    </h4>
-    ';
+    <a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">+</a>',
+    '<a href="category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-warning">✎</a>
+    </h4>';
 
     $challenges = db_select_all(
         'challenges',
@@ -68,13 +68,6 @@ foreach($categories as $category) {
           <td class="center">
 
             ', get_availability_icons(
-                $category['exposed'],
-                $category['available_from'],
-                $category['available_until'],
-                'Category'
-            ),'
-
-            ', get_availability_icons(
                 $challenge['exposed'],
                 $challenge['available_from'],
                 $challenge['available_until'],
@@ -84,7 +77,7 @@ foreach($categories as $category) {
           </td>
           <td class="center">
             <a href="hint.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
-            '<a href="edit_challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
+            '<a href="challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
           </td>
         </tr>
         ';
