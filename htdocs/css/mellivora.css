@@ -124,6 +124,7 @@ body {
     border-right: 2px solid rgba(255,255,255,.75);
     white-space: nowrap;
     overflow: hidden;
+    vertical-align: bottom;
 	animation: typewriter 1s steps(44) 0.25s 1 normal both,
                blinkTextCursor 500ms steps(44) infinite;
 }
@@ -491,6 +492,7 @@ textarea {
 #categories-menu {
 	overflow: auto;
 	padding: 0px;
+	margin-bottom: 10px;
 }
 
 #category-name {
@@ -498,6 +500,7 @@ textarea {
 	font-weight: bold;
 	display: inline-block;
     white-space: nowrap;
+    margin-bottom: 5px;
 }
 
 #category-description {
@@ -532,6 +535,7 @@ textarea {
 .challenge-title {
 	font-size: 24px;
 	margin-top: 0px;
+	margin-bottom: 6px;
 	color: #f5f5f5;
 	display: inline-block;
 }
@@ -543,7 +547,7 @@ textarea {
 
 .challenge-solved-text {
 	position: relative;
-	bottom: 12px;
+	bottom: 14px;
     float: right;
     color: #f5f5f5;
     font-size: 20px;

@@ -134,7 +134,7 @@ foreach ($files as $file) {
   form_end();
 }
 
-form_start('/admin/actions/file','','multipart/form-data');
+form_start('/admin/file','','multipart/form-data');
 form_file('file');
 echo '<br>';
 form_hidden('action', 'upload_file');

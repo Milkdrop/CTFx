@@ -70,7 +70,7 @@ echo '<div id="categories-menu">
 foreach ($categories as $cat) {
     echo '<a class="btn btn-xs btn-warning ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
 }
-echo '</div><br>';
+echo '</div>';
 
 // write out the category description, if one exists
 if ($current_category['description']) {
