@@ -16,7 +16,7 @@ if (empty($categories)) {
     message_generic ('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
-section_title ('CTF Overview');
+section_title ('Dashboard');
 
 foreach($categories as $category) {
     echo '

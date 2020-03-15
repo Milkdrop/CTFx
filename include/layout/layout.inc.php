@@ -153,7 +153,7 @@ function section_title ($title, $tagline = '', $decorator_color = "green") {
 function section_head ($title, $tagline = '', $decorator_color = "green") {
     echo '
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="margin-bottom: 5px">
                 <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
                 '<small>'.$tagline.'</small>','
                 </h2>

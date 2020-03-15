@@ -54,6 +54,36 @@ function db_insert ($table, array $fields) {
     }
 }
 
+function db_insert_multiple ($table, array $rows) {
+    $db = get_global_db_pdo();
+
+    try {
+        $sql = 'INSERT INTO '.$table.' (';
+        $sql .= implode(', ', array_keys($rows[0]));
+        $sql .= ') VALUES ';
+
+        $values = array ();
+
+        foreach ($rows as $row) {
+            $sql .= '(' . implode(', ', array_fill(0, count($row), '?')) . '),';
+            array_walk ($row, 'null_to_bool');
+            $values = array_merge ($values, array_values ($row));
+        }
+
+        $sql = substr($sql, 0, -1);
+
+        $stmt = $db->prepare($sql);
+
+        var_dump ($values);
+        $stmt->execute($values);
+
+        return $db->lastInsertId();
+
+    } catch (PDOException $e) {
+        sql_exception($e);
+    }
+}
+
 function db_update_all ($table, array $fields) {
     $db = get_global_db_pdo();
 

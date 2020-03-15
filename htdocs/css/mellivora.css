@@ -532,7 +532,7 @@ textarea {
 	margin-top: 4px;
 }
 
-.challenge-title {
+.challenge-title, .news-title {
 	font-size: 24px;
 	margin-top: 0px;
 	margin-bottom: 6px;

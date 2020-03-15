@@ -61,7 +61,7 @@ foreach ($entries as $entry) {
                 ', htmlspecialchars($entry['team_name']), '
             </a>
         </td>
-        <td><a href="/admin/ip_log?ip=',htmlspecialchars($entry['ip']),'">', Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? htmlspecialchars(gethostbyaddr($entry['ip'])) : '<i>Lookup disabled in config</i>', '</a></td>
+        <td><a href="/admin/ip_log?ip=',htmlspecialchars($entry['ip']),'">', htmlspecialchars(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? gethostbyaddr($entry['ip']) : $entry['ip']), '</a></td>
         <td>', date_time($entry['added']), '</td>
         <td>', date_time($entry['last_used']), '</td>
         <td>', number_format($entry['times_used']), '</td>

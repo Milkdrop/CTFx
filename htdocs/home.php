@@ -17,27 +17,20 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     <br>';
 
     echo '<div class="row">
-    <div class="col-md-6"><div class="news-container">
-        <div class="news-body">
-            <iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>
-        </div>
-    </div>';
+    <div class="col-md-6">';
+
+    echo '<iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>';
 
     section_head ("Rules");
     
-    echo '<br>
-        <div class="news-container">
-            <div class="news-body">
-                <ul>
-                    <li>Attacking the web server is strictly prohibited and will get you disqualified.</li>
-                    <li>The flag format is <b>X-MAS{1337_Str1ng}</b>, unless specified otherwise.</li>
-                    <li>The competition will be over on Fri, 20 Dec. 2019 at 19:00 UTC but the challenges will be online for the following 2-3 days afterwards.</li>
-                    <li>Bruteforcing the flag will not get you anywhere except on the naughty list.</li>
-                    <li>Any questions regarding challenges or the platform should be sent to xmasctf.contact@gmail.com.</li>
-                    <li>Teams may have an <b>unlimited</b> number of members, but only a maximum of 4 people per team can receive the prizes.</li>
-                </ul>
-            </div>
-        </div>';
+    echo '<ul>
+            <li>Attacking the web server is strictly prohibited and will get you disqualified.</li>
+            <li>The flag format is <b>X-MAS{1337_Str1ng}</b>, unless specified otherwise.</li>
+            <li>The competition will be over on Fri, 20 Dec. 2019 at 19:00 UTC but the challenges will be online for the following 2-3 days afterwards.</li>
+            <li>Bruteforcing the flag will not get you anywhere except on the naughty list.</li>
+            <li>Any questions regarding challenges or the platform should be sent to xmasctf.contact@gmail.com.</li>
+            <li>Teams may have an <b>unlimited</b> number of members, but only a maximum of 4 people per team can receive the prizes.</li>
+        </ul>';
 
     echo '</div>
     <div class="col-md-6">';
@@ -47,18 +40,16 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 
     foreach ($news as $item) {
-        echo '
-        <div class="news-container">
-            <div class="news-head">',
+        echo '<div class="news-container">
+            <div class="news-head"><h4 class="news-title">',
                 htmlspecialchars($item['title']),
-                '<small>',
+                '</h4> <small>',
                 date_time ($item['added']),
                 '</small></div>
             <div class="news-body">
                 ',get_bbcode()->parse($item['body']),'
             </div>
-        </div>
-        ';
+        </div>';
     }
 
     echo '</div></div>';
