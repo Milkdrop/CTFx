@@ -1,6 +1,6 @@
 <?php
 
-require('../../../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
@@ -31,11 +31,11 @@ if (!empty($where)) {
 }
 
 if (array_get($_GET, 'user_id')) {
-    section_title ('User submissions ', button_link('List all submissions', 'list_submissions?only_needing_marking=0'));
+    section_title ('User submissions ', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else if ($only_needing_marking) {
-    section_title ('Submissions in need of marking ', button_link('List all submissions', 'list_submissions?only_needing_marking=0'));
+    section_title ('Submissions in need of marking ', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else {
-    section_title ('All submissions ', button_link('Show only submissions in need of marking', 'list_submissions?only_needing_marking=1'));
+    section_title ('All submissions ', button_link('Show only submissions in need of marking', 'submissions?only_needing_marking=1'));
 }
 
 $num_subs = db_query_fetch_one('
@@ -48,7 +48,7 @@ $num_subs = db_query_fetch_one('
 $from = get_pager_from($_GET);
 $results_per_page = 70;
 
-pager(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'list_submissions', $num_subs['num'], $results_per_page, $from);
+pager('/admin/submissions', $num_subs['num'], $results_per_page, $from);
 
 echo '
     <table id="files" class="table table-striped table-hover">
@@ -94,15 +94,14 @@ foreach($submissions as $submission) {
                 '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
-            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
     form_xsrf_token();
     echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
                 <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? 'warning' : 'primary'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
-
-            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
     form_xsrf_token();
     echo '
                 <input type="hidden" name="action" value="delete" />

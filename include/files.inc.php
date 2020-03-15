@@ -2,7 +2,7 @@
 
 use Aws\S3\S3Client;
 
-function store_file($challenge_id, $file) {
+function store_file($file, $challenge_id, $filename) {
     if ($file['error']) {
         message_error('Could not upload file: ' . file_upload_error_description($file['error']));
     }
@@ -16,17 +16,13 @@ function store_file($challenge_id, $file) {
         array(
             'added'=>time(),
             'added_by'=>$_SESSION['id'],
-            'title'=>$file['name'],
+            'title'=>empty ($filename)?$file['name']:$filename,
             'size'=>$file['size'],
             'md5'=>md5_file($file['tmp_name']),
             'download_key'=>hash('sha256', generate_random_string(128)),
             'challenge'=>$challenge_id
         )
     );
-
-    if (file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
-        message_error('Upload failed: A file with ID (' . $file_id . ') already existed on disk!');
-    }
 
     // do we put the file on AWS S3?
     if (Config::get('MELLIVORA_CONFIG_AWS_S3_KEY_ID') && Config::get('MELLIVORA_CONFIG_AWS_S3_SECRET') && Config::get('MELLIVORA_CONFIG_AWS_S3_BUCKET')) {
@@ -69,6 +65,27 @@ function store_file($challenge_id, $file) {
             message_error('File upload failed!');
         }
     }
+}
+
+function change_file ($file_id, $file) {
+    validate_id($file_id);
+
+    if (file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
+        unlink(CONST_PATH_FILE_UPLOAD . $file_id);
+    }
+
+    db_update(
+        'files',
+        array(
+            'size'=>$file['size'],
+            'md5'=>md5_file($file['tmp_name'])
+        ),
+        array(
+           'id'=>$file_id
+        )
+    );
+
+    move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . $file_id);
 }
 
 function download_file($file) {

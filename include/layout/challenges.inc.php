@@ -50,6 +50,7 @@ function get_challenge_files($challenge) {
                 'id',
                 'title',
                 'size',
+                'url',
                 'md5',
                 'download_key'
             ),
@@ -70,15 +71,19 @@ function print_challenge_files($files) {
         echo '<div>';
         foreach ($files as $file) {
             echo '<div class="challenge-file">';
-            echo '<a target="_blank" href="download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">',
-            title_decorator ("blue", "0deg", "package.png"), htmlspecialchars($file['title']), '</a>';
+            title_decorator ("blue", "0deg", "package.png");
 
-            if ($file['size']) {
-                tag ('Size: ' . bytes_to_pretty_size($file['size']));
-            }
+            if (empty ($file['url'])) {
+                echo '<a target="_blank" href="download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
+                if ($file['size']) {
+                    tag ('Size: ' . bytes_to_pretty_size($file['size']));
+                }
 
-            if ($file['md5']) {
-                tag ('MD5: ' . $file['md5']);
+                if ($file['md5']) {
+                    tag ('MD5: ' . $file['md5']);
+                }
+            } else {
+                echo '<a target="_blank" href="', htmlspecialchars($file['url']), '">', htmlspecialchars($file['title']), '</a>';
             }
         
             echo '</div>';

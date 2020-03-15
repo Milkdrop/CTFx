@@ -113,34 +113,6 @@ function send_email (
     return $successfully_sent_to;
 }
 
-function allowed_email ($email) {
-    $allowedEmail = true;
-
-    $rules = db_select_all(
-        'restrict_email',
-        array(
-            'rule',
-            'white'
-        ),
-        array(
-            'enabled'=>1
-        ),
-        'priority ASC'
-    );
-
-    foreach($rules as $rule) {
-        if (preg_match('/'.$rule['rule'].'/', $email)) {
-            if ($rule['white']) {
-                $allowedEmail = true;
-            } else {
-                $allowedEmail = false;
-            }
-        }
-    }
-
-    return $allowedEmail;
-}
-
 function valid_email ($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }

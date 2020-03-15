@@ -23,7 +23,7 @@ menu_management();
 
 section_title ('Edit user: ' . $user['team_name']);
 
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_user');
+form_start('/admin/actions/user');
 form_input_text('Email', $user['email']);
 form_input_text('Team name', $user['team_name']);
 
@@ -38,7 +38,7 @@ form_button_submit('Save changes');
 form_end();
 
 section_subhead('Reset password');
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_user');
+form_start('/admin/actions/user');
 form_input_checkbox('Reset confirmation', false, 'green');
 form_hidden('action', 'reset_password');
 form_hidden('id', $_GET['id']);
@@ -46,7 +46,7 @@ form_button_submit('Reset password', 'warning');
 form_end();
 
 section_subhead('Delete user');
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_user');
+form_start('/admin/actions/user');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

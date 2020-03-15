@@ -27,7 +27,7 @@ form_textarea('Description', $category['description']);
 form_input_checkbox('Exposed', $category['exposed']);
 form_hidden('action', isset ($category)?'edit':'new');
 form_hidden('id', $_GET['id']);
-form_button_submit('Save changes');
+form_button_submit_bbcode('Save changes');
 form_end ();
 
 if (!isset ($category)) {

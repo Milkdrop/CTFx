@@ -24,7 +24,7 @@ section_title ('New email');
 
 message_inline_blue('Separate receiver emails with a comma and optional whitespace. You can use BBCode. If you do, you must send as HTML email.');
 
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/new_email');
+form_start('/admin/actions/new_email');
 
 if(isset($bcc)) {
     form_input_text('To', Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL'));

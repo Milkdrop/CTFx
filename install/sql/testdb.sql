@@ -16,10 +16,16 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categories`
+-- Current Database: `mellivora`
 --
 
-USE mellivora;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mellivora` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `mellivora`;
+
+--
+-- Table structure for table `categories`
+--
 
 DROP TABLE IF EXISTS `categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -32,7 +38,7 @@ CREATE TABLE `categories` (
   `description` text NOT NULL,
   `exposed` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +47,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,1584172088,1,'Binary Exploitation','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent scelerisque ornare massa eu accumsan. Pellentesque imperdiet quam sed tellus dictum cursus. Donec varius ut mi in pretium. Phasellus et ornare diam, in pretium sapien. Cras aliquam, felis sit amet porttitor mattis, nibh ipsum faucibus velit, et volutpat dolor urna sed elit. Nullam porta dignissim risus a gravida. Suspendisse potenti. Cras hendrerit massa ut velit sollicitudin, vel luctus odio dignissim. Sed finibus ultricies dolor vel tempor. Maecenas vitae semper sapien. Donec elementum mollis finibus. Nullam sit amet lobortis odio, a semper nulla. Phasellus augue nibh, tincidunt vitae nisl sed, tincidunt facilisis velit. Sed dignissim interdum mi tristique fringilla. ',1);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +81,7 @@ CREATE TABLE `challenges` (
   `relies_on` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,6 +90,7 @@ CREATE TABLE `challenges` (
 
 LOCK TABLES `challenges` WRITE;
 /*!40000 ALTER TABLE `challenges` DISABLE KEYS */;
+INSERT INTO `challenges` VALUES (1,1584172229,1,'Problema de bof',1,'Software is like the weather, it\'s always changing!\r\n\r\nRemote server: nc challs.xmas.htsp.ro 12002\r\nAuthor: littlewho',1,0,0,'flag',0,1,500,500,50,100,0,0,0,0),(2,1584172266,1,'SN0WVERFL0W',1,'Snow, snow, snow... there is snow everywhere! I\'m feeling a little bit overwhelmed... or would I say overflowed?\r\n\r\nRemote server: nc challs.xmas.htsp.ro 12006\r\nAuthor: littlewho\r\n',1,0,0,'flag2',0,1,500,500,50,100,0,0,0,NULL);
 /*!40000 ALTER TABLE `challenges` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +111,7 @@ CREATE TABLE `cookie_tokens` (
   `ip_last` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_t_ts` (`user_id`,`token`,`token_series`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +120,7 @@ CREATE TABLE `cookie_tokens` (
 
 LOCK TABLES `cookie_tokens` WRITE;
 /*!40000 ALTER TABLE `cookie_tokens` DISABLE KEYS */;
-INSERT INTO `cookie_tokens` VALUES (2,1584021028,1,'CaO+jdVYrEMaXZTe','JCWJ0dQtB95FwbdmEKCiXEzirycP/DU0dXdQrBznDJSWtJBWuB49W82klpX8h9Fz',2886795265,2886795265);
+INSERT INTO `cookie_tokens` VALUES (2,1584021028,1,'CaO+jdVYrEMaXZTe','JCWJ0dQtB95FwbdmEKCiXEzirycP/DU0dXdQrBznDJSWtJBWuB49W82klpX8h9Fz',2886795265,2886795265),(4,1584172055,1,'t/4rlsNAiXv+OZsI','QaJ7pmjVVChFgWsx6eJIe5yoYd3KwG34o+BB+xUMYtlYff1WlDoD1yeldq1OzaiQ',2886795265,2886795265);
 /*!40000 ALTER TABLE `cookie_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,62 +151,6 @@ INSERT INTO `countries` VALUES (1,'Afghanistan','af'),(2,'Aland Islands','ax'),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `dynamic_menu`
---
-
-DROP TABLE IF EXISTS `dynamic_menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dynamic_menu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `permalink` varchar(255) NOT NULL,
-  `internal_page` int(10) unsigned NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `visibility` enum('public','private','both') NOT NULL,
-  `min_user_class` tinyint(4) NOT NULL DEFAULT 0,
-  `priority` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `permalink` (`permalink`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `dynamic_menu`
---
-
-LOCK TABLES `dynamic_menu` WRITE;
-/*!40000 ALTER TABLE `dynamic_menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dynamic_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `dynamic_pages`
---
-
-DROP TABLE IF EXISTS `dynamic_pages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dynamic_pages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `body` text NOT NULL,
-  `visibility` enum('public','private','both') NOT NULL DEFAULT 'public',
-  `min_user_class` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `dynamic_pages`
---
-
-LOCK TABLES `dynamic_pages` WRITE;
-/*!40000 ALTER TABLE `dynamic_pages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dynamic_pages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `exceptions`
 --
 
@@ -218,7 +170,7 @@ CREATE TABLE `exceptions` (
   `user_agent` text NOT NULL,
   `unread` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +179,7 @@ CREATE TABLE `exceptions` (
 
 LOCK TABLES `exceptions` WRITE;
 /*!40000 ALTER TABLE `exceptions` DISABLE KEYS */;
-INSERT INTO `exceptions` VALUES (1,1584020948,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'admin, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'admin@admin.com\', \'admin\', \'admin\', \'11\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(2,1584021238,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'pepe, your regi...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'pepe@pepe.com\', \'pepe\', \'pepe\', \'8\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1);
+INSERT INTO `exceptions` VALUES (1,1584020948,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'admin, your reg...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'admin@admin.com\', \'admin\', \'admin\', \'11\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(2,1584021238,0,'Could not send email: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting','0','#0 /var/www/ctfx/include/session.inc.php(518): send_email(Array, \'X-MAS CTF accou...\', \'pepe, your regi...\')\n#1 /var/www/ctfx/htdocs/actions/register.php(31): register_account(\'pepe@pepe.com\', \'pepe\', \'pepe\', \'8\', NULL)\n#2 {main}','/var/www/ctfx/include/email.inc.php',105,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(3,1584172049,0,'An invalid cookie token was used. Cookie likely stolen. TS: vI/DFFwy29mEj+sv','0','#0 /var/www/ctfx/include/session.inc.php(72): login_session_create_from_login_cookie()\n#1 /var/www/ctfx/htdocs/home.php(5): login_session_refresh()\n#2 {main}','/var/www/ctfx/include/session.inc.php',254,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(4,1584174474,1,'Invalid ID','0','#0 /var/www/ctfx/htdocs/admin/challenge.php(8): validate_id(\'\')\n#1 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(5,1584174765,1,'Invalid ID','0','#0 /var/www/ctfx/include/files.inc.php(71): validate_id(NULL)\n#1 /var/www/ctfx/htdocs/admin/actions/file.php(37): change_file(\'2\', Array)\n#2 {main}','/var/www/ctfx/include/general.inc.php',128,2886795265,'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0',1),(6,1584176047,0,'Invalid team key used for download','0','#0 {main}','/var/www/ctfx/htdocs/download.php',12,2886795265,'Wget/1.20.1 (linux-gnu)',1),(7,1584176051,0,'Invalid team key used for download','0','#0 {main}','/var/www/ctfx/htdocs/download.php',12,2886795265,'Wget/1.20.1 (linux-gnu)',1),(8,1584176065,0,'Invalid team key used for download','0','#0 {main}','/var/www/ctfx/htdocs/download.php',12,2886795265,'curl/7.64.0',1);
 /*!40000 ALTER TABLE `exceptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,20 +190,21 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `files` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `added` int(10) unsigned NOT NULL,
-  `added_by` int(10) unsigned NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `size` int(10) unsigned NOT NULL,
-  `md5` char(32) NOT NULL,
-  `download_key` char(64) NOT NULL,
-  `challenge` int(10) unsigned NOT NULL,
-  `file_type` enum('local','remote') NOT NULL DEFAULT 'local',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `download_key` (`download_key`),
-  KEY `challenge` (`challenge`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE files (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  added_by int(10) unsigned NOT NULL,
+  title varchar(255) NOT NULL,
+  size int(10) unsigned NOT NULL DEFAULT '0',
+  md5 char(32) NOT NULL DEFAULT '',
+  download_key char(64) NOT NULL DEFAULT '',
+  challenge int(10) unsigned NOT NULL,
+  url text NOT NULL DEFAULT '',
+  file_type enum('local','remote') NOT NULL DEFAULT 'local',
+  PRIMARY KEY (id),
+  KEY challenge (challenge),
+  UNIQUE KEY (download_key)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +232,7 @@ CREATE TABLE `hints` (
   `body` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `challenge` (`challenge`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,6 +241,7 @@ CREATE TABLE `hints` (
 
 LOCK TABLES `hints` WRITE;
 /*!40000 ALTER TABLE `hints` DISABLE KEYS */;
+INSERT INTO `hints` VALUES (1,2,1584172373,1,1,'What if overflow happened?'),(2,1,1584174679,1,1,'ceva');
 /*!40000 ALTER TABLE `hints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +270,7 @@ CREATE TABLE `ip_log` (
 
 LOCK TABLES `ip_log` WRITE;
 /*!40000 ALTER TABLE `ip_log` DISABLE KEYS */;
-INSERT INTO `ip_log` VALUES (1,1,1584020817,1584021028,2886795265,3),(2,2,1584021108,1584021847,2886795265,2),(3,3,1584022014,1584022014,2886795265,1);
+INSERT INTO `ip_log` VALUES (1,1,1584020817,1584172055,2886795265,4),(2,2,1584021108,1584021847,2886795265,2),(3,3,1584022014,1584022014,2886795265,1);
 /*!40000 ALTER TABLE `ip_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -371,34 +325,6 @@ CREATE TABLE `reset_password` (
 LOCK TABLES `reset_password` WRITE;
 /*!40000 ALTER TABLE `reset_password` DISABLE KEYS */;
 /*!40000 ALTER TABLE `reset_password` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `restrict_email`
---
-
-DROP TABLE IF EXISTS `restrict_email`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `restrict_email` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `added` int(10) unsigned NOT NULL,
-  `added_by` int(11) NOT NULL,
-  `rule` varchar(255) NOT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT 1,
-  `white` tinyint(1) NOT NULL DEFAULT 1,
-  `priority` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `restrict_email`
---
-
-LOCK TABLES `restrict_email` WRITE;
-/*!40000 ALTER TABLE `restrict_email` DISABLE KEYS */;
-/*!40000 ALTER TABLE `restrict_email` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -515,7 +441,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@admin.com','admin',1584020817,1584021028,'$2y$10$owJvYOJpwrEDDfzPSU85YuBb4c/wpUQqEtheouoM.6RaQuDhIpfBK','3bc08c9093a4e64d130975a3f211fd3a3c291cc43c7a6c48a7c9e4b0047cf604',100,1,0,1,11,'disabled'),(2,'pepe@pepe.com','pepe',1584021108,1584021846,'$2y$10$KQyztNfIvj3QJ9HjCsoi5Ozno3mdl1o3J5rx0PevGG/TKDGdL1Q3q','0bfe7109343b5aa2c90aa6ea73cb4c1804521dea02e6907b657099d05448081e',0,1,0,1,8,'disabled'),(3,'alo@alo.com','alo',1584022014,0,'$2y$10$WB7f242IEpZk1ozJs51Vh.T9E/13BDfId/3IKJTEFdZ4so76WWJTu','6fc3a46013ba0ac9183e1ec97ed1777030adb458d3d10b25accb431819d31a2a',0,1,0,1,10,'disabled');
+INSERT INTO `users` VALUES (1,'admin@admin.com','admin',1584020817,1584177386,'$2y$10$owJvYOJpwrEDDfzPSU85YuBb4c/wpUQqEtheouoM.6RaQuDhIpfBK','3bc08c9093a4e64d130975a3f211fd3a3c291cc43c7a6c48a7c9e4b0047cf604',100,1,0,1,11,'disabled'),(2,'pepe@pepe.com','pepe',1584021108,1584021846,'$2y$10$KQyztNfIvj3QJ9HjCsoi5Ozno3mdl1o3J5rx0PevGG/TKDGdL1Q3q','0bfe7109343b5aa2c90aa6ea73cb4c1804521dea02e6907b657099d05448081e',0,1,0,1,8,'disabled'),(3,'alo@alo.com','alo',1584022014,0,'$2y$10$WB7f242IEpZk1ozJs51Vh.T9E/13BDfId/3IKJTEFdZ4so76WWJTu','6fc3a46013ba0ac9183e1ec97ed1777030adb458d3d10b25accb431819d31a2a',0,1,0,1,10,'disabled');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -528,4 +454,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-12 14:08:30
+-- Dump completed on 2020-03-14  9:17:02

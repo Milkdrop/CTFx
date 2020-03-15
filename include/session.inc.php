@@ -449,10 +449,6 @@ function register_account($email, $password, $team_name, $country, $type = null)
 
     validate_email($email);
 
-    if (!allowed_email($email)) {
-        message_error(lang_get('email_not_whitelisted'));
-    }
-
     $num_countries = db_select_one(
         'countries',
         array('COUNT(*) AS num')

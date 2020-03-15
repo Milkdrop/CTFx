@@ -1,6 +1,6 @@
 <?php
 
-require('../../../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
@@ -71,7 +71,7 @@ $users = db_query_fetch_all('
 
 $total_results = isset($total_results) ? $total_results : count($users);
 
-$base_url = Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL') . 'list_users';
+$base_url = '/admin/users';
 
 pager($base_url, $total_results, $results_per_page, $from);
 
@@ -87,9 +87,9 @@ foreach($users as $user) {
         <td>',($user['last_active'] ? date_time($user['last_active']) : '<i>Never</i>'),'</td>
         <td class="center">',user_class_name($user['class']),'</td>
         <td class="center">',($user['enabled'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove red"></span>'),'</td>
-        <td class="center"><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
+        <td class="center"><a href="/admin/ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td class="center">
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'edit_user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-warning">✎</a>
+            <a href="/admin/user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-warning">✎</a>
         </td>
     </tr>
     ';

@@ -1,6 +1,6 @@
 <?php
 
-require('../../../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
@@ -8,9 +8,18 @@ head('Exceptions');
 menu_management();
 
 if (array_get($_GET, 'user_id')) {
-    section_title ('User exceptions ', button_link('Show all exceptions', 'list_exceptions'));
+    section_title ('User exceptions ', button_link('Show all exceptions', '/admin/exceptions'));
+} else if (array_get($_GET, 'delete')) {
+  section_title ('Clear exceptions');
+  form_start('/admin/actions/exceptions');
+  form_input_checkbox('Delete confirmation', false, 'red');
+  form_hidden('action', 'delete');
+  message_inline_red('Warning! This will delete ALL exception logs!!');
+  form_button_submit('Clear exceptions', 'danger');
+  form_end();
+  die(foot());
 } else {
-    section_title ('Exceptions ', button_link('Clear exceptions', 'edit_exceptions'));
+  section_title ('Exceptions ', button_link('Clear exceptions', '/admin/exceptions?delete=1'));
 }
 
 echo '
@@ -35,7 +44,7 @@ $from = get_pager_from($_GET);
 $num_exceptions = db_count_num('exceptions', $where);
 
 pager(
-    Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'list_exceptions',
+    '/admin/exceptions',
     $num_exceptions,
     CONST_NUM_EXCEPTIONS_PER_PAGE,
     $from
@@ -68,11 +77,11 @@ foreach($exceptions as $exception) {
         <td>',htmlspecialchars($exception['message']),'</td>
         <td>',date_time($exception['added']),'</td>
         <td>',($exception['added_by'] ?
-         '<a href="'.Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL').'user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
+         '<a href="/admin/user.php?id='.htmlspecialchars($exception['added_by']).'">'.htmlspecialchars($exception['team_name']).'</a>'
          :
          '<i>N/A</i>'),'
         </td>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
+        <td><a href="/admin/ip_log.php?ip=',htmlspecialchars($exception['user_ip']),'">',htmlspecialchars($exception['user_ip']),'</a></td>
     </tr>
     <tr>
         <td colspan="4">

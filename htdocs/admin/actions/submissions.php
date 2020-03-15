@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_submissions.php?generic_success=1');
+        redirect('/admin/submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_incorrect') {
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             challengeUnsolve ($submission['challenge']);
 
         db_update('submissions', array('correct'=>0, 'marked'=>1), array('id'=>$_POST['id']));
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_submissions.php?generic_success=1');
+        redirect('/admin/submissions.php?generic_success=1');
     }
 
     else if ($_POST['action'] == 'mark_correct') {
@@ -58,6 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         db_update('submissions', array('correct'=>1, 'marked'=>1), array('id'=>$_POST['id']));
         challengeSolve ($submission['challenge']);
 
-        redirect(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'list_submissions.php?generic_success=1');
+        redirect('/admin/submissions.php?generic_success=1');
     }
 }

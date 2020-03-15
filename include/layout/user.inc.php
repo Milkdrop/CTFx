@@ -112,7 +112,7 @@ function print_user_submissions($user_id, $limit = false) {
 
     section_subhead(
         'Submissions',
-        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', 'list_submissions?user_id=' . $user_id),
+        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', '/admin/submissions?user_id=' . $user_id),
         false
     );
 
@@ -163,7 +163,7 @@ function print_user_submissions($user_id, $limit = false) {
             '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
         </td>
         <td>
-            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
         form_xsrf_token();
         echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
@@ -171,7 +171,7 @@ function print_user_submissions($user_id, $limit = false) {
                 <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? 'warning' : 'primary'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
 
-            <form method="post" action="actions/list_submissions" class="discreet-inline">';
+            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
         form_xsrf_token();
         echo '
                 <input type="hidden" name="action" value="delete" />
@@ -194,7 +194,7 @@ function print_user_exception_log($user_id, $limit = false) {
 
     section_subhead(
         'Exception log',
-        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', 'list_exceptions?user_id=' . $user_id),
+        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', 'exceptions?user_id=' . $user_id),
         false
     );
 
@@ -237,7 +237,7 @@ function print_user_exception_log($user_id, $limit = false) {
     <tr>
         <td>', htmlspecialchars($exception['message']), '</td>
         <td>', date_time($exception['added']), '</td>
-        <td><a href="', Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'), 'list_ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
+        <td><a href="/admin/ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
         <td>', htmlspecialchars($exception['trace']), '</td>
     </tr>
     ';
@@ -260,7 +260,7 @@ function print_user_ip_log($user_id, $limit = 0) {
 
     section_subhead(
         'IP address usage',
-        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', 'list_ip_log?user_id=' . htmlspecialchars($user_id)),
+        ($limit ? 'Limited to ' . $limit . ' results ': '') . button_link('Show all for user', '/admin/ip_log?user_id=' . htmlspecialchars($user_id)),
         false
     );
 
@@ -298,7 +298,7 @@ function print_user_ip_log($user_id, $limit = 0) {
     foreach($entries as $entry) {
         echo '
         <tr>
-            <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
+            <td><a href="/admin/ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
             <td>',(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? htmlspecialchars(gethostbyaddr($entry['ip'])) : '<i>Lookup disabled in config</i>'),'</td>
             <td>',date_time($entry['added']),'</td>
             <td>',date_time($entry['last_used']),'</td>

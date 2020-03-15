@@ -38,7 +38,7 @@ form_select($opts, 'Challenge', 'id', isset ($hint)?$hint['challenge']:array_get
 form_input_checkbox('Visible', $hint['visible']);
 form_hidden('action', isset ($hint)?'edit':'new');
 form_hidden('id', $_GET['id']);
-form_button_submit('Save changes');
+form_button_submit_bbcode('Save changes');
 form_end();
 
 if (!isset ($hint))
@@ -48,6 +48,7 @@ section_subhead('Delete hint');
 form_start('/admin/actions/hint.php');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
+form_hidden('challenge', $hint['challenge']);
 form_hidden('id', $_GET['id']);
 form_button_submit('Delete hint', 'danger');
 form_end();

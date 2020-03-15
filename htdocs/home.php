@@ -11,39 +11,21 @@ head(lang_get('home'));
 if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'))) {
 
     echo '<div id="ctfx-main-logo"></div>
-    <div class="main-intro-text">
-    Welcome to CTFx. This is a fork of <a href="https://github.com/Nakiami/mellivora">mellivora</a> that sports an overhaul of the UI, extra functionality (such as dynamic scoring) and various other quality-of-life tweaks. The goal of CTFx is to bring together the speed of mellivora and the appearance of modern and future web in order to create a fast, lightweight and enjoyable CTF Platform. The current CTFx repository is a close clone of the CTFx instance that is running at the official X-MAS CTF.
-</div>';
+        <div class="main-intro-text">
+        Welcome to CTFx. This is a fork of <a href="https://github.com/Nakiami/mellivora">mellivora</a> that sports an overhaul of the UI, extra functionality (such as dynamic scoring) and various other quality-of-life tweaks. The goal of CTFx is to bring together the speed of mellivora and the appearance of modern and future web in order to create a fast, lightweight and enjoyable CTF Platform. The current CTFx repository is a close clone of the CTFx instance that is running at the official X-MAS CTF.
+    </div>
+    <br>';
 
-    section_title ("Latest News");
-
-    $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
-    echo '
-        <div class="news-container">';
-            section_head("Join the official X-MAS CTF Discord Server");
-            echo '
-            <div class="news-body">
-                <iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>
-            </div>
+    echo '<div class="row">
+    <div class="col-md-6"><div class="news-container">
+        <div class="news-body">
+            <iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>
         </div>
-        ';
+    </div>';
 
-    foreach ($news as $item) {
-        echo '
-        <div class="news-container">';
-            section_head($item['title'], date_time ($item['added']));
-            echo '
-            <div class="news-body">
-                ',get_bbcode()->parse($item['body']),'
-            </div>
-        </div>
-        ';
-    }
-
-    section_title ("Rules");
+    section_head ("Rules");
     
-    echo '
-        <br>
+    echo '<br>
         <div class="news-container">
             <div class="news-body">
                 <ul>
@@ -57,17 +39,29 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
             </div>
         </div>';
 
-    /*section_title ("Sponsors");
+    echo '</div>
+    <div class="col-md-6">';
 
-    echo '<br>
-        <div style="text-align:center;margin-bottom:-40px">
-            <a href="https://www.hackthebox.eu/" style="padding-right:40px"><img style="display:inline-block;width:256px" src="/img/logos/htb.png"></a>
-            <a href="https://tryhackme.com/"><img style="padding-left:40px;display:inline-block;width:340px" src="/img/logos/thm.png"></a>
-            <br><br>
-            <a href="https://rough.ro/"><img style="width:340px" src="/img/logos/rough.png"></a>
+    section_head ("Latest News");
+
+    $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
+
+    foreach ($news as $item) {
+        echo '
+        <div class="news-container">
+            <div class="news-head">',
+                htmlspecialchars($item['title']),
+                '<small>',
+                date_time ($item['added']),
+                '</small></div>
+            <div class="news-body">
+                ',get_bbcode()->parse($item['body']),'
+            </div>
         </div>
-        ';*/
+        ';
+    }
 
+    echo '</div></div>';
     cache_end(CONST_CACHE_NAME_HOME);
 }
 

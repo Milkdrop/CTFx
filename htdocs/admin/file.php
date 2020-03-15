@@ -31,12 +31,16 @@ $opts = db_query_fetch_all(
      ORDER BY ca.title, ch.title'
 );
 
-form_start('/admin/actions/file');
-form_input_text('Title', $file['title']);
-
+form_start('/admin/actions/file','','multipart/form-data');
+form_input_text('Filename', $file['title']);
 form_select($opts, 'Challenge', 'id', $file['challenge'], 'title', 'category');
+form_input_text('URL', $file['url']);
+form_file('file');
 form_hidden('action', isset ($file)?'edit':'new');
 form_hidden('id', $_GET['id']);
+if (!isset ($file))
+	message_inline_blue('You can provide an external download URL, or upload a file (max ' . bytes_to_pretty_size(max_file_upload_size()) . ') directly on the platform');
+
 form_button_submit('Save changes');
 form_end();
 
@@ -44,10 +48,11 @@ if (!isset ($file))
   die (foot ());
 
 section_subhead('Delete file');
-form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_file');
+form_start('/admin/actions/file');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
+form_hidden('challenge', $file['challenge']);
 form_button_submit('Delete file', 'danger');
 form_end();
 

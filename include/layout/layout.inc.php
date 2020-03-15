@@ -5,7 +5,6 @@ require(CONST_PATH_LAYOUT . 'scores.inc.php');
 require(CONST_PATH_LAYOUT . 'user.inc.php');
 require(CONST_PATH_LAYOUT . 'forms.inc.php');
 require(CONST_PATH_LAYOUT . 'challenges.inc.php');
-require(CONST_PATH_LAYOUT . 'dynamic.inc.php');
 
 // set global head_sent variable
 $head_sent = false;
@@ -72,18 +71,14 @@ function head($title = '') {
                             <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
-                            ',dynamic_menu_content(),'
-                            <li>',form_logout(),'</li>
-                            ';
+                            <li>',form_logout(),'</li>';
 
                     } else {
                         echo '
                             <li><a class="shuffle-text" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
                             <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
-                            ',dynamic_menu_content(),'
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a class="shuffle-text" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>
-                        ';
+                            <li><a class="shuffle-text" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
                     }
                     echo '
                 </ul>
@@ -155,9 +150,15 @@ function section_title ($title, $tagline = '', $decorator_color = "green") {
     ';
 }
 
-function section_head ($title, $tagline = '', $strip_html = true) {
+function section_head ($title, $tagline = '', $decorator_color = "green") {
     echo '
-        <h2 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
+                '<small>'.$tagline.'</small>','
+                </h2>
+            </div>
+        </div>
     ';
 }
 
@@ -188,32 +189,35 @@ function icon ($img) {
 }
 
 function dropdown ($name, $options = null) {
-    echo '<div class="btn-group">
-        <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
-        <ul class="dropdown-menu">';
+    if (count ($options) <= 1) {
+        echo '<div class="btn-group">
+            <a href="',$options[0][1],'" class="btn btn-warning btn-xs">', $name, '</a>
+        </div>';
+    } else if (count ($options) > 1) {
+        echo '<div class="btn-group">
+            <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
+            <ul class="dropdown-menu">';
 
-        foreach ($options as $option) {
-            echo '<li><a href="', $option[1], '">', $option[0], '</a></li>';
-        }
-    echo '</ul>
-    </div>';
+            foreach ($options as $option) {
+                echo '<li><a href="', $option[1], '">', $option[0], '</a></li>';
+            }
+        echo '</ul>
+        </div>';
+    }
 }
 
 function menu_management () {
     echo '<div id="menu-management" class="menu">';
     dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list/list_news"]]);
     dropdown ("Categories", [["Add category", "/admin/category"], ["List categories", "/admin/"]]);
-    dropdown ("Challenges", [["Add challenge", "/admin/challenge"], ["List challenge", "/admin/"]]);
-    dropdown ("Submissions", [["List submissions", "/admin/list/list_submissions"],
-                            ["List submissions in need of marking", "/admin/list/list_submissions?only_needing_marking=1"]]);
-    dropdown ("Users", [["List users", "/admin/list/list_users"]]);
+    dropdown ("Challenges", [["Add challenge", "/admin/challenge"], ["List challenges", "/admin/"]]);
+    dropdown ("Submissions", [["List submissions", "/admin/submissions"],
+                            ["List submissions in need of marking", "/admin/submissions?only_needing_marking=1"]]);
+    dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
-    dropdown ("Hints", [["New hint", "/admin/hint"], ["List hints", "/admin/list/list_hints"]]);
-    dropdown ("Dynamic navbar", [["New element", "/admin/edit_dynamic_menu_item"], ["List hints", "/admin/list/list_dynamic_menu"]]);
-    dropdown ("Dynamic pages", [["New page", "/admin/edit_dynamic_page"], ["List hints", "/admin/list/list_dynamic_pages"]]);
-    dropdown ("Exceptions", [["List exceptions", "/admin/list/list_exceptions"], ["Edit exceptions", "/admin/edit_exceptions"]]);
+    dropdown ("Exceptions", [["List exceptions", "/admin/exceptions"]]);
     dropdown ("Search", [["Search", "/admin/search"]]);
-    dropdown ("Edit CTF", [["Edit ", "/admin/edit_ctf"]]);
+    dropdown ("Edit CTF", [["Edit", "/admin/edit_ctf"]]);
     echo '</div>';
 }
 

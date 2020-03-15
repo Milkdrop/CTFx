@@ -31,7 +31,7 @@ form_select($opts, 'Category', 'id', isset ($challenge)?$challenge['category']:$
 form_input_checkbox('Exposed', $challenge['exposed']);
 form_hidden('action', isset ($challenge)?'edit':'new');
 
-form_button_submit('Save changes');
+form_button_submit_bbcode('Save changes');
 
 if (!isset ($challenge)) {
   form_end ();
@@ -41,7 +41,7 @@ if (!isset ($challenge)) {
 section_subhead ("Advanced Settings:");
 form_input_text('Initial Points', $challenge['initial_points'], null, "Initial Points");
 form_input_text('Minimum Points', $challenge['minimum_points'], null, "Minimum Points");
-form_input_text('Solve Decay', $challenge['solve_decay'], null, "Solve Decay");
+form_input_text('Solve Decay', $challenge['solve_decay'], null, "Number of solves needed to reach min. points");
 
 $opts = db_query_fetch_all('
     SELECT
@@ -62,7 +62,7 @@ form_input_text('Available until', date_time($challenge['available_until']), nul
 form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
 form_input_text('Num attempts allowed', $challenge['num_attempts_allowed'], null, "Max attempts allowed (0 for unlimited)");
-form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions'], null, "Submission cooldown");
+form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions'], null, "Submission cooldown (in seconds)");
 form_hidden('id', $_GET['id']);
 
 form_button_submit('Save changes');
@@ -107,6 +107,7 @@ $files = db_select_all(
         'id',
         'title',
         'size',
+        'url',
         'added',
         'download_key'
     ),
@@ -119,29 +120,25 @@ foreach ($files as $file) {
   echo '<div class="challenge-file">';
   title_decorator ("blue", "0deg", "package.png");
   echo '<a style="margin: 0px; margin-right: 5px" href="file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-primary">✎</a>';
-  echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
 
-  if ($file['size']) {
-    tag ('Size: ' . bytes_to_pretty_size($file['size']));
+  if (empty ($file['url'])) {
+    echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
+    if ($file['size']) {
+      tag ('Size: ' . bytes_to_pretty_size($file['size']));
+    }
+
+  } else {
+    echo '<a target="_blank" href="', htmlspecialchars($file['url']), '">', htmlspecialchars($file['title']), '</a>';
   }
-  echo '</div>';
 
-  form_start('/admin/actions/file', 'no-padding-or-margin');
-  form_hidden('action', 'delete');
-  form_hidden('id', $file['id']);
-  form_hidden('challenge', $_GET['id']);
-  form_button_submit_small ('Delete', 'btn-danger');
-  form_end();
+  echo '</div>';
 }
 
-form_start('/admin/file','','multipart/form-data');
-form_file('file');
-echo '<br>';
-form_hidden('action', 'upload_file');
-form_hidden('challenge', $_GET['id']);
-form_button_submit('Upload file');
-echo '(Max file size: ',bytes_to_pretty_size(max_file_upload_size()), ')';
-form_end();
+echo '<div class="form-group">
+    <a href="file.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-primary">
+      Add file
+    </a>
+</div>';
 
 section_subhead('Delete challenge: ' . $challenge['title']);
 form_start('/admin/actions/challenge');

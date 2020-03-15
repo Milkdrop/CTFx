@@ -1,6 +1,6 @@
 <?php
 
-require('../../../include/mellivora.inc.php');
+require('../../include/mellivora.inc.php');
 
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
@@ -57,11 +57,11 @@ foreach ($entries as $entry) {
     echo '
     <tr>
         <td>
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log?user_id=', htmlspecialchars($entry['user_id']), '">
+            <a href="/admin/ip_log?user_id=', htmlspecialchars($entry['user_id']), '">
                 ', htmlspecialchars($entry['team_name']), '
             </a>
         </td>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'list_ip_log?ip=',htmlspecialchars($entry['ip']),'">', htmlspecialchars(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? gethostbyaddr($entry['ip']) : '<i>Lookup disabled in config</i>'), '</a></td>
+        <td><a href="/admin/ip_log?ip=',htmlspecialchars($entry['ip']),'">', Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? htmlspecialchars(gethostbyaddr($entry['ip'])) : '<i>Lookup disabled in config</i>', '</a></td>
         <td>', date_time($entry['added']), '</td>
         <td>', date_time($entry['last_used']), '</td>
         <td>', number_format($entry['times_used']), '</td>

@@ -56,28 +56,6 @@ CREATE TABLE countries (
   UNIQUE KEY short (country_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE dynamic_pages (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  title varchar(255) NOT NULL,
-  body text NOT NULL,
-  visibility enum('public','private','both') NOT NULL DEFAULT 'public',
-  min_user_class tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE dynamic_menu (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  title varchar(255) NOT NULL,
-  permalink varchar(255) NOT NULL,
-  internal_page int(10) unsigned NOT NULL,
-  url varchar(255) NOT NULL,
-  visibility enum('public','private','both') NOT NULL,
-  min_user_class tinyint(4) NOT NULL DEFAULT '0',
-  priority smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY permalink (permalink)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE exceptions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -98,10 +76,11 @@ CREATE TABLE files (
   added int(10) unsigned NOT NULL,
   added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
-  size int(10) unsigned NOT NULL,
-  md5 char(32) NOT NULL,
-  download_key char(64) NOT NULL,
+  size int(10) unsigned NOT NULL DEFAULT '0',
+  md5 char(32) NOT NULL DEFAULT '',
+  download_key char(64) NOT NULL DEFAULT '',
   challenge int(10) unsigned NOT NULL,
+  url text NOT NULL DEFAULT '',
   file_type enum('local','remote') NOT NULL DEFAULT 'local',
   PRIMARY KEY (id),
   KEY challenge (challenge),
@@ -147,17 +126,6 @@ CREATE TABLE reset_password (
   auth_key char(64) NOT NULL,
   PRIMARY KEY (id),
   KEY user_key (user_id,auth_key)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE restrict_email (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  added_by int(11) NOT NULL,
-  rule varchar(255) NOT NULL,
-  enabled tinyint(1) NOT NULL DEFAULT '1',
-  white tinyint(1) NOT NULL DEFAULT '1',
-  priority int(10) unsigned NOT NULL,
-  PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE submissions (

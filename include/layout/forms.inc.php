@@ -21,7 +21,9 @@ function form_hidden ($name, $value) {
 function form_file ($name) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<input type="file" name="',$field_name,'" id="',$field_name,'" />';
+    echo '<div class="form-group">
+        <input class="form-control" type="file" name="',$field_name,'" id="',$field_name,'" />
+    </div>';
 }
 
 function form_input_text($name, $prefill = false, array $options = null, $tip = null) {
@@ -128,10 +130,19 @@ function form_button_submit ($name, $type = 'primary') {
     ';
 }
 
-function form_button_submit_small ($name, $type = 'btn-primary') {
+function form_button_submit_small ($name, $type = 'primary') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<button type="submit" id="',$field_name,'" class="btn btn-xs ',htmlspecialchars($type),'">',$name,'</button>';
+    echo '<button type="submit" id="',$field_name,'" class="btn btn-xs btn-',htmlspecialchars($type),'">',$name,'</button>';
+}
+
+function form_button_submit_bbcode ($name, $type = 'primary') {
+    $name = htmlspecialchars($name);
+    $field_name = strtolower(str_replace(' ','_',$name));
+    echo '<div class="form-group">
+        <button type="submit" id="',$field_name,'" class="btn btn-lg btn-',htmlspecialchars($type),'">',$name,'</button>
+        <a target="_blank" href="/admin/bbcode_manual" style="height:45px;margin-top:0px;padding-top:10px" class="btn btn-xs btn-warning">BBCode Manual</a>
+    </div>';
 }
 
 function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
@@ -164,18 +175,6 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
 
     echo '
         </select>
-    </div>
-    ';
-}
-
-function form_bbcode_manual() {
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="bbcode">BBcode</label>
-      <div class="col-sm-10">';
-    bbcode_manual();
-    echo '
-      </div>
     </div>
     ';
 }

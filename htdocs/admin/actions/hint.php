@@ -28,15 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         
         validate_id($_POST['id']);
-        
-        $challenge = db_select_one('hints', array(
-            'challenge AS id'
-        ), array(
-            'id' => $_POST['id']
-        ));
+        validate_id($_POST['challenge']);
         
         invalidate_cache(CONST_CACHE_NAME_HINTS);
-        invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);
+        invalidate_cache(CONST_CACHE_NAME_CHALLENGE_HINTS . $_POST['challenge']);
 
         if ($_POST['action'] === 'edit') {
             db_update('hints', array(
@@ -60,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'id' => $_POST['id']
             ));
             
-            redirect('/admin/list/list_hints.php?generic_success=1');
+            redirect('/admin/challenge.php?id=' . $_POST['challenge'] . '&generic_success=1');
         }
     }
 } 
