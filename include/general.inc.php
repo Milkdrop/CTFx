@@ -381,7 +381,7 @@ function check_server_configuration() {
 
 function check_server_php_version() {
     if (version_compare(PHP_VERSION, CONST_MIN_REQUIRED_PHP_VERSION, '<')) {
-        message_inline_red('Your version of PHP is too old. You need at least '.CONST_MIN_REQUIRED_PHP_VERSION.'. You are running: ' . PHP_VERSION);
+        message_inline('Your version of PHP is too old. You need at least '.CONST_MIN_REQUIRED_PHP_VERSION.'. You are running: ' . PHP_VERSION, "red");
     }
 }
 
@@ -389,7 +389,7 @@ function check_server_writable_dirs() {
     // check that our writable dirs are writable
     foreach (get_directory_list_recursive(CONST_PATH_FILE_WRITABLE) as $dir) {
         if (!is_writable($dir)) {
-            message_inline_red('Directory ('.$dir.') must be writable.');
+            message_inline('Directory ('.$dir.') must be writable.', "red");
         }
     }
 }
@@ -400,16 +400,15 @@ function check_server_and_db_time() {
     $time = time();
     $error = abs($time - $dbInfo['timestamp']);
     if ($error >= 5) {
-        message_inline_red('Database and PHP times are out of sync.
-        This will cause problems.
-        DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off).');
+        message_inline('Database and PHP times are out of sync. This will cause problems.
+        DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off).', "red");
     }
 
     $php_timezone_offzet_seconds = date('Z');
     if ($php_timezone_offzet_seconds != $dbInfo['timezone_offzet_seconds']) {
-        message_inline_red('PHP and Database timezones are different.
+        message_inline('PHP and Database timezones are different.
         This will cause problems.
-        PHP zone: ' . $php_timezone_offzet_seconds / 3600 . ', Database zone: ' . $dbInfo['timezone_offzet_seconds'] / 3600);
+        PHP zone: ' . $php_timezone_offzet_seconds / 3600 . ', Database zone: ' . $dbInfo['timezone_offzet_seconds'] / 3600, "red");
     }
 }
 

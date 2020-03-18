@@ -22,7 +22,7 @@ if (array_get($_GET, 'bcc') == 'all') {
 
 section_title ('New email');
 
-message_inline_blue('Separate receiver emails with a comma and optional whitespace. You can use BBCode. If you do, you must send as HTML email.');
+message_inline('Separate receiver emails with a comma and optional whitespace. You can use BBCode. If you do, you must send as HTML email.');
 
 form_start('/admin/actions/new_email');
 
@@ -43,7 +43,7 @@ form_input_checkbox('HTML email');
 
 form_hidden('action', 'new');
 
-message_inline_yellow('Important email? Remember to Ctrl+C before attempting to send!');
+message_inline('Important email? Remember to Ctrl+C before attempting to send!', "green");
 
 form_button_submit('Send email');
 form_end();

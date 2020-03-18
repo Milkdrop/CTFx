@@ -236,7 +236,7 @@ body {
 
 .btn-xs {
 	 /* !important because of bootstrap */
-	background-color: #505050 !important;
+	background-color: #505050;
 	box-shadow: none !important;
 	color: #fff;
 	padding: 5px 10px 5px 10px;
@@ -286,6 +286,16 @@ body {
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
 	background-color: #42a0ff !important;
+}
+
+.btn-light {
+	background-color: #f7f7f7;
+	color: #000;
+}
+
+.btn-light:hover {
+	background-color: #303030;
+	color: #fff;
 }
 
 .btn-warning:hover, .btn-warning.active, .open .btn-warning, .btn-warning:active, .btn-warning:focus:active, .btn-warning:hover:active {
@@ -517,8 +527,7 @@ textarea {
 }
 
 .challenge-head small, .news-head small {
-	color: #f5f5f5;
-	opacity: 0.6;
+	color: #B0B0B0;
 }
 
 .challenge-head .time-left {
@@ -540,7 +549,7 @@ textarea {
 	display: inline-block;
 }
 
-.challenge-title a {
+.challenge-title a, .news-title {
 	color: #f5f5f5;
 	font-weight: bold;
 }

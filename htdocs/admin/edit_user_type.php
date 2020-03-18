@@ -29,8 +29,8 @@ form_start(Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH') . 'actions/edit_us
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-message_inline_red('Warning! Any users of this type will be without a type.
-You must manually give them a type in the DB. If no types will exist after this action, you must set their type to 0.');
+message_inline('Warning! Any users of this type will be without a type.
+You must manually give them a type in the DB. If no types will exist after this action, you must set their type to 0.', "red");
 form_button_submit('Delete user type', 'danger');
 form_end();
 

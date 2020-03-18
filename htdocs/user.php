@@ -32,7 +32,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
     section_title ($user['team_name'], country_flag_link($user['country_name'], $user['country_code'], true));
 
     if (!$user['competing']) {
-        message_inline_blue(lang_get('non_competing_user'));
+        message_inline(lang_get('non_competing_user'));
     }
 
     print_solved_graph($_GET['id']);

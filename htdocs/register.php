@@ -60,10 +60,7 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
 ';
 
 } else {
-    message_inline_blue(
-        'Registration is currently closed, but you can still <a href="interest">register your interest for upcoming events</a>.',
-        false
-    );
+    message_inline('Registration is closed', "red");
 }
 
 foot();

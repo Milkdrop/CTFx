@@ -90,7 +90,7 @@ foreach ($hints as $hint) {
     $msg .= '<div class="inline-tag">(invisible)</div>';
   }
 
-  message_inline_yellow ($msg, false);
+  message_inline ($msg, "green", false);
 }
 
 echo '<div class="form-group">
@@ -142,7 +142,7 @@ echo '<div class="form-group">
 
 section_subhead('Delete challenge: ' . $challenge['title']);
 form_start('/admin/actions/challenge');
-message_inline_red('Warning! This will also delete all submissions, all hints and all files associated with challenge!');
+message_inline('Warning! This will also delete all submissions, all hints and all files associated with challenge!', "red");
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

@@ -42,7 +42,7 @@ foreach($categories as $category) {
     );
 
     if (empty($challenges)) {
-        message_inline_blue('This category is empty! Use the link above to add a challenge.');
+        message_inline('This category is empty! Use the link above to add a challenge.');
     } else {
 
         echo '

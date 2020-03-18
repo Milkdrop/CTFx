@@ -105,7 +105,7 @@ function print_hints($challenge) {
         );
 
         foreach ($hints as $hint) {
-            message_inline_yellow('<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), false);
+            message_inline('<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']), "green", false);
         }
 
         cache_end(CONST_CACHE_NAME_CHALLENGE_HINTS . $challenge['id']);

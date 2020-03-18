@@ -36,7 +36,7 @@ if (!isset ($category)) {
 
 section_subhead('Delete category: ' . $category['title']);
 form_start('/admin/actions/category');
-message_inline_red('Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!');
+message_inline('Warning! This will delete all challenges under this category, as well as all submissions, files, and hints related those challenges!', "red");
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);

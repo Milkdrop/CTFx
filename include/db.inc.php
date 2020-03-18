@@ -19,7 +19,7 @@ function get_global_db_pdo() {
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (Exception $e) {
-            message_inline_red('Caught exception connecting to database');
+            message_inline('Caught exception connecting to database', "red");
             throw $e;
         }
     }

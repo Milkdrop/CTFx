@@ -14,7 +14,7 @@ if (array_get($_GET, 'user_id')) {
   form_start('/admin/actions/exceptions');
   form_input_checkbox('Delete confirmation', false, 'red');
   form_hidden('action', 'delete');
-  message_inline_red('Warning! This will delete ALL exception logs!!');
+  message_inline('Warning! This will delete ALL exception logs!!', "red");
   form_button_submit('Clear exceptions', 'danger');
   form_end();
   die(foot());

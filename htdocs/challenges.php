@@ -227,7 +227,7 @@ foreach($challenges as $challenge) {
 
             // if we have already made a submission to a manually marked challenge
             if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['unmarked']) {
-                message_inline_blue('Your submission is awaiting manual marking.');
+                message_inline('Your submission is awaiting manual marking.');
             }
 
             // if we have remaining submissions, print the submission form
@@ -263,7 +263,7 @@ foreach($challenges as $challenge) {
             }
             // no remaining submission attempts
             else {
-                message_inline_blue("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+                message_inline("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
             }
         }
     }

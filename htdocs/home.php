@@ -39,6 +39,10 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
 
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 
+    if (count ($news) == 0) {
+    	message_inline ("No news");
+    }
+
     foreach ($news as $item) {
         echo '<div class="news-container">
             <div class="news-head"><h4 class="news-title">',

@@ -13,7 +13,7 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
 
     echo '<h2 class="typewriter">', lang_get('error'), '</h2>';
 
-    message_inline_red($message);
+    message_inline ($message, "red");
 
     if ($foot) {
         foot();
@@ -33,7 +33,7 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
 
     echo '<h2 class="typewriter">', htmlspecialchars($title), '</h2>';
 
-    message_inline_blue($message);
+    message_inline ($message);
 
     if ($foot) {
         foot();
@@ -44,24 +44,15 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
-function message_inline_bland ($message) {
-    echo '<p>',htmlspecialchars($message),'</p>';
-}
+function message_inline ($message, $color = "blue", $strip_html = true) {
+    switch ($color) {
+        case "green": $textcolor = "#CFFF42"; break;
+        case "red": $textcolor = "#FF4242"; break;
+        default: $textcolor = "";
+    }
 
-function message_inline_blue ($message, $strip_html = true) {
-    echo '<div class="alert alert-info">', title_decorator ('blue', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_red ($message, $strip_html = true) {
-    echo '<div class="alert alert-danger">', title_decorator ('red', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_yellow ($message, $strip_html = true) {
-    echo '<div class="alert alert-warning">', title_decorator ('green', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
-}
-
-function message_inline_green ($message, $strip_html = true) {
-    echo '<div class="alert alert-success">', title_decorator ('green', "270deg"), ($strip_html ? htmlspecialchars($message) : $message),'</div>';
+    echo '<div class="alert" ', isset ($textcolor)?'style="color:' . $textcolor . '"':'',
+    '>', title_decorator ($color, "270deg"), ($strip_html ? htmlspecialchars($message) : $message), '</div>';
 }
 
 function message_dialog ($message, $title, $closeText, $class, $buttonType = "primary") {
@@ -80,8 +71,4 @@ function message_dialog ($message, $title, $closeText, $class, $buttonType = "pr
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     ';
-}
-
-function message_correct_flag () {
-    echo '<div id="correct-flag"></div>';
 }

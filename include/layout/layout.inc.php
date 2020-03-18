@@ -93,11 +93,11 @@ function head($title = '') {
         ';
 
     if (isset($_GET['generic_success'])) {
-        message_inline_green("Action Successful", false);
+        message_inline ("Action Successful", "green");
     } else if (isset($_GET['generic_failure'])) {
-        message_inline_red("Action Failed", false);
+        message_inline ("Action Failed", "red");
     } else if (isset($_GET['generic_warning'])) {
-        message_inline_red("Something Went Wrong", false);
+        message_inline ("Something Went Wrong", "red");
     }
 
     $head_sent = true;
@@ -173,8 +173,15 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
 }
 
 function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
+    switch ($color) {
+        case "blue": $color = "#42A0FF"; break;
+        case "green": $color = "#CFFF42"; break;
+        case "red": $color = "#FF4242"; break;
+        default: break;
+    }
+
     echo '<div class="title-decorator-container" style="transform: rotate(',$rotation,')">
-        <div class="title-decorator title-decorator-',$color,'"></div>
+        <div class="title-decorator" style="background-color:', htmlspecialchars ($color), '"></div>
         <div class="title-decorator title-decorator-gray"></div>
         <div class="title-decorator title-decorator-icon" style="background-image: url(\'/img/ui/',$img,'\')"></div>
     </div>';
@@ -191,11 +198,11 @@ function icon ($img) {
 function dropdown ($name, $options = null) {
     if (count ($options) <= 1) {
         echo '<div class="btn-group">
-            <a href="',$options[0][1],'" class="btn btn-warning btn-xs">', $name, '</a>
+            <a href="',$options[0][1],'" class="btn btn-2 btn-xs">', $name, '</a>
         </div>';
     } else if (count ($options) > 1) {
         echo '<div class="btn-group">
-            <button class="btn btn-warning dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
+            <button class="btn btn-2 dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
             <ul class="dropdown-menu">';
 
             foreach ($options as $option) {
@@ -208,11 +215,11 @@ function dropdown ($name, $options = null) {
 
 function menu_management () {
     echo '<div id="menu-management" class="menu">';
-    dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list/list_news"]]);
+    dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
+    dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list_news"]]);
     dropdown ("Categories", [["Add category", "/admin/category"], ["List categories", "/admin/"]]);
     dropdown ("Challenges", [["Add challenge", "/admin/challenge"], ["List challenges", "/admin/"]]);
-    dropdown ("Submissions", [["List submissions", "/admin/submissions"],
-                            ["List submissions in need of marking", "/admin/submissions?only_needing_marking=1"]]);
+    dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
     dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
     dropdown ("Exceptions", [["List exceptions", "/admin/exceptions"]]);

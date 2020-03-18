@@ -103,7 +103,7 @@ function print_solved_challenges($user_id) {
     }
 
     else {
-        message_inline_blue(lang_get('no_challenges_solved'));
+        message_inline(lang_get('no_challenges_solved'));
     }
 }
 
@@ -250,7 +250,7 @@ function print_user_exception_log($user_id, $limit = false) {
     }
 
     else {
-        message_inline_blue(lang_get('no_exceptions'));
+        message_inline(lang_get('no_exceptions'));
     }
 }
 
@@ -277,8 +277,6 @@ function print_user_ip_log($user_id, $limit = 0) {
           </thead>
           <tbody>
         ';
-
-
 
     $entries = db_query_fetch_all('
         SELECT

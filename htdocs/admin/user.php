@@ -40,7 +40,7 @@ section_head(
 );
 
 if (!$user['competing']) {
-    message_inline_blue(lang_get('non_competing_user'));
+    message_inline(lang_get('non_competing_user'));
 }
 
 print_solved_graph($_GET['id']);
