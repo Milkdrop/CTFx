@@ -40,7 +40,7 @@ if (!isset($_GET['action'])) {
     }
 
         echo '
-        <button class="btn btn-lg btn-primary" type="submit">',lang_get('reset_password'),'</button>
+        <button class="btn btn-lg btn-1" type="submit">',lang_get('reset_password'),'</button>
     </form>
     ';
 
@@ -59,7 +59,7 @@ else if ($_GET['action']=='choose_password' && is_valid_id($auth['user_id'])) {
         <input type="hidden" name="action" value="choose_password" />
         <input type="hidden" name="auth_key" value="',htmlspecialchars($_GET['auth_key']),'" />
         <input type="hidden" name="id" value="',htmlspecialchars($_GET['id']),'" />
-        <button class="btn btn-lg btn-primary" type="submit">',lang_get('reset_password'),'</button>
+        <button class="btn btn-lg btn-1" type="submit">',lang_get('reset_password'),'</button>
     </form>
     ';
 

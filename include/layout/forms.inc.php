@@ -63,7 +63,6 @@ function form_input_password($name, $prefill = false, array $options = null) {
 }
 
 function form_input_captcha($position = 'private') {
-
     if (($position == 'private' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) || ($position == 'public' && Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC'))) {
         echo '
         <div class="form-group">
@@ -120,7 +119,7 @@ function form_textarea($name, $prefill = false) {
     ';
 }
 
-function form_button_submit ($name, $type = 'primary') {
+function form_button_submit ($name, $type = '1') {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
@@ -130,18 +129,12 @@ function form_button_submit ($name, $type = 'primary') {
     ';
 }
 
-function form_button_submit_small ($name, $type = 'primary') {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<button type="submit" id="',$field_name,'" class="btn btn-xs btn-',htmlspecialchars($type),'">',$name,'</button>';
-}
-
-function form_button_submit_bbcode ($name, $type = 'primary') {
+function form_button_submit_bbcode ($name) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '<div class="form-group">
-        <button type="submit" id="',$field_name,'" class="btn btn-lg btn-',htmlspecialchars($type),'">',$name,'</button>
-        <a target="_blank" href="/admin/bbcode_manual" style="height:45px;margin-top:0px;padding-top:10px" class="btn btn-xs btn-warning">BBCode Manual</a>
+        <button type="submit" id="',$field_name,'" class="btn btn-lg btn-1">',$name,'</button>
+        <a target="_blank" href="/admin/bbcode_manual" style="height:45px;margin-top:0px;padding-top:10px" class="btn btn-xs btn-2">BBCode Manual</a>
     </div>';
 }
 

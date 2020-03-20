@@ -40,7 +40,7 @@ message_inline('Warning! This will delete all challenges under this category, as
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-form_button_submit('Delete category', 'danger');
+form_button_submit('Delete category', '3');
 form_end();
 
 foot();

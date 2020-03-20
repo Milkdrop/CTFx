@@ -79,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         'added_by' => $_SESSION['id'],
                         'title' => $data[0],
                         'description' => $data[2],
-                        'flag' => $data[,
                         'category' => $_POST['category'],
                         'exposed' => $_POST['exposed']
                     )

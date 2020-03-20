@@ -50,7 +50,7 @@ form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('challenge', $hint['challenge']);
 form_hidden('id', $_GET['id']);
-form_button_submit('Delete hint', 'danger');
+form_button_submit('Delete hint', '3');
 form_end();
 
 foot();

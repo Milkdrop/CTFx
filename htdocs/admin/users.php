@@ -89,7 +89,7 @@ foreach($users as $user) {
         <td class="center">',($user['enabled'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove red"></span>'),'</td>
         <td class="center"><a href="/admin/ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
         <td class="center">
-            <a href="/admin/user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-warning">✎</a>
+            <a href="/admin/user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-2">✎</a>
         </td>
     </tr>
     ';

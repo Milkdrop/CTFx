@@ -31,7 +31,7 @@ form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 message_inline('Warning! Any users of this type will be without a type.
 You must manually give them a type in the DB. If no types will exist after this action, you must set their type to 0.', "red");
-form_button_submit('Delete user type', 'danger');
+form_button_submit('Delete user type', '3');
 form_end();
 
 foot();

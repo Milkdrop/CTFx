@@ -16,13 +16,6 @@ function highlightSelectedMenuItem() {
     for (var t = window.location.pathname, e = document.querySelectorAll('.nav a[href$="' + t + '"]'), n = 0; n < e.length; n++) e[n] && e[n].parentNode && (e[n].parentNode.className = "active")
 }
 
-function createBackground() {
-    for (var t = document.getElementById("background-dots"), e = 0; e < 15; e++) {
-        var n = document.createElement("div");
-        n.className = "background-dot", n.innerText = 0 == e ? "07" : "+", n.style.top = Math.random() * window.innerHeight + "px", n.style.left = Math.random() * window.innerWidth + "px", n.style.transform = "scale(" + (.5 + .5 * Math.random()) + ")", t.appendChild(n)
-    }
-}
-
 function addNavbarMouseoverEffects() {
     for (var t = document.getElementsByClassName("shuffle-text"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
@@ -38,7 +31,7 @@ function addNavbarMouseoverEffects() {
 }
 
 function addButtonMouseoverEffects() {
-    for (var t = [].concat([].slice.call(document.getElementsByClassName("btn")), [].slice.call(document.getElementsByClassName("close")), [].slice.call(document.getElementsByClassName("category-link"))), e = document.getElementById("audio-button-mouseover"), n = document.getElementById("audio-button-click"), o = document.getElementById("audio-button-small-mouseover"), i = document.getElementById("audio-button-small-click"), a = document.getElementById("audio-button-cancel-mouseover"), s = document.getElementById("audio-button-cancel-click"), l = 0, r = t.length; l < r; l++) t[l].classList.contains("btn-default") || t[l].classList.contains("close") ? (t[l].addEventListener("mouseenter", function() {
+    for (var t = [].concat([].slice.call(document.getElementsByClassName("btn")), [].slice.call(document.getElementsByClassName("close")), [].slice.call(document.getElementsByClassName("category-link"))), e = document.getElementById("audio-button-mouseover"), n = document.getElementById("audio-button-click"), o = document.getElementById("audio-button-small-mouseover"), i = document.getElementById("audio-button-small-click"), a = document.getElementById("audio-button-cancel-mouseover"), s = document.getElementById("audio-button-cancel-click"), l = 0, r = t.length; l < r; l++) t[l].classList.contains("btn-4") || t[l].classList.contains("close") ? (t[l].addEventListener("mouseenter", function() {
         a.currentTime = 0, a.play()
     }), t[l].addEventListener("click", function() {
         s.currentTime = 0, s.play()

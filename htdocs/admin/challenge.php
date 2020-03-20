@@ -83,7 +83,7 @@ $hints = db_select_all(
 );
 
 foreach ($hints as $hint) {
-  $msg = '<a style="margin: 0px; margin-right: 5px" href="hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-warning">✎</a>';
+  $msg = '<a style="margin: 0px; margin-right: 5px" href="hint.php?id=' . htmlspecialchars($hint['id']) . '" class="btn btn-xs btn-2">✎</a>';
   $msg .= '<strong>Hint!</strong> ' . get_bbcode()->parse($hint['body']);
 
   if ($hint["visible"] === 0) {
@@ -94,7 +94,7 @@ foreach ($hints as $hint) {
 }
 
 echo '<div class="form-group">
-    <a href="hint.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-warning">
+    <a href="hint.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-2">
       Add hint
     </a>
 </div>';
@@ -119,7 +119,7 @@ $files = db_select_all(
 foreach ($files as $file) {
   echo '<div class="challenge-file">';
   title_decorator ("blue", "0deg", "package.png");
-  echo '<a style="margin: 0px; margin-right: 5px" href="file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-primary">✎</a>';
+  echo '<a style="margin: 0px; margin-right: 5px" href="file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-1">✎</a>';
 
   if (empty ($file['url'])) {
     echo '<a target="_blank" href="../download?file_key=', htmlspecialchars($file['download_key']), '&team_key=', get_user_download_key(), '">', htmlspecialchars($file['title']), '</a>';
@@ -135,7 +135,7 @@ foreach ($files as $file) {
 }
 
 echo '<div class="form-group">
-    <a href="file.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-primary">
+    <a href="file.php?challenge=',htmlspecialchars($_GET['id']),'" class="btn btn-lg btn-1">
       Add file
     </a>
 </div>';
@@ -146,7 +146,7 @@ message_inline('Warning! This will also delete all submissions, all hints and al
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-form_button_submit('Delete challenge', 'danger');
+form_button_submit('Delete challenge', '3');
 form_end();
 
 foot();

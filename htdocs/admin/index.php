@@ -16,14 +16,14 @@ if (empty($categories)) {
     message_generic ('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
 }
 
-section_title ('Dashboard');
+section_title ('Dashboard', 'ダッシュボード');
 
 foreach($categories as $category) {
     echo '
     <h4>
     ',htmlspecialchars($category['title']),'
-    <a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-primary">+</a>',
-    '<a href="category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-warning">✎</a>
+    <a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-1">+</a>',
+    '<a href="category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-2">✎</a>
     </h4>';
 
     $challenges = db_select_all(
@@ -76,8 +76,8 @@ foreach($categories as $category) {
 
           </td>
           <td class="center">
-            <a href="hint.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-primary">Add Hint</a>',
-            '<a href="challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-warning">✎</a>
+            <a href="hint.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-1">Add Hint</a>',
+            '<a href="challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-2">✎</a>
           </td>
         </tr>
         ';

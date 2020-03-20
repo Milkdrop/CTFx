@@ -64,7 +64,7 @@ form_input_password('New password');
 form_input_password('New password again');
 form_hidden('action', 'reset_password');
 form_input_captcha();
-form_button_submit(lang_get('reset_password'), 'warning');
+form_button_submit(lang_get('reset_password'), '2');
 form_end();
 
 foot();

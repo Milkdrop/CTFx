@@ -42,7 +42,7 @@ form_start('/admin/actions/user');
 form_input_checkbox('Reset confirmation', false, 'green');
 form_hidden('action', 'reset_password');
 form_hidden('id', $_GET['id']);
-form_button_submit('Reset password', 'warning');
+form_button_submit('Reset password', '2');
 form_end();
 
 section_subhead('Delete user');
@@ -51,6 +51,6 @@ form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 message_inline('Warning! This will delete all submissions made by this user!', "red");
-form_button_submit('Delete user', 'danger');
+form_button_submit('Delete user', '3');
 
 foot();

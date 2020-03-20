@@ -33,7 +33,7 @@ $opts = db_query_fetch_all(
 
 form_start('/admin/actions/file','','multipart/form-data');
 form_input_text('Filename', $file['title']);
-form_select($opts, 'Challenge', 'id', $file['challenge'], 'title', 'category');
+form_select($opts, 'Challenge', 'id', isset ($file)?$file['challenge']:array_get($_GET, 'challenge', 0), 'title', 'category');
 form_input_text('URL', $file['url']);
 form_file('file');
 form_hidden('action', isset ($file)?'edit':'new');
@@ -53,7 +53,7 @@ form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
 form_hidden('challenge', $file['challenge']);
-form_button_submit('Delete file', 'danger');
+form_button_submit('Delete file', '3');
 form_end();
 
 foot();

@@ -11,7 +11,7 @@ function message_error ($message, $head = true, $foot = true, $exit = true) {
         head(lang_get('error'));
     }
 
-    echo '<h2 class="typewriter">', lang_get('error'), '</h2>';
+    echo '<h2 class="typewriter" style="margin-bottom:5px">', lang_get('error'), '</h2>';
 
     message_inline ($message, "red");
 
@@ -31,7 +31,7 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
         head($title);
     }
 
-    echo '<h2 class="typewriter">', htmlspecialchars($title), '</h2>';
+    echo '<h2 class="typewriter" style="margin-bottom:5px">', htmlspecialchars($title), '</h2>';
 
     message_inline ($message);
 
@@ -44,18 +44,18 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
-function message_inline ($message, $color = "blue", $strip_html = true) {
+function message_inline ($message, $color = "blue", $strip_html = true, $extra_style = "") {
     switch ($color) {
         case "green": $textcolor = "#CFFF42"; break;
         case "red": $textcolor = "#FF4242"; break;
         default: $textcolor = "";
     }
 
-    echo '<div class="alert" ', isset ($textcolor)?'style="color:' . $textcolor . '"':'',
-    '>', title_decorator ($color, "270deg"), ($strip_html ? htmlspecialchars($message) : $message), '</div>';
+    echo '<div class="alert" style="', isset ($textcolor)?'color:' . $textcolor . ';':'',
+    $extra_style, '">', title_decorator ($color, "270deg"), ($strip_html ? htmlspecialchars($message) : $message), '</div>';
 }
 
-function message_dialog ($message, $title, $closeText, $class, $buttonType = "primary") {
+function message_dialog ($message, $title, $closeText, $class, $buttonType = "1") {
     echo '
     <div class="modal fade ',$class,'">
         <div class="modal-dialog light-theme">

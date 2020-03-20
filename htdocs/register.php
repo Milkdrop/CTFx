@@ -10,7 +10,7 @@ if (user_is_logged_in()) {
 head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
-    section_title('Registration:');
+    section_title('Registration');
     echo lang_get(
             'account_signup_information',
             array(
@@ -55,7 +55,7 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
     echo '
     <input type="hidden" name="action" value="register" />
 
-    <button class="btn btn-primary btn-lg" type="submit" id="register-team-button">Register</button>
+    <button class="btn btn-1 btn-lg" type="submit" id="register-team-button">Register</button>
 </form>
 ';
 

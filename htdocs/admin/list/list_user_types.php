@@ -27,7 +27,7 @@ foreach($types as $type) {
     <tr>
         <td>',htmlspecialchars($type['title']),'</td>
         <td>',short_description($type['description'], 50),'</td>
-        <td><a href="edit_user_type.php?id=',htmlspecialchars($type['id']), '" class="btn btn-xs btn-warning">✎</a></td>
+        <td><a href="edit_user_type.php?id=',htmlspecialchars($type['id']), '" class="btn btn-xs btn-2">✎</a></td>
     </tr>
     ';
 }

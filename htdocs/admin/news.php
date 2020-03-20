@@ -37,7 +37,7 @@ form_start('/admin/actions/news');
 form_input_checkbox('Delete confirmation', false, 'red');
 form_hidden('action', 'delete');
 form_hidden('id', $_GET['id']);
-form_button_submit ('Delete news item', 'danger');
+form_button_submit ('Delete news item', '3');
 form_end();
 
 foot();

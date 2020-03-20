@@ -99,14 +99,14 @@ foreach($submissions as $submission) {
     echo '
                 <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? 'warning' : 'primary'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
+                <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? '2' : '1'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
             </form>
             <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
     form_xsrf_token();
     echo '
                 <input type="hidden" name="action" value="delete" />
                 <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                <button type="submit" class="btn btn-xs btn-3">Delete</button>
             </form>
         </td>
     </tr>

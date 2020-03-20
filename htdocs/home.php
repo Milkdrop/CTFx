@@ -10,8 +10,8 @@ head(lang_get('home'));
 
 if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'))) {
 
-    echo '<div id="ctfx-main-logo"></div>
-        <div class="main-intro-text">
+    echo '<div id="home-logo"></div>
+        <div class="home-intro-text">
         Welcome to CTFx. This is a fork of <a href="https://github.com/Nakiami/mellivora">mellivora</a> that sports an overhaul of the UI, extra functionality (such as dynamic scoring) and various other quality-of-life tweaks. The goal of CTFx is to bring together the speed of mellivora and the appearance of modern and future web in order to create a fast, lightweight and enjoyable CTF Platform. The current CTFx repository is a close clone of the CTFx instance that is running at the official X-MAS CTF.
     </div>
     <br>';
@@ -44,8 +44,8 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     }
 
     foreach ($news as $item) {
-        echo '<div class="news-container">
-            <div class="news-head"><h4 class="news-title">',
+        echo '<div class="ctfx-card">
+            <div class="ctfx-card-head"><h4>',
                 htmlspecialchars($item['title']),
                 '</h4> <small>',
                 date_time ($item['added']),

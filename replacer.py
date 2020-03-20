@@ -6,7 +6,7 @@ def dfs (path, subject, replace):
 	for file in files:
 		filePath = path + "/" + file
 		if (os.path.isdir (filePath)):
-			dfs (filePath)
+			dfs (filePath, subject, replace)
 		else:
 			fd = open (filePath, "r")
 			data = fd.read ()
@@ -24,4 +24,4 @@ if (len (sys.argv) < 3):
 	print ("Usage: {} subject replace".format (sys.argv[0]))
 	exit (1)
 
-dfs (os.getcwd ())
+dfs (os.getcwd (), sys.argv[1], sys.argv[2])

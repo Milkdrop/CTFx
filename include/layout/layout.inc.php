@@ -22,11 +22,11 @@ function head($title = '') {
     <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('MELLIVORA_CONFIG_SITE_NAME'), ' - ', Config::get('MELLIVORA_CONFIG_SITE_SLOGAN'),'</title>
     <meta name="description" content="',Config::get('MELLIVORA_CONFIG_SITE_DESCRIPTION'),'">
     <meta name="author" content="">
-    <link rel="icon" href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/favicon.png" type="image/png" />
+    <link rel="icon" href="/img/favicon.png" type="image/png" />
 
     <!-- CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'css/mellivora.css" rel="stylesheet">';
+    <link href="/css/mellivora.css" rel="stylesheet">';
 
     js_global_dict();
 
@@ -93,27 +93,24 @@ function head($title = '') {
         ';
 
     if (isset($_GET['generic_success'])) {
-        message_inline ("Action Successful", "green");
+        message_inline ("Action Successful", "green", true, "margin-bottom: 0px");
     } else if (isset($_GET['generic_failure'])) {
-        message_inline ("Action Failed", "red");
+        message_inline ("Action Failed", "red", true, "margin-bottom: 0px");
     } else if (isset($_GET['generic_warning'])) {
-        message_inline ("Something Went Wrong", "red");
+        message_inline ("Something Went Wrong", "red", true, "margin-bottom: 0px");
     }
 
     $head_sent = true;
 }
 
 function foot () {
-    echo '
-
-    </div> <!-- / content container -->
-
+    echo '</div> <!-- / content container -->
 </div> <!-- /container -->
-<div id="footer">
-	CTFx v1.0 - Work-In-Progress. Made by <a href="https://github.com/MoonfireSeco">Milkdrop</a>
-</div>
 
-<!--<video autoplay="true" loop="true" id="dotCanvas" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'img/dotCanvas.mp4"></video>-->
+<div id="footer">
+    <b>CTFx</b> v1.1<br>
+	Made with 💙 by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
+</div>
 
 </div> <!-- /page -->
 
@@ -121,19 +118,20 @@ function foot () {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-<audio id="audio-typewriter" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/typewriter.mp3"></audio>
-<audio id="audio-navbar" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navbar.mp3"></audio>
-<audio id="audio-navclick" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/navclick.mp3"></audio>
-<audio id="audio-footer-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/footer_mouseover.mp3"></audio>
-<audio id="audio-button-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_mouseover.mp3"></audio>
-<audio id="audio-button-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_click.mp3"></audio>
-<audio id="audio-button-cancel-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_mouseover.mp3"></audio>
-<audio id="audio-button-cancel-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_cancel_click.mp3"></audio>
-<audio id="audio-button-small-mouseover" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_mouseover.mp3"></audio>
-<audio id="audio-button-small-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/button_small_click.mp3"></audio>
-<audio id="audio-dropdown-open" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/dropdown_open.mp3"></audio>
-<audio id="audio-checkbox-click" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'audio/checkbox_click.mp3"></audio>
-<script type="text/javascript" src="',Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES'),'js/mellivora.js"></script>
+<audio id="audio-typewriter" src="/audio/typewriter.mp3"></audio>
+<audio id="audio-navbar" src="/audio/navbar.mp3"></audio>
+<audio id="audio-navclick" src="/audio/navclick.mp3"></audio>
+<audio id="audio-footer-mouseover" src="/audio/footer_mouseover.mp3"></audio>
+<audio id="audio-button-mouseover" src="/audio/button_mouseover.mp3"></audio>
+<audio id="audio-button-click" src="/audio/button_click.mp3"></audio>
+<audio id="audio-button-cancel-mouseover" src="/audio/button_cancel_mouseover.mp3"></audio>
+<audio id="audio-button-cancel-click" src="/audio/button_cancel_click.mp3"></audio>
+<audio id="audio-button-small-mouseover" src="/audio/button_small_mouseover.mp3"></audio>
+<audio id="audio-button-small-click" src="/audio/button_small_click.mp3"></audio>
+<audio id="audio-dropdown-open" src="/audio/dropdown_open.mp3"></audio>
+<audio id="audio-checkbox-click" src="/audio/checkbox_click.mp3"></audio>
+
+<script type="text/javascript" src="/js/mellivora.js"></script>
 </body>
 </html>';
 }
@@ -217,8 +215,8 @@ function menu_management () {
     echo '<div id="menu-management" class="menu">';
     dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
     dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list_news"]]);
-    dropdown ("Categories", [["Add category", "/admin/category"], ["List categories", "/admin/"]]);
-    dropdown ("Challenges", [["Add challenge", "/admin/challenge"], ["List challenges", "/admin/"]]);
+    dropdown ("Add category", [["Add category", "/admin/category"]]);
+    dropdown ("Add challenge", [["Add challenge", "/admin/challenge"]]);
     dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
     dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
@@ -400,7 +398,7 @@ function pager($base_url, $max, $per_page, $current) {
 
     echo '
     <div class="text-center">
-        <ul class="pagination no-padding-or-margin">
+        <ul class="pagination">
 
         <li><a href="'.htmlspecialchars($base_url).'from='.max(0, ($current-$per_page)).'">Prev</a></li>
 
