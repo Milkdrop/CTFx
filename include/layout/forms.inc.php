@@ -54,10 +54,7 @@ function form_input_password($name, $prefill = false, array $options = null) {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '
     <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($options['disabled'] ? ' disabled' : ''),' required />
-      </div>
+        <input type="password" id="',$field_name,'" name="',$field_name,'" class="form-control" placeholder="',$name,'"',($prefill !== false ? ' value="'.htmlspecialchars($prefill).'"' : ''),'',($options['disabled'] ? ' disabled' : ''),' required />
     </div>
     ';
 }
@@ -78,13 +75,17 @@ function form_input_captcha($position = 'private') {
 }
 
 function form_input_checkbox ($name, $checked = 0, $color = "blue") {
+    switch ($color) {
+        case "blue": $color = "#42A0FF"; break;
+        case "green": $color = "#CFFF42"; break;
+        case "red": $color = "#FF4242"; break;
+        default: break;
+    }
+
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <div class="checkbox-', $color, '">
-          <input type="checkbox" id="',$field_name,'" class="form-control" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
-      </div>
+    echo '<div class="form-group">
+        <input style="border-color: ',$color,'" type="checkbox" id="',$field_name,'" class="form-control" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       <label class="control-label" for="',$field_name,'">',$name,'</label>
     </div>
     ';
@@ -93,14 +94,7 @@ function form_input_checkbox ($name, $checked = 0, $color = "blue") {
 function form_generic ($name, $generic) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
-    echo '
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="',$field_name,'">',$name,'</label>
-      <div class="col-sm-10">
-          ',$generic,'
-      </div>
-    </div>
-    ';
+    echo '<div class="form-group">',$generic,'</div>';
 }
 
 function form_textarea($name, $prefill = false) {

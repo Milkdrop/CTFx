@@ -42,7 +42,7 @@ function head($title = '') {
 
     echo '
     </head>
-    <body>';
+    <body><div class="background"></div>';
 
     if (!user_is_logged_in()) {
         login_dialog();
@@ -63,7 +63,7 @@ function head($title = '') {
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'">',lang_get('manage'),'</a></li>';
+                            echo '<li><a class="shuffle-text" href="/admin/">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
@@ -109,7 +109,7 @@ function foot () {
 
 <div id="footer">
     <b>CTFx</b> v1.1<br>
-	Made with 💙 by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
+	Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
 </div>
 
 </div> <!-- /page -->
@@ -148,11 +148,11 @@ function section_title ($title, $tagline = '', $decorator_color = "green") {
     ';
 }
 
-function section_head ($title, $tagline = '', $decorator_color = "green") {
+function section_head ($title, $tagline = '', $decorator_color = "green", $typewriter = true) {
     echo '
         <div class="row">
             <div class="col-lg-12" style="margin-bottom: 5px">
-                <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
+                <h2 ', $typewriter?'class="typewriter"':'','>', title_decorator ($decorator_color), htmlspecialchars ($title),
                 '<small>'.$tagline.'</small>','
                 </h2>
             </div>
@@ -216,7 +216,6 @@ function menu_management () {
     dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
     dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list_news"]]);
     dropdown ("Add category", [["Add category", "/admin/category"]]);
-    dropdown ("Add challenge", [["Add challenge", "/admin/challenge"]]);
     dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
     dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
@@ -349,9 +348,8 @@ function country_flag_link($country_name, $country_code, $return = false) {
     $country_name = htmlspecialchars($country_name);
     $country_code = htmlspecialchars($country_code);
 
-    $flag_link = '
-    <a href="country?code='.htmlspecialchars($country_code).'">
-        <img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
+    $flag_link = '<a class="country-flag" href="country?code='.htmlspecialchars($country_code).'">' .
+        '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
     </a>';
 
     if ($return) {

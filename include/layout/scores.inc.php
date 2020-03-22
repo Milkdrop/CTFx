@@ -1,39 +1,64 @@
 <?php
 
 function scoreboard ($scores) {
+  if (empty ($scores)) {
+    message_center ("No teams");
+  }
 
-    echo '
-    <table class="team-table table table-striped table-hover">
-      <tbody>
-     ';
+  echo '<div class="team-table">';
+  //$scores = json_decode (file_get_contents ("/var/www/ctfx/include/layout/custom_scores.json"), true);
 
-    //$scores = json_decode (file_get_contents ("/var/www/ctfx/include/layout/custom_scores.json"), true);
+  podium ($scores);
 
-    $i = 1;
+  echo '<table class="table table-striped table-hover"><tbody>';
 
     $maxScore = $scores[0]['score'];
     if ($maxScore == 0) {
         $maxScore = 1;
     }
 
+    $i = 1;
     foreach ($scores as $score) {
-
         echo '<tr>
           <td class="team-name">
-            <p class="team-number"',($i <= 3)?' style="color: #42a0ff"':'','>',number_format($i++),'.</p>
-            <a href="user?id=',htmlspecialchars($score['user_id']),'" class="team_',htmlspecialchars($score['user_id']),'">
-                ',htmlspecialchars($score['team_name']),'
-            </a></td>
-          <td class="team-flag">',country_flag_link($score['country_name'], $score['country_code']),'</td>
+            <div class="team-number">',number_format($i++),'.</div>
+            <a href="user?id=',htmlspecialchars($score['user_id']),'" class="team_',htmlspecialchars($score['user_id']),'">'
+                , htmlspecialchars($score['team_name']),
+            '</a></td>',
+          '<td class="team-flag">',country_flag_link($score['country_name'], $score['country_code']),'</td>
           <td class="team-progress-bar">',progress_bar(($score['score'] / $maxScore) * 100, false, false),'</td>
           <td class="team-score">',number_format($score['score']),' Points</td>
         </tr>';
     }
 
-    echo '
-      </tbody>
-    </table>
-    ';
+    echo '</tbody>
+    </table></div>';
+}
+
+function podium ($scores) {
+  $top3 = [1, 0, 2];
+  $widths = [128, 196, 96];
+
+  echo '<div class="podium">';
+
+  for ($i = 0; $i < 3; $i++) {
+    $team = $scores[$top3[$i]];
+
+    if (!isset ($team))
+      continue;
+
+    $avatar = "https://www.gravatar.com/avatar/" . md5 ($team["email"]) . "?s=256&d=mp";
+
+    echo '<div class="podium-position" style="width:', $widths[$i], 'px">
+      <a href="/user?id=',$team['user_id'],'">
+        <img class="podium-icon" style="width:', $widths[$i], 'px" src="', htmlspecialchars($avatar), '">
+      <div class="podium-name has-tooltip" data-toggle="tooltip" data-placement="top" title="', htmlspecialchars($team["team_name"]),'">
+      ', $top3[$i] + 1, '. ', htmlspecialchars($team["team_name"]), '
+      </a></div>
+    </div>';
+  }
+
+  echo '</div>';
 }
 
 function challenges($categories) {

@@ -31,8 +31,6 @@ function print_solved_graph($user_id) {
         $user_total += $challenge['points'];
         $ctf_total += $challenge['category_total'];
     }
-
-    echo lang_get('total_solves'), ' ', number_format($user_total), ' / ', number_format($ctf_total), ' (', round(($user_total/$ctf_total)*100, 1), '%)';
 }
 
 function print_solved_challenges($user_id) {

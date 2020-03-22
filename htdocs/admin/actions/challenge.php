@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'added_by' => $_SESSION['id'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
+                'available_from'=>Config::get ("MELLIVORA_CONFIG_CTF_START_TIME"),
+                'available_until'=>Config::get ("MELLIVORA_CONFIG_CTF_END_TIME"),
                 'flag' => $_POST['flag'],
                 'category' => $_POST['category'],
                 'exposed' => $_POST['exposed']

@@ -28,7 +28,7 @@ head($country['country_name']);
 
 if (cache_start(CONST_CACHE_NAME_COUNTRY . $_GET['code'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_COUNTRIES'))) {
 
-    section_head (htmlspecialchars($country['country_name']) . country_flag_link($country['country_name'], $country['country_code'], true), '', false);
+    section_head (htmlspecialchars($country['country_name']), country_flag_link($country['country_name'], $country['country_code'], true));
 
     $scores = db_query_fetch_all('
             SELECT

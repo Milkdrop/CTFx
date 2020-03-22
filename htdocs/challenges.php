@@ -56,9 +56,13 @@ if (isset($_GET['category'])) {
 } else
     $current_category = $categories[0];
 
-if (empty($current_category)) {
-    message_generic('Challenges', 'Your CTF is looking a bit empty! Start by adding a category using the management console.');
-}
+$timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
+
+if ($timeLeft >= 0)
+    message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
+
+if (empty ($current_category))
+    message_center ("No challenges yet");
 
 // write category name
 echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';

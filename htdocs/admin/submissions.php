@@ -85,7 +85,7 @@ foreach($submissions as $submission) {
     echo '
     <tr>
         <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
+        <td><a href="/admin/user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>',htmlspecialchars($submission['flag']),'</td>
         <td>

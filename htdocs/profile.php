@@ -31,6 +31,7 @@ form_input_text('Team name', $user['team_name'], array('disabled'=>true));
 
 $opts = db_query_fetch_all('SELECT * FROM countries ORDER BY country_name ASC');
 form_select($opts, 'Country', 'id', $user['country_id'], 'country_name');
+message_inline ("In order to add a profile picture, register yourself on <a href='https://en.gravatar.com/'>Gravatar</a>", "blue", false);
 
 form_hidden('action', 'edit');
 form_button_submit(lang_get('save_changes'));
@@ -40,20 +41,21 @@ section_subhead(lang_get('two_factor_auth'), "using Google Authenticator (TOTP)"
 form_start('actions/profile');
 if ($user['2fa_status'] == 'generated') {
     form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="'.lang_get('scan_with_totp_app').'" />');
+    message_inline ("Scan the above QR Code using a 2FA TOTP App such as Google Authenticator to obtain the code");
     form_input_text('Code');
     form_hidden('action', '2fa_enable');
-    form_button_submit(lang_get('enable_two_factor_auth'));
+    form_button_submit("Enable 2FA");
 }
 
 else if ($user['2fa_status'] == 'disabled') {
     form_hidden('action', '2fa_generate');
-    form_button_submit(lang_get('generate_codes'));
+    form_button_submit("Generate QR Code");
 }
 
 else if ($user['2fa_status'] == 'enabled') {
     form_generic('QR', '<img src="'.get_two_factor_auth_qr_url().'" alt="QR" title="'.lang_get('scan_with_totp_app').'" />');
     form_hidden('action', '2fa_disable');
-    form_button_submit(lang_get('disable_two_factor_auth'), 'danger');
+    form_button_submit("Disable 2FA", '3');
 }
 form_end();
 

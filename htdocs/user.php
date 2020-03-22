@@ -11,11 +11,15 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
     $user = db_query_fetch_one('
         SELECT
             u.team_name,
+            u.email,
             u.competing,
             co.country_name,
-            co.country_code
+            co.country_code,
+            SUM(c.points) AS score
         FROM users AS u
         LEFT JOIN countries AS co ON co.id = u.country_id
+        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
+        LEFT JOIN challenges AS c ON c.id = s.challenge
         WHERE
           u.id = :user_id',
         array('user_id' => $_GET['id'])
@@ -29,7 +33,22 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         );
     }
 
-    section_title ($user['team_name'], country_flag_link($user['country_name'], $user['country_code'], true));
+    if (!isset ($user['score']))
+        $user['score'] = 0;
+
+    $totalPoints = db_query_fetch_one ('
+        SELECT SUM(c.points) AS points
+        FROM challenges AS c
+        WHERE c.exposed = 1')["points"];
+
+    $avatarURL = "https://www.gravatar.com/avatar/" . md5 ($user["email"]) . "?s=128&d=mp";
+
+    echo '<div class="user-profile">
+        <div class="user-image" style="background-image:url(\'', htmlspecialchars ($avatarURL), '\')"></div>',
+        '<div class="user-description">
+            <h2>', htmlspecialchars ($user["team_name"]), country_flag_link($user['country_name'], $user['country_code'], true), '</h2>
+            <h4><b>', $user["score"], '</b><small>/', $totalPoints, ' Points</small></h4>
+        </div></div>';
 
     if (!$user['competing']) {
         message_inline(lang_get('non_competing_user'));

@@ -106,8 +106,7 @@ function send_email (
         }
 
     } catch (Exception $e) {
-        log_exception($e);
-        message_error('Could not send email! An exception has been logged. Please contact '.(Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') ? Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') : Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL')));
+        log_exception($e, false, "Please set up an e-mail address for CTFx to use");
     }
 
     return $successfully_sent_to;

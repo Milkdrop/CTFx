@@ -13,8 +13,8 @@ if (isset ($_GET['id'])) {
       array('id' => $_GET['id'])
   );
 
-    if ($challenge === false)
-        unset ($challenge);
+  if ($challenge === false)
+    unset ($challenge);
 }
 
 head('Site management');

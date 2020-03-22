@@ -12,10 +12,6 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     $now = time();
 
-    echo '
-    <div class="row">
-        <div class="col-xl-12">';
-
     $user_types = db_select_all(
         'user_types',
         array(
@@ -26,12 +22,11 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
     // no user types
     if (empty($user_types)) {
-        section_title (lang_get('scoreboard'));
-
         $scores = db_query_fetch_all('
             SELECT
                u.id AS user_id,
                u.team_name,
+               u.email,
                co.id AS country_id,
                co.country_name,
                co.country_code,

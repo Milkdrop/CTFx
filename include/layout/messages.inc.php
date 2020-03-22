@@ -55,6 +55,21 @@ function message_inline ($message, $color = "blue", $strip_html = true, $extra_s
     $extra_style, '">', title_decorator ($color, "270deg"), ($strip_html ? htmlspecialchars($message) : $message), '</div>';
 }
 
+function message_center ($message, $submessage = "", $img = "warn.png") {
+    echo '<div class="message-centered">
+        <img src="/img/ui/', htmlspecialchars($img), '">',
+        '<span>
+        <div class="message">', htmlspecialchars ($message),'</div>';
+
+    if (!empty ($submessage))
+        echo '<div class="submessage">', title_decorator ("green", "270deg"), htmlspecialchars($submessage), '</div>';
+
+    echo '</span></div>';
+
+    foot();
+    exit;
+}
+
 function message_dialog ($message, $title, $closeText, $class, $buttonType = "1") {
     echo '
     <div class="modal fade ',$class,'">

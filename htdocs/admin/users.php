@@ -80,9 +80,9 @@ foreach($users as $user) {
     <tr>
         <td>
             ',country_flag_link($user['country_name'], $user['country_code']),'
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
+            <a href="/admin/user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
         </td>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_ADMIN_URL'),'new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
+        <td><a href="/admin/new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
         <td>',date_time($user['added']),'</td>
         <td>',($user['last_active'] ? date_time($user['last_active']) : '<i>Never</i>'),'</td>
         <td class="center">',user_class_name($user['class']),'</td>

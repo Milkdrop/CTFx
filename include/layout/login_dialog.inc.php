@@ -8,7 +8,7 @@ function login_dialog() {
                 <form id="login-dialog-form" method="post" class="form-signin light-theme" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        ',section_head ("Login:", "", "blue"),'
+                        ',section_head ("Login", "", "blue", false),'
                     </div>
                     <div class="modal-body">
                             <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control form-group" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
@@ -16,12 +16,9 @@ function login_dialog() {
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
 
-                            <div class="form-group">
-                                <div class="checkbox-blue">
-                                    <input type="checkbox" class="form-control" name="remember_me" value="1" checked="checked"/>
-                                </div>
-                                <label class="control-label" for="remember_me">Remember Me</label>
-                            </div>
+                            <div class="form-group">',
+                                form_input_checkbox ("Remember Me", 1),
+                            '</div>
                             <a href="reset_password">',lang_get('forgotten_password'),'</a>
                     </div>
                     <div class="modal-footer">
@@ -31,6 +28,5 @@ function login_dialog() {
                 </form>
             </div>
         </div>
-    </div>
-    ';
+    </div>'; 
 }

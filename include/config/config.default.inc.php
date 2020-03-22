@@ -31,23 +31,17 @@
 // paths below must end in a "/" !
 Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/ctfx/');
 
-// language
-Config::set('MELLIVORA_CONFIG_SITE_LANGUAGE', 'en');
-
 // general site settings
-Config::set('MELLIVORA_CONFIG_SITE_NAME', 'X-MAS CTF');
-Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'X-MAS CTF 2019');
+Config::set('MELLIVORA_CONFIG_SITE_NAME', 'CTFx');
+Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'CTFx');
 Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', 'X-MAS Capture The Flag 2019 platform - Merry Christmas!');
 
 Config::set('MELLIVORA_CONFIG_SITE_URL', '/');
 Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', '/');
 
-Config::set('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH', 'admin/');
-Config::set('MELLIVORA_CONFIG_SITE_ADMIN_URL', Config::get('MELLIVORA_CONFIG_SITE_URL') . Config::get('MELLIVORA_CONFIG_SITE_ADMIN_RELPATH'));
-
 // CTF default start and end times, in unix timestamp
-Config::set('MELLIVORA_CONFIG_CTF_START_TIME', 1576263600);
-Config::set('MELLIVORA_CONFIG_CTF_END_TIME', 1576868400);
+Config::set('MELLIVORA_CONFIG_CTF_START_TIME', 1587699200);
+Config::set('MELLIVORA_CONFIG_CTF_END_TIME', 1585699206);
 
 // redirects
 Config::set('MELLIVORA_CONFIG_INDEX_REDIRECT_TO', 'home');
