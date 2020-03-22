@@ -49,7 +49,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
                 '</h4> <small>',
                 date_time ($item['added']),
                 '</small></div>
-            <div class="news-body">
+            <div class="ctfx-card-body">
                 ',get_bbcode()->parse($item['body']),'
             </div>
         </div>';

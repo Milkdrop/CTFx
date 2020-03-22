@@ -75,18 +75,15 @@ This software is licenced under the [GNU General Public License v3 (GPL-3)](http
 
 ### Features
 - Improve customization process and options
-- Nicer-looking UI
 - Better installation experience (w/ quick option to create an admin account)
 - Support No-JS users
 - Add [code] BBCode
+- Pagination and table styles, better admin dashboard
 
 ### Fixes
-- Some titles shouldn't be underlined (like the login modal)
-- New Challenge page is messy
 - Improve UX for dynamic pages / dynamic content
 - Generally improve UX in the admin interface
 - Make challenge / category availability dates more intuitive
-- Fix login modal checkbox
 
 ### Reminders
 - Remove bloat from composer when pushing to production

@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
           invalidate_cache(CONST_CACHE_NAME_HOME);
           
-          redirect('/admin/list_news.php?generic_success=1');
+          redirect('/admin/?generic_success=1');
       }
     }
 }

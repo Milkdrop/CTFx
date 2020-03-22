@@ -74,10 +74,10 @@ function form_input_captcha($position = 'private') {
     }
 }
 
-function form_input_checkbox ($name, $checked = 0, $color = "blue") {
+function form_input_checkbox ($name, $checked = 0, $color = "blue", $check_dark = 0) {
     switch ($color) {
         case "blue": $color = "#42A0FF"; break;
-        case "green": $color = "#CFFF42"; break;
+        case "green": $color = "#CFFF42"; $check_dark = 1; break;
         case "red": $color = "#FF4242"; break;
         default: break;
     }
@@ -85,10 +85,9 @@ function form_input_checkbox ($name, $checked = 0, $color = "blue") {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '<div class="form-group">
-        <input style="border-color: ',$color,'" type="checkbox" id="',$field_name,'" class="form-control" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+        <input style="border-color: ',$color,'" type="checkbox" id="',$field_name,'" class="form-control ',$check_dark ? 'check-dark':'','" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       <label class="control-label" for="',$field_name,'">',$name,'</label>
-    </div>
-    ';
+    </div>';
 }
 
 function form_generic ($name, $generic) {

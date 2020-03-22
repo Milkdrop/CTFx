@@ -40,7 +40,7 @@ Config::set('MELLIVORA_CONFIG_SITE_URL', '/');
 Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', '/');
 
 // CTF default start and end times, in unix timestamp
-Config::set('MELLIVORA_CONFIG_CTF_START_TIME', 1587699200);
+Config::set('MELLIVORA_CONFIG_CTF_START_TIME', 1584699200);
 Config::set('MELLIVORA_CONFIG_CTF_END_TIME', 1585699206);
 
 // redirects

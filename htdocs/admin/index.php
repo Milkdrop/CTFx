@@ -18,12 +18,18 @@ if (empty($categories)) {
 
 section_title ('Dashboard', 'ダッシュボード');
 
+// Print categories + challenges
+
+echo '<div class="dashboard-panel">';
 foreach($categories as $category) {
-    echo '
-    <h4>
-    ',htmlspecialchars($category['title']),'
-    <a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-1">+</a>',
-    '<a href="category.php?id=',htmlspecialchars($category['id']), '" class="btn btn-xs btn-2">✎</a>
+    echo '<h4>';
+
+    edit_link ('category.php?id='.htmlspecialchars($category['id']),
+      '✎ <b>'.htmlspecialchars($category['title']).'</b>',
+      $category['exposed']?'':'glyphicon-eye-close',
+      $category['exposed']?'':'Invisible');
+
+    echo ' <a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-xs btn-1">Add challenge</a>
     </h4>';
 
     $challenges = db_select_all(
@@ -44,49 +50,81 @@ foreach($categories as $category) {
     if (empty($challenges)) {
         message_inline('This category is empty! Use the link above to add a challenge.');
     } else {
-
-        echo '
-    <table class="table table-striped table-hover">
+      echo '<table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Title</th>
           <th>Description</th>
           <th class="center">Points</th>
-          <th class="center">Visibility</th>
-          <th class="center">Manage</th>
         </tr>
       </thead>
-      <tbody>
-    ';
+      <tbody>';
 
-        foreach ($challenges as $challenge) {
-            echo '
-        <tr>
-          <td>', htmlspecialchars($challenge['title']), '</td>
+      foreach ($challenges as $challenge) {
+        echo '<tr>
+        <td>';
+
+        $url = 'challenge.php?id='.htmlspecialchars($challenge['id']);
+        $contents = '<b>✎ '.htmlspecialchars($challenge['title']).'</b>';
+
+        if (!$challenge['exposed']) {
+          edit_link ($url, $contents, "glyphicon-eye-close", "Invisible");
+        } else if (!$category['exposed']) {
+          edit_link ($url, $contents, "glyphicon-eye-close", "Invisible due to category");
+        } else if (!is_item_available ($challenge['available_from'], $challenge['available_until'])) {
+          edit_link ($url, $contents, "glyphicon-eye-open", "Visible, but unflaggable");
+        } else {
+          edit_link ($url, $contents);
+        }
+
+      echo '</td>
           <td>', htmlspecialchars(short_description($challenge['description'], 50)), '</td>
           <td class="center">', number_format($challenge['points']), '</td>
-          <td class="center">
-
-            ', get_availability_icons(
-                $challenge['exposed'],
-                $challenge['available_from'],
-                $challenge['available_until'],
-                'Challenge'
-            ),'
-
-          </td>
-          <td class="center">
-            <a href="hint.php?challenge=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-1">Add Hint</a>',
-            '<a href="challenge.php?id=', htmlspecialchars($challenge['id']), '" class="btn btn-xs btn-2">✎</a>
-          </td>
-        </tr>
-        ';
-        }
-        echo '
-        </tbody>
-    </table>
-    ';
+        </tr>';
     }
+
+    echo '</tbody></table>';
+  }
 }
+
+echo '<a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-lg btn-1">Add category</a>';
+
+// Print 2 columns underneath the challenges
+
+echo '</div>
+<div class="row">
+<div class="col-md-6">';
+
+// Print left column
+
+echo '<div class="row">
+<div class="col-md-4">';
+card_simple ("sal");
+echo '</div>';
+echo '</div>';
+
+section_head ("Latest Submissions");
+echo 'sal';
+
+// Print right column
+
+echo '</div>
+<div class="col-md-6">';
+
+section_head ("News", button_link ('Add news','/admin/news'));
+
+$news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
+foreach($news as $item) {
+    echo '<div class="ctfx-card">
+        <div class="ctfx-card-head">
+          <h4>',edit_link ('/admin/news.php?id=' . htmlspecialchars($item['id']), '✎ ' . htmlspecialchars($item['title'])),'</h4>
+        </div>
+        <div class="ctfx-card-body">
+            ',get_bbcode()->parse($item['body']),'
+        </div>
+    </div>';
+}
+
+echo '</div></div>';
 
 foot();

@@ -5,12 +5,10 @@ function scoreboard ($scores) {
     message_center ("No teams");
   }
 
-  echo '<div class="team-table">';
   //$scores = json_decode (file_get_contents ("/var/www/ctfx/include/layout/custom_scores.json"), true);
 
   podium ($scores);
-
-  echo '<table class="table table-striped table-hover"><tbody>';
+  echo '<table class="table team-table table-striped table-hover"><tbody>';
 
     $maxScore = $scores[0]['score'];
     if ($maxScore == 0) {
@@ -32,7 +30,7 @@ function scoreboard ($scores) {
     }
 
     echo '</tbody>
-    </table></div>';
+    </table>';
 }
 
 function podium ($scores) {

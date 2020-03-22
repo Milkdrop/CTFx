@@ -18,7 +18,8 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         LEFT JOIN categories AS ca ON ca.id = ch.category
         WHERE
            ch.id = :id AND
-           ch.exposed = 1',
+           ch.exposed = 1 AND
+           ca.exposed = 1',
         array('id'=>$_GET['id'])
     );
     

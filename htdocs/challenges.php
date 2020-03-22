@@ -75,12 +75,8 @@ foreach ($categories as $cat) {
     echo '<a class="btn btn-xs btn-2 ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="/challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
 }
 
-echo '</div>';
-
-// write out the category description, if one exists
-if ($current_category['description']) {
-    echo '<div id="category-description">', get_bbcode()->parse($current_category['description']), '</div>';
-}
+echo '</div>
+<div id="category-description">', get_bbcode()->parse($current_category['description']), '</div>';
 
 // get all the challenges for the selected category
 $challenges = db_query_fetch_all('

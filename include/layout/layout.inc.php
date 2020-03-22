@@ -193,6 +193,10 @@ function icon ($img) {
     echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
 }
 
+function card_simple ($content, $icon = "") {
+    echo '<div class="ctfx-simple-card">', htmlspecialchars($content), '</div>';
+}
+
 function dropdown ($name, $options = null) {
     if (count ($options) <= 1) {
         echo '<div class="btn-group">
@@ -211,11 +215,31 @@ function dropdown ($name, $options = null) {
     }
 }
 
+function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white") {
+    switch ($color) {
+        case "white": $color = "#F7F7F7"; break;
+        case "gray": $color = "#B0B0B0"; break;
+        default: break;
+    }
+
+    echo '<a href="', htmlspecialchars($url), '" style="color: ', htmlspecialchars($color), '">', $contents, '</a>';
+
+    if (!empty ($icon)) {
+        echo ' <span class="glyphicon ', htmlspecialchars($icon);
+
+        if (!empty ($tooltip)) {
+            echo ' has-tooltip" title="',htmlspecialchars($tooltip),'"
+            data-toggle="tooltip" data-placement="top"';
+        } else
+            echo '"';
+
+        echo "></span>";
+    }
+}
+
 function menu_management () {
     echo '<div id="menu-management" class="menu">';
     dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
-    dropdown ("News", [["Add news item", "/admin/news"], ["List news", "/admin/list_news"]]);
-    dropdown ("Add category", [["Add category", "/admin/category"]]);
     dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
     dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
@@ -464,24 +488,6 @@ function get_pager_from($val) {
     }
 
     return 0;
-}
-
-function get_availability_icons($exposed, $available_from, $available_until, $item_name) {
-    $icons = "";
-
-    if (!$exposed) {
-        $icons .= '<span class="glyphicon glyphicon-ban-circle has-tooltip" data-toggle="tooltip" data-placement="top" title="'. htmlspecialchars($item_name) .' not exposed"></span> ';
-    }
-
-    if (!is_item_available($available_from, $available_until)) {
-        $icons .= '<span class="glyphicon glyphicon-eye-close has-tooltip" data-toggle="tooltip" data-placement="top" title="'. htmlspecialchars($item_name) .' not available"></span> ';
-    }
-
-    if ($exposed && is_item_available($available_from, $available_until)) {
-        $icons .= '<span class="glyphicon glyphicon-eye-open has-tooltip" data-toggle="tooltip" data-placement="top" title="'. htmlspecialchars($item_name) .' exposed and available"></span> ';
-    }
-
-    return $icons;
 }
 
 function get_bbcode() {
