@@ -34,7 +34,7 @@ Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/ctfx/');
 // general site settings
 Config::set('MELLIVORA_CONFIG_SITE_NAME', 'CTFx');
 Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'CTFx');
-Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', 'X-MAS Capture The Flag 2019 platform - Merry Christmas!');
+Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', 'CTFx - CTF Platform');
 
 Config::set('MELLIVORA_CONFIG_SITE_URL', '/');
 Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', '/');
