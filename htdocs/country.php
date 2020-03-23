@@ -35,6 +35,7 @@ if (cache_start(CONST_CACHE_NAME_COUNTRY . $_GET['code'], Config::get('MELLIVORA
                u.id AS user_id,
                u.team_name,
                u.competing,
+               u.email,
                co.id AS country_id,
                co.country_name,
                co.country_code,
