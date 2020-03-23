@@ -41,6 +41,9 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         FROM challenges AS c
         WHERE c.exposed = 1')["points"];
 
+    if (empty ($totalPoints))
+        $totalPoints = 0;
+    
     $avatarURL = "https://www.gravatar.com/avatar/" . md5 ($user["email"]) . "?s=128&d=mp";
 
     echo '<div class="user-profile">
