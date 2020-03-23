@@ -47,11 +47,13 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup nginx**
   - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/nginx.conf` - For the fastcgi_pass entry, you must change the PHP version to your current one.
+  - Make sure to restart nginx after changing the config!
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:
   - `CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;`
-  - `GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';`
+  - `GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';` - Make sure you change the default db username and password!
+
   - exit `mysql`
   - `sudo mysql < install/sql/001-mellivora.sql`
   - `sudo mysql < install/sql/002-countries.sql`
