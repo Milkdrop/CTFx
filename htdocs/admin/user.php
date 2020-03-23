@@ -8,6 +8,9 @@ validate_id(array_get($_GET, 'id'));
 
 head(lang_get('user_details'));
 
+menu_management();
+spacer ();
+
 $user = db_query_fetch_one('
     SELECT
         u.id,
