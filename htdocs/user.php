@@ -47,12 +47,15 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         <div class="user-image" style="background-image:url(\'', htmlspecialchars ($avatarURL), '\')"></div>',
         '<div class="user-description">
             <h2>', htmlspecialchars ($user["team_name"]), country_flag_link($user['country_name'], $user['country_code'], true), '</h2>
-            <h4><b>', $user["score"], '</b><small>/', $totalPoints, ' Points</small></h4>
-        </div></div>';
+            <h4><b>', $user["score"], '</b><small>/', $totalPoints, ' Points</small></h4>';
 
     if (!$user['competing']) {
+        spacer ();
         message_inline(lang_get('non_competing_user'));
     }
+
+    echo '</div>
+    </div>';
 
     print_solved_graph($_GET['id']);
 

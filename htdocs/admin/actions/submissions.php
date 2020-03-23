@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         array('id'=>$_POST['id'])
     );
 
-    if ($_POST['action'] == 'delete') {
+    if ($_POST['action'] === 'delete') {
         if ($submission['correct'] === 1)
             challengeUnsolve ($submission['challenge']);
 
@@ -30,18 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             )
         );
 
-        redirect('/admin/submissions.php?generic_success=1');
+        redirectBack ('generic_success');
     }
 
-    else if ($_POST['action'] == 'mark_incorrect') {
+    else if ($_POST['action'] === 'mark_incorrect') {
         if ($submission['correct'] === 1)
             challengeUnsolve ($submission['challenge']);
 
         db_update('submissions', array('correct'=>0, 'marked'=>1), array('id'=>$_POST['id']));
-        redirect('/admin/submissions.php?generic_success=1');
+        redirectBack ('generic_success');
     }
 
-    else if ($_POST['action'] == 'mark_correct') {
+    else if ($_POST['action'] === 'mark_correct') {
         $num_correct_submissions = db_count_num(
             'submissions',
             array(
@@ -52,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($num_correct_submissions > 0) {
-            message_error('This user already has a correct submission for this challenge');
+            redirectBack ('generic_failure');
         }
 
         db_update('submissions', array('correct'=>1, 'marked'=>1), array('id'=>$_POST['id']));
         challengeSolve ($submission['challenge']);
 
-        redirect('/admin/submissions.php?generic_success=1');
+        redirectBack ('generic_success');
     }
 }

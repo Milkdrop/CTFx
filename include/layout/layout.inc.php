@@ -94,10 +94,13 @@ function head($title = '') {
 
     if (isset($_GET['generic_success'])) {
         message_inline ("Action Successful", "green", true, "margin-bottom: 0px");
+        spacer ();
     } else if (isset($_GET['generic_failure'])) {
         message_inline ("Action Failed", "red", true, "margin-bottom: 0px");
+        spacer ();
     } else if (isset($_GET['generic_warning'])) {
         message_inline ("Something Went Wrong", "red", true, "margin-bottom: 0px");
+        spacer ();
     }
 
     $head_sent = true;
@@ -185,6 +188,10 @@ function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
     </div>';
 }
 
+function spacer () {
+    echo '<div style="margin-top:5px"></div>';
+}
+
 function tag ($text) {
     echo '<div class="inline-tag">',$text,'</div>';
 }
@@ -193,8 +200,19 @@ function icon ($img) {
     echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
 }
 
-function card_simple ($content, $icon = "") {
-    echo '<div class="ctfx-simple-card">', htmlspecialchars($content), '</div>';
+function card_simple ($title, $content = "", $icon = "") {
+    echo '<div class="ctfx-simple-card">';
+
+    if (!empty ($icon))
+        echo '<img class="card-icon" src="',htmlspecialchars($icon),'">';
+
+    echo '<div class="card-content">';
+    echo '<div class="card-title">', htmlspecialchars($title),'</div>';
+
+    if (!empty ($content))
+        echo '<div class="card-text">', htmlspecialchars($content),'</div>';
+
+    echo '</div></div>';
 }
 
 function dropdown ($name, $options = null) {
@@ -217,7 +235,7 @@ function dropdown ($name, $options = null) {
 
 function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white") {
     switch ($color) {
-        case "white": $color = "#F7F7F7"; break;
+        case "white": $color = "#F5F5F5"; break;
         case "gray": $color = "#B0B0B0"; break;
         default: break;
     }
@@ -235,6 +253,10 @@ function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white"
 
         echo "></span>";
     }
+}
+
+function button_link($text, $url) {
+    return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-1">'.htmlspecialchars($text).'</a>';
 }
 
 function menu_management () {
@@ -257,25 +279,23 @@ function bbcode_manual () {
             <ul>
             <li><b>Text Styles:</b>
                 <ul>
-                <li>[b]<b> Bold </b>[/b]</li>
-                <li>[i]<i> Italics </i>[/i]</li>
-                <li>[u]<u> Underline </u>[/u]</li>
-                <li>[s]<strike> Strikethrough </strike>[/s]</li>
-                <li>[sup]<sup> Superscript </sup>[/sup]</li>
-                <li>[sub]<sub> Subscript </sub>[/sub]</li>
-                <li>[spoiler] Spoiler [/spoiler]</li>
-                <li>[acronym] Acronym [/acronym]</li>
-                <li>[size=6] Custom Size [/size]</li>
-                <li>[color=red] Custom Color [/color]</li>
-                <li>[font=verdana] Custom Font [/font]</li>
+                <li>[b]<b>Bold</b>[/b]</li>
+                <li>[i]<i>Italics</i>[/i]</li>
+                <li>[u]<u>Underline</u>[/u]</li>
+                <li>[s]<strike>Strikethrough</strike>[/s]</li>
+                <li>[sup]<sup>Superscript</sup>[/sup]</li>
+                <li>[sub]<sub>Subscript</sub>[/sub]</li>
+                <li>[spoiler]<span class="bbcode_spoiler">Spoiler</span>[/spoiler]</li>
+                <li>[size=2]<span style="font-size:.83em">Custom Size</span>[/size]</li>
+                <li>[color=red]<span style="color:red">Custom Color</span>[/color]</li>
+                <li>[font=verdana]<span style="font-family:\'verdana\'">Custom Font</span>[/font]</li>
                 </ul>
             </li>
             <li><b>Links:</b>
                 <ul>
-                <li>[url] URL [/url]</li>
-                <li>[url=url] Text [/url]</li>
-                <li>[email] E-Mail [/email]</li>
-                <li>[wiki]</li>
+                <li>[url]<a href="https://www.eff.org/">https://www.eff.org/</a>[/url]</li>
+                <li>[url=https://www.eff.org/]<a href="https://www.eff.org/">Named link</a>[/url]</li>
+                <li>[email]<a href="mailto:mail@mail.com" class="bbcode_email">mail@mail.com</a>[/email]</li>
                 </ul>
             </li>
             </ul>
@@ -284,8 +304,7 @@ function bbcode_manual () {
             <ul>
             <li><b>Replaced Items:</b>
                 <ul>
-                <li>[img] Image [/img]</li>
-                <li>[rule]</li>
+                <li>[img]/img/award_star_gold_3.png[/img] => <img src="/img/award_star_gold_3.png" alt="award_star_gold_3.png" class="bbcode_img"></li>
                 <li>[br]</li>
                 </ul>
             </li>
@@ -297,27 +316,19 @@ function bbcode_manual () {
                 <li>[indent]...[/indent]</li>
                 </ul>
             </li>
-            <li><b>Columns:</b>
-                <ul>
-                <li>[columns]...[/columns]</li>
-                <li>[nextcol]</li>
-                </ul>
-            </li>
             <li><b>Containers:</b>
                 <ul>
-                <li>[code]...[/code]</li>
-                <li>[quote]...[/quote]</li>
-                </ul>
-            </li>
-            </ul>
-        </td>
-
-        <td>
-            <ul>
-            <li><b>Lists:</b>
-                <ul>
-                <li>[list]...[/list]</li>
-                <li>[*]...</li>
+                <li>[code]
+                <div class="bbcode_code">
+                    <div class="bbcode_code_head">Code:</div>
+                    <div class="bbcode_code_body" style="white-space:pre">',
+'for i in range (50):
+    print (i)',
+                '</div></div>[/code]</li>
+                <li>[quote]<div class="bbcode_quote">
+                    <div class="bbcode_quote_head">Quote:</div>
+                    <div class="bbcode_quote_body">Quoting Something</div>
+                </div>[/quote]</li>
                 </ul>
             </li>
             </ul>
@@ -373,8 +384,8 @@ function country_flag_link($country_name, $country_code, $return = false) {
     $country_code = htmlspecialchars($country_code);
 
     $flag_link = '<a class="country-flag" href="country?code='.htmlspecialchars($country_code).'">' .
-        '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'" />
-    </a>';
+        '<img src="/img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'"/>'.
+    '</a>';
 
     if ($return) {
         return $flag_link;
@@ -418,13 +429,9 @@ function pager($base_url, $max, $per_page, $current) {
     $last_start = $max - $per_page*2;
     $last_end = $max;
 
-    echo '
-    <div class="text-center">
-        <ul class="pagination">
-
-        <li><a href="'.htmlspecialchars($base_url).'from='.max(0, ($current-$per_page)).'">Prev</a></li>
-
-        <li',(!$current ? ' class="active"' : ''),'><a href="',htmlspecialchars($base_url),'">',min(1, $max),'-',min($max, $per_page),'</a></li>';
+    echo '<div class="ctfx-pager">',
+        '<a class="pager-arrow" style="margin-right:5px" href="'.htmlspecialchars($base_url).'from='.max(0, ($current-$per_page)).'">◀</a>',
+        '<a class="btn btn-xs btn-2 ',(!$current ? 'active' : ''), '" href="',htmlspecialchars($base_url),'">',min(1, $max),'-',min($max, $per_page),'</a>';
 
     $i = $per_page;
     while ($i < $max) {
@@ -441,7 +448,7 @@ function pager($base_url, $max, $per_page, $current) {
             continue;
         }
 
-        echo '<li',($current == $i ? ' class="active"' : ''),'><a href="',htmlspecialchars($base_url),'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a></li>';
+        echo '<a class="btn btn-xs btn-2 ',($current == $i ? 'active' : ''),'" href="',htmlspecialchars($base_url),'from=',$i,'">', $i+1, ' - ', min($max, ($i+$per_page)), '</a>';
 
         $i+=$per_page;
 
@@ -461,15 +468,12 @@ function pager($base_url, $max, $per_page, $current) {
                 )
             ) && ($i + $per_page*3 < $max) // and we're more than three steps over from the last one
         ) {
-            echo '<li><a>...</a></li>';
+        echo '<a class="btn btn-xs">...</a>';
         }
     }
 
-    echo '
+    echo '<a class="pager-arrow" href="'.htmlspecialchars($base_url).'from='.min($max-($max%$per_page), ($current+$per_page)).'">▶</a>
 
-        <li><a href="'.htmlspecialchars($base_url).'from='.min($max-($max%$per_page), ($current+$per_page)).'">Next</a></li>
-
-        </ul>
     </div>';
 }
 

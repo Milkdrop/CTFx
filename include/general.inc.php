@@ -307,6 +307,14 @@ function append_if_plural($string, $to_add, $val) {
     return $string . ($val > 1 ? $to_add : '');
 }
 
+function get_system_memory_usage () {
+    $output = trim (shell_exec ("free -b"));
+    $output = explode ("\n", $output)[1];
+    $mem = array_merge (array_filter (explode (" ", $output)))[2];
+
+    return $mem;
+}
+
 function bytes_to_pretty_size($bytes) {
     if ($bytes < 1000 * 1024) {
         return number_format($bytes / 1024, 2) . ' KB';
@@ -376,6 +384,18 @@ function starts_with($haystack, $needle) {
 
 function ends_with($haystack, $needle) {
     return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
+}
+
+function redirectBack ($status) {
+    $url = $_SERVER["HTTP_REFERER"];
+    $url = explode ("&generic_success", $url)[0];
+    $url = explode ("&generic_failure", $url)[0];
+    echo $url;
+
+    if (strpos ($url, '?') !== false)
+        redirect ($url . '&' . $status . '=1', true);
+    else
+        redirect ($url . '?' . $status . '=1', true);
 }
 
 function redirect ($url, $absolute = false) {
@@ -465,10 +485,6 @@ function visibility_enum_to_name ($visibility) {
     }
 
     return 'Unknown';
-}
-
-function button_link($text, $url) {
-    return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-1">'.htmlspecialchars($text).'</a>';
 }
 
 function array_get ($array, $key, $default = null) {

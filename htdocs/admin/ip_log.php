@@ -57,7 +57,7 @@ foreach ($entries as $entry) {
     echo '
     <tr>
         <td>
-            <a href="/admin/ip_log?user_id=', htmlspecialchars($entry['user_id']), '">
+            <a href="/admin/user.php?id=', htmlspecialchars($entry['user_id']), '">
                 ', htmlspecialchars($entry['team_name']), '
             </a>
         </td>

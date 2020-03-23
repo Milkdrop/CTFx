@@ -114,20 +114,6 @@ function print_user_submissions($user_id, $limit = false) {
         false
     );
 
-    echo '
-    <table id="files" class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Challenge</th>
-          <th>Added</th>
-          <th>Flag</th>
-          <th>Correct</th>
-          <th>Manage</th>
-        </tr>
-      </thead>
-      <tbody>
-    ';
-
     $submissions = db_query_fetch_all('
         SELECT
            s.id,
@@ -149,42 +135,60 @@ function print_user_submissions($user_id, $limit = false) {
         )
     );
 
-    foreach($submissions as $submission) {
-        echo '
-    <tr>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
-        <td>',time_elapsed($submission['added']),' ago</td>
-        <td>',htmlspecialchars($submission['flag']),'</td>
-        <td>
-            ',($submission['correct'] ?
-            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/accept.png" alt="Correct!" title="Correct!" />' :
-            '<img src="'.Config::get('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES').'img/stop.png" alt="Wrong!" title="Wrong!" />'),'
-        </td>
-        <td>
-            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
-        form_xsrf_token();
-        echo '
-                <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
-                <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-xs btn-',($submission['correct'] ? '2' : '1'),'">Mark ',($submission['correct'] ? 'incorrect' : 'correct'),'</button>
-            </form>
-
-            <form method="post" action="/admin/actions/submissions" class="discreet-inline">';
-        form_xsrf_token();
-        echo '
-                <input type="hidden" name="action" value="delete" />
-                <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
-                <button type="submit" class="btn btn-xs btn-3">Delete</button>
-            </form>
-        </td>
-    </tr>
-    ';
+    if (empty ($submissions)) {
+      message_inline("No submissions");
+      return;
     }
 
     echo '
-      </tbody>
-    </table>
-     ';
+    <table id="files" class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Challenge</th>
+          <th>Added</th>
+          <th>Flag</th>
+          <th>Manage</th>
+        </tr>
+      </thead>
+      <tbody>
+    ';
+
+  foreach($submissions as $submission) {
+      echo '<tr>
+        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td>',time_elapsed($submission['added']),' ago</td>
+        <td>
+        <form method="post" action="/admin/actions/submissions" class="discreet-inline">
+          <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
+          <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />';
+        form_xsrf_token();
+
+      if ($submission['correct']) {
+        echo '<button type="submit" style="color: #CFFF42" title="Click to mark incorrect"
+          class="has-tooltip" data-toggle="tooltip" data-placement="top">
+          ',htmlspecialchars($submission['flag']),' <img src="/img/ui/correct.png">
+          </button>';
+      } else {
+        echo '<button type="submit" style="color: #FF4242" title="Click to mark correct"
+          class="has-tooltip" data-toggle="tooltip" data-placement="top">
+          ',htmlspecialchars($submission['flag']),' <img src="/img/ui/wrong.png">
+          </button>';
+      }
+      
+      echo '</form></td>
+      <td>
+      <form method="post" action="/admin/actions/submissions">';
+      form_xsrf_token();
+      echo '<input type="hidden" name="action" value="delete" />
+            <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
+            <button type="submit" class="btn btn-xs btn-3">Delete</button>
+          </form>
+        </td>
+      </tr>';
+  }
+
+  echo '</tbody>
+    </table>';
 }
 
 function print_user_exception_log($user_id, $limit = false) {
@@ -215,9 +219,12 @@ function print_user_exception_log($user_id, $limit = false) {
         )
     );
 
-    if (count($exceptions)) {
+    if (empty ($exceptions)) {
+      message_inline("No exceptions");
+      return;
+    }
 
-        echo '
+    echo '
     <table id="hints" class="table table-striped table-hover">
       <thead>
         <tr>
@@ -230,7 +237,7 @@ function print_user_exception_log($user_id, $limit = false) {
       <tbody>
     ';
 
-        foreach ($exceptions as $exception) {
+    foreach ($exceptions as $exception) {
             echo '
     <tr>
         <td>', htmlspecialchars($exception['message']), '</td>
@@ -239,17 +246,10 @@ function print_user_exception_log($user_id, $limit = false) {
         <td>', htmlspecialchars($exception['trace']), '</td>
     </tr>
     ';
-        }
-
-        echo '
-      </tbody>
-    </table>
-     ';
     }
 
-    else {
-        message_inline(lang_get('no_exceptions'));
-    }
+    echo '</tbody>
+    </table>';
 }
 
 function print_user_ip_log($user_id, $limit = 0) {

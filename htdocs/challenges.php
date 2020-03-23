@@ -12,9 +12,11 @@ if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
         message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Lovely', 'challenge-attempt correct on-page-load form-group');
     } else if ($_GET['status']=='incorrect') {
-        message_dialog('Sorry! That wasn\'t correct.', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load form-group', 'default');
+        message_dialog('Sorry! That wasn\'t correct.', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load form-group', '4');
     } else if ($_GET['status']=='manual') {
-        message_dialog('Your submission is awaiting manual marking.', 'Manual marking', 'Ok', 'challenge-attempt manual on-page-load form-group', 'default');
+        message_dialog('Your submission is awaiting manual marking.', 'Manual marking', 'Ok', 'challenge-attempt manual on-page-load form-group', '4');
+    } else if ($_GET['status']=='empty') {
+        message_inline('Did you really mean to submit an empty flag?');
     }
 }
 

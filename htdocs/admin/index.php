@@ -11,12 +11,8 @@ menu_management();
 check_server_configuration();
 
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
-if (empty($categories)) {
-    echo '<br>';
-    message_generic ('Welcome', 'Your CTF is looking a bit empty! Start by adding a category using the menu above.');
-}
 
-section_title ('Dashboard', 'ダッシュボード');
+section_title ('Dashboard', button_link ('Add category','/admin/category'));
 
 // Print categories + challenges
 
@@ -48,7 +44,7 @@ foreach($categories as $category) {
     );
 
     if (empty($challenges)) {
-        message_inline('This category is empty! Use the link above to add a challenge.');
+      echo '<div style="height:5px"></div>';
     } else {
       echo '<table class="table table-striped table-hover">
       <thead>
@@ -87,33 +83,53 @@ foreach($categories as $category) {
   }
 }
 
-echo '<a href="challenge.php?category=',htmlspecialchars($category['id']),'" class="btn btn-lg btn-1">Add category</a>';
-
 // Print 2 columns underneath the challenges
 
 echo '</div>
 <div class="row">
-<div class="col-md-6">';
+<div class="col-sm-6">';
 
 // Print left column
 
-echo '<div class="row">
-<div class="col-md-4">';
-card_simple ("sal");
-echo '</div>';
-echo '</div>';
+echo '<div class="row">';
 
-section_head ("Latest Submissions");
-echo 'sal';
+$activeUsers = db_query_fetch_one ('
+    SELECT
+      COUNT(*) AS num
+    FROM users AS u
+    WHERE
+      u.last_active > :date_bottom_limit',
+    array('date_bottom_limit' => time () - 3600 * 2))['num'];
+
+$totalUsers = db_count_num ("users");
+card_simple ($activeUsers . "/" . $totalUsers, "Active Users", "/img/ui/user.png");
+
+$load = sys_getloadavg ();
+card_simple (($load[2] * 100) . "%", "CPU Usage", "/img/ui/cpu.png");
+
+$memusage = get_system_memory_usage ();
+if ($memusage != 0)
+  card_simple (bytes_to_pretty_size ($memusage), "Memory Usage", "/img/ui/ram.png");
+
+$correctSubmissions = db_count_num ("submissions", array ("correct" => 1));
+$totalSubmissions = db_count_num ("submissions");
+card_simple ($correctSubmissions . "/" . $totalSubmissions, "Correct Submissions", "/img/ui/cloud.png");
+
+echo '</div>';
 
 // Print right column
 
 echo '</div>
-<div class="col-md-6">';
+<div class="col-sm-6">';
 
 section_head ("News", button_link ('Add news','/admin/news'));
 
 $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
+
+if (empty ($news)) {
+  message_inline ("No news");
+}
+
 foreach($news as $item) {
     echo '<div class="ctfx-card">
         <div class="ctfx-card-head">

@@ -3,8 +3,7 @@
 function display_captcha() {
     echo '
     <div class="g-recaptcha" data-sitekey="',Config::get('MELLIVORA_CONFIG_RECAPTCHA_PUBLIC_KEY'),'"></div>
-    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>
-    ';
+    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>';
 }
 
 function validate_captcha () {

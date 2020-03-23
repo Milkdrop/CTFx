@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 RUN apt-get update
-RUN apt-get install nano apt-utils -y
+RUN apt-get install nano apt-utils procps -y
 RUN apt-get upgrade -y
 RUN apt-get install nginx php-fpm mariadb-server -y
 RUN apt-get install composer php-fpm php-xml php-curl php-mysql php-mbstring php-pear -y

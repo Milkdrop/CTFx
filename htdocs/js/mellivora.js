@@ -80,7 +80,7 @@ function typeWriterSFX() {
 
 function highlightLoggedOnTeamName() {
     var t = document.getElementsByClassName("team_" + global_dict.user_id)[0];
-    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#42a0ff")
+    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#42A0FF")
 }
 
 function initialiseCountdowns() {

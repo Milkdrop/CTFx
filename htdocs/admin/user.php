@@ -30,20 +30,24 @@ if (empty($user)) {
         false);
 }
 
-section_head(
-    htmlspecialchars($user['team_name']),
-    country_flag_link(
-        $user['country_name'], $user['country_code'], true) .
-        button_link('Edit user', 'edit_user?id='.htmlspecialchars($user['id'])) . ' ' .
-        button_link('Email user', 'new_email?to='.htmlspecialchars($user['email'])),
-    false
-);
+$avatarURL = "https://www.gravatar.com/avatar/" . md5 ($user["email"]) . "?s=128&d=mp";
+
+echo '<div class="user-profile">
+    <div class="user-image" style="background-image:url(\'', htmlspecialchars ($avatarURL), '\')"></div>',
+    '<div class="user-description">
+        <h2><a style="color:#F7F7F7" href="/user.php?id=',htmlspecialchars($user['id']),'">',
+            htmlspecialchars ($user["team_name"]), country_flag_link($user['country_name'], $user['country_code'], true), 
+        '</a></h2>',
+        spacer (),
+        '<h4>',button_link('Edit user', 'edit_user?id='.htmlspecialchars($user['id'])), button_link('Email user', 'new_email?to='.htmlspecialchars($user['email'])),'</h4>';
 
 if (!$user['competing']) {
+    spacer ();
     message_inline(lang_get('non_competing_user'));
 }
 
-print_solved_graph($_GET['id']);
+echo '</div>
+</div>';
 
 print_solved_challenges($_GET['id']);
 

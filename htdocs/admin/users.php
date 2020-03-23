@@ -8,22 +8,17 @@ head('Users');
 menu_management();
 section_title ('Users');
 
-echo '
-    <table id="files" class="table table-striped table-hover">
+echo '<table id="files" class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Team</th>
-          <th>Email</th>
-          <th>Added</th>
+          <th>E-Mail</th>
           <th>Last active</th>
           <th class="center">Class</th>
-          <th class="center">Enabled</th>
           <th class="center">Num IPs</th>
-          <th class="center">Manage</th>
         </tr>
       </thead>
-      <tbody>
-    ';
+      <tbody>';
 
 $values = array();
 $search_for = array_get($_GET, 'search_for');
@@ -56,6 +51,7 @@ $users = db_query_fetch_all('
        u.last_active,
        u.class,
        u.enabled,
+       u.competing,
        co.country_name,
        co.country_code,
        COUNT(ipl.id) AS num_ips
@@ -79,18 +75,21 @@ foreach($users as $user) {
     echo '
     <tr>
         <td>
-            ',country_flag_link($user['country_name'], $user['country_code']),'
-            <a href="/admin/user?id=',htmlspecialchars($user['id']),'">',htmlspecialchars($user['team_name']),'</a>
+            <a href="/admin/user.php?id=',htmlspecialchars($user['id']),'">✎ ',htmlspecialchars($user['team_name']),
+            country_flag_link($user['country_name'], $user['country_code']);
+
+            if (!$user['enabled']) {
+              echo '<span class="glyphicon glyphicon-remove has-tooltip" title="User Disabled" data-toggle="tooltip"></span>';
+            } else if (!$user['competing']) {
+              echo '<span class="glyphicon glyphicon-asterisk has-tooltip" title="Non-Competitor" data-toggle="tooltip"></span>';
+            }
+
+            echo '</a>
         </td>
         <td><a href="/admin/new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
-        <td>',date_time($user['added']),'</td>
         <td>',($user['last_active'] ? date_time($user['last_active']) : '<i>Never</i>'),'</td>
         <td class="center">',user_class_name($user['class']),'</td>
-        <td class="center">',($user['enabled'] ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove red"></span>'),'</td>
         <td class="center"><a href="/admin/ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
-        <td class="center">
-            <a href="/admin/user.php?id=',htmlspecialchars($user['id']),'" class="btn btn-xs btn-2">✎</a>
-        </td>
     </tr>
     ';
 }
