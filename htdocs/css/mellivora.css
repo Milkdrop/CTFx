@@ -114,6 +114,10 @@ body {
 	border-bottom: 5px solid #42A0FF;
 }
 
+.ctfx-card-head small {
+	color: rgba(255, 255, 255, 0.6)
+}
+
 .ctfx-card-head h4 {
 	font-size: 24px;
 	margin-top: 0px;
@@ -314,10 +318,6 @@ h2, h3 {
 h4 {
 	font-size: 22px;
 	margin: 0px;
-}
-
-h4 small {
-	color: rgba(255, 255, 255, 0.6)
 }
 
 a {
