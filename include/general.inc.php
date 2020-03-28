@@ -229,6 +229,11 @@ function date_time($timestamp = false, $specific = 6) {
     return date($specific, $timestamp);
 }
 
+function ctfStarted () {
+    $timeLeft = time () - Config::get ('MELLIVORA_CONFIG_CTF_START_TIME');
+    return $timeLeft >= 0;
+}
+
 function seconds_to_pretty_time ($seconds) {
     $time = new DateTime(date('Y-m-d H:i:s', $seconds));
     $start = new DateTime(date('Y-m-d H:i:s', 0));
