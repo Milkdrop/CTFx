@@ -58,6 +58,8 @@ if (isset($_GET['category'])) {
 } else
     $current_category = $categories[0];
 
+$timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
+
 if (!ctfStarted ())
     message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
 
