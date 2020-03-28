@@ -23,7 +23,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         array('id'=>$_GET['id'])
     );
     
-    if (empty($challenge)) {
+    if (empty($challenge) || !ctfStarted ()) {
         message_generic(
             lang_get('sorry'),
             lang_get('no_challenge_for_id'),
@@ -32,7 +32,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
     }
 
     $now = time();
-    if ($challenge['available_from'] > $now || !ctfStarted ()) {
+    if ($challenge['available_from'] > $now) {
         message_generic(
             lang_get('sorry'),
             lang_get('challenge_not_available'),
