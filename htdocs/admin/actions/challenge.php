@@ -15,6 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         require_fields(array('title'), $_POST);
 
+        $initialPts = Config::get ("MELLIVORA_CONFIG_CHALL_INITIAL_POINTS");
+        $minPts = Config::get ("MELLIVORA_CONFIG_CHALL_MINIMUM_POINTS");
+        $decay = Config::get ("MELLIVORA_CONFIG_CHALL_SOLVE_DECAY");
+
         $id = db_insert(
             'challenges',
             array(
@@ -24,6 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'description' => $_POST['description'],
                 'available_from'=>Config::get ("MELLIVORA_CONFIG_CTF_START_TIME"),
                 'available_until'=>Config::get ("MELLIVORA_CONFIG_CTF_END_TIME"),
+                'points'=>dynamicScoringFormula ($initialPts, $minPts, $decay, 0),
+                'initial_points' => $initialPts,
+                'minimum_points' => $minPts,
+                'solve_decay' => $decay,
                 'flag' => $_POST['flag'],
                 'category' => $_POST['category'],
                 'exposed' => $_POST['exposed']
