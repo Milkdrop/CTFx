@@ -60,7 +60,7 @@ if (isset($_GET['category'])) {
 
 if (!ctfStarted ()) {
     if ($_SESSION['id'] === 1) {
-        message_inline ("Challenges are invisible for normal users, but admins can see them.");
+        message_inline ("Challenges are invisible for normal users, but admins can still see them.");
     } else {
         $timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
         message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
