@@ -67,13 +67,15 @@ foreach($categories as $category) {
           edit_link ($url, $contents, "glyphicon-eye-close", "Invisible");
         } else if (!$category['exposed']) {
           edit_link ($url, $contents, "glyphicon-eye-close", "Invisible due to category");
-        } else if (!is_item_available ($challenge['available_from'], $challenge['available_until'])) {
-          edit_link ($url, $contents, "glyphicon-eye-open", "Visible, but unflaggable");
+        } else if (time () < $challenge['available_from']) {
+          edit_link ($url, $contents, "glyphicon-sunglasses", "Hidden due to launch date being in the future");
+        } else if (time () > $challenge['available_until']) {
+          edit_link ($url, $contents, "glyphicon-eye-open", "Visible but unflaggable");
         } else {
           edit_link ($url, $contents);
         }
 
-      echo '</td>
+        echo '</td>
           <td>', htmlspecialchars(short_description($challenge['description'], 50)), '</td>
           <td class="center">', number_format($challenge['points']), '</td>
         </tr>';
