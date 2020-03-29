@@ -39,7 +39,7 @@ if (cache_start(CONST_CACHE_NAME_COUNTRY . $_GET['code'], Config::get('MELLIVORA
                co.id AS country_id,
                co.country_name,
                co.country_code,
-               SUM(c.points) AS score,
+               COALESCE(SUM(c.points),0) AS score,
                MAX(s.added) AS tiebreaker
             FROM users AS u
             LEFT JOIN countries AS co ON co.id = u.country_id

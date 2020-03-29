@@ -15,7 +15,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
             u.competing,
             co.country_name,
             co.country_code,
-            SUM(c.points) AS score
+            COALESCE(SUM(c.points),0) AS score
         FROM users AS u
         LEFT JOIN countries AS co ON co.id = u.country_id
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
@@ -37,7 +37,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         $user['score'] = 0;
 
     $totalPoints = db_query_fetch_one ('
-        SELECT SUM(c.points) AS points
+        SELECT COALESCE(SUM(c.points),0) AS points
         FROM challenges AS c
         WHERE c.exposed = 1')["points"];
 

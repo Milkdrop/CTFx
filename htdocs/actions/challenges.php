@@ -21,10 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         validate_id($_POST['challenge']);
 
-        if (empty($_POST['flag'])) {
-            redirect('challenges?status=empty');
-        }
-
         $submissions = db_query_fetch_all(
             'SELECT
               s.added,
@@ -74,9 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'min_seconds_between_submissions'
             ),
             array(
-                'id' => $_POST['challenge']
+                'id' => $_POST['challenge'],
+                'exposed' => 1
             )
         );
+
+        if (empty($challenge)) {
+            message_generic('Sorry','No such challenge.');
+        }
 
         $seconds_since_submission = $time-$latest_submission_attempt;
         if ($seconds_since_submission < $challenge['min_seconds_between_submissions']) {
@@ -93,6 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($challenge['available_until'] && $time > $challenge['available_until']) {
             message_generic('Sorry','This challenge has expired.');
+        }
+
+        if (empty($_POST['flag'])) {
+            redirect('challenges?category='.$challenge['category'].'&status=empty');
         }
 
         $correct = false;
@@ -134,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if (!$challenge['automark']) {
-            redirect('challenges?status=manual');
+            redirect('challenges?category='.$challenge['category'].'&status=manual');
         }
 
         redirect('challenges?category='.$challenge['category'].'&status=' . ($correct ? 'correct' : 'incorrect'));

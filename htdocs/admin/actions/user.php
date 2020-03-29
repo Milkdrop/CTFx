@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         invalidate_cache(CONST_CACHE_NAME_USER . $_POST['id']);
 
-        redirect('/admin/edit_user.php?id='.$_POST['id'].'&generic_success=1');
+        redirectBack ("generic_success");
     }
 
     else if ($_POST['action'] == 'delete') {

@@ -394,7 +394,9 @@ function ends_with($haystack, $needle) {
 function redirectBack ($status) {
     $url = $_SERVER["HTTP_REFERER"];
     $url = explode ("&generic_success", $url)[0];
+    $url = explode ("?generic_success", $url)[0];
     $url = explode ("&generic_failure", $url)[0];
+    $url = explode ("?generic_failure", $url)[0];
     echo $url;
 
     if (strpos ($url, '?') !== false)
