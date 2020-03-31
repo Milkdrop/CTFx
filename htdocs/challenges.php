@@ -59,7 +59,7 @@ if (isset($_GET['category'])) {
     $current_category = $categories[0];
 
 if (!ctfStarted ()) {
-    if ($_SESSION['id'] === 1) {
+    if (user_is_staff ()) {
         message_inline ("Challenges are invisible for normal users, but admins can still see them.");
     } else {
         $timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
@@ -120,7 +120,7 @@ foreach($challenges as $challenge) {
     $has_remaining_submissions = has_remaining_submissions($challenge);
 
     // if the challenge isn't available yet, display a message and continue to next challenge
-    if ($challenge['available_from'] > $now) {
+    if ($challenge['available_from'] > $now && !user_is_staff ()) {
         echo '
         <div class="ctfx-card">
             <div class="ctfx-card-head">
@@ -259,6 +259,10 @@ foreach($challenges as $challenge) {
             // no remaining submission attempts
             else {
                 message_inline("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+            }
+
+            if ($challenge['available_from'] > $now && user_is_staff ()) {
+                message_inline ("This challenge is hidden from normal users");
             }
         }
     }

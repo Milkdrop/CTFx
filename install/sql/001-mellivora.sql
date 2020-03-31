@@ -30,7 +30,7 @@ CREATE TABLE challenges (
   solve_decay int(10) unsigned NOT NULL,
   solves int(10) unsigned NOT NULL DEFAULT '0',
   num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '0',
-  min_seconds_between_submissions smallint(5) unsigned NOT NULL DEFAULT '0',
+  min_seconds_between_submissions smallint(5) unsigned NOT NULL DEFAULT '5',
   relies_on int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
   KEY category (category)

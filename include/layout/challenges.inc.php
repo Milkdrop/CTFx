@@ -9,11 +9,7 @@ function print_submit_interval($challenge) {
 
 function print_submissions_left($challenge) {
     $remaining_submissions = get_num_remaining_submissions($challenge);
-    echo ($challenge['num_attempts_allowed'] ?
-        '<span class="glyphicon glyphicon-inbox"></span> '.lang_get(
-            'num_submissions_remaining',
-            array('num_remaining' => number_format($remaining_submissions))
-        ) : '');
+    echo ($challenge['num_attempts_allowed'] ? tag($remaining_submissions . ' submissions remaining') : '');
 }
 
 function print_time_left($challenge) {

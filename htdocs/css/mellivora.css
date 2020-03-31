@@ -749,7 +749,7 @@ td a:hover {
 
 .dashboard-panel {
 	overflow: auto;
-	max-height: 420px;
+	max-height: 500px;
 	margin-bottom: 10px;
 }
 
@@ -915,6 +915,10 @@ td a:hover {
 
 .bbcode_spoiler:hover {
 	color: #000;
+}
+
+.bbcode_img {
+    max-width: 100%;
 }
 
 /** Misc **/

@@ -88,14 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             message_generic('Sorry','You\'ve already tried '.$challenge['num_attempts_allowed'].' times. Sorry!');
         }
 
-        if ($challenge['available_from'] && $time < $challenge['available_from']) {
-            message_generic('Sorry','This challenge hasn\'t started yet.');
-        }
+        if (!user_is_staff ()) {
+            if ($challenge['available_from'] && $time < $challenge['available_from']) {
+                message_generic('Sorry','This challenge hasn\'t started yet.');
+            }
 
-        if ($challenge['available_until'] && $time > $challenge['available_until']) {
-            message_generic('Sorry','This challenge has expired.');
+            if ($challenge['available_until'] && $time > $challenge['available_until']) {
+                message_generic('Sorry','This challenge has expired.');
+            }
         }
-
+    
         if (empty($_POST['flag'])) {
             redirect('challenges?category='.$challenge['category'].'&status=empty');
         }
