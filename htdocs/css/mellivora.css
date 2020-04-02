@@ -18,7 +18,6 @@ body {
 	height: 100%;
 	z-index: -1;
 	background-image: url("/img/background.jpg");
-	opacity: .15;
 	position: absolute;
 	pointer-events: none;
 }

@@ -23,12 +23,9 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     section_head ("Rules");
     
     echo '<ul>
-            <li>Attacking the web server is strictly prohibited and will get you disqualified.</li>
-            <li>The flag format is <b>X-MAS{1337_Str1ng}</b>, unless specified otherwise.</li>
-            <li>The competition will be over on Fri, 20 Dec. 2019 at 19:00 UTC but the challenges will be online for the following 2-3 days afterwards.</li>
-            <li>Bruteforcing the flag will not get you anywhere except on the naughty list.</li>
-            <li>Any questions regarding challenges or the platform should be sent to xmasctf.contact@gmail.com.</li>
-            <li>Teams may have an <b>unlimited</b> number of members, but only a maximum of 4 people per team can receive the prizes.</li>
+        <li>You can add rules here</li>
+        <li>This would be a second rule</li>
+        <li>Third rule</li>
         </ul>';
 
     echo '</div>
@@ -56,7 +53,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     }
 
     echo '</div></div>';
-    cache_end(CONST_CACHE_NAME_HOME);
+    cache_end (CONST_CACHE_NAME_HOME);
 }
 
 foot();
