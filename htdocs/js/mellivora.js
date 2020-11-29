@@ -81,7 +81,7 @@ function typeWriterSFX() {
 
 function highlightLoggedOnTeamName() {
     var t = document.getElementsByClassName("team_" + global_dict.user_id)[0];
-    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#14E0FE")
+    null != t && (t.classList.add("our-team"))
 }
 
 function initialiseCountdowns() {
@@ -109,20 +109,39 @@ function setFormSubmissionBehaviour() {
     })
 }
 
-function pluralise(t, e) {
-    return t ? t + " " + e + (t > 1 ? "s" : "") : ""
+function getNonzeroTimeString(t) {
+    return t ? t.toString().padStart(2, '0') : ""
 }
 
 function prettyPrintTime(t) {
     t = Math.floor(t);
-    var e = Math.floor(t / 60),
-        n = Math.floor(e / 60),
-        o = pluralise(Math.floor(n / 24), "day"),
-        i = pluralise(n % 24, "hour"),
-        a = pluralise(e % 60, "minute"),
-        s = pluralise(t % 60, "second"),
-        l = [];
-    return o && l.push(o), i && l.push(i), a && l.push(a), s && l.push(s), l.join(", ") + " remaining"
+    var e = Math.floor(t / 60);
+    var n = Math.floor(e / 60);
+
+    var outStr = "";
+    var outputting = false;
+
+    if (Math.floor(n / 24) > 0) {
+        outputting = true;
+        outStr += Math.floor(n / 24).toString() + "d, ";
+    }
+
+    if (n % 24 > 0 || outputting) {
+        outputting = true;
+        outStr += Math.floor(n % 24).toString() + "h, ";
+    }
+
+    if (e % 60 > 0 || outputting) {
+        outputting = true;
+        outStr += Math.floor(e % 60).toString() + "m, ";
+    }
+
+    if (t % 60 > 0 || outputting) {
+        outStr += Math.floor(t % 60).toString() + "s";
+    }
+
+    outStr += " remaining";
+    return outStr;
 }
 
 $(document).ready(function() {

@@ -6,7 +6,7 @@ html {
 
 body {
 	background-color: #000;
-	color: #F5F5F5;
+	color: #FFF;
 	min-height: 100%;
 	position: relative;
 	font-family: Sans-serif;
@@ -127,7 +127,7 @@ body {
 .ctfx-card-head {
 	background-color: #505050;
 	padding: 15px 15px 5px 15px;
-	border-bottom: 5px solid #14E0FE;
+	border-bottom: 5px solid #0B90FD;
 }
 
 .ctfx-card-head small {
@@ -138,12 +138,12 @@ body {
 	font-size: 24px;
 	margin-top: 0px;
 	margin-bottom: 6px;
-	color: #F5F5F5;
+	color: #FFF;
 	display: inline-block;
 }
 
 .ctfx-card-head a {
-	color: #F5F5F5 !important;
+	color: #FFF !important;
 	font-weight: bold;
 }
 
@@ -282,8 +282,8 @@ small .btn-xs {
 }
 
 .btn-1:hover, .btn-1:focus, .btn-1:active, .btn-1.active {
-	background-color: #14E0FE;
-	color: #000;
+	background-color: #0B90FD;
+	color: #fff;
 }
 
 .btn-2:hover, .btn-2:active, .btn-2:focus, .btn-2.active {
@@ -306,7 +306,7 @@ small .btn-xs {
 }
 
 .btn-1::before {
-	background-color: #14E0FE;
+	background-color: #0B90FD;
 }
 
 .btn-2::before {
@@ -337,7 +337,7 @@ h4 {
 }
 
 a {
-	color: #14E0FE;
+	color: #0B90FD;
 	outline: none !important;
 	transition: color 200ms ease-in-out;
 }
@@ -379,7 +379,7 @@ textarea {
 .form-control {
 	font-weight: bold;
 	font-size: 20px;
-	background-color: #F5F5F5;
+	background-color: #FFF;
 	color: #0a0a0a;
 	border: none;
 	border-radius: 0px;
@@ -488,12 +488,12 @@ textarea {
 }
 
 td a {
-	color: #F5F5F5;
+	color: #FFF;
 	font-weight: bold;
 }
 
 td a:hover {
-	color: #F5F5F5;
+	color: #FFF;
 }
 
 /** Header **/
@@ -503,7 +503,7 @@ td a:hover {
 	background-image: url("/img/theme/headerWave.png");
 	background-position-x: left;
 	background-repeat: no-repeat;
-	border-bottom: 5px solid #14E0FE;
+	border-bottom: 5px solid #0B90FD;
 	min-height: 61px;
 	overflow: auto;
 	padding: 10px 65px 0px 65px;
@@ -537,7 +537,7 @@ td a:hover {
 	border: none;
 	cursor: pointer;
 	text-align: inherit;
-	background: linear-gradient(to right, white 50%, black 50%);
+	background: linear-gradient(to right, white 49.9%, black 49.9%);
 	background-position: right;
 	background-size: 200% 100%;
 	border-radius: 0px;
@@ -550,7 +550,6 @@ td a:hover {
 
 #menu-main .active a, #menu-main a:hover, #menu-main .active button, #menu-main button:hover {
 	color: #000;
-	background-color: #fff;
 	background-position: left;
 }
 
@@ -606,12 +605,15 @@ td a:hover {
 }
 
 .challenge-solved .ctfx-card-head {
-	background-color: #14E0FE;
+	background: rgb(11,144,253);
+	background: linear-gradient(90deg, rgba(11,144,253,1) 0%, rgba(13,156,254,1) 60%, rgba(15,196,254,1) 100%);
+	border-bottom: 0px solid #0B90FD;
+	padding-bottom: 10px;
 }
 
 .ctfx-card-head .time-left {
 	float: right;
-	color: #F5F5F5;
+	color: #FFF;
 	margin-top: 2px;
 }
 
@@ -622,7 +624,7 @@ td a:hover {
 
 .challenge-solved-text {
     float: right;
-    color: #F5F5F5;
+    color: #FFF;
     margin-right: 5px;
     font-size: 20px;
     font-weight: bold;
@@ -644,6 +646,21 @@ td a:hover {
 .challenge-file {
 	font-size: 20px;
 	margin-bottom: 5px;
+}
+
+.challenge-file a:not(.btn) {
+	color: #fff;
+	padding: 5px;
+	vertical-align: middle;
+	background: linear-gradient(to right, #0B90FD 49.9%, rgba(0,0,0,0) 49.9%);
+	background-position: right;
+	background-size: 200% 100%;
+	transition: background-position 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.challenge-file a:hover {
+	text-decoration: none;
+	background-position: left;
 }
 
 /** User page **/
@@ -683,11 +700,11 @@ td a:hover {
 }
 
 .podium-name a {
-	color: #F5F5F5;
+	color: #FFF;
 }
 
 .our-team {
-	color: #14E0FE !important;
+	color: #0B90FD !important;
 }
 
 .team-table tbody tr td {
@@ -748,7 +765,7 @@ td a:hover {
 }
 
 .team-table .progress-bar {
-	background-color: #14E0FE;
+	background-color: #0B90FD;
 }
 
 .team-table .team-score {
@@ -813,7 +830,7 @@ td a:hover {
 
 .modal.challenge-attempt.correct .modal-header {
 	background-image: url('/img/ui/flag_white.svg');
-	background-color: #14E0FE;
+	background-color: #0B90FD;
 }
 
 .modal.challenge-attempt.manual .modal-header {
@@ -890,7 +907,7 @@ td a:hover {
 }
 
 .progress-bar-info, .progress-bar-success {
-	background-color: #14E0FE;
+	background-color: #0B90FD;
 }
 
 /** BBCode **/
@@ -900,7 +917,7 @@ td a:hover {
 }
 
 .bbcode_code_body {
-	background: #F5F5F5;
+	background: #FFF;
 	color: #000;
 	font-family: monospace;
 	padding: 5px;
@@ -911,24 +928,24 @@ td a:hover {
 
 .bbcode_code_body::selection {
 	background: #000;
-	color: #F5F5F5;
+	color: #FFF;
 }
 
 .bbcode_quote_body {
 	background: #505050;
 	padding: 5px;
-	border-left: 5px solid #F5F5F5;
+	border-left: 5px solid #FFF;
 	margin-bottom: 5px;
 }
 
 .bbcode_spoiler {
-	background-color: #F5F5F5;
-	color: #F5F5F5;
+	background-color: #FFF;
+	color: #FFF;
 }
 
 .bbcode_spoiler::selection {
-	background-color: #F5F5F5;
-	color: #F5F5F5;
+	background-color: #FFF;
+	color: #FFF;
 }
 
 .bbcode_spoiler:hover {
@@ -971,7 +988,7 @@ td a:hover {
 
 .page-header {
 	margin: 15px 0px 10px 0px;
-	border-bottom: 2px solid #14E0FE;
+	border-bottom: 2px solid #0B90FD;
 }
 
 .ctfx-pager {
@@ -1046,7 +1063,7 @@ td a:hover {
 }
 
 .light-theme a:hover {
-	color: #14E0FE;
+	color: #0B90FD;
 }
 
 @media (max-width: 800px) {

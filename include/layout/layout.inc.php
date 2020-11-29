@@ -176,7 +176,7 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
 
 function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
     switch ($color) {
-        case "blue": $color = "#14E0FE"; break;
+        case "blue": $color = "#0B90FD"; break;
         case "green": $color = "#C2E812"; break;
         case "red": $color = "#F2542D"; break;
         default: break;
