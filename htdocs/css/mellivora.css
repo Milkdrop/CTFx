@@ -18,7 +18,7 @@ body {
 	height: 100%;
 	z-index: -1;
 	background-color: rgb(0, 0, 0);
-	background-image: url("/img/theme/BG0.png");
+	background-image: url("/img/theme/BG.png");
 	position: absolute;
 	pointer-events: none;
 }
