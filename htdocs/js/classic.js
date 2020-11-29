@@ -13,17 +13,16 @@ function showPageLoadModalDialogs() {
 }
 
 function highlightSelectedMenuItem() {
-    for (var t = window.location.pathname, e = document.querySelectorAll('.nav a[href$="' + t + '"]'), n = 0; n < e.length; n++) {
-        e[n] && e[n].parentNode && (e[n].parentNode.className = "active") && (e[n].innerHTML = "<b>&gt; </b>" + e[n].innerHTML);
-    }
+    for (var t = window.location.pathname, e = document.querySelectorAll('.nav a[href$="' + t + '"]'), n = 0; n < e.length; n++) e[n] && e[n].parentNode && (e[n].parentNode.className = "active")
 }
 
 function addNavbarMouseoverEffects() {
     for (var t = document.getElementsByClassName("shuffle-text"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
         if (0 == a.parentNode.classList.contains("active")) {
+            const t = new shuffleText(a);
             a.addEventListener("mouseenter", function() {
-                e.currentTime = 0, e.play()
+                t.init(), e.currentTime = 0, e.play()
             }), a.addEventListener("click", function() {
                 n.play()
             })
@@ -81,7 +80,7 @@ function typeWriterSFX() {
 
 function highlightLoggedOnTeamName() {
     var t = document.getElementsByClassName("team_" + global_dict.user_id)[0];
-    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#14E0FE")
+    null != t && (t.classList.add("our-team"), t.parentNode.style.textDecorationColor = "#42A0FF")
 }
 
 function initialiseCountdowns() {
@@ -125,6 +124,51 @@ function prettyPrintTime(t) {
     return o && l.push(o), i && l.push(i), a && l.push(a), s && l.push(s), l.join(", ") + " remaining"
 }
 
+function shuffleText(t) {
+    this.element = t, this.text = t.textContent, this.substitution = "", this.alphabet = "!#$^&*+=0123456789", this.isShuffling = !1, this.speed = 15, this.delay = 60, this.shuffleProps = [], this.reinstateProps = []
+}
+
 $(document).ready(function() {
-    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addNavbarMouseoverEffects(), addButtonMouseoverEffects(), addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
-});
+    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addNavbarMouseoverEffects(), addButtonMouseoverEffects(), /*addFooterMouseoverEffects(),*/ addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
+}), shuffleText.prototype = {
+    constructor: shuffleText,
+    init: function() {
+        var t = this;
+        if (!t.isShuffling) {
+            t.clearShuffleTimer(), t.clearReinstateTimer(), t.isShuffling = !0, t.state = 0, t.counter = 0, t.substitution = "", t.shuffleProps = [], t.reinstateProps = [];
+            var e = setInterval(function() {
+                    t.shuffle()
+                }, t.speed),
+                n = setInterval(function() {
+                    t.reinstate()
+                }, t.delay);
+            t.shuffleProps = e, t.reinstateProps = n
+        }
+    },
+    shuffle: function() {
+        this.element.textContent = this.substitution;
+        var t = this.text.length,
+            e = this.substitution.length;
+        if (t - e > 0)
+            for (var n = 0; n <= t - e - this.counter; n++) this.element.textContent = this.element.textContent + this.randomStr();
+        else this.clearShuffleTimer()
+    },
+    reinstate: function() {
+        if (0 == this.state) {
+            if (this.counter < 2) return void this.counter++;
+            this.state = 1
+        } else this.counter > 0 && this.counter--;
+        var t = this.text.length,
+            e = this.substitution.length;
+        e < t ? this.element.textContent = this.substitution = this.text.substr(0, e + 1) : this.clearReinstateTimer()
+    },
+    clearShuffleTimer: function() {
+        return this.isShuffling = !1, clearInterval(this.shuffleProps)
+    },
+    clearReinstateTimer: function() {
+        return clearInterval(this.reinstateProps)
+    },
+    randomStr: function() {
+        return this.alphabet.charAt(Math.floor(Math.random() * this.alphabet.length))
+    }
+};

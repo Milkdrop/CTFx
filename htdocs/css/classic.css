@@ -17,26 +17,9 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: -1;
-	background-color: rgb(0, 0, 0);
-	background-image: url("/img/theme/BG0.png");
+	background-image: url("/img/background.jpg");
 	position: absolute;
 	pointer-events: none;
-}
-
-.background-left {
-	background-color: rgba(0,0,0,0);
-	background-image: none;
-	background-repeat: no-repeat;
-	background-position-x: left;
-	background-position-y: bottom;
-}
-
-.background-right {
-	background-color: rgba(0,0,0,0);
-	background-image: none;
-	background-repeat: no-repeat;
-	background-position-x: right;
-	background-position-y: bottom;
 }
 
 ::selection {
@@ -127,7 +110,7 @@ body {
 .ctfx-card-head {
 	background-color: #505050;
 	padding: 15px 15px 5px 15px;
-	border-bottom: 5px solid #14E0FE;
+	border-bottom: 5px solid #42A0FF;
 }
 
 .ctfx-card-head small {
@@ -197,7 +180,7 @@ body {
 }
 
 .dropdown-menu li a:hover {
-	background-color: #C2E812;
+	background-color: #CFFF42;
 	color: #000;
 }
 
@@ -282,17 +265,17 @@ small .btn-xs {
 }
 
 .btn-1:hover, .btn-1:focus, .btn-1:active, .btn-1.active {
-	background-color: #14E0FE;
-	color: #000;
+	background-color: #42A0FF;
+	color: #fff;
 }
 
 .btn-2:hover, .btn-2:active, .btn-2:focus, .btn-2.active {
-	background-color: #C2E812;
+	background-color: #CFFF42;
 	color: #000;
 }
 
 .btn-3:hover, .btn-3:active, .btn-3:focus, .btn-3.active {
-	background-color: #F2542D;
+	background-color: #FF4242;
 	color: #fff;
 }
 
@@ -306,15 +289,15 @@ small .btn-xs {
 }
 
 .btn-1::before {
-	background-color: #14E0FE;
+	background-color: #42A0FF;
 }
 
 .btn-2::before {
-	background-color: #C2E812;
+	background-color: #CFFF42;
 }
 
 .btn-3::before {
-	background-color: #F2542D;
+	background-color: #FF4242;
 }
 
 .btn-4::before {
@@ -337,13 +320,13 @@ h4 {
 }
 
 a {
-	color: #14E0FE;
+	color: #42A0FF;
 	outline: none !important;
 	transition: color 200ms ease-in-out;
 }
 
 a:hover, a:focus {
-	color: #C2E812;
+	color: #CFFF42;
 }
 
 img::selection {
@@ -499,24 +482,14 @@ td a:hover {
 /** Header **/
 
 #header {
-	background-color: #000;
-	background-image: url("/img/theme/headerWave.png");
-	background-position-x: left;
-	background-repeat: no-repeat;
-	border-bottom: 5px solid #14E0FE;
-	min-height: 61px;
+	background-color: #F5F5F5;
+	border-bottom: 5px solid #42A0FF;
+	min-height: 65px;
 	overflow: auto;
 	padding: 10px 65px 0px 65px;
 	width: 100%;
 	margin-bottom: 10px;
 	font-size: 13px;
-}
-
-#header-logo {
-	height: 50px;
-	position: absolute;
-	top: 2px;
-	left: 12px;
 }
 
 #site-logo-text {
@@ -528,30 +501,38 @@ td a:hover {
 }
 
 #menu-main a, #menu-main button {
-	color: #fff;
-	opacity: 1;
-	margin-top: 8px;
-	padding: 2px 6px;
+	color: #0a0a0a;
+	opacity: 0.7;
+	width: 120px;
+	margin-top: 2px;
+	padding: 10px 5px;
 	text-transform: uppercase;
 	background: none;
 	border: none;
 	cursor: pointer;
 	text-align: inherit;
-	background: linear-gradient(to right, white 50%, black 50%);
-	background-position: right;
-	background-size: 200% 100%;
-	border-radius: 0px;
-	transition: background-position 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	transition: opacity 200ms ease-in-out;
 }
 
-#menu-main li {
-	margin-left: 50px;
+#menu-main a:hover, #menu-main button:hover, #menu-main .active a {
+	opacity: 1;
 }
 
-#menu-main .active a, #menu-main a:hover, #menu-main .active button, #menu-main button:hover {
-	color: #000;
-	background-color: #fff;
-	background-position: left;
+#menu-main li::before {
+	background-image: url("/img/pointer.png");
+	width: 13px;
+	height: 11px;
+	position: absolute;
+	margin-top: 15px;
+	left: -10px;
+	opacity: 0;
+	content: "";
+	transition: all 200ms ease-in-out;
+}
+
+#menu-main li:hover::before, #menu-main .active::before {
+	left: -16px;
+	opacity: 1;
 }
 
 /** Footer **/
@@ -568,11 +549,11 @@ td a:hover {
 /** Home Page **/
 
 #home-logo {
-	width: 70%;
+	width: 90%;
 	height: 320px;
 	margin-left: auto;
 	margin-right: auto;
-	background: url("/img/logo.gif");
+	background: url("/img/logo.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -606,7 +587,7 @@ td a:hover {
 }
 
 .challenge-solved .ctfx-card-head {
-	background-color: #14E0FE;
+	background-color: #42A0FF;
 }
 
 .ctfx-card-head .time-left {
@@ -687,7 +668,7 @@ td a:hover {
 }
 
 .our-team {
-	color: #14E0FE !important;
+	color: #42A0FF !important;
 }
 
 .team-table tbody tr td {
@@ -748,7 +729,7 @@ td a:hover {
 }
 
 .team-table .progress-bar {
-	background-color: #14E0FE;
+	background-color: #42A0FF;
 }
 
 .team-table .team-score {
@@ -808,17 +789,17 @@ td a:hover {
 
 .modal.challenge-attempt.incorrect .modal-header {
 	background-image: url('/img/ui/padlock_white.svg');
-	background-color: #F2542D;
+	background-color: #FF4242;
 }
 
 .modal.challenge-attempt.correct .modal-header {
 	background-image: url('/img/ui/flag_white.svg');
-	background-color: #14E0FE;
+	background-color: #42A0FF;
 }
 
 .modal.challenge-attempt.manual .modal-header {
 	background-image: url('/img/ui/padlock_white.svg');
-	background-color: #C2E812;
+	background-color: #CFFF42;
 	color: #000;
 }
 
@@ -861,7 +842,7 @@ td a:hover {
 
 .message-centered .submessage {
 	font-size: 18px;
-	color: #C2E812;
+	color: #CFFF42;
 }
 
 /** Alerts **/
@@ -890,7 +871,7 @@ td a:hover {
 }
 
 .progress-bar-info, .progress-bar-success {
-	background-color: #14E0FE;
+	background-color: #42A0FF;
 }
 
 /** BBCode **/
@@ -971,7 +952,7 @@ td a:hover {
 
 .page-header {
 	margin: 15px 0px 10px 0px;
-	border-bottom: 2px solid #14E0FE;
+	border-bottom: 2px solid #42A0FF;
 }
 
 .ctfx-pager {
@@ -990,7 +971,7 @@ td a:hover {
 }
 
 .ctfx-pager .pager-arrow:hover {
-	color: #C2E812;
+	color: #CFFF42;
 }
 
 .country-flag {
@@ -1022,8 +1003,8 @@ td a:hover {
 /** Light Theme? **/
 
 .light-theme .form-control {
-	background-color: #000;
-	color: #fff;
+	background-color: #0A0A0A;
+	color: #F5F5F5;
 }
 
 .light-theme .form-control::selection {
@@ -1032,21 +1013,17 @@ td a:hover {
 }
 
 .light-theme .btn {
-	background-color: #000;
-	color: #fff;
-}
-
-.light-theme .btn-1:hover {
-	color: #000;
+	background-color: #0A0A0A;
+	color: #F5F5F5;
 }
 
 .light-theme a {
-	color: #000;
+	color: #0A0A0A;
 	text-decoration: underline;
 }
 
 .light-theme a:hover {
-	color: #14E0FE;
+	color: #42A0FF;
 }
 
 @media (max-width: 800px) {
@@ -1058,7 +1035,11 @@ td a:hover {
 		height: 240px;
 	}
 
-	.challenge-solved-text, .challenge-solved-icon, .ctfx-card-head .time-left, .background-left, .background-right {
+	.challenge-solved-text, .challenge-solved-icon {
+		display: none;
+	}
+
+	.ctfx-card-head .time-left {
 		display: none;
 	}
 }

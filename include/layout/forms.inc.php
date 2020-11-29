@@ -76,9 +76,9 @@ function form_input_captcha($position = 'private') {
 
 function form_input_checkbox ($name, $checked = 0, $color = "blue", $check_dark = 0) {
     switch ($color) {
-        case "blue": $color = "#42A0FF"; break;
-        case "green": $color = "#CFFF42"; $check_dark = 1; break;
-        case "red": $color = "#FF4242"; break;
+        case "blue": $color = "#14E0FE"; break;
+        case "green": $color = "#C2E812"; $check_dark = 1; break;
+        case "red": $color = "#F2542D"; break;
         default: break;
     }
 

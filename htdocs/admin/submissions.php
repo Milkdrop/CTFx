@@ -91,12 +91,12 @@ foreach($submissions as $submission) {
       form_xsrf_token();
 
     if ($submission['correct']) {
-      echo '<button type="submit" style="color: #CFFF42" title="Click to mark incorrect"
+      echo '<button type="submit" style="color: #C2E812" title="Click to mark incorrect"
         class="has-tooltip" data-toggle="tooltip" data-placement="top">
         ',htmlspecialchars($submission['flag']),' <img src="/img/ui/correct.png">
         </button>';
     } else {
-      echo '<button type="submit" style="color: #FF4242" title="Click to mark correct"
+      echo '<button type="submit" style="color: #F2542D" title="Click to mark correct"
         class="has-tooltip" data-toggle="tooltip" data-placement="top">
         ',htmlspecialchars($submission['flag']),' <img src="/img/ui/wrong.png">
         </button>';

@@ -42,7 +42,10 @@ function head($title = '') {
 
     echo '
     </head>
-    <body><div class="background"></div>';
+    <body>
+    <div class="background"></div>
+    <div class="background background-left"></div>
+    <div class="background background-right"></div>';
 
     if (!user_is_logged_in()) {
         login_dialog();
@@ -52,11 +55,9 @@ function head($title = '') {
     <div class="page">
     <nav class="header" id="header">
         <div id="header-inner">
-            <div id="header-logo">
-                <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'">
-                    <h3 id="site-logo-text">',Config::get('MELLIVORA_CONFIG_SITE_NAME'),'</h3>
-                </a>
-            </div>
+            <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'">
+                <img id="header-logo" src="/img/theme/headerLogo.png">
+            </a>
             <div id="header-menu">
                 <ul class="nav nav-pills pull-right" id="menu-main">';
 
@@ -67,16 +68,16 @@ function head($title = '') {
                         }
 
                         echo '
-                            <li><a class="shuffle-text" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             <li>',form_logout(),'</li>';
 
                     } else {
                         echo '
-                            <li><a class="shuffle-text" style="margin-right: -20px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="shuffle-text" style="margin-right: 30px" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
                             <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
                             <li><a class="shuffle-text" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
                     }
@@ -111,7 +112,7 @@ function foot () {
 </div> <!-- /container -->
 
 <div id="footer">
-    <b>CTFx</b> v1.1<br>
+    <b>CTFx</b> v1.2 Beta<br>
 	Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
 </div>
 
@@ -175,9 +176,9 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
 
 function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
     switch ($color) {
-        case "blue": $color = "#42A0FF"; break;
-        case "green": $color = "#CFFF42"; break;
-        case "red": $color = "#FF4242"; break;
+        case "blue": $color = "#14E0FE"; break;
+        case "green": $color = "#C2E812"; break;
+        case "red": $color = "#F2542D"; break;
         default: break;
     }
 
