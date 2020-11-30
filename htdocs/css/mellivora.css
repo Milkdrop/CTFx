@@ -80,6 +80,10 @@ body {
 	animation: none;
 }
 
+.title-decorator-blue .title-decorator-icon {
+	filter: invert(1);
+}
+
 .title-decorator-gray {
 	background-color: #505050;
 	animation: maskdown-second 3s infinite ease-out;
@@ -450,10 +454,11 @@ textarea {
 
 .form-group input[type='checkbox']:checked::after {
     background: url("/img/ui/checked.png");
+    filter:invert(1);
 }
 
-.form-group input[type='checkbox'].check-dark:checked::after {
-    background: url("/img/ui/checkedBlack.png");
+.form-group input[type='checkbox'].checkbox-green:checked::after {
+    filter:none;
 }
 
 .discreet-inline button {
@@ -515,7 +520,7 @@ td a:hover {
 #header-logo {
 	height: 50px;
 	position: absolute;
-	top: 2px;
+	top: 4px;
 	left: 12px;
 }
 
@@ -637,6 +642,7 @@ td a:hover {
     background-image: url("/img/ui/checked.png");
     width: 34px;
     height: 34px;
+    filter: invert(1);
 }
 
 .challenge-description {
@@ -1051,10 +1057,6 @@ td a:hover {
 .light-theme .btn {
 	background-color: #000;
 	color: #fff;
-}
-
-.light-theme .btn-1:hover {
-	color: #000;
 }
 
 .light-theme a {

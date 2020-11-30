@@ -74,18 +74,20 @@ function form_input_captcha($position = 'private') {
     }
 }
 
-function form_input_checkbox ($name, $checked = 0, $color = "blue", $check_dark = 0) {
+function form_input_checkbox ($name, $checked = 0, $color = "blue") {
+    $colorcode = "#808080";
+
     switch ($color) {
-        case "blue": $color = "#0B90FD"; break;
-        case "green": $color = "#C2E812"; $check_dark = 1; break;
-        case "red": $color = "#F2542D"; break;
+        case "blue": $colorcode = "#0B90FD"; break;
+        case "green": $colorcode = "#C2E812"; break;
+        case "red": $colorcode = "#F2542D"; break;
         default: break;
     }
 
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '<div class="form-group">
-        <input style="border-color: ',$color,'" type="checkbox" id="',$field_name,'" class="form-control ',$check_dark ? 'check-dark':'','" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
+        <input style="border-color: ',$colorcode,'" type="checkbox" id="',$field_name,'" class="form-control checkbox-', htmlspecialchars($color) ,'" name="',$field_name,'" value="1"',($checked ? ' checked="checked"' : ''),' />
       <label class="control-label" for="',$field_name,'">',$name,'</label>
     </div>';
 }
@@ -169,7 +171,7 @@ function form_logout() {
     echo '
     <form action="/actions/logout" method="post">
         ',form_xsrf_token(),'
-        <button class="shuffle-text" type="submit" id="logout-button">',lang_get('log_out'),'</button>
+        <button type="submit" id="logout-button">',lang_get('log_out'),'</button>
     </form>
     ';
 }

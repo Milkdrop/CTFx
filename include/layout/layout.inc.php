@@ -64,22 +64,22 @@ function head($title = '') {
                     if (user_is_logged_in()) {
 
                         if (user_is_staff()) {
-                            echo '<li><a class="shuffle-text" href="/admin/">',lang_get('manage'),'</a></li>';
+                            echo '<li><a href="/admin/">',lang_get('manage'),'</a></li>';
                         }
 
                         echo '
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
                             <li>',form_logout(),'</li>';
 
                     } else {
                         echo '
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
-                            <li><a class="shuffle-text" href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a class="shuffle-text" href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
+                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
                     }
                     echo '
                 </ul>
@@ -175,15 +175,17 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
 }
 
 function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
+    $colorcode = "#808080";
+
     switch ($color) {
-        case "blue": $color = "#0B90FD"; break;
-        case "green": $color = "#C2E812"; break;
-        case "red": $color = "#F2542D"; break;
-        default: break;
+        case "blue": $colorcode = "#0B90FD"; break;
+        case "green": $colorcode = "#C2E812"; break;
+        case "red": $colorcode = "#F2542D"; break;
+        default: break; // default: remains gray
     }
 
-    echo '<div class="title-decorator-container" style="transform: rotate(',$rotation,')">
-        <div class="title-decorator" style="background-color:', htmlspecialchars ($color), '"></div>
+    echo '<div class="title-decorator-container title-decorator-', htmlspecialchars($color), '" style="transform: rotate(',$rotation,')">
+        <div class="title-decorator" style="background-color:', htmlspecialchars($colorcode), '"></div>
         <div class="title-decorator title-decorator-gray"></div>
         <div class="title-decorator title-decorator-icon" style="background-image: url(\'/img/ui/',$img,'\')"></div>
     </div>';

@@ -18,8 +18,8 @@ function highlightSelectedMenuItem() {
     }
 }
 
-function addNavbarMouseoverEffects() {
-    for (var t = document.getElementsByClassName("shuffle-text"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
+function addLinkMouseoverSFX() {
+    for (var t = document.querySelectorAll("#menu-main a,.challenge-file a"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
         if (0 == a.parentNode.classList.contains("active")) {
             a.addEventListener("mouseenter", function() {
@@ -145,5 +145,5 @@ function prettyPrintTime(t) {
 }
 
 $(document).ready(function() {
-    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addNavbarMouseoverEffects(), addButtonMouseoverEffects(), addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
+    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addLinkMouseoverSFX(), addButtonMouseoverEffects(), addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
 });
