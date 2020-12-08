@@ -969,6 +969,7 @@ td a:hover {
 	max-width: 48px;
 	cursor: pointer;
 	margin-right: 5px;
+	image-rendering: -webkit-optimize-contrast;
 }
 
 .g-recaptcha {
