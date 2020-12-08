@@ -31,6 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             array_get($_POST, 'type')
         )) {
             if (login_create($email, $password, false)) {
+                // ACHIEVEMENT-CODE
+                if (time() < Config::get("MELLIVORA_CONFIG_CTF_START_TIME")) {
+                    add_achievement(9);
+                }
+                // ACHIEVEMENT-CODE
                 redirect($redirect_url);
             } else {
                 message_error('Could not create login session.');

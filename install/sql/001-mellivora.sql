@@ -163,6 +163,7 @@ CREATE TABLE users (
   user_type tinyint(3) unsigned NOT NULL DEFAULT '0',
   competing tinyint(1) NOT NULL DEFAULT '1',
   country_id smallint(5) unsigned NOT NULL,
+  achievements int(10) unsigned NOT NULL DEFAULT '0',
   2fa_status enum('disabled','generated','enabled') NOT NULL DEFAULT 'disabled',
   PRIMARY KEY (id),
   UNIQUE KEY email (email),

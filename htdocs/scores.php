@@ -43,6 +43,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
 
         scoreboard($scores);
     }
+    
     // at least one ser type
     else {
         foreach ($user_types as $user_type) {

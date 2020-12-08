@@ -56,6 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $num_attempts++;
         }
 
+        // ACHIEVEMENT-CODE
+        // A bit imprecise in the implementation but it gets the job done
+        if ($num_attempts >= 10) {
+            add_achievement(11);
+        }
+        // ACHIEVEMENT-CODE
+
         // get challenge information
         $challenge = db_select_one(
             'challenges',
@@ -67,7 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'available_from',
                 'available_until',
                 'num_attempts_allowed',
-                'min_seconds_between_submissions'
+                'min_seconds_between_submissions',
+                'solve_decay',
+                'solves'
             ),
             array(
                 'id' => $_POST['challenge'],
@@ -124,10 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
         }
-
-        if ($correct)
-            challengeSolve ($_POST['challenge']);
-
+            
         db_insert(
             'submissions',
             array(
@@ -139,6 +145,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'marked'=>($challenge['automark'] ? '1' : '0')
             )
         );
+
+        if ($correct) {
+            challengeSolve ($_POST['challenge']);
+
+            // ACHIEVEMENT-CODE
+            $totalChalls = db_count_num('challenges', array('category' => $challenge['category']));
+            $solvedChalls = db_query_fetch_one('
+                SELECT
+                   COUNT(*) AS count
+                FROM challenges AS ch JOIN submissions AS s ON s.challenge = ch.id AND s.user_id=:user_id AND s.correct = 1
+                WHERE
+                  ch.category = :category',
+                array(
+                    'user_id'=>$_SESSION['id'],
+                    'category'=>$challenge['category']
+                )
+            )["count"];
+
+            if ($solvedChalls == $totalChalls) {
+                // Custom order for X-MAS stuff, you can change this however you want
+                if ($challenge['category'] <= 9) {
+                    add_achievement($challenge['category'] - 1);
+                }
+            }
+
+            $solvedInThePast5Mins = db_query_fetch_one('
+                SELECT
+                   COUNT(*) AS count
+                FROM submissions
+                WHERE
+                  user_id=:user_id AND
+                  correct=1 AND
+                  added>=:min_time',
+                array(
+                    'user_id' => $_SESSION['id'],
+                    'min_time' => time() - 5 * 60
+                )
+            )["count"];
+
+            if ($solvedInThePast5Mins >= 5) {
+                add_achievement(10);
+            }
+
+            if ($challenge['solves'] >= $challenge['solve_decay'] && $challenge['solve_decay'] > 0) {
+                add_achievement(12);
+            }
+
+            // ACHIEVEMENT-CODE
+        }
 
         if (!$challenge['automark']) {
             redirect('challenges?category='.$challenge['category'].'&status=manual');

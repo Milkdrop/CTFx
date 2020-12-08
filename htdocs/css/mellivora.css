@@ -909,7 +909,8 @@ td a:hover {
 }
 
 .progress-striped .progress-bar-info, .progress-striped .progress-bar-success {
-	background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,transparent 75%,transparent)
+	background-image: linear-gradient(90deg, rgba(11,144,253,1) 0%, rgba(13,156,254,1) 60%, rgba(15,196,254,1) 100%);
+	background-size: auto;
 }
 
 .progress-bar-info, .progress-bar-success {
@@ -963,6 +964,12 @@ td a:hover {
 }
 
 /** Misc **/
+
+.achievement {
+	max-width: 48px;
+	cursor: pointer;
+	margin-right: 5px;
+}
 
 .g-recaptcha {
 	margin-bottom: 3px;

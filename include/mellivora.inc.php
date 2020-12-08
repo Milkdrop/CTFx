@@ -7,6 +7,7 @@ require(CONST_PATH_INCLUDE . 'language/language.inc.php');
 require(CONST_PATH_INCLUDE . 'session.inc.php');
 require(CONST_PATH_INCLUDE . 'raceconditions.inc.php');
 require(CONST_PATH_INCLUDE . 'xsrf.inc.php');
+require(CONST_PATH_INCLUDE . 'achievements.inc.php');
 require(CONST_PATH_INCLUDE . 'general.inc.php');
 require(CONST_PATH_INCLUDE . 'db.inc.php');
 require(CONST_PATH_INCLUDE . 'cache.inc.php');
