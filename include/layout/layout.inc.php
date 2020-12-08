@@ -11,6 +11,8 @@ $head_sent = false;
 // singleton bbcode instance
 $bbc = null;
 
+$staticVersion = "1.2.0";
+
 function head($title = '') {
     global $head_sent;
 
@@ -26,7 +28,7 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/mellivora.css" rel="stylesheet">';
+    <link href="/css/mellivora.css?ver=' . $staticVersion . '" rel="stylesheet">';
 
     js_global_dict();
 
@@ -135,7 +137,7 @@ function foot () {
 <audio id="audio-dropdown-open" src="/audio/dropdown_open.mp3"></audio>
 <audio id="audio-checkbox-click" src="/audio/checkbox_click.mp3"></audio>
 
-<script type="text/javascript" src="/js/mellivora.js"></script>
+<script type="text/javascript" src="/js/mellivora.js?ver=' . $staticVersion . '"></script>
 </body>
 </html>';
 }
