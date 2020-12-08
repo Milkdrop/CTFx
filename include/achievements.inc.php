@@ -60,19 +60,19 @@ const CONST_ACHIEVEMENTS = [
 	[
 		"icon" => "earlybird.png",
 		"title" => "Early Bird",
-		"description" => "Created the team before the competition starts"
+		"description" => "Created the team before the competition started"
 	],
 
 	[
 		"icon" => "hoarder.png",
 		"title" => "Hoarder",
-		"description" => "Solved 3 challenges in the span of 5 minutes"
+		"description" => "Solved 5 challenges in the span of 5 minutes"
 	],
 
 	[
 		"icon" => "cheeser.png",
 		"title" => "I swear it must be one of these",
-		"description" => "Submit 10 wrong flags for the same challenge"
+		"description" => "Submitted 10 wrong flags for the same challenge"
 	],
 
 	[
@@ -84,7 +84,7 @@ const CONST_ACHIEVEMENTS = [
 	[
 		"icon" => "goodsamaritan.png",
 		"title" => "Good Samaritan",
-		"description" => "Helped the organizers fix an issue with the CTF"
+		"description" => "Helped the organizers fix an issue with the competition"
 	]
 ];
 
