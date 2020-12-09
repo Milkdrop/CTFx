@@ -522,6 +522,7 @@ td a:hover {
 	position: absolute;
 	top: 4px;
 	left: 12px;
+	image-rendering: -webkit-optimize-contrast;
 }
 
 #site-logo-text {
