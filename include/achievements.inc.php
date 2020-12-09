@@ -54,7 +54,7 @@ const CONST_ACHIEVEMENTS = [
 	[
 		"icon" => "programming.png",
 		"title" => "Oh, you know programming? Name every algorithm.",
-		"description" => "Solved all PPC challenges"
+		"description" => "Solved all Programming challenges"
 	],
 
 	[
