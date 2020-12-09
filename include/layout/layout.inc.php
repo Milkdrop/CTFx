@@ -15,6 +15,7 @@ $staticVersion = "1.2.1";
 
 function head($title = '') {
     global $head_sent;
+    global $staticVersion;
 
     header('Content-Type: text/html; charset=utf-8');
     echo '<!DOCTYPE html>
@@ -110,6 +111,8 @@ function head($title = '') {
 }
 
 function foot () {
+    global $staticVersion;
+    
     echo '</div> <!-- / content container -->
 </div> <!-- /container -->
 
