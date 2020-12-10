@@ -60,7 +60,7 @@ if (isset($_GET['category'])) {
 
 if (!ctfStarted ()) {
     if (user_is_staff ()) {
-        message_inline ("Challenges are invisible for normal users, but admins can still see them.");
+        message_inline ("CTF has not started yet, so only admins can see the challenges.");
     } else {
         $timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
         message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
@@ -97,15 +97,15 @@ $challenges = db_query_fetch_all('
        c.min_seconds_between_submissions,
        c.automark,
        c.relies_on,
+       c.exposed,
        IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_1 AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
        (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_2 AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
        (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
        (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
     FROM challenges AS c
     WHERE
-       c.category = :category AND
-       c.exposed = 1
-    ORDER BY c.points ASC, c.id ASC',
+       c.category = :category ' . ((!user_is_staff())?'AND c.exposed = 1':'') .
+    ' ORDER BY c.points ASC, c.id ASC',
     array(
         'user_id_1'=>$_SESSION['id'],
         'user_id_2'=>$_SESSION['id'],
@@ -261,7 +261,7 @@ foreach($challenges as $challenge) {
                 message_inline("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
             }
 
-            if ($challenge['available_from'] > $now && user_is_staff ()) {
+            if (user_is_staff() && (($challenge['available_from'] > $now && ctfStarted()) || ($challenge['exposed'] == 0))) {
                 message_inline ("This challenge is hidden from normal users");
             }
         }
