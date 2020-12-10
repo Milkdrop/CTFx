@@ -19,7 +19,7 @@ function highlightSelectedMenuItem() {
 }
 
 function addLinkMouseoverSFX() {
-    for (var t = document.querySelectorAll("#menu-main a,.challenge-file a"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
+    for (var t = document.querySelectorAll("#menu-main a,#menu-main button,.challenge-filename"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
         if (0 == a.parentNode.classList.contains("active")) {
             a.addEventListener("mouseenter", function() {
