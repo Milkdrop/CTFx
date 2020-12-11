@@ -11,7 +11,7 @@ $head_sent = false;
 // singleton bbcode instance
 $bbc = null;
 
-$staticVersion = "1.2.3";
+$staticVersion = "1.2.4";
 
 function head($title = '') {
     global $head_sent;

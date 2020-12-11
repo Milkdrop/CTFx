@@ -15,6 +15,19 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
         Welcome to CTFx. This is a fork of <a href="https://github.com/Nakiami/mellivora">mellivora</a> that sports an overhaul of the UI, extra functionality (such as dynamic scoring) and various other quality-of-life tweaks. The goal of CTFx is to bring together the speed of mellivora and the appearance of modern and future web in order to create a fast, lightweight and enjoyable CTF Platform. The current CTFx repository is a close clone of the CTFx instance that is running at the official X-MAS CTF.
     </div>';
 
+    echo '<div class="row" style="text-align:center; font-size: 20px; margin-bottom:-5px">
+    <div style="margin-bottom:-10px">', title_decorator("blue", "0deg", "asterisk.png"), 'Proudly sponsored by:<br></div>
+
+    <div style="display:block ruby; transform: translate(-8%, 0%);">
+    <img style="margin-right: -16px" class="sponsor-img" src="/img/sponsors/armedsynapse.png">
+    <a target="_blank" href="https://vector35.com/"><img style="height: 110px" class="sponsor-img" src="/img/sponsors/vector35.png"></a>
+    <a target="_blank" href="https://www.offensive-security.com/"><img style="height: 60px" class="sponsor-img" src="/img/sponsors/offensivesecurity.png"></a>
+    <a target="_blank" href=" https://www.hackthebox.eu/"><img style="height: 43px; margin-left: -19px" class="sponsor-img" src="/img/sponsors/hackthebox.png"></a>
+    <a target="_blank" href="https://www.pentesteracademy.com/"><img style="height: 85px;margin-right: 22px;" class="sponsor-img" src="/img/sponsors/pentesteracademy.png"></a>
+    <a target="_blank" href=" https://pentesterlab.com/"><img style="height: 43px; margin-right: 12px" class="sponsor-img" src="/img/sponsors/pentesterlab.png"></a>
+    <a target="_blank" href="https://bluuk.io/"><img style="height: 54px" class="sponsor-img" src="/img/sponsors/bluuk.png"></a>
+    <br></div></div>';
+
     echo '<div class="row">
     <div class="col-md-6">';
 

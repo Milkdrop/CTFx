@@ -533,6 +533,10 @@ td a:hover {
 	margin-top: 7px;
 }
 
+.sponsor-img {
+	height: 150px;
+}
+
 #menu-main a, #menu-main button {
 	color: #fff;
 	opacity: 1;
@@ -619,14 +623,17 @@ td a:hover {
 
 .challenge-solved .solver-1 {
 	background: url('/img/ui/xenon.gif');
+	background-size: cover;
 }
 
 .challenge-solved .solver-2 {
 	background: url('/img/ui/osmium.gif');
+	background-size: cover;
 }
 
 .challenge-solved .solver-3 {
 	background: url('/img/ui/hydrogen.gif');
+	background-size: cover;
 }
 
 .solver-1 a, .solver-1 .challenge-solved-text, .solver-1 small {
