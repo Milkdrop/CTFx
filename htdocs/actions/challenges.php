@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         if ($correct) {
-            challengeSolve ($_POST['challenge']);
+            challengeSolve($_POST['challenge']);
 
             // ACHIEVEMENT-CODE
             $totalChalls = db_count_num('challenges', array('category' => $challenge['category']));
@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 add_achievement(10);
             }
 
-            if ($challenge['solves'] >= $challenge['solve_decay'] && $challenge['solve_decay'] > 0) {
+            if ($challenge['solves'] >= $challenge['solve_decay'] && $challenge['solve_decay'] > 0 && $challenge['category'] != 10) {
                 add_achievement(12);
             }
 

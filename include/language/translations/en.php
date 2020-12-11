@@ -113,10 +113,6 @@ $lang['challenge_not_available'] = 'This challenge is not yet available';
 $lang['challenge_not_solved'] = 'This challenge has not yet been solved by any teams.';
 $lang['challenge_solved_by_percentage'] = 'This challenge has been solved by {solve_percentage}% of actively participating users.';
 
-$lang['challenge_solved_first'] = 'First to solve this challenge!';
-$lang['challenge_solved_second'] = 'Second to solve this challenge!';
-$lang['challenge_solved_third'] = 'Third to solve this challenge!';
-
 $lang['correct_flag'] = 'Correct flag, you are awesome!';
 $lang['incorrect_flag'] = 'Incorrect flag, try again.';
 $lang['submission_awaiting_mark'] = 'Your submission is awaiting manual marking.';

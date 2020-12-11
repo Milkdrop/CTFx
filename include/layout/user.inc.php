@@ -85,11 +85,11 @@ function print_solved_challenges($user_id) {
                 </td>
 
                 <td>
-                    ', get_position_medal($submission['pos'], true), '
                     ', time_elapsed($submission['added'], $submission['available_from']), ' ', lang_get('after_release'), ' (', date_time($submission['added']), ')
                 </td>
 
-                <td>', number_format($submission['points']), '</td>
+                <td>', get_position_medal($submission['pos'], true), '
+                <b style="vertical-align: sub">', number_format($submission['points']), '</b></td>
               </tr>
               ';
         }

@@ -134,13 +134,10 @@ foreach($challenges as $challenge) {
         continue;
     }
 
-    echo '
-    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' ctfx-card">
-        <div class="ctfx-card-head">
-            <h4><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
+    $position = 0;
 
-            if ($challenge['correct_submission_added']) {
-                $solve_position = db_query_fetch_one('
+    if ($challenge['correct_submission_added']) {
+        $solve_position = db_query_fetch_one('
                     SELECT
                       COUNT(*)+1 AS pos
                     FROM
@@ -153,10 +150,19 @@ foreach($challenges as $challenge) {
                         'correct_submission_added'=>$challenge['correct_submission_added'],
                         'challenge_id'=>$challenge['id']
                     )
-                );
+        );
 
-                echo ' ', get_position_medal($solve_position['pos']);
-            }
+        $position = $solve_position['pos'];
+    }
+
+    echo '
+    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' ctfx-card">
+        <div class="ctfx-card-head ', (($position > 0 && $position <= 3)?('solver-' . $position):''),'">
+            <h4><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
+    
+    if ($position > 0 && $position <= 3) {
+        echo ' ' . get_position_medal($solve_position['pos']);
+    }
 
     echo '</h4>';
 

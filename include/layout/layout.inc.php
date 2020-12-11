@@ -11,7 +11,7 @@ $head_sent = false;
 // singleton bbcode instance
 $bbc = null;
 
-$staticVersion = "1.2.2";
+$staticVersion = "1.2.3";
 
 function head($title = '') {
     global $head_sent;
@@ -312,7 +312,7 @@ function bbcode_manual () {
             <ul>
             <li><b>Replaced Items:</b>
                 <ul>
-                <li>[img]/img/award_star_gold_3.png[/img] => <img src="/img/award_star_gold_3.png" alt="award_star_gold_3.png" class="bbcode_img"></li>
+                <li>[img]/img/award_xenon.png[/img] => <img src="/img/award_xenon.png" alt="award_xenon.png" class="bbcode_img"></li>
                 <li>[br]</li>
                 </ul>
             </li>
