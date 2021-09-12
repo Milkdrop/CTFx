@@ -10,31 +10,32 @@ head(lang_get('home'));
 
 if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'))) {
 
-    echo '<div id="home-logo"></div>
-        <div class="home-intro-text">',
-    (!ctfStarted ()) ? (title_decorator ("blue", "0deg", "asterisk.png") . 'CTF will start in <b>' . seconds_to_pretty_time(Config::get('MELLIVORA_CONFIG_CTF_START_TIME') - time ()) . '</b><br><br>') : '',
-    '<b>X-MAS CTF</b> is a <a href="https://ctftime.org/ctf-wtf/">Capture The Flag competition</a> organized by <a href="https://ctftime.org/team/58218">HTsP</a>. This year we have prepared challenges from a diverse range of categories such as cryptography, web exploitation, forensics, reverse engineering, binary exploitation, hardware, algorithmics and more! We made sure that each category has challenges for every skill level, so that there is always something for everyone to enjoy and work on. This competition is using a dynamic scoring system, meaning that the more solves a challenge has, the less points it will bring to each of the solving teams. This system is put in place in order to keep the challenge score updated to its real difficulty level.
+    echo '<div id="home-logo"><img src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo.png"></div>';
+    
+    if (!ctf_started() || true) {
+        echo '<div id="home-ctf-start-time">' . decorator_square("asterisk.png", "270deg", "#FCDC4D") . 'CTF starts in&nbsp;<b>' . time_remaining(Config::get('CTF_START_TIME')) . '</b></div>';
+    }
+
+    echo '<div id="home-intro-text">
+        Welcome to <a href="https://github.com/Milkdrop/CTFx">CTFx</a>. This is a fork of <a href="https://github.com/Nakiami/mellivora">mellivora</a> that sports an overhaul of the UI,
+        extra functionality (such as dynamic scoring) and various other quality-of-life tweaks. The goal of CTFx is to bring together the
+        speed of mellivora and the appearance of modern and future web in order to create a fast, lightweight and enjoyable CTF Platform.
+        The current CTFx repository is a close clone of the CTFx instance that is running at the official <a href="https://ctftime.org/ctf/277">X-MAS CTF</a>.
     </div>';
 
-    echo '<div class="row" style="text-align:center; font-size: 20px; margin-bottom:-5px">
-    <div style="margin-bottom:-10px">', title_decorator("blue", "0deg", "asterisk.png"), 'Proudly sponsored by:<br></div>
-
-    <div style="display:block ruby; transform: translate(-8%, 0%);">
-    <img style="height: 150px; margin-right: -16px"src="/img/sponsors/armedsynapse.png">
-    <a target="_blank" href="https://vector35.com/"><img style="height: 110px" src="/img/sponsors/vector35.png"></a>
-    <a target="_blank" href="https://www.offensive-security.com/"><img style="height: 60px" src="/img/sponsors/offensivesecurity.png"></a>
-    <a target="_blank" href=" https://www.hackthebox.eu/"><img style="height: 43px; margin-left: -19px" src="/img/sponsors/hackthebox.png"></a>
-    <a target="_blank" href="https://www.pentesteracademy.com/"><img style="height: 85px;margin-right: 22px;" src="/img/sponsors/pentesteracademy.png"></a>
-    <a target="_blank" href=" https://pentesterlab.com/"><img style="height: 43px; margin-right: 12px" src="/img/sponsors/pentesterlab.png"></a>
-    <a target="_blank" href="https://bluuk.io/"><img style="height: 54px" src="/img/sponsors/bluuk.png"></a>
-    <br></div></div>';
+    section_header("Proudly sponsored by:");
+    echo '<div class="ctfx-sponsor-list">
+        <a target="_blank" href="https://google.com/"><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/sponsor_logo.png"></a>
+        <a target="_blank" href="https://google.com/"><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/sponsor_logo.png"></a>
+        <a target="_blank" href="https://google.com/"><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/sponsor_logo.png"></a>
+    </div>';
 
     echo '<div class="row">
     <div class="col-md-6">';
 
     echo '<iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>';
 
-    section_head ("Rules");
+    section_header("Rules");
     
     echo '<ul>
         <li>Attacking the platform is strictly prohibited and will get you disqualified.</li>
@@ -47,7 +48,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     echo '</div>
     <div class="col-md-6">';
 
-    section_head ("Latest News");
+    section_header("Latest News");
 
     $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 
@@ -69,17 +70,6 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
     }
 
     echo '</div></div>';
-
-    $bgchoice = rand(0, 2);
-
-    echo '<style>
-        .background-left {
-            background-image:url("/img/theme/human' . $bgchoice . 'left.png");
-        }
-        .background-right {
-            background-image:url("/img/theme/human' . $bgchoice . 'right.png");
-        }
-    </style>';
 
     cache_end (CONST_CACHE_NAME_HOME);
 }

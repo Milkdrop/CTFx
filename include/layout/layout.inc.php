@@ -1,17 +1,17 @@
 <?php
-require(CONST_PATH_LAYOUT . 'login_dialog.inc.php');
-require(CONST_PATH_LAYOUT . 'messages.inc.php');
-require(CONST_PATH_LAYOUT . 'scores.inc.php');
-require(CONST_PATH_LAYOUT . 'user.inc.php');
-require(CONST_PATH_LAYOUT . 'forms.inc.php');
-require(CONST_PATH_LAYOUT . 'challenges.inc.php');
+require(CONST_PATH_LAYOUT . '/login_dialog.inc.php');
+require(CONST_PATH_LAYOUT . '/messages.inc.php');
+require(CONST_PATH_LAYOUT . '/scores.inc.php');
+require(CONST_PATH_LAYOUT . '/user.inc.php');
+require(CONST_PATH_LAYOUT . '/forms.inc.php');
+require(CONST_PATH_LAYOUT . '/challenges.inc.php');
 
 // set global head_sent variable
 $head_sent = false;
 // singleton bbcode instance
 $bbc = null;
 
-$staticVersion = "1.2.4";
+$staticVersion = "1.3.0a2";
 
 function head($title = '') {
     global $head_sent;
@@ -22,79 +22,55 @@ function head($title = '') {
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('MELLIVORA_CONFIG_SITE_NAME'), ' - ', Config::get('MELLIVORA_CONFIG_SITE_SLOGAN'),'</title>
-    <meta name="description" content="',Config::get('MELLIVORA_CONFIG_SITE_DESCRIPTION'),'">
+    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('SITE_NAME'), ' - ', Config::get('SITE_SLOGAN'),'</title>
+    <meta name="description" content="',Config::get('SITE_DESCRIPTION'),'">
     <meta name="author" content="">
-    <link rel="icon" href="/img/favicon.png" type="image/png" />
+    <meta property="og:image" content="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png"/>
+    <link rel="icon" href="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/mellivora.css?ver=' . $staticVersion . '" rel="stylesheet">';
+    <link href="/static/ctfx.css?v=' . $staticVersion . '" rel="stylesheet">';
 
     js_global_dict();
 
-    if (Config::get('MELLIVORA_CONFIG_SEGMENT_IO_KEY')) {
-        echo '
-        <script type="text/javascript">
-        window.analytics=window.analytics||[],window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(t){return function(){var a=Array.prototype.slice.call(arguments);return a.unshift(t),window.analytics.push(a),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(t){if(!document.getElementById("analytics-js")){var a=document.createElement("script");a.type="text/javascript",a.id="analytics-js",a.async=!0,a.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.io/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n)}},window.analytics.SNIPPET_VERSION="2.0.9",
-        window.analytics.load("',Config::get('MELLIVORA_CONFIG_SEGMENT_IO_KEY'),'");
-        window.analytics.page();
-        </script>
-        ';
-    }
-
     echo '
     </head>
-    <body>
-    <div class="background"></div>
-    <div class="background background-left"></div>
-    <div class="background background-right"></div>';
+    <body>';
 
     if (!user_is_logged_in()) {
         login_dialog();
     }
 
-    echo '
-    <div class="page">
-    <nav class="header" id="header">
-        <div id="header-inner">
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'">
-                <img id="header-logo" src="/img/theme/headerLogo.png">
-            </a>
-            <div id="header-menu">
-                <ul class="nav nav-pills pull-right" id="menu-main">';
+    echo '<div id="navbar">
+        <a href="',Config::get('URL_BASE_PATH'),'">
+            <img id="navbar-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo_navbar.png">
+        </a>
 
-                    if (user_is_logged_in()) {
+        <div id="navbar-buttons">';
 
-                        if (user_is_staff()) {
-                            echo '<li><a href="/admin/">',lang_get('manage'),'</a></li>';
-                        }
+            if (user_is_logged_in()) {
 
-                        echo '
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
-                            <li>',form_logout(),'</li>';
+                if (user_is_staff()) {
+                    echo '<a href="/admin/">',lang_get('manage'),'</a>';
+                }
 
-                    } else {
-                        echo '
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
-                    }
-                    echo '
-                </ul>
-            </div>
+                echo '<a href="',Config::get('URL_BASE_PATH'),'home">',lang_get('home'),'</a>',
+                    '<a href="',Config::get('URL_BASE_PATH'),'challenges">',lang_get('challenges'),'</a>',
+                    '<a href="',Config::get('URL_BASE_PATH'),'scores">',lang_get('scores'),'</a>',
+                    '<a href="',Config::get('URL_BASE_PATH'),'profile">',lang_get('profile'),'</a>',
+                    form_logout();
+
+            } else {
+                echo '<a href="',Config::get('URL_BASE_PATH'),'home">',lang_get('home'),'</a>',
+                    '<a href="',Config::get('URL_BASE_PATH'),'scores">',lang_get('scoreboard'),'</a>',
+                    '<a href="',Config::get('URL_BASE_PATH'),'register">',lang_get('register'),'</a>',
+                    '<a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a>';
+            }
+            echo '
         </div>
-    </nav><!-- navbar -->
+    </div>
 
-    <div id="background-dots"></div>
-    <div class="container" id="body-container">
-
-        <div id="content-container">
-        ';
+    <div id="body-content">';
 
     if (isset($_GET['generic_success'])) {
         message_inline ("Action Successful", "green", true, "margin-bottom: 0px");
@@ -113,60 +89,38 @@ function head($title = '') {
 function foot () {
     global $staticVersion;
     
-    echo '</div> <!-- / content container -->
-</div> <!-- /container -->
+    echo '</div>
 
-<div id="footer">
-    <b>CTFx</b> v1.2 Beta<br>
-	Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
-</div>
-
-</div> <!-- /page -->
-
-<!-- JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-<audio id="audio-typewriter" src="/audio/typewriter.mp3"></audio>
-<audio id="audio-navbar" src="/audio/navbar.mp3"></audio>
-<audio id="audio-navclick" src="/audio/navclick.mp3"></audio>
-<audio id="audio-footer-mouseover" src="/audio/footer_mouseover.mp3"></audio>
-<audio id="audio-button-mouseover" src="/audio/button_mouseover.mp3"></audio>
-<audio id="audio-button-click" src="/audio/button_click.mp3"></audio>
-<audio id="audio-button-cancel-mouseover" src="/audio/button_cancel_mouseover.mp3"></audio>
-<audio id="audio-button-cancel-click" src="/audio/button_cancel_click.mp3"></audio>
-<audio id="audio-button-small-mouseover" src="/audio/button_small_mouseover.mp3"></audio>
-<audio id="audio-button-small-click" src="/audio/button_small_click.mp3"></audio>
-<audio id="audio-dropdown-open" src="/audio/dropdown_open.mp3"></audio>
-<audio id="audio-checkbox-click" src="/audio/checkbox_click.mp3"></audio>
-
-<script type="text/javascript" src="/js/mellivora.js?ver=' . $staticVersion . '"></script>
-</body>
-</html>';
-}
-
-function section_title ($title, $tagline = '', $decorator_color = "green") {
-    echo '
-    <div class="row">
-        <div class="col-lg-12 page-header">
-            <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
-            '<small>'.$tagline.'</small>','
-            </h2>
-        </div>
+    <div id="footer">
+        <b><a href="https://github.com/Milkdrop/CTFx">CTFx</a></b> v'.$staticVersion.'<br>
+        Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
     </div>
-    ';
+
+    <!-- JS -->
+    <script type="text/javascript" src="/static/ctfx.js?v=' . $staticVersion . '"></script>
+    <script>ctfx_init()</script>
+
+    <audio id="audio-typewriter" src="/static/audio/typewriter.mp3"></audio>
+    <audio id="audio-navbar" src="/static/audio/navbar.mp3"></audio>
+    <audio id="audio-navclick" src="/static/audio/navclick.mp3"></audio>
+    <audio id="audio-footer-mouseover" src="/static/audio/footer_mouseover.mp3"></audio>
+    <audio id="audio-button-mouseover" src="/static/audio/button_mouseover.mp3"></audio>
+    <audio id="audio-button-click" src="/static/audio/button_click.mp3"></audio>
+    <audio id="audio-button-cancel-mouseover" src="/static/audio/button_cancel_mouseover.mp3"></audio>
+    <audio id="audio-button-cancel-click" src="/static/audio/button_cancel_click.mp3"></audio>
+    <audio id="audio-button-small-mouseover" src="/static/audio/button_small_mouseover.mp3"></audio>
+    <audio id="audio-button-small-click" src="/static/audio/button_small_click.mp3"></audio>
+    <audio id="audio-dropdown-open" src="/static/audio/dropdown_open.mp3"></audio>
+    <audio id="audio-checkbox-click" src="/static/audio/checkbox_click.mp3"></audio>
+    <script>ctfx_assign_sfx()</script>
+    </body>
+    </html>';
 }
 
-function section_head ($title, $tagline = '', $decorator_color = "green", $typewriter = true) {
-    echo '
-        <div class="row">
-            <div class="col-lg-12" style="margin-bottom: 5px">
-                <h2 ', $typewriter?'class="typewriter"':'','>', title_decorator ($decorator_color), htmlspecialchars ($title),
-                '<small>'.$tagline.'</small>','
-                </h2>
-            </div>
-        </div>
-    ';
+function section_header($title, $tagline = '') {
+    if ($tagline != '') echo '<b>USING OBSOLETE TAGLINE</b>';
+
+    echo '<div class="section-header">' . decorator_square() . htmlspecialchars($title), '</div>';
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {
@@ -179,20 +133,11 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
     ';
 }
 
-function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
-    $colorcode = "#808080";
-
-    switch ($color) {
-        case "blue": $colorcode = "#0B90FD"; break;
-        case "green": $colorcode = "#C2E812"; break;
-        case "red": $colorcode = "#F2542D"; break;
-        default: break; // default: remains gray
-    }
-
-    echo '<div class="title-decorator-container title-decorator-', htmlspecialchars($color), '" style="transform: rotate(',$rotation,')">
-        <div class="title-decorator" style="background-color:', htmlspecialchars($colorcode), '"></div>
-        <div class="title-decorator title-decorator-gray"></div>
-        <div class="title-decorator title-decorator-icon" style="background-image: url(\'/img/ui/',$img,'\')"></div>
+function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD") {
+    return '<div class="decorator-square-container" style="transform: rotate('.$rotation.')">
+        <div class="decorator-square-component" style="background-color:'.$color.'"></div>
+        <div class="decorator-square-component title-decorator-gray"></div>
+        <div class="decorator-square-component decorator-square-icon" style="background-image: url(\''.Config::get('URL_STATIC_RESOURCES').'/img/icons/'.$icon.'\')"></div>
     </div>';
 }
 
@@ -205,7 +150,7 @@ function tag ($text) {
 }
 
 function icon ($img) {
-    echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
+    echo '<span class="icon" style="background-image:url(\''.Config::get('URL_STATIC_RESOURCES').'/img/ui/',$img,'\')"></span>';
 }
 
 function card_simple ($title, $content = "", $icon = "") {
@@ -269,7 +214,7 @@ function button_link($text, $url) {
 
 function menu_management () {
     echo '<div id="menu-management" class="menu">';
-    dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
+    dropdown ("Dashboard", [["Dashboard", "/admin"]]);
     dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
     dropdown ("Users", [["List users", "/admin/users"]]);
     dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
@@ -312,7 +257,7 @@ function bbcode_manual () {
             <ul>
             <li><b>Replaced Items:</b>
                 <ul>
-                <li>[img]/img/award_xenon.png[/img] => <img src="/img/award_xenon.png" alt="award_xenon.png" class="bbcode_img"></li>
+                <li>[img]'.Config::get('URL_STATIC_RESOURCES').'/img/award_xenon.png[/img] => <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/award_xenon.png" alt="award_xenon.png" class="bbcode_img"></li>
                 <li>[br]</li>
                 </ul>
             </li>
@@ -353,16 +298,13 @@ function js_global_dict () {
         $dict['user_id'] = $_SESSION['id'];
     }
 
-    echo '<script type="text/javascript">
-        var global_dict = {};
-        ';
+    echo '<script type="text/javascript"> var global_dict = {};';
 
     foreach ($dict as $key => $val) {
-        echo 'global_dict["',htmlspecialchars($key),'"] = "',htmlspecialchars($val),'"';
+        echo 'global_dict["',htmlspecialchars($key),'"] = "',htmlspecialchars($val),'";';
     }
 
-    echo '
-    </script>';
+    echo '</script>';
 }
 
 function progress_bar ($percent, $type = false, $striped = true) {
@@ -392,7 +334,7 @@ function country_flag_link($country_name, $country_code, $return = false) {
     $country_code = htmlspecialchars($country_code);
 
     $flag_link = '<a class="country-flag" href="country?code='.htmlspecialchars($country_code).'">' .
-        '<img src="/img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'"/>'.
+        '<img src="'.Config::get('URL_STATIC_RESOURCES').'/img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'"/>'.
     '</a>';
 
     if ($return) {

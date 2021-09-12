@@ -31,11 +31,11 @@ if (!empty($where)) {
 }
 
 if (array_get($_GET, 'user_id')) {
-    section_title ('User submissions', button_link('List all submissions', 'submissions?only_needing_marking=0'));
+    section_header('User submissions', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else if ($only_needing_marking) {
-    section_title ('Submissions in need of marking', button_link('List all submissions', 'submissions?only_needing_marking=0'));
+    section_header('Submissions in need of marking', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else {
-    section_title ('All submissions', button_link('Show only in need of marking', 'submissions?only_needing_marking=1'));
+    section_header('All submissions', button_link('Show only in need of marking', 'submissions?only_needing_marking=1'));
 }
 
 $num_subs = db_query_fetch_one('

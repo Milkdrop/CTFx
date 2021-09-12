@@ -64,10 +64,9 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
   - sudo into `mysql` and run the query `USE mellivora; UPDATE users SET class=100 WHERE id=1;`
 
 ## Installation Tips:
-- You can change the /var/www/ctfx path, but if you do so, you must update the `MELLIVORA_CONFIG_PATH_BASE` variable in `include/config/config.inc.php`
 - It is **recommended** that you change the default database password, and if you do so you must also change it in `include/config/db.inc.php`
 - You can change the homepage to your liking by modifying `htdocs/home.php`. Make sure to also change the css rules in `htdocs/css/mellivora.min.css` for #ctfx-main-logo and .main-intro-text, if you want a different overall style.
-- You might want to change the `MELLIVORA_CONFIG_CTF_START_TIME` and `MELLIVORA_CONFIG_CTF_END_TIME` variables in `include/config/config.inc.php`, so that each new challenge you create will have these times set as default.
+- You might want to change the `CTF_START_TIME` and `CTF_END_TIME` variables in `include/config/config.inc.php`, so that each new challenge you create will have these times set as default.
 
 ## License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.

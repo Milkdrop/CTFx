@@ -42,7 +42,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         FROM challenges AS c
         WHERE c.exposed = 1')["points"];
 
-    if (empty ($totalPoints) || !ctfStarted ())
+    if (empty ($totalPoints) || !ctf_started ())
         $totalPoints = 0;
     
     $avatarURL = "https://www.gravatar.com/avatar/" . md5 ($user["email"]) . "?s=128&d=mp";
@@ -61,7 +61,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
             if ($userAchievements & (1 << $i)) {
                 $achievement = CONST_ACHIEVEMENTS[$i];
                 echo '<img class="achievement has-tooltip" data-toggle="tooltip" data-html="true" data-placement="top" title="<b>' . $achievement["title"] . '</b><br>' .
-                $achievement["description"] . '" src="/img/achievements/' . $achievement["icon"] . '">';
+                $achievement["description"] . '" src="'.Config::get('URL_STATIC_RESOURCES').'/img/achievements/' . $achievement["icon"] . '">';
             }
         }
     }
@@ -74,7 +74,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONF
         message_inline(lang_get('non_competing_user'));
     }
 
-    if (ctfStarted ()) {
+    if (ctf_started ()) {
         print_solved_graph($_GET['id']);
         print_solved_challenges($_GET['id']);
     }

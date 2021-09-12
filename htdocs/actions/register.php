@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             validate_captcha();
         }
 
-        $email = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR')];
+        $email = $_POST[md5(Config::get('SITE_NAME').'USR')];
 
         if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP')) {
             $password = generate_random_string(12);
         } else {
-            $password = $_POST[md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD')];
+            $password = $_POST[md5(Config::get('SITE_NAME').'PWD')];
         }
 
         if (register_account(
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         )) {
             if (login_create($email, $password, false)) {
                 // ACHIEVEMENT-CODE
-                if (time() < Config::get("MELLIVORA_CONFIG_CTF_START_TIME")) {
+                if (time() < Config::get("CTF_START_TIME")) {
                     add_achievement(9);
                 }
                 // ACHIEVEMENT-CODE

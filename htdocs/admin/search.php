@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 head('Site management');
 menu_management();
 
-section_title ('Search');
+section_header('Search');
 
 form_start('/admin/actions/search');
 form_input_text('Search for');

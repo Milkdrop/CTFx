@@ -8,11 +8,11 @@ function login_dialog() {
                 <form id="login-dialog-form" method="post" class="form-signin light-theme" action="/actions/login">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        ',section_head ("Login", "", "blue", false),'
+                        ',section_header("Login"),'
                     </div>
                     <div class="modal-body">
-                            <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control form-group" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
-                            <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD'), '" type="password" class="form-control form-group" placeholder="',lang_get('password'),'" id="login-password-input" required />
+                            <input name="',md5(Config::get('SITE_NAME').'USR'),'" type="email" class="form-control form-group" placeholder="',lang_get('email_address'),'" id="login-email-input" required autofocus />
+                            <input name="',md5(Config::get('SITE_NAME').'PWD'), '" type="password" class="form-control form-group" placeholder="',lang_get('password'),'" id="login-password-input" required />
                             <input type="hidden" name="action" value="login" />
                             <input type="hidden" name="redirect" value="',htmlspecialchars($_SERVER['REQUEST_URI']), '" />
 

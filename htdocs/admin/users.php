@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Users');
 menu_management();
-section_title ('Users');
+section_header('Users');
 
 echo '<table id="files" class="table table-striped table-hover">
       <thead>

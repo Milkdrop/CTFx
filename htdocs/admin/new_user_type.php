@@ -6,7 +6,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Site management');
 menu_management();
-section_title ('New user type');
+section_header('New user type');
 
 message_inline('User types are not required. You can add them if you wish to group contestants and give them separate scoreboards. If not, everyone will be in the same group.');
 

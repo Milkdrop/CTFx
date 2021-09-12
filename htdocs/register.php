@@ -10,7 +10,7 @@ if (user_is_logged_in()) {
 head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
-    section_title('Registration');
+    section_header('Registration');
 
     echo '<p>',
     lang_get(
@@ -21,8 +21,8 @@ if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
     ),'</p>
     <form method="post" id="registerForm" class="form-signin" action="actions/register">
         <input name="team_name" type="text" class="form-control form-group" placeholder="Team name" minlength="',Config::get('MELLIVORA_CONFIG_MIN_TEAM_NAME_LENGTH'),'" maxlength="',Config::get('MELLIVORA_CONFIG_MAX_TEAM_NAME_LENGTH'),'" required />
-        <input name="',md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'USR'),'" type="email" class="form-control form-group" placeholder="Email address" id="register-email-input" required />
-        ',(!Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ? '<input name="'.md5(Config::get('MELLIVORA_CONFIG_SITE_NAME').'PWD').'" type="password" class="form-control form-group" placeholder="Password" id="register-password-input" required />' : '');
+        <input name="',md5(Config::get('SITE_NAME').'USR'),'" type="email" class="form-control form-group" placeholder="Email address" id="register-email-input" required />
+        ',(!Config::get('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP') ? '<input name="'.md5(Config::get('SITE_NAME').'PWD').'" type="password" class="form-control form-group" placeholder="Password" id="register-password-input" required />' : '');
 
     if (cache_start(CONST_CACHE_NAME_REGISTER, Config::get('MELLIVORA_CONFIG_CACHE_TIME_REGISTER'))) {
         $user_types = db_select_all(

@@ -19,7 +19,7 @@ if (isset ($_GET['id'])) {
 
 head('Site management');
 menu_management();
-section_title (isset ($hint)?'Edit hint':'New hint');
+section_header(isset ($hint)?'Edit hint':'New hint');
 
 $opts = db_query_fetch_all(
     'SELECT

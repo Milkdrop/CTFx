@@ -28,16 +28,13 @@
 //    ''
 //];
 
-// paths below must end in a "/" !
-Config::set('MELLIVORA_CONFIG_PATH_BASE', '/var/www/ctfx/');
-
 // general site settings
-Config::set('MELLIVORA_CONFIG_SITE_NAME', 'CTFx');
-Config::set('MELLIVORA_CONFIG_SITE_SLOGAN', 'CTFx');
-Config::set('MELLIVORA_CONFIG_SITE_DESCRIPTION', 'CTFx - CTF Platform');
+Config::set('SITE_NAME', 'CTFx');
+Config::set('SITE_SLOGAN', 'Fresh install');
+Config::set('SITE_DESCRIPTION', 'Blazing fast CTF Platform from the future');
 
-Config::set('MELLIVORA_CONFIG_SITE_URL', '/');
-Config::set('MELLIVORA_CONFIG_SITE_URL_STATIC_RESOURCES', '/');
+Config::set('URL_BASE_PATH', '/');
+Config::set('URL_STATIC_RESOURCES', '/static');
 
 // Challenges
 Config::set('MELLIVORA_CONFIG_CHALL_INITIAL_POINTS', 500);
@@ -45,8 +42,8 @@ Config::set('MELLIVORA_CONFIG_CHALL_MINIMUM_POINTS', 50);
 Config::set('MELLIVORA_CONFIG_CHALL_SOLVE_DECAY', 100);
 
 // CTF default start and end times, in unix timestamp
-Config::set('MELLIVORA_CONFIG_CTF_START_TIME', 1584699200);
-Config::set('MELLIVORA_CONFIG_CTF_END_TIME', 1985699206);
+Config::set('CTF_START_TIME', 1631476744);
+Config::set('CTF_END_TIME', 1831991513);
 
 // redirects
 Config::set('MELLIVORA_CONFIG_INDEX_REDIRECT_TO', 'home');
@@ -120,7 +117,7 @@ Config::set('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS', false);
 
 // cache times
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_SCORES', 10);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_HOME', 10);
+Config::set('MELLIVORA_CONFIG_CACHE_TIME_HOME', 0);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_USER', 5);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE', 10);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_HINTS', 10);
@@ -130,9 +127,6 @@ Config::set('MELLIVORA_CONFIG_CACHE_TIME_DYNAMIC', 60);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_REGISTER', 10);
 
 Config::set('MELLIVORA_CONFIG_SHOW_ACHIEVEMENTS', true);
-
-// user tracking and statistics
-Config::set('MELLIVORA_CONFIG_SEGMENT_IO_KEY', '');
 
 // Amazon S3 credentials, for storing files in S3.
 // Leave blank to store files locally.

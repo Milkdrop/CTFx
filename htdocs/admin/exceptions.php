@@ -8,9 +8,9 @@ head('Exceptions');
 menu_management();
 
 if (array_get($_GET, 'user_id')) {
-    section_title ('User exceptions', button_link('Show all exceptions', '/admin/exceptions'));
+    section_header('User exceptions', button_link('Show all exceptions', '/admin/exceptions'));
 } else if (array_get($_GET, 'delete')) {
-  section_title ('Clear exceptions');
+  section_header('Clear exceptions');
   form_start('/admin/actions/exceptions');
   form_input_checkbox('Delete confirmation', false, 'red');
   form_hidden('action', 'delete');
@@ -19,7 +19,7 @@ if (array_get($_GET, 'user_id')) {
   form_end();
   die(foot());
 } else {
-  section_title ('Exceptions', button_link('Clear exceptions', '/admin/exceptions?delete=1'));
+  section_header('Exceptions', button_link('Clear exceptions', '/admin/exceptions?delete=1'));
 }
 
 echo '

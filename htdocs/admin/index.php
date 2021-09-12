@@ -12,7 +12,7 @@ check_server_configuration();
 
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 
-section_title ('Dashboard', button_link ('Add category','/admin/category'));
+section_header('Dashboard', button_link ('Add category','/admin/category'));
 
 // Print categories + challenges
 
@@ -104,18 +104,18 @@ $activeUsers = db_query_fetch_one ('
     array('date_bottom_limit' => time () - 3600 * 2))['num'];
 
 $totalUsers = db_count_num ("users");
-card_simple ($activeUsers . "/" . $totalUsers, "Active Users", "/img/ui/user.png");
+card_simple ($activeUsers . "/" . $totalUsers, "Active Users", Config::get('URL_STATIC_RESOURCES').'/img/ui/user.png');
 
 $load = sys_getloadavg ();
-card_simple (($load[2] * 100) . "%", "CPU Usage", "/img/ui/cpu.png");
+card_simple (($load[2] * 100) . "%", "CPU Usage", Config::get('URL_STATIC_RESOURCES').'/img/ui/cpu.png');
 
 $memusage = get_system_memory_usage ();
 if ($memusage != 0)
-  card_simple (bytes_to_pretty_size ($memusage), "Memory Usage", "/img/ui/ram.png");
+  card_simple (bytes_to_pretty_size ($memusage), "Memory Usage", Config::get('URL_STATIC_RESOURCES').'/img/ui/ram.png');
 
 $correctSubmissions = db_count_num ("submissions", array ("correct" => 1));
 $totalSubmissions = db_count_num ("submissions");
-card_simple ($correctSubmissions . "/" . $totalSubmissions, "Correct Submissions", "/img/ui/cloud.png");
+card_simple ($correctSubmissions . "/" . $totalSubmissions, "Correct Submissions", Config::get('URL_STATIC_RESOURCES').'/img/ui/cloud.png');
 
 echo '</div>';
 
@@ -124,7 +124,8 @@ echo '</div>';
 echo '</div>
 <div class="col-sm-6">';
 
-section_head ("News", button_link ('Add news','/admin/news'));
+section_header("News");
+echo button_link('Add news','/admin/news');
 
 $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
 

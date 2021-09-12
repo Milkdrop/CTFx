@@ -59,8 +59,8 @@ function store_file($file, $challenge_id, $filename) {
 
     // or store the file locally?
     else {
-        move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . $file_id);
-        if (!file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
+        move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . "/" . $file_id);
+        if (!file_exists(CONST_PATH_FILE_UPLOAD . "/" . $file_id)) {
             delete_file($file_id);
             message_error('File upload failed!');
         }
@@ -70,8 +70,8 @@ function store_file($file, $challenge_id, $filename) {
 function change_file ($file_id, $file) {
     validate_id($file_id);
 
-    if (file_exists(CONST_PATH_FILE_UPLOAD . $file_id)) {
-        unlink(CONST_PATH_FILE_UPLOAD . $file_id);
+    if (file_exists(CONST_PATH_FILE_UPLOAD . "/" . $file_id)) {
+        unlink(CONST_PATH_FILE_UPLOAD . "/" . $file_id);
     }
 
     db_update(
@@ -85,7 +85,7 @@ function change_file ($file_id, $file) {
         )
     );
 
-    move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . $file_id);
+    move_uploaded_file($file['tmp_name'], CONST_PATH_FILE_UPLOAD . "/" . $file_id);
 }
 
 function download_file($file) {
@@ -122,7 +122,7 @@ function download_file($file) {
     }
     // or read it locally?
     else {
-        $filePath = CONST_PATH_FILE_UPLOAD . $file['id'];
+        $filePath = CONST_PATH_FILE_UPLOAD . "/" . $file['id'];
 
         if (!is_readable($filePath)) {
             log_exception(new Exception("Could not read the requested file: " . $filePath));
@@ -180,8 +180,8 @@ function delete_file ($id) {
         )
     );
 
-    if (file_exists(CONST_PATH_FILE_UPLOAD . $id)) {
-        unlink(CONST_PATH_FILE_UPLOAD . $id);
+    if (file_exists(CONST_PATH_FILE_UPLOAD . "/" . $id)) {
+        unlink(CONST_PATH_FILE_UPLOAD . "/" . $id);
     }
 }
 

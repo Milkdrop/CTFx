@@ -1,27 +1,16 @@
-function initialiseDialogs() {
-    initialiseLoginDialog(), showPageLoadModalDialogs()
-}
+function highlight_current_navbar_location() {
+    var element = document.querySelector('#navbar-buttons a[href*="/' + window.location.pathname.split("/")[1] + '"]');
 
-function initialiseLoginDialog() {
-    $("#login-dialog").on("shown.bs.modal", function(t) {
-        $("#login-dialog").find("input").first().focus()
-    })
-}
-
-function showPageLoadModalDialogs() {
-    $(".modal.on-page-load").modal()
-}
-
-function highlightSelectedMenuItem() {
-    for (var t = window.location.pathname, e = document.querySelectorAll('.nav a[href$="' + t + '"]'), n = 0; n < e.length; n++) {
-        e[n] && e[n].parentNode && (e[n].parentNode.className = "active") && (e[n].innerHTML = "<b>&gt; </b>" + e[n].innerHTML);
+    if (element) {
+        element.className = "active";
+        element.innerHTML = "<b>&gt; </b>" + element.innerHTML;
     }
 }
 
 function addLinkMouseoverSFX() {
-    for (var t = document.querySelectorAll("#menu-main a,#menu-main button,.challenge-filename"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
+    for (var t = document.querySelectorAll("#navbar-buttons a,#navbar-buttons button,.challenge-filename"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
-        if (0 == a.parentNode.classList.contains("active")) {
+        if (0 == a.classList.contains("active")) {
             a.addEventListener("mouseenter", function() {
                 e.currentTime = 0, e.play()
             }), a.addEventListener("click", function() {
@@ -31,7 +20,7 @@ function addLinkMouseoverSFX() {
     }
 }
 
-function addButtonMouseoverEffects() {
+function addButtonMouseoverSFX() {
     for (var t = [].concat([].slice.call(document.getElementsByClassName("btn")), [].slice.call(document.getElementsByClassName("close")), [].slice.call(document.getElementsByClassName("category-link"))), e = document.getElementById("audio-button-mouseover"), n = document.getElementById("audio-button-click"), o = document.getElementById("audio-button-small-mouseover"), i = document.getElementById("audio-button-small-click"), a = document.getElementById("audio-button-cancel-mouseover"), s = document.getElementById("audio-button-cancel-click"), l = 0, r = t.length; l < r; l++) t[l].classList.contains("btn-4") || t[l].classList.contains("close") ? (t[l].addEventListener("mouseenter", function() {
         a.currentTime = 0, a.play()
     }), t[l].addEventListener("click", function() {
@@ -57,14 +46,6 @@ function addDropdownMouseoverEffects() {
     })
 }
 
-function addFooterMouseoverEffects() {
-    var t = document.getElementById("footer-fade"),
-        e = document.getElementById("audio-footer-mouseover");
-    t.addEventListener("mouseenter", function() {
-        e.currentTime = 0, e.play()
-    })
-}
-
 function addCheckboxClickEffects() {
     for (var t = document.getElementsByTagName("input"), e = document.getElementById("audio-checkbox-click"), n = 0, o = t.length; n < o; n++) "checkbox" == t[n].type && t[n].addEventListener("click", function() {
         e.currentTime = 0, e.play()
@@ -84,7 +65,7 @@ function highlightLoggedOnTeamName() {
     null != t && (t.classList.add("our-team"))
 }
 
-function initialiseCountdowns() {
+function initialise_countdowns() {
     var t = $("[data-countdown]");
     $("[data-countdown]").length && setInterval(function() {
         t.each(function() {
@@ -144,6 +125,20 @@ function prettyPrintTime(t) {
     return outStr;
 }
 
-$(document).ready(function() {
-    highlightSelectedMenuItem(), highlightLoggedOnTeamName(), typeWriterSFX(), addLinkMouseoverSFX(), addButtonMouseoverEffects(), addDropdownMouseoverEffects(), addCheckboxClickEffects(), initialiseDialogs(), initialiseTooltips(), initialiseCountdowns(), setFormSubmissionBehaviour()
-});
+function ctfx_init() {
+    highlight_current_navbar_location();
+
+    initialiseTooltips();
+    initialise_countdowns();
+
+    highlightLoggedOnTeamName();
+    setFormSubmissionBehaviour();
+}
+
+function ctfx_assign_sfx() {
+    typeWriterSFX();
+    addLinkMouseoverSFX();
+    addButtonMouseoverSFX();
+    addDropdownMouseoverEffects();
+    addCheckboxClickEffects();
+}

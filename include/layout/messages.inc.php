@@ -52,17 +52,17 @@ function message_inline ($message, $color = "blue", $strip_html = true, $extra_s
     }
 
     echo '<div class="alert" style="', isset ($textcolor)?'color:' . $textcolor . ';':'',
-    $extra_style, '">', title_decorator ($color, "270deg"), ($strip_html ? htmlspecialchars($message) : $message), '</div>';
+    $extra_style, '">' . decorator_square("arrow.png", "270deg", $color) . ($strip_html ? htmlspecialchars($message) : $message), '</div>';
 }
 
 function message_center ($message, $submessage = "", $img = "warn.png") {
     echo '<div class="message-centered">
-        <img src="/img/ui/', htmlspecialchars($img), '">',
+        <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/ui/', htmlspecialchars($img), '">',
         '<span>
         <div class="message">', htmlspecialchars ($message),'</div>';
 
     if (!empty ($submessage))
-        echo '<div class="submessage">', title_decorator ("green", "270deg"), htmlspecialchars($submessage), '</div>';
+        echo '<div class="submessage">' . decorator_square("arrow.png", "270deg") . htmlspecialchars($submessage), '</div>';
 
     echo '</span></div>';
 

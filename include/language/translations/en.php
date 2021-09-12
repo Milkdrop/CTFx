@@ -167,7 +167,7 @@ $lang['user_class_user'] = 'User';
 $lang['user_class_moderator'] = 'Moderator';
 $lang['user_class_unknown'] = 'Unknown user class';
 
-$lang['manage'] = 'Manage';
+$lang['manage'] = 'Admin';
 $lang['add_news_item'] = 'Add news item';
 $lang['list_news_item'] = 'List news items';
 $lang['news'] = 'News';

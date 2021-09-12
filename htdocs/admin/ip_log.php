@@ -10,10 +10,10 @@ menu_management();
 $where = array();
 
 if (is_valid_ip(array_get($_GET, 'ip'))) {
-    section_title ('Teams using IP ' . $_GET['ip']);
+    section_header('Teams using IP ' . $_GET['ip']);
     $where['ip'] = ip2long($_GET['ip']);
 } else if (is_valid_id(array_get($_GET, 'user_id'))) {
-    section_title ('IP log for user');
+    section_header('IP log for user');
     $where['user_id'] = $_GET['user_id'];
 } else {
     message_error('Must supply either IP or user ID');

@@ -19,7 +19,7 @@ if (isset ($_GET['id'])) {
 
 head('Site management');
 menu_management();
-section_title (isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
+section_header(isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
 
 form_start('/admin/actions/challenge');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
@@ -117,8 +117,7 @@ $files = db_select_all(
 );
 
 foreach ($files as $file) {
-  echo '<div class="challenge-file">';
-  title_decorator ("blue", "0deg", "package.png");
+  echo '<div class="challenge-file">' . decorator_square("package.png", "0deg");
   echo '<a style="margin: 0px; margin-right: 5px" href="file.php?id=' . htmlspecialchars($file['id']) . '" class="btn btn-xs btn-1">✎</a>';
 
   if (empty ($file['url'])) {

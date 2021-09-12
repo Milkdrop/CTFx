@@ -8,7 +8,7 @@ validate_id($_GET['id']);
 
 head('Site management');
 menu_management();
-section_title ('Edit user type');
+section_header('Edit user type');
 
 $user_type = db_select_one(
     'user_types',

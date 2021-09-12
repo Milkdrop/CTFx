@@ -47,9 +47,7 @@ if (cache_start(CONST_CACHE_NAME_SCORES, Config::get('MELLIVORA_CONFIG_CACHE_TIM
     // at least one ser type
     else {
         foreach ($user_types as $user_type) {
-            section_head(htmlspecialchars($user_type['title']) . ' ' . lang_get('scoreboard'),
-                '<a href="/json?view=scoreboard&user_type='.$user_type['id'].'"></a>'
-            );
+            section_header(lang_get('scoreboard'));
 
             $scores = db_query_fetch_all('
             SELECT

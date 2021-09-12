@@ -1,0 +1,199 @@
+/** Page layout **/
+
+html {
+	height: 100%;
+}
+
+body {
+	background-color: #252422;
+	color: #FFFCF2;
+	min-height: 100%;
+	position: relative;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	margin: 0px;
+}
+
+::selection {
+	background-color: rgba(255, 252, 242, .99); /* .99 in order to work on FF and Chrome */
+	color: #252422;
+}
+
+#body-content {
+	padding: 5px 40px 80px 40px;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/** Navbar **/
+
+#navbar {
+	background-color: #33312E;
+	border-bottom: 4px solid #35AAFD;
+	min-height: 80px;
+	width: 100%;
+	margin-bottom: 16px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#navbar-logo {
+	height: 48px;
+	margin-left: 16px;
+}
+
+#navbar-buttons {
+	margin-right: 32px;
+}
+
+#navbar-buttons a, #navbar-buttons button {
+	color: #FFFCF2;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 20px;
+	padding: 4px 8px;
+	margin-left: 32px;
+	background: linear-gradient(to right, #FFFCF2 49.9%, #00000000 49.9%);
+	background-position: right;
+	background-size: 200% 100%;
+	transition: background-position 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#navbar-buttons a.active, #navbar-buttons a:hover, #navbar-buttons .active button, #navbar-buttons button:hover {
+	color: #252422;
+	background-position: left;
+}
+
+#navbar-buttons form {
+	display: inline;
+}
+
+/** Footer **/
+
+#footer {
+	font-size: 13px;
+	text-align: center;
+	bottom: 0;
+	margin-bottom: 16px;
+	position: absolute;
+	width: 100%;
+}
+
+#footer b a {
+	font-size: 16px;
+	color: #FFFCF2;
+}
+
+/** Default HTML Elements **/
+
+a {
+	text-decoration: none;
+	color: #35AAFD;
+	transition: color 200ms ease-in-out;
+}
+
+a:hover, a:focus {
+	text-decoration: underline;
+	color: #FCDC42;
+}
+
+img {
+	image-rendering: -webkit-optimize-contrast;
+}
+
+select {
+	cursor: pointer;
+}
+
+button {
+	cursor: pointer;
+	font-family: Arial, sans-serif; /* Needed again for some reason, the body one isn't enough */
+	border: none;
+}
+
+/* Sectioning */
+
+.section-header {
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+}
+
+.decorator-square-container {
+	width: 32px;
+	height: 32px;
+	background-color: #403D39;
+	margin-right: 8px;
+}
+
+.decorator-square-component {
+	width: 32px;
+	position: absolute;
+	animation: anim-decorator-square-color 3s infinite ease-out;
+}
+
+.decorator-square-icon {
+	height: 32px;
+	background-size: 32px;
+	animation: none;
+}
+
+.title-decorator-blue .title-decorator-icon {
+	filter: invert(1);
+}
+
+.title-decorator-gray {
+	background-color: #403D39;
+	animation: anim-decorator-square-background 3s infinite ease-out;
+}
+
+@keyframes anim-decorator-square-color {
+	0% { height: 0px; }
+	20% { height: 32px; }
+	100% { height: 32px; }
+}
+
+@keyframes anim-decorator-square-background {
+	0% { height: 0px; }
+	50% { height: 0px; }
+	70% { height: 32px; }
+	100% { height: 32px; }
+}
+
+/* Home page */
+
+#home-logo {
+	text-align: center;
+	margin-top: 16px;
+	margin-bottom: 32px;
+}
+
+#home-logo img {
+	width: 60%;
+}
+
+#home-ctf-start-time {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#home-intro-text {
+	font-size: 20px;
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.ctfx-sponsor-list {
+	padding: 16px 0px;
+}
+
+.ctfx-sponsor-logo { /* Rename this to .sponsor-logo and uBlock will get you! */
+	height: 64px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+}

@@ -8,7 +8,7 @@ head('Site management');
 
 menu_management();
 
-section_title ('BBCode Manual');
+section_header('BBCode Manual');
 
 bbcode_manual();
 

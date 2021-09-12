@@ -196,7 +196,9 @@ function log_exception ($exception, $showStackTrace = true, $customMessage = "")
     }
 }
 
-function time_remaining ($until, $from = false) {
+function time_remaining($until, $from = false) {
+
+    $full_timestamp = date_time($until);
 
     if ($from===false) {
         $until = $until - time();
@@ -204,10 +206,10 @@ function time_remaining ($until, $from = false) {
         $until = $until - $from;
     }
 
-    return seconds_to_pretty_time($until);
+    return '<span class="countdown tooltip" tooltip="' . $full_timestamp . '" time-left="' . htmlspecialchars($until) . '">' . seconds_to_pretty_time($until) . '</span>';
 }
 
-function time_elapsed ($to, $from = false) {
+function time_elapsed($to, $from = false) {
 
     if ($from===false) {
         $to = time() - $to;
@@ -224,17 +226,16 @@ function date_time($timestamp = false, $specific = 6) {
         $timestamp = time();
     }
 
-    $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
+    $specific = substr('H:i:s d/m/Y', 0, ($specific*2)-1);
 
-    return date($specific, $timestamp);
+    return date($specific, $timestamp) . " UTC+0";
 }
 
-function ctfStarted () {
-    $timeLeft = time () - Config::get ('MELLIVORA_CONFIG_CTF_START_TIME');
-    return $timeLeft >= 0;
+function ctf_started() {
+    return time() >= Config::get('CTF_START_TIME');
 }
 
-function seconds_to_pretty_time ($seconds) {
+function seconds_to_pretty_time($seconds) {
     $time = new DateTime(date('Y-m-d H:i:s', $seconds));
     $start = new DateTime(date('Y-m-d H:i:s', 0));
     $diff = $time->diff($start);
@@ -411,7 +412,7 @@ function redirect ($url, $absolute = false) {
     }
 
     if (!$absolute) {
-        $url = Config::get('MELLIVORA_CONFIG_SITE_URL') . trim($url, '/');
+        $url = Config::get('URL_BASE_PATH') . trim($url, '/');
     }
 
     validate_url($url);

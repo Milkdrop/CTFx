@@ -19,7 +19,7 @@ if (isset ($_GET['id'])) {
 
 head('Site management');
 menu_management();
-section_title (isset ($news)?'Edit news item: ' . $news['title']:'New news item');
+section_header(isset ($news)?'Edit news item: ' . $news['title']:'New news item');
 
 form_start('/admin/actions/news');
 form_input_text('Title', $news['title']);

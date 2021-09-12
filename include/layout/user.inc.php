@@ -36,7 +36,7 @@ function print_solved_graph($user_id) {
 function print_solved_challenges($user_id) {
     validate_id($user_id);
 
-    section_head(lang_get('solved_challenges'));
+    section_header(lang_get('solved_challenges'));
 
     $submissions = db_query_fetch_all('
         SELECT
@@ -79,7 +79,7 @@ function print_solved_challenges($user_id) {
             echo '
               <tr>
                 <td>
-                    <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
+                    <a href="',Config::get('URL_BASE_PATH'),'challenge?id=', htmlspecialchars($submission['challenge_id']), '">
                     ', htmlspecialchars($submission['title']), '
                     </a> (', htmlspecialchars($submission['category_title']), ')
                 </td>
@@ -155,7 +155,7 @@ function print_user_submissions($user_id, $limit = false) {
 
   foreach($submissions as $submission) {
       echo '<tr>
-        <td><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
+        <td><a href="',Config::get('URL_BASE_PATH'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
         <td>',time_elapsed($submission['added']),' ago</td>
         <td>
         <form method="post" action="/admin/actions/submissions" class="discreet-inline">
@@ -166,12 +166,12 @@ function print_user_submissions($user_id, $limit = false) {
       if ($submission['correct']) {
         echo '<button type="submit" style="color: #CFFF42" title="Click to mark incorrect"
           class="has-tooltip" data-toggle="tooltip" data-placement="top">
-          ',htmlspecialchars($submission['flag']),' <img src="/img/ui/correct.png">
+          ',htmlspecialchars($submission['flag']),' <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/ui/correct.png">
           </button>';
       } else {
         echo '<button type="submit" style="color: #FF4242" title="Click to mark correct"
           class="has-tooltip" data-toggle="tooltip" data-placement="top">
-          ',htmlspecialchars($submission['flag']),' <img src="/img/ui/wrong.png">
+          ',htmlspecialchars($submission['flag']),' <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/ui/wrong.png">
           </button>';
       }
       

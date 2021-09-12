@@ -58,11 +58,11 @@ if (isset($_GET['category'])) {
 } else
     $current_category = $categories[0];
 
-if (!ctfStarted ()) {
+if (!ctf_started ()) {
     if (user_is_staff ()) {
         message_inline ("CTF has not started yet, so only admins can see the challenges.");
     } else {
-        $timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
+        $timeLeft = Config::get ('CTF_START_TIME') - time ();
         message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
     }
 }
@@ -74,8 +74,7 @@ if (empty ($current_category))
 echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';
 
 // write out our categories menu
-echo '<div id="categories-menu" class="menu">
-', title_decorator ("green", "270deg");
+echo '<div id="categories-menu" class="menu">' . decorator_square("arrow.png", "270deg");
 
 foreach ($categories as $cat) {
     echo '<a class="btn btn-xs btn-2 ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="/challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
@@ -267,7 +266,7 @@ foreach($challenges as $challenge) {
                 message_inline("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
             }
 
-            if (user_is_staff() && (($challenge['available_from'] > $now && ctfStarted()) || ($challenge['exposed'] == 0))) {
+            if (user_is_staff() && (($challenge['available_from'] > $now && ctf_started()) || ($challenge['exposed'] == 0))) {
                 message_inline ("This challenge is hidden from normal users");
             }
         }
