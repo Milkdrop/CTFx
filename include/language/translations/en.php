@@ -155,12 +155,12 @@ $lang['action_failure'] = 'Failure!';
 $lang['action_something_went_wrong'] = 'Something went wrong! Most likely the action you attempted has failed.';
 $lang['generic_error'] = 'Something went wrong.';
 
-$lang['year'] = 'year';
-$lang['month'] = 'month';
-$lang['day'] = 'day';
-$lang['hour'] = 'hour';
-$lang['minute'] = 'minute';
-$lang['second'] = 'second';
+$lang['year'] = 'Year';
+$lang['month'] = 'Month';
+$lang['day'] = 'Day';
+$lang['hour'] = 'Hour';
+$lang['minute'] = 'Minute';
+$lang['second'] = 'Second';
 $lang['append_to_time_to_make_plural'] = 's';
 
 $lang['user_class_user'] = 'User';

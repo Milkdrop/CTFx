@@ -31,11 +31,11 @@ if (!empty($where)) {
 }
 
 if (array_get($_GET, 'user_id')) {
-    section_header('User submissions', button_link('List all submissions', 'submissions?only_needing_marking=0'));
+    echo section_header('User submissions', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else if ($only_needing_marking) {
-    section_header('Submissions in need of marking', button_link('List all submissions', 'submissions?only_needing_marking=0'));
+    echo section_header('Submissions in need of marking', button_link('List all submissions', 'submissions?only_needing_marking=0'));
 } else {
-    section_header('All submissions', button_link('Show only in need of marking', 'submissions?only_needing_marking=1'));
+    echo section_header('All submissions', button_link('Show only in need of marking', 'submissions?only_needing_marking=1'));
 }
 
 $num_subs = db_query_fetch_one('
@@ -82,7 +82,7 @@ foreach($submissions as $submission) {
     echo '<tr>
       <td><a href="/challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
       <td><a href="/admin/user.php?id=',htmlspecialchars($submission['user_id']),'">',htmlspecialchars($submission['team_name']),'</a></td>
-      <td>',time_elapsed($submission['added']),' ago</td>
+      <td>' . timestamp($submission['added'], ' ago') . '</td>
       <td>
       <form method="post" action="/admin/actions/submissions" class="discreet-inline">
         <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />

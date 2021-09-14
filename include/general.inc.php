@@ -196,39 +196,8 @@ function log_exception ($exception, $showStackTrace = true, $customMessage = "")
     }
 }
 
-function time_remaining($until, $from = false) {
-
-    $full_timestamp = date_time($until);
-
-    if ($from===false) {
-        $until = $until - time();
-    } else {
-        $until = $until - $from;
-    }
-
-    return '<span class="countdown tooltip" tooltip="' . $full_timestamp . '" time-left="' . htmlspecialchars($until) . '">' . seconds_to_pretty_time($until) . '</span>';
-}
-
-function time_elapsed($to, $from = false) {
-
-    if ($from===false) {
-        $to = time() - $to;
-    } else {
-        $to = $to - $from;
-    }
-
-    return seconds_to_pretty_time($to);
-}
-
-function date_time($timestamp = false, $specific = 6) {
-
-    if($timestamp === false) {
-        $timestamp = time();
-    }
-
-    $specific = substr('H:i:s d/m/Y', 0, ($specific*2)-1);
-
-    return date($specific, $timestamp) . " UTC+0";
+function formatted_date($timestamp) {
+    return date('d/m/Y - H:i:s', $timestamp) . " UTC+0";
 }
 
 function ctf_started() {
@@ -471,7 +440,7 @@ function check_server_and_db_time() {
     $error = abs($time - $dbInfo['timestamp']);
     if ($error >= 5) {
         message_inline('Database and PHP times are out of sync. This will cause problems.
-        DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off).', "red");
+        DB time: '.formatted_date($dbInfo['timestamp']).', PHP time: '.formatted_date($time).' ('.$error.' seconds off).', "red");
     }
 
     $php_timezone_offzet_seconds = date('Z');
@@ -538,20 +507,6 @@ function array_search_matching_key ($needle, $haystack, $key, $transform_using_f
     }
 
     return false;
-}
-
-function is_item_available($available_from, $available_until) {
-    $now = time();
-
-    if ($available_from > $now) {
-        return false;
-    }
-
-    if ($available_until < $now) {
-        return false;
-    }
-
-    return true;
 }
 
 function empty_to_zero($val) {

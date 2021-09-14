@@ -21,7 +21,7 @@ $user = db_select_one(
 head('Site management');
 menu_management();
 
-section_header('Edit user: ' . $user['team_name']);
+echo section_header('Edit user: ' . $user['team_name']);
 
 form_start('/admin/actions/user');
 form_input_text('Email', $user['email']);

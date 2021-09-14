@@ -36,7 +36,7 @@ function print_solved_graph($user_id) {
 function print_solved_challenges($user_id) {
     validate_id($user_id);
 
-    section_header(lang_get('solved_challenges'));
+    echo section_header(lang_get('solved_challenges'));
 
     $submissions = db_query_fetch_all('
         SELECT
@@ -85,7 +85,7 @@ function print_solved_challenges($user_id) {
                 </td>
 
                 <td>
-                    ', time_elapsed($submission['added'], $submission['available_from']), ' ', lang_get('after_release'), ' (', date_time($submission['added']), ')
+                    ', timestamp($submission['added'], lang_get('after_release'), $submission['available_from']), ' (', formatted_date($submission['added']), ')
                 </td>
 
                 <td>', get_position_medal($submission['pos'], true), '
@@ -156,7 +156,7 @@ function print_user_submissions($user_id, $limit = false) {
   foreach($submissions as $submission) {
       echo '<tr>
         <td><a href="',Config::get('URL_BASE_PATH'),'challenge.php?id=',htmlspecialchars($submission['challenge_id']),'">',htmlspecialchars($submission['challenge_title']),'</a></td>
-        <td>',time_elapsed($submission['added']),' ago</td>
+        <td>' . timestamp($submission['added'],'ago') . '</td>
         <td>
         <form method="post" action="/admin/actions/submissions" class="discreet-inline">
           <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
@@ -241,7 +241,7 @@ function print_user_exception_log($user_id, $limit = false) {
             echo '
     <tr>
         <td>', htmlspecialchars($exception['message']), '</td>
-        <td>', date_time($exception['added']), '</td>
+        <td>', formatted_date($exception['added']), '</td>
         <td><a href="/admin/ip_log.php?ip=', htmlspecialchars($exception['user_ip']), '">', htmlspecialchars($exception['user_ip']), '</a></td>
         <td>', htmlspecialchars($exception['trace']), '</td>
     </tr>
@@ -296,8 +296,8 @@ function print_user_ip_log($user_id, $limit = 0) {
         <tr>
             <td><a href="/admin/ip_log.php?ip=',htmlspecialchars($entry['ip']),'">',htmlspecialchars($entry['ip']),'</a></td>
             <td>',(Config::get('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS') ? htmlspecialchars(gethostbyaddr($entry['ip'])) : '<i>Lookup disabled in config</i>'),'</td>
-            <td>',date_time($entry['added']),'</td>
-            <td>',date_time($entry['last_used']),'</td>
+            <td>',formatted_date($entry['added']),'</td>
+            <td>',formatted_date($entry['last_used']),'</td>
             <td>',number_format($entry['times_used']),'</td>
         </tr>
         ';

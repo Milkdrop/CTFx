@@ -27,7 +27,7 @@ if (isset($_GET['auth_key']) && is_valid_id($_GET['id'])) {
 if (!isset($_GET['action'])) {
 
     head (lang_get('reset_password'));
-    section_header("Reset Password:");
+    echo section_header("Reset Password:");
 
     echo '
     <form method="post" class="form-signin" action="actions/reset_password">
@@ -51,7 +51,7 @@ if (!isset($_GET['action'])) {
 else if ($_GET['action']=='choose_password' && is_valid_id($auth['user_id'])) {
 
     head (lang_get('choose_password'));
-    section_header("Choose Password:");
+    echo section_header("Choose Password:");
 
     echo '
     <form method="post" class="form-signin" action="actions/reset_password">

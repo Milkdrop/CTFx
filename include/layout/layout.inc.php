@@ -11,7 +11,7 @@ $head_sent = false;
 // singleton bbcode instance
 $bbc = null;
 
-$staticVersion = "1.3.0a2";
+$staticVersion = "1.3.0a3";
 
 function head($title = '') {
     global $head_sent;
@@ -120,7 +120,22 @@ function foot () {
 function section_header($title, $tagline = '') {
     if ($tagline != '') echo '<b>USING OBSOLETE TAGLINE</b>';
 
-    echo '<div class="section-header">' . decorator_square() . htmlspecialchars($title), '</div>';
+    return '<div class="section-header">' . decorator_square() . htmlspecialchars($title) . '</div>';
+}
+
+function timestamp($time, $extra_text = '', $substract_with = false) {
+    $full_timestamp = formatted_date($time);
+
+    $time_difference = $time - time();
+    if ($substract_with !== false) {
+        $time_difference = $time - $substract_with;
+    }
+
+    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . seconds_to_pretty_time($time_difference) . '</span>&nbsp;' . htmlspecialchars($extra_text), $full_timestamp);
+}
+
+function tooltip($html_content, $tooltip_text) {
+    return '<span class="tooltip">' . $html_content . '<div class="tooltip-text">' . htmlspecialchars($tooltip_text) . '</div></span>';
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {

@@ -19,7 +19,7 @@ if (isset ($_GET['id'])) {
 
 head('Site management');
 menu_management();
-section_header(isset ($file)?'Edit file':'New file');
+echo section_header(isset ($file)?'Edit file':'New file');
 
 $opts = db_query_fetch_all(
     'SELECT

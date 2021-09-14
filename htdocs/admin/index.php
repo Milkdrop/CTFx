@@ -12,7 +12,7 @@ check_server_configuration();
 
 $categories = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
 
-section_header('Dashboard', button_link ('Add category','/admin/category'));
+echo section_header('Dashboard', button_link ('Add category','/admin/category'));
 
 // Print categories + challenges
 
@@ -124,7 +124,7 @@ echo '</div>';
 echo '</div>
 <div class="col-sm-6">';
 
-section_header("News");
+echo section_header("News");
 echo button_link('Add news','/admin/news');
 
 $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
@@ -134,11 +134,11 @@ if (empty ($news)) {
 }
 
 foreach($news as $item) {
-    echo '<div class="ctfx-card">
-        <div class="ctfx-card-head">
+    echo '<div class="card">
+        <div class="card-head">
           <h4>',edit_link ('/admin/news.php?id=' . htmlspecialchars($item['id']), '✎ ' . htmlspecialchars($item['title'])),'</h4>
         </div>
-        <div class="ctfx-card-body">
+        <div class="card-body">
             ',get_bbcode()->parse($item['body']),'
         </div>
     </div>';

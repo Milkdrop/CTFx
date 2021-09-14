@@ -10,7 +10,7 @@ if (user_is_logged_in()) {
 head('Register');
 
 if (Config::get('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED')) {
-    section_header('Registration');
+    echo section_header('Registration');
 
     echo '<p>',
     lang_get(

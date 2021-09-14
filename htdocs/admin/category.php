@@ -20,7 +20,7 @@ if (isset ($_GET['id'])) {
 head('Site management');
 menu_management();
 
-section_header(isset ($category)?'Edit category: ' . $category['title']:"New category");
+echo section_header(isset ($category)?'Edit category: ' . $category['title']:"New category");
 form_start('/admin/actions/category');
 form_input_text('Title', $category['title']);
 form_textarea('Description', $category['description']);

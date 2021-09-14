@@ -19,7 +19,7 @@ if (isset ($_GET['id'])) {
 
 head('Site management');
 menu_management();
-section_header(isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
+echo section_header(isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
 
 form_start('/admin/actions/challenge');
 $opts = db_query_fetch_all('SELECT * FROM categories ORDER BY title');
@@ -56,8 +56,8 @@ $opts = db_query_fetch_all('
 array_unshift($opts, array('id'=>0, 'title'=> '-- Depend on another challenge? --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
-form_input_text('Available from', date_time($challenge['available_from']), null, "Available from");
-form_input_text('Available until', date_time($challenge['available_until']), null, "Available until");
+form_input_text('Available from', formatted_date($challenge['available_from']), null, "Available from");
+form_input_text('Available until', formatted_date($challenge['available_until']), null, "Available until");
 
 form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);

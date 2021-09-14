@@ -65,23 +65,30 @@ function highlightLoggedOnTeamName() {
     null != t && (t.classList.add("our-team"))
 }
 
-function initialise_countdowns() {
-    var t = $("[data-countdown]");
-    $("[data-countdown]").length && setInterval(function() {
-        t.each(function() {
-            var t = $(this),
-                e = t.data("countdown"),
-                n = new Date(1e3 * e),
-                o = Math.floor((n.getTime() - Date.now()) / 1e3),
-                i = t.attr("data-countdown-done") || "No time remaining",
-                a = o <= 0 ? i : prettyPrintTime(o);
-            t.text(a)
-        })
-    }, 1e3)
-}
+function init_countdowns() {
+    var countdowns = document.querySelectorAll(".countdown");
+    console.log(countdowns);
+    
+    setInterval(function() {
+        for (countdown of countdowns) {
+            var new_time = parseInt(countdown.attributes["time-difference"].value);
+            if (new_time != 0) new_time -= 1;
 
-function initialiseTooltips() {
-    $(".has-tooltip").tooltip()
+            var approx_fun = (new_time > 0) ? Math.floor : Math.ceil;
+            
+            var seconds = Math.abs(new_time % 60);
+            var minutes = Math.abs(approx_fun(new_time / 60) % 60);
+            var hours = Math.abs(approx_fun(new_time / (60 * 60)) % 24);
+            var days = Math.abs(approx_fun(new_time / (60 * 60 * 24)));
+
+            if (days) countdown.innerText = days + " Day" + (days==1?"":"s") + ", " + hours + " Hour" + (hours==1?"":"s");
+            else if (hours) countdown.innerText = hours + " Hour" + (hours==1?"":"s") + ", " + minutes + " Minute" + (minutes==1?"":"s");
+            else if (minutes) countdown.innerText = minutes + " Minute" + (minutes==1?"":"s") + ", " + seconds + " Second" + (seconds==1?"":"s");
+            else countdown.innerText = seconds + " Second" + (seconds==1?"":"s");
+
+            countdown.attributes["time-difference"].value = new_time;
+        }
+    }, 1000);
 }
 
 function setFormSubmissionBehaviour() {
@@ -90,46 +97,9 @@ function setFormSubmissionBehaviour() {
     })
 }
 
-function getNonzeroTimeString(t) {
-    return t ? t.toString().padStart(2, '0') : ""
-}
-
-function prettyPrintTime(t) {
-    t = Math.floor(t);
-    var e = Math.floor(t / 60);
-    var n = Math.floor(e / 60);
-
-    var outStr = "";
-    var outputting = false;
-
-    if (Math.floor(n / 24) > 0) {
-        outputting = true;
-        outStr += Math.floor(n / 24).toString() + "d, ";
-    }
-
-    if (n % 24 > 0 || outputting) {
-        outputting = true;
-        outStr += Math.floor(n % 24).toString() + "h, ";
-    }
-
-    if (e % 60 > 0 || outputting) {
-        outputting = true;
-        outStr += Math.floor(e % 60).toString() + "m, ";
-    }
-
-    if (t % 60 > 0 || outputting) {
-        outStr += Math.floor(t % 60).toString() + "s";
-    }
-
-    outStr += " remaining";
-    return outStr;
-}
-
 function ctfx_init() {
     highlight_current_navbar_location();
-
-    initialiseTooltips();
-    initialise_countdowns();
+    init_countdowns();
 
     highlightLoggedOnTeamName();
     setFormSubmissionBehaviour();

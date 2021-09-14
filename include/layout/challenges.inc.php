@@ -12,20 +12,6 @@ function print_submissions_left($challenge) {
     echo ($challenge['num_attempts_allowed'] ? tag($remaining_submissions . ' submissions remaining') : '');
 }
 
-function print_time_left($challenge) {
-    echo '<span class="time-left" data-countdown="', $challenge['available_until'],'">
-    ',lang_get(
-        'time_remaining',
-        array('time' => time_remaining($challenge['available_until']))
-    ), '
-    </span>';
-}
-
-function print_time_left_tooltip($challenge) {
-    print_time_left($challenge);
-    echo ' <span class="time-left glyphicon glyphicon-time"></span> ';
-}
-
 function print_submit_metadata($challenge) {
     echo '<p>';
     print_submissions_left($challenge);

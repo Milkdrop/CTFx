@@ -121,12 +121,12 @@ foreach($challenges as $challenge) {
     // if the challenge isn't available yet, display a message and continue to next challenge
     if ($challenge['available_from'] > $now && !user_is_staff ()) {
         echo '
-        <div class="ctfx-card">
-            <div class="ctfx-card-head">
+        <div class="card">
+            <div class="card-head">
                 <h4>Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
             </div>
-            <div class="ctfx-card-body">
-                Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')
+            <div class="card-body">
+                Available in ',timestamp($challenge['available_from']),' (from ', formatted_date($challenge['available_from']), ' until ', formatted_date($challenge['available_until']), ')
             </div>
         </div>';
 
@@ -155,8 +155,8 @@ foreach($challenges as $challenge) {
     }
 
     echo '
-    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' ctfx-card">
-        <div class="ctfx-card-head ', (($position > 0 && $position <= 3)?('solver-' . $position):''),'">
+    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' card">
+        <div class="card-head ', (($position > 0 && $position <= 3)?('solver-' . $position):''),'">
             <h4><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
     
     if ($position > 0 && $position <= 3) {
@@ -170,7 +170,7 @@ foreach($challenges as $challenge) {
     }
 
     if (should_print_metadata($challenge)) {
-        print_time_left_tooltip($challenge);
+        echo 'print_time_left_tooltip';
     }
 
     echo '</div>';
@@ -199,7 +199,7 @@ foreach($challenges as $challenge) {
         );
     }
 
-    echo '<div class="ctfx-card-body">
+    echo '<div class="card-body">
     <div class="challenge-description">';
 
     // if this challenge relies on another, and the user hasn't solved that requirement
