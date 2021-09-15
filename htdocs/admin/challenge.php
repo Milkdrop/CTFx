@@ -56,13 +56,7 @@ $opts = db_query_fetch_all('
 array_unshift($opts, array('id'=>0, 'title'=> '-- Depend on another challenge? --'));
 form_select($opts, 'Relies on', 'id', $challenge['relies_on'], 'title', 'category');
 
-form_input_text('Available from', formatted_date($challenge['available_from']), null, "Available from");
-form_input_text('Available until', formatted_date($challenge['available_until']), null, "Available until");
-
-form_input_checkbox('Automark', $challenge['automark']);
 form_input_checkbox('Case insensitive', $challenge['case_insensitive']);
-form_input_text('Num attempts allowed', $challenge['num_attempts_allowed'], null, "Max attempts allowed (0 for unlimited)");
-form_input_text('Min seconds between submissions', $challenge['min_seconds_between_submissions'], null, "Submission cooldown (in seconds)");
 form_hidden('id', $_GET['id']);
 
 form_button_submit('Save changes');

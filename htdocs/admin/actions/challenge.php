@@ -23,11 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'challenges',
             array(
                 'added' => time(),
-                'added_by' => $_SESSION['id'],
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
-                'available_from'=>Config::get ("CTF_START_TIME"),
-                'available_until'=>Config::get ("CTF_END_TIME"),
+                'release_time'=>Config::get ("CTF_END_TIME"),
                 'points'=>dynamicScoringFormula ($initialPts, $minPts, $decay, 0),
                 'initial_points' => $initialPts,
                 'minimum_points' => $minPts,
@@ -65,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'title'=>$_POST['title'],
                     'description'=>$_POST['description'],
                     'flag'=>$_POST['flag'],
-                    'automark'=>$_POST['automark'],
                     'case_insensitive'=>$_POST['case_insensitive'],
                     'points' => dynamicScoringFormula ($_POST['initial_points'], $_POST['minimum_points'], $_POST['solve_decay'], $challenge['solves']),
                     'initial_points' => empty_to_zero($_POST['initial_points']),
@@ -73,10 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'solve_decay' => empty_to_zero($_POST['solve_decay']),
                     'category'=>$_POST['category'],
                     'exposed'=>$_POST['exposed'],
-                    'available_from'=>strtotime($_POST['available_from']),
-                    'available_until'=>strtotime($_POST['available_until']),
-                    'num_attempts_allowed'=>$_POST['num_attempts_allowed'],
-                    'min_seconds_between_submissions'=>$_POST['min_seconds_between_submissions'],
                     'relies_on'=>$_POST['relies_on']
                 ),
                 array('id'=>$_POST['id'])

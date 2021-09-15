@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'categories',
           array(
              'added'=>time(),
-             'added_by'=>$_SESSION['id'],
              'title'=>$_POST['title'],
              'description'=>$_POST['description'],
              'exposed'=>$_POST['exposed']

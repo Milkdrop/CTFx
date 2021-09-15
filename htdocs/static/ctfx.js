@@ -80,12 +80,15 @@ function init_countdowns() {
             var minutes = Math.abs(approx_fun(new_time / 60) % 60);
             var hours = Math.abs(approx_fun(new_time / (60 * 60)) % 24);
             var days = Math.abs(approx_fun(new_time / (60 * 60 * 24)));
-
-            if (days) countdown.innerText = days + " Day" + (days==1?"":"s") + ", " + hours + " Hour" + (hours==1?"":"s");
-            else if (hours) countdown.innerText = hours + " Hour" + (hours==1?"":"s") + ", " + minutes + " Minute" + (minutes==1?"":"s");
-            else if (minutes) countdown.innerText = minutes + " Minute" + (minutes==1?"":"s") + ", " + seconds + " Second" + (seconds==1?"":"s");
-            else countdown.innerText = seconds + " Second" + (seconds==1?"":"s");
-
+            
+            var new_inner_text = "";
+            if (days) new_inner_text = days + " Day" + (days==1?"":"s") + ", " + hours + " Hour" + (hours==1?"":"s");
+            else if (hours) new_inner_text = hours + " Hour" + (hours==1?"":"s") + ", " + minutes + " Minute" + (minutes==1?"":"s");
+            else if (minutes) new_inner_text = minutes + " Minute" + (minutes==1?"":"s") + ", " + seconds + " Second" + (seconds==1?"":"s");
+            else new_inner_text = seconds + " Second" + (seconds==1?"":"s");
+            
+            // Lazy update
+            if (new_inner_text != countdown.innerText) countdown.innerText = new_inner_text;
             countdown.attributes["time-difference"].value = new_time;
         }
     }, 1000);

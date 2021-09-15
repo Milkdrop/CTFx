@@ -22,8 +22,7 @@ $file = db_query_fetch_one('
       f.id,
       f.title,
       f.size,
-      f.md5,
-      c.available_from
+      f.md5
     FROM files AS f
     LEFT JOIN challenges AS c ON c.id = f.challenge
     WHERE f.download_key = :download_key',
@@ -35,10 +34,6 @@ $file = db_query_fetch_one('
 if (!is_valid_id($file['id'])) {
     log_exception(new Exception('Invalid file key used for download'));
     message_error(lang_get('no_file_found'));
-}
-
-if (time() < $file['available_from'] && !user_is_staff()) {
-    message_error(lang_get('file_not_available'));
 }
 
 download_file($file);

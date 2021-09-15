@@ -2,7 +2,7 @@
 
 function scoreboard ($scores) {
   if (empty ($scores)) {
-    message_center ("No teams");
+    die_with_message ("No teams");
   }
 
   //$scores = json_decode (file_get_contents ("/var/www/ctfx/include/layout/custom_scores.json"), true);
@@ -82,11 +82,9 @@ function challenges($categories) {
             SELECT
                id,
                title,
-               points,
-               available_from
+               points
             FROM challenges
             WHERE
-              available_from < '.$now.' AND
               category = :category AND
               exposed = 1
             ORDER BY points ASC',

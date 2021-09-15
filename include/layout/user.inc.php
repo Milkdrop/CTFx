@@ -43,7 +43,7 @@ function print_solved_challenges($user_id) {
            s.added,
            ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challenge=s.challenge)+1) AS pos,
            ch.id AS challenge_id,
-           ch.available_from,
+           ch.release_time,
            ch.title,
            ch.points,
            ca.title AS category_title
@@ -85,7 +85,7 @@ function print_solved_challenges($user_id) {
                 </td>
 
                 <td>
-                    ', timestamp($submission['added'], lang_get('after_release'), $submission['available_from']), ' (', formatted_date($submission['added']), ')
+                    ', timestamp($submission['added'], lang_get('after_release'), $submission['release_time']), ' (', formatted_date($submission['added']), ')
                 </td>
 
                 <td>', get_position_medal($submission['pos'], true), '

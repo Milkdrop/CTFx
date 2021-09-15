@@ -44,32 +44,6 @@ function message_generic ($title, $message, $head = true, $foot = true, $exit = 
     }
 }
 
-function message_inline ($message, $color = "blue", $strip_html = true, $extra_style = "") {
-    switch ($color) {
-        case "green": $textcolor = "#CFFF42"; break;
-        case "red": $textcolor = "#FF4242"; break;
-        default: $textcolor = "";
-    }
-
-    echo '<div class="alert" style="', isset ($textcolor)?'color:' . $textcolor . ';':'',
-    $extra_style, '">' . decorator_square("arrow.png", "270deg", $color) . ($strip_html ? htmlspecialchars($message) : $message), '</div>';
-}
-
-function message_center ($message, $submessage = "", $img = "warn.png") {
-    echo '<div class="message-centered">
-        <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/ui/', htmlspecialchars($img), '">',
-        '<span>
-        <div class="message">', htmlspecialchars ($message),'</div>';
-
-    if (!empty ($submessage))
-        echo '<div class="submessage">' . decorator_square("arrow.png", "270deg") . htmlspecialchars($submessage), '</div>';
-
-    echo '</span></div>';
-
-    foot();
-    exit;
-}
-
 function message_dialog ($message, $title, $closeText, $class, $buttonType = "1") {
     echo '
     <div class="modal fade ',$class,'">

@@ -42,11 +42,16 @@ Config::set('MELLIVORA_CONFIG_CHALL_MINIMUM_POINTS', 50);
 Config::set('MELLIVORA_CONFIG_CHALL_SOLVE_DECAY', 100);
 
 // CTF default start and end times, in unix timestamp
-Config::set('CTF_START_TIME', 1631560234);
+Config::set('CTF_START_TIME', 1631532879);
 Config::set('CTF_END_TIME', 1831991513);
 
+Config::set('SUBMISSION_COOLDOWN', 5);
+
+// ID of category that players would see when they click on the Challenges page
+Config::set('DEFAULT_CATEGORY_ON_CHALLENGES_PAGE', 1);
+
 // redirects
-Config::set('MELLIVORA_CONFIG_INDEX_REDIRECT_TO', 'home');
+Config::set('REDIRECT_INDEX_TO', 'home');
 Config::set('MELLIVORA_CONFIG_LOGIN_REDIRECT_TO', 'home');
 Config::set('MELLIVORA_CONFIG_REGISTER_REDIRECT_TO', 'home');
 
@@ -117,7 +122,7 @@ Config::set('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS', false);
 
 // cache times
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_SCORES', 10);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_HOME', 0);
+Config::set('MELLIVORA_CONFIG_CACHE_TIME_HOME', 10);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_USER', 5);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE', 10);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_HINTS', 10);

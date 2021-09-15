@@ -35,8 +35,6 @@ foreach($categories as $category) {
             'title',
             'description',
             'exposed',
-            'available_from',
-            'available_until',
             'points'
         ),
         array('category' => $category['id']),
@@ -67,10 +65,6 @@ foreach($categories as $category) {
           edit_link ($url, $contents, "glyphicon-eye-close", "Invisible");
         } else if (!$category['exposed']) {
           edit_link ($url, $contents, "glyphicon-eye-close", "Invisible due to category");
-        } else if (time () < $challenge['available_from']) {
-          edit_link ($url, $contents, "glyphicon-sunglasses", "Hidden due to launch date being in the future");
-        } else if (time () > $challenge['available_until']) {
-          edit_link ($url, $contents, "glyphicon-eye-open", "Visible but unflaggable");
         } else {
           edit_link ($url, $contents);
         }

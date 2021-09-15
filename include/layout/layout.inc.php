@@ -117,13 +117,42 @@ function foot () {
     </html>';
 }
 
-function section_header($title, $tagline = '') {
-    if ($tagline != '') echo '<b>USING OBSOLETE TAGLINE</b>';
+function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
+    $icon = htmlspecialchars($icon);
+    $rotation = htmlspecialchars($rotation);
+    $color = htmlspecialchars($color);
+    $icon_size = htmlspecialchars($icon_size);
 
-    return '<div class="section-header">' . decorator_square() . htmlspecialchars($title) . '</div>';
+    return '<div class="decorator-square-container" style="transform: rotate('.$rotation.')">
+        <div class="decorator-square-component" style="background-color:'.$color.'"></div>
+        <div class="decorator-square-component title-decorator-gray"></div>
+        <div class="decorator-square-component decorator-square-icon"
+            style="background-image: url(\''.Config::get('URL_STATIC_RESOURCES').'/img/icons/'.$icon.'\');'
+                . 'background-size: ' . $icon_size . 'px;'
+                .($invert_icon?'filter:invert(1);':'')
+                .($reset_icon_rotation?'transform: rotate(-'.$rotation.');':'')
+            .'">
+        </div>
+    </div>';
+}
+
+function section_header($title) {
+    $title = htmlspecialchars($title);
+    return '<div class="section-header">' . decorator_square() . $title . '</div>';
+}
+
+function card($html_title, $html_header_right_side, $html_content, $extra_class = '') {
+    $extra_class = htmlspecialchars($extra_class);
+
+    return '<div class="card ' . $extra_class . '">
+        <div class="card-header">' . $html_title . '<small>' . $html_header_right_side . '</small></div>
+        <div class="card-content">' . $html_content . '</div>
+    </div>';
 }
 
 function timestamp($time, $extra_text = '', $substract_with = false) {
+    $extra_text = htmlspecialchars($extra_text);
+    
     $full_timestamp = formatted_date($time);
 
     $time_difference = $time - time();
@@ -131,11 +160,35 @@ function timestamp($time, $extra_text = '', $substract_with = false) {
         $time_difference = $time - $substract_with;
     }
 
-    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . seconds_to_pretty_time($time_difference) . '</span>&nbsp;' . htmlspecialchars($extra_text), $full_timestamp);
+    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . seconds_to_pretty_time($time_difference) . '</span>&nbsp;' . $extra_text, $full_timestamp);
 }
 
 function tooltip($html_content, $tooltip_text) {
-    return '<span class="tooltip">' . $html_content . '<div class="tooltip-text">' . htmlspecialchars($tooltip_text) . '</div></span>';
+    $tooltip_text = htmlspecialchars($tooltip_text);
+
+    return '<span class="tooltip">' . $html_content . '<div class="tooltip-text">' . $tooltip_text . '</div></span>';
+}
+
+function message_inline($message, $strip_html = true, $color = "#35AAFD") {
+    if ($strip_html)
+        $message = htmlspecialchars($message);
+        
+    return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
+}
+
+function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png") {
+    echo '<div class="message-centered">
+        <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/icons/' . htmlspecialchars($img) . '">
+        <div>
+        <div>' . htmlspecialchars($message) . '</div>';
+
+    if (!empty($submessage))
+        echo '<div>' . message_inline($submessage, $strip_html, "#35AAFD") . '</div>';
+
+    echo '</div></div>';
+
+    foot();
+    die();
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {
@@ -146,14 +199,6 @@ function section_subhead ($title, $tagline = '', $strip_html = true) {
         </div>
     </div>
     ';
-}
-
-function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD") {
-    return '<div class="decorator-square-container" style="transform: rotate('.$rotation.')">
-        <div class="decorator-square-component" style="background-color:'.$color.'"></div>
-        <div class="decorator-square-component title-decorator-gray"></div>
-        <div class="decorator-square-component decorator-square-icon" style="background-image: url(\''.Config::get('URL_STATIC_RESOURCES').'/img/icons/'.$icon.'\')"></div>
-    </div>';
 }
 
 function spacer () {

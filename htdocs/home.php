@@ -12,8 +12,8 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
 
     echo '<div id="home-logo"><img src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo.png"></div>';
     
-    if (!ctf_started() || true) {
-        echo '<div id="home-ctf-start-time">' . decorator_square("asterisk.png", "270deg", "#FCDC4D") . 'CTF starts in&nbsp;<b>' . timestamp(Config::get('CTF_START_TIME')) . '</b></div>';
+    if (!ctf_started()) {
+        echo '<div id="home-ctf-start-time">' . decorator_square("star.png", "270deg", "#FCDC4D", true, true, 24) . 'CTF starts in&nbsp;<b>' . timestamp(Config::get('CTF_START_TIME')) . '</b></div>';
     }
 
     echo '<div id="home-intro-text">
@@ -43,26 +43,17 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
         <iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>
     </div>';
 
-    $news = db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
+    $news = sql_get_news();
 
     if (count($news) > 0) {
         echo section_header("Latest news");
+
         foreach ($news as $item) {
-            echo '<div class="card">
-                <div class="card-header">' .
-                    htmlspecialchars($item['title']) .
-                    '<small>' .
-                    timestamp($item['added'], 'ago') .
-                    '<img src="'.Config::get('URL_STATIC_RESOURCES').'/img/icons/clock.png">
-                    </small></div>
-                <div class="card-content">
-                    '.get_bbcode()->parse($item['body']) . '
-                </div>
-            </div>';
+            echo card(htmlspecialchars($item['title']), timestamp($item['added'], 'ago') . '<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/clock.png">', get_bbcode()->parse($item['body']));
         }
     }
 
-    cache_end (CONST_CACHE_NAME_HOME);
+    cache_end(CONST_CACHE_NAME_HOME);
 }
 
 foot();

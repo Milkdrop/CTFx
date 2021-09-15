@@ -377,7 +377,7 @@ function redirectBack ($status) {
 
 function redirect ($url, $absolute = false) {
     if (strpos($url, '/actions/') !== false) {
-        $url = Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO');
+        $url = Config::get('REDIRECT_INDEX_TO');
     }
 
     if (!$absolute) {

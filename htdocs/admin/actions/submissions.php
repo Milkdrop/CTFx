@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($submission['correct'] === 1)
             challengeUnsolve ($submission['challenge']);
 
-        db_update('submissions', array('correct'=>0, 'marked'=>1), array('id'=>$_POST['id']));
+        db_update('submissions', array('correct'=>0), array('id'=>$_POST['id']));
         redirectBack ('generic_success');
     }
 
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             redirectBack ('generic_failure');
         }
 
-        db_update('submissions', array('correct'=>1, 'marked'=>1), array('id'=>$_POST['id']));
+        db_update('submissions', array('correct'=>1), array('id'=>$_POST['id']));
         challengeSolve ($submission['challenge']);
 
         redirectBack ('generic_success');

@@ -27,6 +27,61 @@ function get_global_db_pdo() {
     return $db;
 }
 
+function sql_get_news() {
+    return db_query_fetch_all('SELECT * FROM news ORDER BY added DESC');
+}
+
+function sql_get_categories() {
+    return db_query_fetch_all('SELECT id, title, description FROM categories WHERE exposed = 1 ORDER BY title ASC');
+}
+
+function sql_get_challenges_for_category($category, $from_user = 0) {
+    if (is_valid_id($category)) {
+        if ($from_user === 0) {
+            // Bypass exposed to allow admin reads in the interface
+            return db_query_fetch_all('
+                SELECT id, title, description, points, exposed, relies_on
+                FROM challenges
+                WHERE category = :category
+                ORDER BY points ASC, id ASC',
+                array('category'=>$category)
+            );
+        } else {
+            // TODO: If top 3 people submit correct flags at once, no one would have the first blood
+            return db_query_fetch_all('
+                SELECT id, title, description, points, exposed, relies_on,
+                    (SELECT COUNT(*) FROM submissions WHERE challenge = c.id AND correct = 1
+                        AND added <= (SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1)) AS solve_position,
+                    (SELECT max(added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id2) AS latest_submission_added
+                FROM challenges AS c
+                WHERE category = :category AND exposed = 1
+                ORDER BY points ASC, id ASC',
+                array(
+                    'user_id'=>$from_user,
+                    'user_id2'=>$from_user, // Needed for now because PDO needs to have the same amount of values as params
+                    'category'=>$category
+                )
+            );
+        }
+        
+    } else {
+        return array();
+    }
+}
+
+function sql_get_challenge_data($challenge_id, $check_solved_user_id = 0) {
+    if (is_valid_id($challenge_id)) {
+        if ($from_user === 0) {
+            return db_query_fetch_one('SELECT * FROM challenges WHERE id = :challenge', array('challenge'=>$challenge_id));
+        } else {
+            return db_query_fetch_one('
+                SELECT *,(SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1) AS correct_submission FROM challenges AS c WHERE id = :challenge AND exposed = 1', array('challenge'=>$challenge_id, 'user_id' => $check_solved_user_id));
+        }
+    } else {
+        return array();
+    }
+}
+
 function db_insert ($table, array $fields) {
     $db = get_global_db_pdo();
 

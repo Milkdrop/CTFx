@@ -13,14 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         require_fields(array('ctf_start_time'), $_POST);
         require_fields(array('ctf_end_time'), $_POST);
 
-        db_update_all (
-            'challenges',
-            array(
-                'available_from'=>strtotime($_POST['ctf_start_time']),
-                'available_until'=>strtotime($_POST['ctf_end_time'])
-            )
-        );
-
         redirect('/admin/edit_ctf.php?generic_success=1');
     }
 }

@@ -1,10 +1,9 @@
-USE mellivora;
+USE ctfx;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
 CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
-  added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   description text NOT NULL,
   exposed tinyint(1) NOT NULL DEFAULT '1',
@@ -13,24 +12,19 @@ CREATE TABLE categories (
 
 CREATE TABLE challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  added_by int(10) unsigned NOT NULL,
-  title varchar(255) NOT NULL,
   category smallint(5) unsigned NOT NULL,
+  added int(10) unsigned NOT NULL,
+  release_time int(10) unsigned NOT NULL DEFAULT '0',
+  exposed tinyint(1) NOT NULL,
+  title varchar(255) NOT NULL,
   description text NOT NULL,
-  exposed tinyint(1) NOT NULL DEFAULT '1',
-  available_from int(10) unsigned NOT NULL DEFAULT '0',
-  available_until int(10) unsigned NOT NULL DEFAULT '0',
   flag text NOT NULL,
   case_insensitive tinyint(1) NOT NULL DEFAULT '0',
-  automark tinyint(1) NOT NULL DEFAULT '1',
   points int(10) signed NOT NULL,
   initial_points int(10) signed NOT NULL,
   minimum_points int(10) signed NOT NULL,
   solve_decay int(10) unsigned NOT NULL,
   solves int(10) unsigned NOT NULL DEFAULT '0',
-  num_attempts_allowed tinyint(3) unsigned NOT NULL DEFAULT '0',
-  min_seconds_between_submissions smallint(5) unsigned NOT NULL DEFAULT '5',
   relies_on int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
   KEY category (category)
@@ -135,7 +129,6 @@ CREATE TABLE submissions (
   user_id int(10) unsigned NOT NULL,
   flag text NOT NULL,
   correct tinyint(1) NOT NULL DEFAULT '0',
-  marked tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   KEY challenge (challenge),
   KEY user_id (user_id),

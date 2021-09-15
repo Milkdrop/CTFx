@@ -12,7 +12,6 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         SELECT
            ch.title,
            ch.description,
-           ch.available_from AS available_from,
            ca.title AS category_title
         FROM challenges AS ch
         LEFT JOIN categories AS ca ON ca.id = ch.category
@@ -31,21 +30,12 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         );
     }
 
-    $now = time();
-    if ($challenge['available_from'] > $now) {
-        message_generic(
-            lang_get('sorry'),
-            lang_get('challenge_not_available'),
-            false
-        );
-    }
-
     $submissions = db_query_fetch_all(
         'SELECT
             u.id AS user_id,
             u.team_name,
             s.added,
-            c.available_from
+            c.release_time
           FROM users AS u
           LEFT JOIN submissions AS s ON s.user_id = u.id
           LEFT JOIN challenges AS c ON c.id = s.challenge
@@ -91,7 +81,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
               <tr>
                 <td>', number_format($i), ' ', get_position_medal($i), '</td>
                 <td class="team-name"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">', htmlspecialchars($submission['team_name']), '</a></td>
-                <td>', timestamp($submission['added'], lang_get('after_release'), $submission['available_from']), ' (', formatted_date($submission['added']), ')</td>
+                <td>', timestamp($submission['added'], lang_get('after_release'), $submission['release_time']), ' (', formatted_date($submission['added']), ')</td>
               </tr>
               ';
             $i++;

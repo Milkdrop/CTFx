@@ -20,6 +20,6 @@
 Config::set('MELLIVORA_CONFIG_DB_ENGINE', 'mysql');
 Config::set('MELLIVORA_CONFIG_DB_HOST', 'localhost');
 Config::set('MELLIVORA_CONFIG_DB_PORT', 3306);
-Config::set('MELLIVORA_CONFIG_DB_NAME', 'mellivora');
-Config::set('MELLIVORA_CONFIG_DB_USER', 'mellivora');
-Config::set('MELLIVORA_CONFIG_DB_PASSWORD', 'mellivora_pass');
+Config::set('MELLIVORA_CONFIG_DB_NAME', 'ctfx');
+Config::set('MELLIVORA_CONFIG_DB_USER', 'ctfx');
+Config::set('MELLIVORA_CONFIG_DB_PASSWORD', 'ctfx_pass');

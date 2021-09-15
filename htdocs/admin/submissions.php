@@ -10,8 +10,6 @@ menu_management();
 $where = array();
 if (array_get($_GET, 'only_needing_marking')) {
     $only_needing_marking = true;
-    $where['automark'] = 0;
-    $where['marked'] = 0;
 } else {
     $only_needing_marking = false;
 }
