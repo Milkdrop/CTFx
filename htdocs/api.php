@@ -2,6 +2,8 @@
 
 require('../include/mellivora.inc.php');
 
+// TODO: Forbid people from seeing things when ctf is not started
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
@@ -39,11 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $challenge = db_select_one(
                 'challenges',
                 array(
-                    'flag',
                     'category',
+                    'flag',
                     'case_insensitive_flag',
-                    'solve_decay',
-                    'solves'
+                    'flaggable'
                 ),
                 array(
                     'id' => $_POST['challenge'],
@@ -54,7 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             if (empty($challenge)) {
                 die_with_message_error('Challenge does not exist');
             }
-    
+            
+            if (!$challenge['flaggable']) {
+                die_with_message_error('Challenge is not flaggable');
+            }
+
             if (!is_string($_POST['flag'])) {
                 redirect('challenges?category=' . $challenge['category']);
             }
@@ -85,7 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 )
             );
 
-            redirect('challenges?category=' . $challenge['category'] . '&status=' . ($correct ? 'correct' : 'incorrect'));
+            if ($correct) {
+                die_with_message('Challenge solved!', '<a class="btn-solid btn-solid-positive" href="challenges?category=' . $challenge['category'] . '">Go back</a>', false, 'flag.png');
+            } else {
+                die_with_message('Incorrect flag.', '<a class="btn-solid btn-solid-negative" href="challenges?category=' . $challenge['category'] . '">Try again</a>', false, 'unflag.png', "#E06552");
+            }
         }
     }
 }

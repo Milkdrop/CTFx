@@ -14,7 +14,8 @@ CREATE TABLE challenges (
   added int(10) unsigned NOT NULL,
   release_time int(10) unsigned NOT NULL DEFAULT '0',
   category smallint(5) unsigned NOT NULL,
-  exposed tinyint(1) NOT NULL,
+  exposed tinyint(1) NOT NULL DEFAULT '0',
+  flaggable tinyint(1) NOT NULL DEFAULT '1',
   title varchar(255) NOT NULL,
   description text NOT NULL,
   flag text NOT NULL,
@@ -129,7 +130,6 @@ CREATE TABLE submissions (
   correct tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   KEY challenge (challenge),
-
   KEY user_id (user_id),
   KEY challenge_user_id (challenge,user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

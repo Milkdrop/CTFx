@@ -8,7 +8,7 @@ function highlight_current_navbar_location() {
 }
 
 function addLinkMouseoverSFX() {
-    for (var t = document.querySelectorAll("#navbar-buttons a,#navbar-buttons button,.challenge-filename"), e = document.getElementById("audio-navbar"), n = document.getElementById("audio-navclick"), o = 0, i = t.length; o < i; o++) {
+    for (var t = document.querySelectorAll("#navbar-buttons a,#navbar-buttons button,.challenge-filename"), e = document.getElementById("audio-nav-mouseover"), n = document.getElementById("audio-nav-click"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
         if (0 == a.classList.contains("active")) {
             a.addEventListener("mouseenter", function() {
@@ -21,23 +21,23 @@ function addLinkMouseoverSFX() {
 }
 
 function addButtonMouseoverSFX() {
-    for (var t = [].concat([].slice.call(document.getElementsByClassName("btn")), [].slice.call(document.getElementsByClassName("close")), [].slice.call(document.getElementsByClassName("category-link"))), e = document.getElementById("audio-button-mouseover"), n = document.getElementById("audio-button-click"), o = document.getElementById("audio-button-small-mouseover"), i = document.getElementById("audio-button-small-click"), a = document.getElementById("audio-button-cancel-mouseover"), s = document.getElementById("audio-button-cancel-click"), l = 0, r = t.length; l < r; l++) t[l].classList.contains("btn-4") || t[l].classList.contains("close") ? (t[l].addEventListener("mouseenter", function() {
-        a.currentTime = 0, a.play()
-    }), t[l].addEventListener("click", function() {
-        s.currentTime = 0, s.play()
-    })) : t[l].classList.contains("btn-xs") || t[l].classList.contains("category-link") ? t[l].parentNode.classList.contains("active") || (t[l].addEventListener("mouseenter", function() {
-        o.currentTime = 0, o.play()
-    }), t[l].addEventListener("click", function() {
-        i.currentTime = 0, i.play()
-    }), t[l].addEventListener("mouseout", function() {
-        o.pause()
-    })) : (t[l].addEventListener("mouseenter", function() {
-        e.currentTime = 0, e.play()
-    }), t[l].addEventListener("click", function() {
-        n.currentTime = 0, n.play()
-    }), t[l].addEventListener("mouseout", function() {
-        e.pause()
-    }))
+    var btn_dynamic_mouseover = document.getElementById("audio-btn-dynamic-mouseover");
+    var btn_dynamic_click = document.getElementById("audio-btn-dynamic-click");
+
+    var btn_solid_mouseover = document.getElementById ("audio-btn-solid-mouseover");
+    var btn_solid_click = document.getElementById ("audio-btn-solid-click");
+
+    document.querySelectorAll('.btn-dynamic').forEach((e) => {
+        e.addEventListener('mouseenter', function() { btn_dynamic_mouseover.currentTime = 0; btn_dynamic_mouseover.play(); });
+        e.addEventListener('mouseout', function() { btn_dynamic_mouseover.pause(); });
+        e.addEventListener('click', function() { btn_dynamic_click.currentTime = 0; btn_dynamic_click.play(); });
+    });
+
+    document.querySelectorAll('.btn-solid:not(.active)').forEach((e) => {
+        e.addEventListener('mouseenter', function() { btn_solid_mouseover.currentTime = 0; btn_solid_mouseover.play(); });
+        e.addEventListener('mouseout', function() { btn_solid_mouseover.pause(); });
+        e.addEventListener('click', function() { btn_solid_click.currentTime = 0; btn_solid_click.play(); });
+    });
 }
 
 function addDropdownMouseoverEffects() {
@@ -60,14 +60,8 @@ function typeWriterSFX() {
     }, 300 + 1e3 / 65 * t.innerText.length))
 }
 
-function highlightLoggedOnTeamName() {
-    var t = document.getElementsByClassName("team_" + global_dict.user_id)[0];
-    null != t && (t.classList.add("our-team"))
-}
-
 function init_countdowns() {
     var countdowns = document.querySelectorAll(".countdown");
-    console.log(countdowns);
     
     setInterval(function() {
         for (countdown of countdowns) {
@@ -94,19 +88,6 @@ function init_countdowns() {
     }, 1000);
 }
 
-function setFormSubmissionBehaviour() {
-    $("form").on("submit", function(t) {
-        $("button").prop("disabled", !0)
-    })
-}
-
-function ctfx_init() {
-    highlight_current_navbar_location();
-    init_countdowns();
-
-    highlightLoggedOnTeamName();
-    setFormSubmissionBehaviour();
-}
 
 function ctfx_assign_sfx() {
     typeWriterSFX();
@@ -115,3 +96,9 @@ function ctfx_assign_sfx() {
     addDropdownMouseoverEffects();
     addCheckboxClickEffects();
 }
+
+highlight_current_navbar_location();
+init_countdowns();
+
+
+ctfx_assign_sfx();

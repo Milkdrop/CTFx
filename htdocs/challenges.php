@@ -6,14 +6,6 @@ enforce_authentication();
 
 head('Challenges');
 
-if (isset($_GET['status'])) {
-    if ($_GET['status']=='correct') {
-        echo message_inline('Challenge solved!');
-    } else if ($_GET['status']=='incorrect') {
-        echo message_inline('Incorrect flag.');
-    }
-}
-
 $categories = api_get_categories();
 
 // Determine which category to display
@@ -57,7 +49,7 @@ echo '<div class="pre-category-name">Challenge category:</div>
 echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
 
 foreach ($categories as $cat) {
-    echo '<a class="btn-solid ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
+    echo '<a style="margin:0px 8px 8px 0px" class="btn-solid ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
         . '" href="challenges?category=' . htmlspecialchars(to_permalink($cat['title'])) . '">'
         . htmlspecialchars($cat['title'])
     . '</a>';
@@ -67,14 +59,14 @@ echo '</div>';
 
 // Write category description
 if (!empty($current_category['description']))
-    echo '<div class="category-description"><img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/info.png"><div>' . get_bbcode()->parse($current_category['description']) . '</div></div>';
+    echo '<div class="category-description"><img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/info.png"><div>' . parse_markdown($current_category['description']) . '</div></div>';
 else
     echo '<div style="margin-bottom: 8px"></div>';
 
 // Write challenges
 $challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
 
-foreach($challenges as $challenge) {
+foreach ($challenges as $challenge) {
 
     $title = '<div style="display:flex"><a href="challenge?id=' . $challenge['id'] . '">' . htmlspecialchars($challenge['title']) . '</a>
         <div class="challenge-points">
@@ -83,51 +75,25 @@ foreach($challenges as $challenge) {
         </div>
     </div>';
 
-    $side_header = timestamp($item['added'], 'left') . '<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/clock.png">';
-    
-    // if this challenge relies on another being solved, get the related information
-    if (!empty($challenge['relies_on'])) {
-        $relies_on = sql_get_challenge_data($challenge['relies_on'], $_SESSION['id']);
-        
-        $relies_decorator = decorator_square("hand.png", "270deg", "#E06552", true, true, 24);
+    $content = parse_markdown($challenge['description']);
 
-        if (!empty($relies_on)) {
-            $relies_on_category_name = "";
-            foreach ($categories as $category) {
-                if ($category['id'] == $relies_on['category']) {
-                    $relies_on_category_name = $category['title'];
-                }
-            }
+    if (!empty($challenge['relies_on']) && !$challenge['flaggable']) {
+        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $content . '</div>';
+    }
 
-            $content = '<div class="section-header" style="margin-bottom: 0px">'
-                . $relies_decorator
-                . '<div>To see this challenge, you must first solve&nbsp;<a href="challenge?id=' . $relies_on['id'] . '">'
-                . htmlspecialchars($relies_on['title']) . '</a>&nbsp;from&nbsp;<a href="challenges?category=' . $relies_on['category'] . '">' . htmlspecialchars($relies_on_category_name) . '</a></div></div>';
-        } else {
-            $content = '<div class="section-header" style="margin-bottom: 0px">'
-                . $relies_decorator
-                . 'This challenge relies on an inexistent challenge.
-                This should never happen.
-                Message an admin!
-            </div>';
+    if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
+        $content .= '<form class="form-one-line" style="margin-top: 8px" method="post" action="api">
+            <input type="hidden" name="action" value="submit_flag" />
+            <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
+            <input type="text" name="flag" placeholder="Input flag" required></input>'
+            . form_xsrf_token();
+
+        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
+            display_captcha();
         }
-    } else {
-        $content = get_bbcode()->parse($challenge['description']);
 
-        if ($challenge['solve_position'] == 0) {
-            $content .= '<form class="form-one-line" style="margin-top: 8px" method="post" action="api">
-                <input type="hidden" name="action" value="submit_flag" />
-                <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
-                <input type="text" name="flag" placeholder="Input flag" required></input>'
-                . form_xsrf_token();
-    
-            if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
-                display_captcha();
-            }
-    
-            $content .= '<button class="btn-" type="submit">Submit</button>';
-            $content .= '</form>';
-        }
+        $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
+        $content .= '</form>';
     }
 
     echo card($title, '', $content, '');

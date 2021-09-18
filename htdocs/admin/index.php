@@ -133,7 +133,7 @@ foreach($news as $item) {
           <h4>',edit_link ('/admin/news.php?id=' . htmlspecialchars($item['id']), '✎ ' . htmlspecialchars($item['title'])),'</h4>
         </div>
         <div class="card-body">
-            ',get_bbcode()->parse($item['body']),'
+            ',parse_markdown($item['body']),'
         </div>
     </div>';
 }

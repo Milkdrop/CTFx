@@ -49,7 +49,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
         echo section_header("Latest news");
 
         foreach ($news as $item) {
-            echo card(htmlspecialchars($item['title']), timestamp($item['added'], 'ago') . '<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/clock.png">', get_bbcode()->parse($item['body']));
+            echo card(htmlspecialchars($item['title']), timestamp($item['added'], 'ago') . '<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/clock.png">', parse_markdown($item['body']));
         }
     }
 

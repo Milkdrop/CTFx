@@ -8,16 +8,18 @@ require(CONST_PATH_LAYOUT . '/challenges.inc.php');
 
 // set global head_sent variable
 $head_sent = false;
-// singleton bbcode instance
-$bbc = null;
+// singleton parsedown object
+$parsedown = null;
 
-$staticVersion = "1.3.0a3";
+$staticVersion = "1.3.0a4";
 
 function head($title = '') {
     global $head_sent;
     global $staticVersion;
 
     header('Content-Type: text/html; charset=utf-8');
+    header('Content-Security-Policy: script-src \'self\'');
+
     echo '<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +32,6 @@ function head($title = '') {
 
     <!-- CSS -->
     <link href="/static/ctfx.css?v=' . $staticVersion . '" rel="stylesheet">';
-
-    js_global_dict();
 
     echo '
     </head>
@@ -97,22 +97,16 @@ function foot () {
     </div>
 
     <!-- JS -->
-    <script type="text/javascript" src="/static/ctfx.js?v=' . $staticVersion . '"></script>
-    <script>ctfx_init()</script>
-
     <audio id="audio-typewriter" src="/static/audio/typewriter.mp3"></audio>
-    <audio id="audio-navbar" src="/static/audio/navbar.mp3"></audio>
-    <audio id="audio-navclick" src="/static/audio/navclick.mp3"></audio>
-    <audio id="audio-footer-mouseover" src="/static/audio/footer_mouseover.mp3"></audio>
-    <audio id="audio-button-mouseover" src="/static/audio/button_mouseover.mp3"></audio>
-    <audio id="audio-button-click" src="/static/audio/button_click.mp3"></audio>
-    <audio id="audio-button-cancel-mouseover" src="/static/audio/button_cancel_mouseover.mp3"></audio>
-    <audio id="audio-button-cancel-click" src="/static/audio/button_cancel_click.mp3"></audio>
-    <audio id="audio-button-small-mouseover" src="/static/audio/button_small_mouseover.mp3"></audio>
-    <audio id="audio-button-small-click" src="/static/audio/button_small_click.mp3"></audio>
+    <audio id="audio-nav-mouseover" src="/static/audio/nav_mouseover.mp3"></audio>
+    <audio id="audio-nav-click" src="/static/audio/nav_click.mp3"></audio>
+    <audio id="audio-btn-dynamic-mouseover" src="/static/audio/btn_dynamic_mouseover.mp3"></audio>
+    <audio id="audio-btn-dynamic-click" src="/static/audio/btn_dynamic_click.mp3"></audio>
+    <audio id="audio-btn-solid-mouseover" src="/static/audio/btn_solid_mouseover.mp3"></audio>
+    <audio id="audio-btn-solid-click" src="/static/audio/btn_solid_click.mp3"></audio>
     <audio id="audio-dropdown-open" src="/static/audio/dropdown_open.mp3"></audio>
     <audio id="audio-checkbox-click" src="/static/audio/checkbox_click.mp3"></audio>
-    <script>ctfx_assign_sfx()</script>
+    <script type="text/javascript" src="/static/ctfx.js?v=' . $staticVersion . '"></script>
     </body>
     </html>';
 }
@@ -159,8 +153,30 @@ function timestamp($time, $extra_text = '', $substract_with = false) {
     if ($substract_with !== false) {
         $time_difference = $time - $substract_with;
     }
+    
+    $seconds = $time_difference % 60;
 
-    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . seconds_to_pretty_time($time_difference) . '</span>&nbsp;' . $extra_text, $full_timestamp);
+    if ($time_difference > 0) {
+        $minutes = floor($time_difference / 60) % 60;
+        $hours = floor($time_difference / (60 * 60)) % 24;
+        $days = floor($time_difference / (60 * 60 * 24));
+    } else {
+        $minutes = ceil($time_difference / 60) % 60;
+        $hours = ceil($time_difference / (60 * 60)) % 24;
+        $days = ceil($time_difference / (60 * 60 * 24));
+    }
+    
+    $seconds = abs($seconds);
+    $minutes = abs($minutes);
+    $hours = abs($hours);
+    $days = abs($days);
+    
+    if ($days) $content = $days . " Day" . ($days==1?"":"s") . ", " . $hours . " Hour" . ($hours==1?"":"s");
+    else if ($hours) $content = $hours . " Hour" . ($hours==1?"":"s") . ", " . $minutes . " Minute" . ($minutes==1?"":"s");
+    else if ($minutes) $content = $minutes . " Minute" . ($minutes==1?"":"s") . ", " . $seconds . " Second" . ($seconds==1?"":"s");
+    else $content = $seconds . " Second" . ($seconds==1?"":"s");
+
+    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
 }
 
 function tooltip($html_content, $tooltip_text) {
@@ -172,7 +188,7 @@ function tooltip($html_content, $tooltip_text) {
 function message_inline($message, $strip_html = true, $color = "#35AAFD") {
     if ($strip_html)
         $message = htmlspecialchars($message);
-        
+    
     return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
 }
 
@@ -364,22 +380,6 @@ function bbcode_manual () {
     ';
 }
 
-function js_global_dict () {
-
-    $dict = array();
-    if (user_is_logged_in()) {
-        $dict['user_id'] = $_SESSION['id'];
-    }
-
-    echo '<script type="text/javascript"> var global_dict = {};';
-
-    foreach ($dict as $key => $val) {
-        echo 'global_dict["',htmlspecialchars($key),'"] = "',htmlspecialchars($val),'";';
-    }
-
-    echo '</script>';
-}
-
 function progress_bar ($percent, $type = false, $striped = true) {
 
     if (!$type) {
@@ -426,7 +426,9 @@ function pager_filter_from_get($get) {
 
 function pager($base_url, $max, $per_page, $current) {
     if (isset($current)){
-        validate_id($current);
+        if (!is_integer_value($current)) {
+            die_with_message_error('Invalid starting page');
+        }
     }
 
     // by default, we add on any get parameter to the pager link
@@ -517,13 +519,13 @@ function get_pager_from($val) {
     return 0;
 }
 
-function get_bbcode() {
-    global $bbc;
+function parse_markdown($text) {
+    global $parsedown;
 
-    if ($bbc === null) {
-        $bbc = new BBCode();
-        $bbc->SetEnableSmileys(false);
+    if ($parsedown === null) {
+        $parsedown = new Parsedown();
+        $parsedown->setSafeMode(true);
     }
 
-    return $bbc;
+    return $parsedown->text($text);
 }

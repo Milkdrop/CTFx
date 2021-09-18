@@ -42,7 +42,7 @@ Config::set('MELLIVORA_CONFIG_CHALL_MINIMUM_POINTS', 50);
 Config::set('MELLIVORA_CONFIG_CHALL_SOLVE_DECAY', 100);
 
 // CTF default start and end times, in unix timestamp
-Config::set('CTF_START_TIME', 1631532879);
+Config::set('CTF_START_TIME', 1632002510);
 Config::set('CTF_END_TIME', 1831991513);
 
 Config::set('SUBMISSION_COOLDOWN', 5);

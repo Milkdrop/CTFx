@@ -93,7 +93,7 @@ function send_email (
         // HTML email
         if ($is_html) {
             // we assume the email has come to us in BBCode format
-            $mail->MsgHTML(get_bbcode()->parse($body));
+            $mail->MsgHTML(parse_markdown($body));
         }
 
         // plain old simple email

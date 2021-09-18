@@ -11,8 +11,8 @@ function api_get_categories() {
 function api_get_challenges_from_category($category, $for_user) {
     if (is_valid_id($category)) {
         // TODO: If top 3 people submit correct flags at once, no one would have the first blood
-        return db_query_fetch_all('
-            SELECT c.id, c.title, c.description, c.points, c.relies_on,
+        $result = db_query_fetch_all('
+            SELECT c.id, c.title, c.description, c.points, c.relies_on, c.flaggable,
             (SELECT COUNT(id) FROM submissions WHERE challenge = c.id AND correct = 1
                 AND added <= (SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1)) AS solve_position,
                 (SELECT max(added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id2) AS latest_submission_added
@@ -20,25 +20,44 @@ function api_get_challenges_from_category($category, $for_user) {
             WHERE category = :category AND exposed = 1
             ORDER BY points ASC, c.id ASC',
             array(
-                'category'=>$category,
-                'user_id'=>$for_user,
-                'user_id2'=>$for_user
+                'category' => $category,
+                'user_id' => $for_user,
+                'user_id2' => $for_user
             )
         );
+
+        foreach ($result as &$challenge) {
+            if (!empty($challenge['relies_on'])) {
+                $user_has_solved = db_query_fetch_one('SELECT max(correct) AS solved FROM submissions WHERE challenge=:challenge AND user_id=:user_id', array("challenge" => $challenge['relies_on'], "user_id" => $for_user))['solved'];
+                if (!$user_has_solved) {
+                    $relies_on_data = db_query_fetch_one('SELECT ch.id, ch.title, ch.category, ca.title AS category_title FROM challenges AS ch LEFT JOIN categories AS ca ON ca.id = ch.category WHERE ch.id=:challenge', array("challenge" => $challenge['relies_on']));
+                    
+                    $challenge['flaggable'] = 0;
+                    $challenge['description'] = '**To see this challenge, you must first solve ['
+                        .  htmlspecialchars($relies_on_data['title']) . '](challenge?id=' . $relies_on_data['id'] . ')'
+                        . ' from [' . htmlspecialchars($relies_on_data['category_title']) . '](challenges?category=' . $relies_on_data['category'] . ')**';
+                }
+            }
+        }
+
+        return $result;
     } else {
         return array();
     }
 }
 
-function sql_get_challenge_data($challenge_id, $check_solved_user_id = 0) {
-    if (is_valid_id($challenge_id)) {
-        if ($from_user === 0) {
-            return db_query_fetch_one('SELECT * FROM challenges WHERE id = :challenge', array('challenge'=>$challenge_id));
-        } else {
-            return db_query_fetch_one('
-                SELECT *,(SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1) AS correct_submission FROM challenges AS c WHERE id = :challenge AND exposed = 1', array('challenge'=>$challenge_id, 'user_id' => $check_solved_user_id));
-        }
+/*
+function api_get_challenges_solved_for_user($user) {
+    if (is_valid_id($user)) {
+        return db_query_fetch_all('
+            SELECT challenge
+            FROM submissions
+            WHERE user_id = :user_id AND correct = 1',
+            array(
+                'user_id' => $user
+            ));
     } else {
         return array();
     }
 }
+*/
