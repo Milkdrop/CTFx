@@ -5,7 +5,7 @@ function form_start($action='', $class='', $enctype='') {
     <form method="post" class="',($class ? $class : 'form-horizontal'),'"',($enctype ? ' enctype="'.$enctype.'"' : ''),'',($action ? ' action="'.$action.'"' : ''),' role="form">
     ';
 
-    form_xsrf_token();
+    echo form_xsrf_token();
 }
 
 function form_end() {
@@ -170,7 +170,7 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
 function form_logout() {
     echo '
     <form action="/actions/logout" method="post">
-        ',form_xsrf_token(),'
+        ' . form_xsrf_token() . '
         <button type="submit" id="logout-button">',lang_get('log_out'),'</button>
     </form>
     ';
@@ -214,21 +214,6 @@ function dynamic_visibility_select($selected = null) {
     );
 
     form_select($options, 'Visibility', 'val', $selected, 'opt');
-}
-
-function user_class_select($selected = null) {
-    $options = array(
-        array(
-            'val'=>CONST_USER_CLASS_USER,
-            'opt'=>user_class_name(CONST_USER_CLASS_USER)
-        ),
-        array(
-            'val'=>CONST_USER_CLASS_MODERATOR,
-            'opt'=>user_class_name(CONST_USER_CLASS_MODERATOR)
-        )
-    );
-
-    form_select($options, 'Min user class', 'val', $selected, 'opt');
 }
 
 function require_fields($required, $form_data) {

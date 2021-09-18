@@ -8,13 +8,13 @@ head('Challenges');
 
 if (isset($_GET['status'])) {
     if ($_GET['status']=='correct') {
-        message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Lovely', 'challenge-attempt correct on-page-load form-group');
+        echo message_inline('Challenge solved!');
     } else if ($_GET['status']=='incorrect') {
-        message_dialog('Sorry! That wasn\'t correct.', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load form-group', '4');
+        echo message_inline('Incorrect flag.');
     }
 }
 
-$categories = sql_get_categories();
+$categories = api_get_categories();
 
 // Determine which category to display
 if (isset($_GET['category'])) {
@@ -72,7 +72,7 @@ else
     echo '<div style="margin-bottom: 8px"></div>';
 
 // Write challenges
-$challenges = sql_get_challenges_for_category($current_category['id'], $_SESSION['id']);
+$challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
 
 foreach($challenges as $challenge) {
 
@@ -115,12 +115,11 @@ foreach($challenges as $challenge) {
         $content = get_bbcode()->parse($challenge['description']);
 
         if ($challenge['solve_position'] == 0) {
-            $content .= '<form class="form-one-line" style="margin-top: 8px" method="post" action="actions/challenges">
-                <input name="flag" type="text" placeholder="Input flag" required></input>
+            $content .= '<form class="form-one-line" style="margin-top: 8px" method="post" action="api">
+                <input type="hidden" name="action" value="submit_flag" />
                 <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
-                <input type="hidden" name="action" value="submit_flag" />';
-    
-            form_xsrf_token();
+                <input type="text" name="flag" placeholder="Input flag" required></input>'
+                . form_xsrf_token();
     
             if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
                 display_captcha();
@@ -128,10 +127,6 @@ foreach($challenges as $challenge) {
     
             $content .= '<button class="btn-" type="submit">Submit</button>';
             $content .= '</form>';
-    
-            if (user_is_staff() && ($challenge['exposed'] == 0)) {
-                message_inline("This challenge is hidden from normal users");
-            }
         }
     }
 

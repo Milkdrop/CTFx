@@ -161,7 +161,7 @@ function print_user_submissions($user_id, $limit = false) {
         <form method="post" action="/admin/actions/submissions" class="discreet-inline">
           <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
           <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />';
-        form_xsrf_token();
+          echo form_xsrf_token();
 
       if ($submission['correct']) {
         echo '<button type="submit" style="color: #CFFF42" title="Click to mark incorrect"
@@ -178,7 +178,7 @@ function print_user_submissions($user_id, $limit = false) {
       echo '</form></td>
       <td>
       <form method="post" action="/admin/actions/submissions">';
-      form_xsrf_token();
+      echo form_xsrf_token();
       echo '<input type="hidden" name="action" value="delete" />
             <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
             <button type="submit" class="btn btn-xs btn-3">Delete</button>

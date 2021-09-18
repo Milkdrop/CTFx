@@ -88,7 +88,6 @@ foreach($users as $user) {
         </td>
         <td><a href="/admin/new_email.php?to=',htmlspecialchars($user['email']),'">',htmlspecialchars($user['email']),'</a></td>
         <td>',($user['last_active'] ? formatted_date($user['last_active']) : '<i>Never</i>'),'</td>
-        <td class="center">',user_class_name($user['class']),'</td>
         <td class="center"><a href="/admin/ip_log.php?user_id=',htmlspecialchars($user['id']),'">',number_format($user['num_ips']), '</a></td>
     </tr>
     ';

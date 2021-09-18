@@ -24,19 +24,6 @@ function user_is_staff () {
     return false;
 }
 
-function user_class_name ($class) {
-    switch ($class) {
-        case CONST_USER_CLASS_MODERATOR:
-            return lang_get('user_class_moderator');
-        case CONST_USER_CLASS_USER:
-            return lang_get('user_class_user');
-    }
-
-    log_exception(new Exception('User with unknown class: ' . $class));
-
-    message_generic_error();
-}
-
 function login_session_refresh($force_user_data_reload = false) {
     // force a database reload of user data
     if (user_is_logged_in()) {

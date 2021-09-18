@@ -86,7 +86,7 @@ foreach($submissions as $submission) {
         <input type="hidden" name="action" value="',($submission['correct'] ? 'mark_incorrect' : 'mark_correct'),'" />
         <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />
         <input type="hidden" name="from" value="',htmlspecialchars($_GET['from']),'" />';
-      form_xsrf_token();
+        echo form_xsrf_token();
 
     if ($submission['correct']) {
       echo '<button type="submit" style="color: #C2E812" title="Click to mark incorrect"
@@ -104,7 +104,7 @@ foreach($submissions as $submission) {
 
     <td>
     <form method="post" action="/admin/actions/submissions">';
-    form_xsrf_token();
+    echo form_xsrf_token();
     echo '
               <input type="hidden" name="action" value="delete" />
               <input type="hidden" name="id" value="',htmlspecialchars($submission['id']),'" />

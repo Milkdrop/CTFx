@@ -43,7 +43,7 @@ if (cache_start(CONST_CACHE_NAME_HOME, Config::get('MELLIVORA_CONFIG_CACHE_TIME_
         <iframe src="https://discordapp.com/widget?id=519974854485737483&theme=dark" width="100%" height="240" allowtransparency="true" frameborder="0"></iframe>
     </div>';
 
-    $news = sql_get_news();
+    $news = api_get_news();
 
     if (count($news) > 0) {
         echo section_header("Latest news");

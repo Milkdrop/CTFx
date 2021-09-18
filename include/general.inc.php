@@ -127,21 +127,8 @@ function validate_id ($id) {
         if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid ID'));
         }
-
-        message_generic_error();
-    }
-
-    return true;
-}
-
-function validate_integer ($id) {
-    if (!is_integer_value($id)) {
-
-        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
-            log_exception(new Exception('Invalid integer value'));
-        }
-
-        message_generic_error();
+        
+        die_with_message_error('Invalid ID provided');
     }
 
     return true;

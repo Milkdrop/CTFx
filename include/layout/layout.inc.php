@@ -176,19 +176,32 @@ function message_inline($message, $strip_html = true, $color = "#35AAFD") {
     return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
 }
 
-function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png") {
+function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#35AAFD") {
+    global $head_sent;
+
+    $message = htmlspecialchars($message);
+    $color = htmlspecialchars($color);
+
+    if (!$head_sent)
+        head("Error");
+
     echo '<div class="message-centered">
         <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/icons/' . htmlspecialchars($img) . '">
         <div>
-        <div>' . htmlspecialchars($message) . '</div>';
+        <div>' . $message . '</div>';
 
     if (!empty($submessage))
-        echo '<div>' . message_inline($submessage, $strip_html, "#35AAFD") . '</div>';
+        echo '<div>' . message_inline($submessage, $strip_html, $color) . '</div>';
 
     echo '</div></div>';
 
     foot();
     die();
+}
+
+function die_with_message_error($error_message) {
+    http_response_code(400);
+    die_with_message("Fatal Error", $error_message, true, 'cracked.png', '#E06552');
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {
@@ -413,7 +426,7 @@ function pager_filter_from_get($get) {
 
 function pager($base_url, $max, $per_page, $current) {
     if (isset($current)){
-        validate_integer($current);
+        validate_id($current);
     }
 
     // by default, we add on any get parameter to the pager link
