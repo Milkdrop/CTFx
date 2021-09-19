@@ -458,3 +458,55 @@ input::selection {
 	margin-right: 8px;
 	flex-shrink: 0;
 }
+
+.card-challenge-solved .card-header {
+	background-color: #35AAFD;
+	border-bottom: none;
+}
+
+.card-challenge-solved .card-header small {
+	color: #FFFCF2;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.card-challenge-solved .card-header small img {
+	width: 24px;
+	opacity: 1;
+}
+
+.card-challenge-scrolling-background .card-header {
+	background: 
+		linear-gradient(45deg, #25242210 25%, transparent 25%) 0px 30px,
+		linear-gradient(135deg, #25242210 25%, transparent 25%) 0px 30px,
+		linear-gradient(225deg, #25242210 25%, transparent 25%),
+		linear-gradient(315deg, #25242210 25%, transparent 25%);
+	color: #252422;
+	background-size: 60px 60px;
+	animation: solve-background-scroll 2s linear infinite;
+}
+
+.card-challenge-scrolling-background .card-header img {
+	filter: invert(1);
+}
+
+.card-challenge-scrolling-background .card-header a, .card-challenge-scrolling-background .card-header small {
+	color: #252422;
+}
+
+.card-challenge-first-blood .card-header {
+	background-color: #FCDC4D;
+}
+
+.card-challenge-second-blood .card-header {
+	background-color: #BAC1B8;
+}
+
+.card-challenge-third-blood .card-header {
+	background-color: #E06552;
+}
+
+@keyframes solve-background-scroll {
+	from { background-position-x: 0; }
+	to { background-position-x: 60px; }
+ }

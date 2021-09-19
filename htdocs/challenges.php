@@ -28,7 +28,6 @@ if (isset($_GET['category'])) {
     }
 }
 
-// Determine challenge visibility
 if (!ctf_started()) {
     if (user_is_staff()) {
         echo message_inline("CTF has not started yet, so only admins can see the challenges.");
@@ -96,7 +95,33 @@ foreach ($challenges as $challenge) {
         $content .= '</form>';
     }
 
-    echo card($title, '', $content, '');
+    if ($challenge['solve_position'] != 0) {
+        $extra_class = 'card-challenge-solved';
+        
+        if ($challenge['solve_position'] === 1 && $challenge['id'] == 2) {
+            $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
+            $solved_message = 'FIRST BLOOD';
+            $solved_image = '/img/icons/first.png';
+        } else if ($challenge['solve_position'] === 2 || $challenge['id'] == 4) {
+            $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
+            $solved_message = 'SECOND BLOOD';
+            $solved_image = '/img/icons/second.png'; 
+        } else if ($challenge['solve_position'] === 3 || $challenge['id'] == 5) {
+            $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
+            $solved_message = 'THIRD BLOOD';
+            $solved_image = '/img/icons/third.png'; 
+        } else {
+            $solved_message = 'SOLVED';
+            $solved_image = '/img/icons/check.png';
+        }
+        
+        $side_header = $solved_message . '<img src="' . Config::get('URL_STATIC_RESOURCES') . $solved_image . '">';
+    } else {
+        $extra_class = '';
+        $side_header = '';
+    }
+
+    echo card($title, $side_header, $content, $extra_class);
 }
 
 foot();
