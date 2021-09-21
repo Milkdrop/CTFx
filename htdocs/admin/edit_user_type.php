@@ -7,7 +7,7 @@ enforce_authentication(CONST_USER_CLASS_MODERATOR);
 validate_id($_GET['id']);
 
 head('Site management');
-menu_management();
+admin_menu();
 echo section_header('Edit user type');
 
 $user_type = db_select_one(

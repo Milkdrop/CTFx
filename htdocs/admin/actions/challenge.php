@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 'added' => time(),
                 'title' => $_POST['title'],
                 'description' => $_POST['description'],
+                'authors' => '',
                 'release_time'=>Config::get ("CTF_END_TIME"),
                 'points'=>dynamicScoringFormula ($initialPts, $minPts, $decay, 0),
                 'initial_points' => $initialPts,

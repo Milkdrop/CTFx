@@ -5,7 +5,7 @@ require('../../include/mellivora.inc.php');
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Submissions');
-menu_management();
+admin_menu();
 
 $where = array();
 if (array_get($_GET, 'only_needing_marking')) {

@@ -5,7 +5,7 @@ require('../../../include/mellivora.inc.php');
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('User types');
-menu_management();
+admin_menu();
 echo section_header('Users types');
 
 echo '

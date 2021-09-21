@@ -17,6 +17,7 @@ CREATE TABLE challenges (
   exposed tinyint(1) NOT NULL DEFAULT '0',
   flaggable tinyint(1) NOT NULL DEFAULT '1',
   title varchar(255) NOT NULL,
+  authors varchar(255) NOT NULL,
   description text NOT NULL,
   flag text NOT NULL,
   case_insensitive_flag tinyint(1) NOT NULL DEFAULT '0',

@@ -1,12 +1,3 @@
-function highlight_current_navbar_location() {
-    var element = document.querySelector('#navbar-buttons a[href*="/' + window.location.pathname.split("/")[1] + '"]');
-
-    if (element) {
-        element.className = "active";
-        element.innerHTML = "<b>&gt; </b>" + element.innerHTML;
-    }
-}
-
 function addLinkMouseoverSFX() {
     for (var t = document.querySelectorAll("#navbar-buttons a,#navbar-buttons button,.challenge-filename"), e = document.getElementById("audio-nav-mouseover"), n = document.getElementById("audio-nav-click"), o = 0, i = t.length; o < i; o++) {
         var a = t[o];
@@ -38,18 +29,6 @@ function addButtonMouseoverSFX() {
         e.addEventListener('mouseout', function() { btn_solid_mouseover.pause(); });
         e.addEventListener('click', function() { btn_solid_click.currentTime = 0; btn_solid_click.play(); });
     });
-}
-
-function addDropdownMouseoverEffects() {
-    for (var t = document.getElementsByClassName("dropdown-menu"), e = document.getElementById("audio-dropdown-open"), n = 0, o = t.length; n < o; n++) t[n].addEventListener("click", function() {
-        e.currentTime = 0, e.play()
-    })
-}
-
-function addCheckboxClickEffects() {
-    for (var t = document.getElementsByTagName("input"), e = document.getElementById("audio-checkbox-click"), n = 0, o = t.length; n < o; n++) "checkbox" == t[n].type && t[n].addEventListener("click", function() {
-        e.currentTime = 0, e.play()
-    })
 }
 
 function typeWriterSFX() {
@@ -93,11 +72,8 @@ function ctfx_assign_sfx() {
     typeWriterSFX();
     addLinkMouseoverSFX();
     addButtonMouseoverSFX();
-    addDropdownMouseoverEffects();
-    addCheckboxClickEffects();
 }
 
-highlight_current_navbar_location();
 init_countdowns();
 
 

@@ -5,7 +5,7 @@ require('../../include/mellivora.inc.php');
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Site management');
-menu_management();
+admin_menu();
 
 if (array_get($_GET, 'bcc') == 'all') {
     $users = db_select_all(

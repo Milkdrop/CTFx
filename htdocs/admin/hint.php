@@ -18,7 +18,7 @@ if (isset ($_GET['id'])) {
 }
 
 head('Site management');
-menu_management();
+admin_menu();
 echo section_header(isset ($hint)?'Edit hint':'New hint');
 
 $opts = db_query_fetch_all(

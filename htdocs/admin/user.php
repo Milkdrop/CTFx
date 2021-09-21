@@ -8,7 +8,7 @@ validate_id(array_get($_GET, 'id'));
 
 head(lang_get('user_details'));
 
-menu_management();
+admin_menu();
 spacer ();
 
 $user = db_query_fetch_one('

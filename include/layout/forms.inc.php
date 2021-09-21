@@ -129,7 +129,6 @@ function form_button_submit_bbcode ($name) {
     $field_name = strtolower(str_replace(' ','_',$name));
     echo '<div class="form-group">
         <button type="submit" id="',$field_name,'" class="btn btn-lg btn-1">',$name,'</button>
-        <a target="_blank" href="/admin/bbcode_manual" style="height:45px;margin-top:0px;padding-top:10px" class="btn btn-xs btn-2">BBCode Manual</a>
     </div>';
 }
 
@@ -164,15 +163,6 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
     echo '
         </select>
     </div>
-    ';
-}
-
-function form_logout() {
-    echo '
-    <form action="/actions/logout" method="post">
-        ' . form_xsrf_token() . '
-        <button type="submit" id="logout-button">',lang_get('log_out'),'</button>
-    </form>
     ';
 }
 

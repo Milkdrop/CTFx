@@ -91,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             );
 
             if ($correct) {
-                die_with_message('Challenge solved!', '<a class="btn-solid btn-solid-positive" href="challenges?category=' . $challenge['category'] . '">Go back</a>', false, 'flag.png');
+                die_with_message('Challenge solved!', '<a class="btn-solid" href="challenges?category=' . $challenge['category'] . '">Go back</a>', false, 'flag.png');
             } else {
-                die_with_message('Incorrect flag.', '<a class="btn-solid btn-solid-negative" href="challenges?category=' . $challenge['category'] . '">Try again</a>', false, 'unflag.png', "#E06552");
+                die_with_message('Incorrect flag.', '<a class="btn-solid btn-solid-danger" href="challenges?category=' . $challenge['category'] . '">Try again</a>', false, 'unflag.png', "#E06552");
             }
         }
     }

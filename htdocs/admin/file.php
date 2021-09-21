@@ -18,7 +18,7 @@ if (isset ($_GET['id'])) {
 }
 
 head('Site management');
-menu_management();
+admin_menu();
 echo section_header(isset ($file)?'Edit file':'New file');
 
 $opts = db_query_fetch_all(

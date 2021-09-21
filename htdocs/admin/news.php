@@ -18,7 +18,7 @@ if (isset ($_GET['id'])) {
 }
 
 head('Site management');
-menu_management();
+admin_menu();
 echo section_header(isset ($news)?'Edit news item: ' . $news['title']:'New news item');
 
 form_start('/admin/actions/news');

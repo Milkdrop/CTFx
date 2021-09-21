@@ -19,7 +19,7 @@ $user = db_select_one(
 );
 
 head('Site management');
-menu_management();
+admin_menu();
 
 echo section_header('Edit user: ' . $user['team_name']);
 

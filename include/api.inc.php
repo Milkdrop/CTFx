@@ -46,18 +46,19 @@ function api_get_challenges_from_category($category, $for_user) {
     }
 }
 
-/*
-function api_get_challenges_solved_for_user($user) {
-    if (is_valid_id($user)) {
+/* Functions normally used by admin sections */
+
+function api_admin_get_challenges_from_category($category) {
+    if (is_valid_id($category)) {
         return db_query_fetch_all('
-            SELECT challenge
-            FROM submissions
-            WHERE user_id = :user_id AND correct = 1',
+            SELECT * FROM challenges
+            WHERE category = :category
+            ORDER BY points ASC, c.id ASC',
             array(
-                'user_id' => $user
-            ));
+                'category' => $category
+            )
+        );
     } else {
         return array();
     }
 }
-*/

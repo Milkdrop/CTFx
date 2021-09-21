@@ -4,7 +4,6 @@ require(CONST_PATH_LAYOUT . '/messages.inc.php');
 require(CONST_PATH_LAYOUT . '/scores.inc.php');
 require(CONST_PATH_LAYOUT . '/user.inc.php');
 require(CONST_PATH_LAYOUT . '/forms.inc.php');
-require(CONST_PATH_LAYOUT . '/challenges.inc.php');
 
 // set global head_sent variable
 $head_sent = false;
@@ -42,30 +41,36 @@ function head($title = '') {
     }
 
     echo '<div id="navbar">
-        <a href="',Config::get('URL_BASE_PATH'),'">
-            <img id="navbar-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo_navbar.png">
+        <a href="' . Config::get('URL_BASE_PATH') . '">
+            <img id="navbar-logo" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/logo_navbar.png">
         </a>
 
         <div id="navbar-buttons">';
 
+        $path = strtok(strtok($_SERVER['REQUEST_URI'], '?'), '/');
+
             if (user_is_logged_in()) {
 
-                if (user_is_staff()) {
-                    echo '<a href="/admin/">',lang_get('manage'),'</a>';
+                foreach (array('Admin', 'Home', 'Challenges', 'Scoreboard', 'Profile') as $entry) {
+                    if ($entry === 'Admin' && !user_is_staff()) {
+                        continue;
+                    }
+                    
+                    echo '<a ' . ((stripos($path, $entry)!==false)?'class="active" ':'') . 'href="'
+                        . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
                 }
-
-                echo '<a href="',Config::get('URL_BASE_PATH'),'home">',lang_get('home'),'</a>',
-                    '<a href="',Config::get('URL_BASE_PATH'),'challenges">',lang_get('challenges'),'</a>',
-                    '<a href="',Config::get('URL_BASE_PATH'),'scores">',lang_get('scores'),'</a>',
-                    '<a href="',Config::get('URL_BASE_PATH'),'profile">',lang_get('profile'),'</a>',
-                    form_logout();
+                
+                echo '<form action="/actions/logout" method="post">' . form_xsrf_token() . '
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>';
 
             } else {
-                echo '<a href="',Config::get('URL_BASE_PATH'),'home">',lang_get('home'),'</a>',
-                    '<a href="',Config::get('URL_BASE_PATH'),'scores">',lang_get('scoreboard'),'</a>',
-                    '<a href="',Config::get('URL_BASE_PATH'),'register">',lang_get('register'),'</a>',
-                    '<a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a>';
+                foreach (array('Home', 'Scoreboard', 'Login') as $entry) {
+                    echo '<a ' . ((stripos($path, $entry)!==false)?'class="active" ':'') . 'href="'
+                        . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
+                }
             }
+
             echo '
         </div>
     </div>
@@ -104,7 +109,6 @@ function foot () {
     <audio id="audio-btn-dynamic-click" src="/static/audio/btn_dynamic_click.mp3"></audio>
     <audio id="audio-btn-solid-mouseover" src="/static/audio/btn_solid_mouseover.mp3"></audio>
     <audio id="audio-btn-solid-click" src="/static/audio/btn_solid_click.mp3"></audio>
-    <audio id="audio-dropdown-open" src="/static/audio/dropdown_open.mp3"></audio>
     <audio id="audio-checkbox-click" src="/static/audio/checkbox_click.mp3"></audio>
     <script type="text/javascript" src="/static/ctfx.js?v=' . $staticVersion . '"></script>
     </body>
@@ -199,7 +203,7 @@ function die_with_message($message, $submessage = "", $strip_html = true, $img =
     $color = htmlspecialchars($color);
 
     if (!$head_sent)
-        head("Error");
+        head("Message");
 
     echo '<div class="message-centered">
         <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/icons/' . htmlspecialchars($img) . '">
@@ -218,6 +222,20 @@ function die_with_message($message, $submessage = "", $strip_html = true, $img =
 function die_with_message_error($error_message) {
     http_response_code(400);
     die_with_message("Fatal Error", $error_message, true, 'cracked.png', '#E06552');
+}
+
+function admin_delete_confirmation($explanation = '') {
+    $submessage = '<form style="margin-right:8px" method="post" action="api">'
+        . form_xsrf_token()
+        . '<input type="hidden" name="action" value="' . $_POST['action'] . '"/>'
+        . '<input type="hidden" name="what" value="' . $_POST['what'] . '"/>'
+        . '<input type="hidden" name="id" value="' . $_POST['id'] . '"/>'
+        . '<input type="hidden" name="delete_confirmation" value="yes"/>'
+        . '<button class="btn-solid btn-solid-danger" type="submit">Yes</button>'
+        . '</form>'
+        . tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
+        
+    die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#E06552');
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {
@@ -257,24 +275,6 @@ function card_simple ($title, $content = "", $icon = "") {
     echo '</div></div>';
 }
 
-function dropdown ($name, $options = null) {
-    if (count ($options) <= 1) {
-        echo '<div class="btn-group">
-            <a href="',$options[0][1],'" class="btn btn-2 btn-xs">', $name, '</a>
-        </div>';
-    } else if (count ($options) > 1) {
-        echo '<div class="btn-group">
-            <button class="btn btn-2 dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
-            <ul class="dropdown-menu">';
-
-            foreach ($options as $option) {
-                echo '<li><a href="', $option[1], '">', $option[0], '</a></li>';
-            }
-        echo '</ul>
-        </div>';
-    }
-}
-
 function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white") {
     switch ($color) {
         case "white": $color = "#F5F5F5"; break;
@@ -301,83 +301,27 @@ function button_link($text, $url) {
     return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-1">'.htmlspecialchars($text).'</a>';
 }
 
-function menu_management () {
-    echo '<div id="menu-management" class="menu">';
-    dropdown ("Dashboard", [["Dashboard", "/admin"]]);
-    dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
-    dropdown ("Users", [["List users", "/admin/users"]]);
-    dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
-    dropdown ("Exceptions", [["List exceptions", "/admin/exceptions"]]);
-    dropdown ("Search", [["Search", "/admin/search"]]);
-    dropdown ("Edit CTF", [["Edit", "/admin/edit_ctf"]]);
-    echo '</div>';
-}
+function admin_menu() {
+    $path = basename(strtok($_SERVER['REQUEST_URI'], '?'));
+    $sections = array('Dashboard', 'Challenges');
+    $active_path = "???";
 
-function bbcode_manual () {
-    echo '
-    <table>
-        <tr>
-        <td>
-            <ul>
-            <li><b>Text Styles:</b>
-                <ul>
-                <li>[b]<b>Bold</b>[/b]</li>
-                <li>[i]<i>Italics</i>[/i]</li>
-                <li>[u]<u>Underline</u>[/u]</li>
-                <li>[s]<strike>Strikethrough</strike>[/s]</li>
-                <li>[sup]<sup>Superscript</sup>[/sup]</li>
-                <li>[sub]<sub>Subscript</sub>[/sub]</li>
-                <li>[spoiler]<span class="bbcode_spoiler">Spoiler</span>[/spoiler]</li>
-                <li>[size=2]<span style="font-size:.83em">Custom Size</span>[/size]</li>
-                <li>[color=red]<span style="color:red">Custom Color</span>[/color]</li>
-                <li>[font=verdana]<span style="font-family:\'verdana\'">Custom Font</span>[/font]</li>
-                </ul>
-            </li>
-            <li><b>Links:</b>
-                <ul>
-                <li>[url]<a href="https://www.eff.org/">https://www.eff.org/</a>[/url]</li>
-                <li>[url=https://www.eff.org/]<a href="https://www.eff.org/">Named link</a>[/url]</li>
-                <li>[email]<a href="mailto:mail@mail.com" class="bbcode_email">mail@mail.com</a>[/email]</li>
-                </ul>
-            </li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-            <li><b>Replaced Items:</b>
-                <ul>
-                <li>[img]'.Config::get('URL_STATIC_RESOURCES').'/img/award_xenon.png[/img] => <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/award_xenon.png" alt="award_xenon.png" class="bbcode_img"></li>
-                <li>[br]</li>
-                </ul>
-            </li>
-            <li><b>Alignment:</b>
-                <ul>
-                <li>[center]...[/center]</li>
-                <li>[left]...[/left]</li>
-                <li>[right]...[/right]</li>
-                <li>[indent]...[/indent]</li>
-                </ul>
-            </li>
-            <li><b>Containers:</b>
-                <ul>
-                <li>[code]
-                <div class="bbcode_code">
-                    <div class="bbcode_code_head">Code:</div>
-                    <div class="bbcode_code_body" style="white-space:pre">',
-'for i in range (50):
-    print (i)',
-                '</div></div>[/code]</li>
-                <li>[quote]<div class="bbcode_quote">
-                    <div class="bbcode_quote_head">Quote:</div>
-                    <div class="bbcode_quote_body">Quoting Something</div>
-                </div>[/quote]</li>
-                </ul>
-            </li>
-            </ul>
-        </td>
-        </tr>
-    </table>
-    ';
+    foreach ($sections as $entry) {
+        if (stripos($path, $entry)!==false) {
+            $active_path = $entry;
+        }
+    }
+
+    echo '<div class="pre-category-name">Admin section:</div>
+        <div class="category-name typewriter">' . $active_path . '</div>';
+
+    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
+    foreach ($sections as $entry) {
+        echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ((stripos($path, $entry)!==false)?'active':'')
+            . '" href="' . strtolower($entry) . '">' . $entry . '</a>';
+    }
+
+    echo '</div>';
 }
 
 function progress_bar ($percent, $type = false, $striped = true) {

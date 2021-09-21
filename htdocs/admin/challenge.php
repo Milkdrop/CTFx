@@ -18,7 +18,7 @@ if (isset ($_GET['id'])) {
 }
 
 head('Site management');
-menu_management();
+admin_menu();
 echo section_header(isset ($challenge)?'Edit challenge: ' . $challenge['title']:'New Challenge');
 
 form_start('/admin/actions/challenge');

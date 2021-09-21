@@ -67,6 +67,10 @@ body {
 	background-position: left;
 }
 
+#navbar-buttons a.active::before {
+	content: "> "
+}
+
 #navbar-buttons form {
 	display: inline;
 }
@@ -112,6 +116,7 @@ button {
 	cursor: pointer;
 	font-family: Arial, sans-serif; /* Needed again for some reason, the body one isn't enough */
 	border: none;
+	font-size: inherit;
 }
 
 ul {
@@ -228,17 +233,17 @@ ul {
 }
 
 .btn-solid:hover, .btn-solid.active {
-	background-color: #FCDC42;
-	text-decoration: none;
-	color: #252422;
-}
-
-.btn-solid.btn-solid-positive:hover {
 	background-color: #35AAFD;
+	text-decoration: none;
 	color: #FFFCF2;
 }
 
-.btn-solid.btn-solid-negative:hover {
+.btn-solid-warning:hover, .btn-solid-warning.active {
+	background-color: #FCDC42;
+	color: #252422;
+}
+
+.btn-solid-danger:hover, .btn-solid-danger.active {
 	background-color: #E06552;
 	color: #FFFCF2;
 }
@@ -264,6 +269,10 @@ ul {
 	color: #FFFCF2;
 }
 
+.btn-dynamic-danger {
+	background-image: linear-gradient(#E06552 49.9%, #FFFCF2 49.9%);
+}
+
 /* Tooltips */
 
 .tooltip {
@@ -274,12 +283,15 @@ ul {
 }
 
 .tooltip .tooltip-text {
+	min-width: 200px;
 	max-width: 240px;
 	font-size: 14px;
 	font-weight: normal;
 	background-color: #403D39;
+	border-bottom: solid 4px #BAC1B8;
+	margin-bottom: 4px;
 	color: #FFFCF2;
-	padding: 2px 4px;
+	padding: 8px;
 	cursor: text;
 	text-align: center;
 	word-break: break-word;
@@ -298,10 +310,11 @@ ul {
 	position: absolute;
 	top: 100%;
 	left: 50%;
+	transform: translateY(4px);
 	margin-left: -5px;
 	border-width: 5px;
 	border-style: solid;
-	border-color: #403D39 transparent transparent transparent;
+	border-color: #BAC1B8 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltip-text {
@@ -321,7 +334,7 @@ ul {
 	transform: translate(-50%, -50%);
 }
 
-.message-centered img {
+.message-centered > img {
 	width: 128px;
 	height: 128px;
 	margin-right: 16px;
@@ -368,6 +381,21 @@ input {
 	outline: none;
 }
 
+textarea {
+	resize: none;
+	margin: 0px;
+	height: 1em;
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+	color: #FFFCF280;
+}
+
+textarea:focus {
+	height: 10em;
+	background-color: #33312E;
+	z-index: 1;
+}
+
 input::placeholder {
 	opacity: 1;
 	color: #BAC1B8;
@@ -385,6 +413,27 @@ input::selection {
 .form-one-line input {
 	flex-grow: 1;
 	margin-right: 8px;
+}
+
+.input-silent {
+	background: inherit;
+	color: inherit;
+	height: inherit;
+	padding: inherit;
+	border: 2px dashed #FFFCF210;
+}
+
+.input-silent:hover {
+	border-color: #FFFCF240;
+}
+
+.input-silent:focus {
+	border-color: #FFFCF280;
+}
+
+.input-silent::selection {
+	background-color: #FFFCF2;
+	color: #252422;
 }
 
 /* Home page */

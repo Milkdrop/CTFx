@@ -5,7 +5,7 @@ require('../../include/mellivora.inc.php');
 enforce_authentication(CONST_USER_CLASS_MODERATOR);
 
 head('Exceptions');
-menu_management();
+admin_menu();
 
 if (array_get($_GET, 'user_id')) {
     echo section_header('User exceptions', button_link('Show all exceptions', '/admin/exceptions'));

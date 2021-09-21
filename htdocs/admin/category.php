@@ -18,7 +18,7 @@ if (isset ($_GET['id'])) {
 }
 
 head('Site management');
-menu_management();
+admin_menu();
 
 echo section_header(isset ($category)?'Edit category: ' . $category['title']:"New category");
 form_start('/admin/actions/category');

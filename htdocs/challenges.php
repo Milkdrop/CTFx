@@ -48,7 +48,7 @@ echo '<div class="pre-category-name">Challenge category:</div>
 echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
 
 foreach ($categories as $cat) {
-    echo '<a style="margin:0px 8px 8px 0px" class="btn-solid ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
+    echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
         . '" href="challenges?category=' . htmlspecialchars(to_permalink($cat['title'])) . '">'
         . htmlspecialchars($cat['title'])
     . '</a>';
@@ -98,15 +98,15 @@ foreach ($challenges as $challenge) {
     if ($challenge['solve_position'] != 0) {
         $extra_class = 'card-challenge-solved';
         
-        if ($challenge['solve_position'] === 1 && $challenge['id'] == 2) {
+        if ($challenge['solve_position'] === 1) {
             $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
             $solved_message = 'FIRST BLOOD';
             $solved_image = '/img/icons/first.png';
-        } else if ($challenge['solve_position'] === 2 || $challenge['id'] == 4) {
+        } else if ($challenge['solve_position'] === 2) {
             $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
             $solved_message = 'SECOND BLOOD';
             $solved_image = '/img/icons/second.png'; 
-        } else if ($challenge['solve_position'] === 3 || $challenge['id'] == 5) {
+        } else if ($challenge['solve_position'] === 3) {
             $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
             $solved_message = 'THIRD BLOOD';
             $solved_image = '/img/icons/third.png'; 
