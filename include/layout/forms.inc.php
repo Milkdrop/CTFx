@@ -12,12 +12,6 @@ function form_end() {
     echo '</form>';
 }
 
-function form_hidden ($name, $value) {
-    $name = htmlspecialchars($name);
-    $field_name = strtolower(str_replace(' ','_',$name));
-    echo '<input type="hidden" name="',$field_name,'" value="',htmlspecialchars($value),'" />';
-}
-
 function form_file ($name) {
     $name = htmlspecialchars($name);
     $field_name = strtolower(str_replace(' ','_',$name));

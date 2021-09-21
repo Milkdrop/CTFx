@@ -5,11 +5,9 @@ require(CONST_PATH_LAYOUT . '/scores.inc.php');
 require(CONST_PATH_LAYOUT . '/user.inc.php');
 require(CONST_PATH_LAYOUT . '/forms.inc.php');
 
-// set global head_sent variable
 $head_sent = false;
-// singleton parsedown object
+$collapsible_cards_sent = 0;
 $parsedown = null;
-
 $staticVersion = "1.3.0a4";
 
 function head($title = '') {
@@ -148,6 +146,19 @@ function card($html_title, $html_header_right_side, $html_content, $extra_class 
     </div>';
 }
 
+function collapsible_card($html_title, $html_header_right_side, $html_content) {
+    global $collapsible_cards_sent;
+    
+    $collapsible_cards_sent += 1;
+    $id = "collapsible-card-" . $collapsible_cards_sent;
+
+    return '<div class="card">
+        <label for="' . $id . '"><div class="card-header">' . $html_title . '<small>' . $html_header_right_side . '</small></div></label>
+        <input id="' . $id . '" class="toggle card-collapser" type="checkbox">
+        <div class="card-content">' . $html_content . '</div>
+    </div>';
+}
+
 function timestamp($time, $extra_text = '', $substract_with = false) {
     $extra_text = htmlspecialchars($extra_text);
     
@@ -227,15 +238,26 @@ function die_with_message_error($error_message) {
 function admin_delete_confirmation($explanation = '') {
     $submessage = '<form style="margin-right:8px" method="post" action="api">'
         . form_xsrf_token()
-        . '<input type="hidden" name="action" value="' . $_POST['action'] . '"/>'
-        . '<input type="hidden" name="what" value="' . $_POST['what'] . '"/>'
-        . '<input type="hidden" name="id" value="' . $_POST['id'] . '"/>'
-        . '<input type="hidden" name="delete_confirmation" value="yes"/>'
+        . form_action_what($_POST['action'], $_POST['what'])
+        . form_hidden('id', $_POST['id'])
+        . form_hidden('delete_confirmation', 'yes')
         . '<button class="btn-solid btn-solid-danger" type="submit">Yes</button>'
-        . '</form>'
-        . tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
+        . '</form>';
+    
+    if (!empty($explanation))
+        $submessage .= tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
         
     die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#E06552');
+}
+
+/* Forms */
+
+function form_action_what($action, $what) {
+    return form_hidden('action', $action) . form_hidden('what', $what);
+}
+
+function form_hidden($name, $value) {
+    return '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '"/>';
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {

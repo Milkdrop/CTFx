@@ -218,6 +218,36 @@ ul {
 	padding: 16px;
 }
 
+.card-collapser {
+	display: none;
+}
+
+.card-collapser + div {
+	display: none;
+}
+
+.card-collapser:checked + div {
+	display: inherit;
+}
+
+label .card-header {
+	cursor: pointer;
+	position: relative;
+}
+
+label .card-header::after {
+	display: none;
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	transform: translateY(4px);
+	border-style: solid;
+	border-color: #35AAFD transparent transparent transparent;
+}
+
 /* Buttons */
 
 .btn-solid {
@@ -286,6 +316,7 @@ ul {
 	min-width: 200px;
 	max-width: 240px;
 	font-size: 14px;
+	opacity: 1;
 	font-weight: normal;
 	background-color: #403D39;
 	border-bottom: solid 4px #BAC1B8;
@@ -368,12 +399,13 @@ ul {
 
 /* Forms */
 
-input {
+input, select, option {
 	background-color: #FFFCF2;
 	color: #252422;
 	border: none;
 	height: 40px;
 	padding: 0px 0px 0px 12px;
+	box-sizing: border-box;
 	font-size: 20px;
 	font-weight: bold;
 	font-family: Arial, sans-serif;
@@ -381,19 +413,29 @@ input {
 	outline: none;
 }
 
+select {
+	padding: 0px 0px 0px 8px;
+}
+
 textarea {
+	min-height: 32px;
 	resize: none;
+	box-sizing: border-box;
 	margin: 0px;
-	height: 1em;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
 	color: #FFFCF280;
 }
 
 textarea:focus {
-	height: 10em;
+	height: 160px;
 	background-color: #33312E;
 	z-index: 1;
+}
+
+textarea::placeholder {
+	opacity: 1;
+	color: #BAC1B8;
 }
 
 input::placeholder {
@@ -419,8 +461,13 @@ input::selection {
 	background: inherit;
 	color: inherit;
 	height: inherit;
-	padding: inherit;
+	padding: 2px;
+	font-size: inherit;
 	border: 2px dashed #FFFCF210;
+}
+
+.input-silent::placeholder {
+	opacity: 0.55;
 }
 
 .input-silent:hover {
@@ -429,6 +476,7 @@ input::selection {
 
 .input-silent:focus {
 	border-color: #FFFCF280;
+	outline: none;
 }
 
 .input-silent::selection {

@@ -53,7 +53,7 @@ function api_admin_get_challenges_from_category($category) {
         return db_query_fetch_all('
             SELECT * FROM challenges
             WHERE category = :category
-            ORDER BY points ASC, c.id ASC',
+            ORDER BY points ASC, id ASC',
             array(
                 'category' => $category
             )

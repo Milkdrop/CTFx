@@ -37,9 +37,9 @@ Config::set('URL_BASE_PATH', '/');
 Config::set('URL_STATIC_RESOURCES', '/static');
 
 // Challenges
-Config::set('MELLIVORA_CONFIG_CHALL_INITIAL_POINTS', 500);
-Config::set('MELLIVORA_CONFIG_CHALL_MINIMUM_POINTS', 50);
-Config::set('MELLIVORA_CONFIG_CHALL_SOLVE_DECAY', 100);
+Config::set('CHALLENGE_INITIAL_POINTS', 500);
+Config::set('CHALLENGE_MINIMUM_POINTS', 50);
+Config::set('CHALLENGE_SOLVES_UNTIL_MINIMUM', 100);
 
 // CTF default start and end times, in unix timestamp
 Config::set('CTF_START_TIME', 1632002510);

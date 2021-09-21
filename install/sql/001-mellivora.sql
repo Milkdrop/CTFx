@@ -5,30 +5,31 @@ CREATE TABLE categories (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
-  description text NOT NULL,
+  description text NOT NULL DEFAULT '',
   PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE challenges (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
-  release_time int(10) unsigned NOT NULL DEFAULT '0',
   category smallint(5) unsigned NOT NULL,
-  exposed tinyint(1) NOT NULL DEFAULT '0',
-  flaggable tinyint(1) NOT NULL DEFAULT '1',
   title varchar(255) NOT NULL,
-  authors varchar(255) NOT NULL,
-  description text NOT NULL,
+  description text NOT NULL DEFAULT '',
+  authors varchar(255) NOT NULL DEFAULT '',
   flag text NOT NULL,
   case_insensitive_flag tinyint(1) NOT NULL DEFAULT '0',
   points int(10) signed NOT NULL,
   initial_points int(10) signed NOT NULL,
   minimum_points int(10) signed NOT NULL,
-  solve_decay int(10) unsigned NOT NULL,
+  solves_until_minimum int(10) unsigned NOT NULL,
+  solves int(10) unsigned NOT NULL DEFAULT '0',
+  exposed tinyint(1) NOT NULL DEFAULT '0',
+  release_time int(10) unsigned NOT NULL DEFAULT '0',
+  flaggable tinyint(1) NOT NULL DEFAULT '1',
   relies_on int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (id),
   KEY category (category)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE cookie_tokens (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
