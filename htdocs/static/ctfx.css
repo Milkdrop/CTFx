@@ -235,19 +235,6 @@ label .card-header {
 	position: relative;
 }
 
-label .card-header::after {
-	display: none;
-	content: "";
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -5px;
-	border-width: 5px;
-	transform: translateY(4px);
-	border-style: solid;
-	border-color: #35AAFD transparent transparent transparent;
-}
-
 /* Buttons */
 
 .btn-solid {
@@ -415,6 +402,10 @@ input, select, option {
 
 select {
 	padding: 0px 0px 0px 8px;
+}
+
+select:invalid {
+	color: red;
 }
 
 textarea {
