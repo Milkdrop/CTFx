@@ -9,8 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
     if ($_POST['action'] === 'new') {
-      require_fields(array('title'), $_POST);
-
        $id = db_insert(
           'news',
           array(

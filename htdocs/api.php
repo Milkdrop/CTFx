@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
-    if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
-        validate_captcha();
-    }
-
     if ($_POST['action'] == 'submit_flag') {
         enforce_authentication(CONST_USER_CLASS_USER, true);
         
+        if (!ctf_started()) {
+            die_with_message_error('CTF has not started yet');
+        }
+
         validate_id($_POST['challenge']);
 
         $submission_data = db_query_fetch_one(
@@ -25,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
               challenge = :challenge AND
               user_id = :user_id',
             array(
-                'user_id' => $_SESSION['id'],
-                'challenge' => $_POST['challenge']
+                'challenge' => $_POST['challenge'],
+                'user_id' => $_SESSION['id']
             )
         );
         
@@ -37,14 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $time_left = Config::get('SUBMISSION_COOLDOWN') - (time() - $submission_data['added']);
                 die_with_message_error('You need to wait ' . $time_left . ' more seconds to submit another flag');
             }
-
+            
             $challenge = db_select_one(
                 'challenges',
                 array(
+                    'id',
                     'category',
                     'flag',
                     'case_insensitive_flag',
-                    'flaggable'
+                    'flaggable',
+                    'initial_points',
+                    'minimum_points',
+                    'solves_until_minimum'
                 ),
                 array(
                     'id' => $_POST['challenge'],
@@ -91,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             );
 
             if ($correct) {
+                update_challenge_points($challenge);
                 die_with_message('Challenge solved!', '<a class="btn-solid" href="challenges?category=' . $challenge['category'] . '">Go back</a>', false, 'flag.png');
             } else {
                 die_with_message('Incorrect flag.', '<a class="btn-solid btn-solid-danger" href="challenges?category=' . $challenge['category'] . '">Try again</a>', false, 'unflag.png', "#E06552");

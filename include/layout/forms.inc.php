@@ -180,35 +180,3 @@ function country_select() {
 
     echo '</select>';
 }
-
-function dynamic_visibility_select($selected = null) {
-    $options = array(
-        array(
-            'val'=>CONST_DYNAMIC_VISIBILITY_BOTH,
-            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_BOTH)
-        ),
-        array(
-            'val'=>CONST_DYNAMIC_VISIBILITY_PRIVATE,
-            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PRIVATE)
-        ),
-        array(
-            'val'=>CONST_DYNAMIC_VISIBILITY_PUBLIC,
-            'opt'=>visibility_enum_to_name(CONST_DYNAMIC_VISIBILITY_PUBLIC)
-        )
-    );
-
-    form_select($options, 'Visibility', 'val', $selected, 'opt');
-}
-
-function require_fields($required, $form_data) {
-    $empties = array();
-    foreach ($form_data as $key => $value) {
-        if (in_array($key, $required) && empty($value)) {
-            $empties[] = $key;
-        }
-    }
-
-    if (!empty($empties)) {
-        message_error('Missing required field data for: ' . implode(', ', $empties));
-    }
-}

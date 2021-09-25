@@ -39,7 +39,7 @@ form_file('file');
 form_hidden('action', isset ($file)?'edit':'new');
 form_hidden('id', $_GET['id']);
 if (!isset ($file))
-	message_inline('You can provide an external download URL, or upload a file (max ' . bytes_to_pretty_size(max_file_upload_size()) . ') directly on the platform');
+	message_inline('You can provide an external download URL, or upload a file (max []) directly on the platform');
 
 form_button_submit('Save changes');
 form_end();

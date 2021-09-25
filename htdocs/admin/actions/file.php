@@ -14,8 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		if (isset ($_POST['url']) && !empty ($_POST['url'])) {
 
-        	require_fields(array('filename'), $_POST);
-
 	        $file_id = db_insert(
 	            'files',
 	            array(
@@ -37,9 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	else if ($_POST['action'] === 'edit') {
 		validate_id($_POST['id']);
-
-        require_fields(array('filename'), $_POST);
-
 		db_update(
            'files',
            array(

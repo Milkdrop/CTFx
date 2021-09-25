@@ -154,8 +154,8 @@ function collapsible_card($html_title, $html_header_right_side, $html_content) {
 
     return '<div class="card">
         <label for="' . $id . '"><div class="card-header">' . $html_title . '<small>' . $html_header_right_side . '</small></div></label>
-        <input id="' . $id . '" class="toggle card-collapser" type="checkbox">
-        <div class="card-content">' . $html_content . '</div>
+        <input id="' . $id . '" class="collapser" type="checkbox">
+        <div class="card-content collapsible">' . $html_content . '</div>
     </div>';
 }
 
@@ -263,11 +263,11 @@ function form_hidden($name, $value) {
 }
 
 function form_checkbox($name, $checked = false, $custom_style = '') {
-    $input_name = htmlspecialchars(str_replace(' ', '_', strtolower($name)));
+    $input_name = htmlspecialchars(str_replace(array(' ', '-'), '_', strtolower($name)));
     $printed_name = htmlspecialchars($name);
     $custom_style = htmlspecialchars($custom_style);
 
-    return '<div class="container-checkbox"' . (!empty($custom_style)?(' style="' . $custom_style . '"'):'').'>
+    return '<div class="section-header" style="font-size:20px; ' . $custom_style . '">
         <label>
             <input type="hidden" name="' . $input_name . '" value="0"/>
             <input type="checkbox" name="' . $input_name . '" value="1" ' . ($checked?'checked':'').'/>

@@ -28,8 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
 
         invalidate_cache(CONST_CACHE_NAME_USER . $_POST['id']);
-
-        redirectBack ("generic_success");
     }
 
     else if ($_POST['action'] == 'delete') {

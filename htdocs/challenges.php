@@ -10,20 +10,21 @@ $categories = api_get_categories();
 
 // Determine which category to display
 if (isset($_GET['category'])) {
-    if (is_valid_id($_GET['category'])) {
-        $current_category = array_search_matching_key($_GET['category'], $categories, 'id');
-    } else {
-        $current_category = array_search_matching_key($_GET['category'], $categories, 'title', 'to_permalink');
-    }
-
-    if (!$current_category) {
-        redirect('challenges');
-    }
-
+    $category_to_select = $_GET['category'];
 } else {
-    $current_category = array_search_matching_key(Config::get('DEFAULT_CATEGORY_ON_CHALLENGES_PAGE'), $categories, 'id');
+    $category_to_select = Config::get('DEFAULT_CATEGORY_ON_CHALLENGES_PAGE');
+}
 
-    if (!$current_category) {
+foreach ($categories as $category) {
+    if ($category['id'] == $category_to_select || $category['title'] == $category_to_select) {
+        $current_category = $category;
+    }
+}
+
+if (!$current_category) {
+    if (isset($_GET['category'])) {
+        redirect('challenges');
+    } else {
         $current_category = $categories[0];
     }
 }
@@ -49,7 +50,7 @@ echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png"
 
 foreach ($categories as $cat) {
     echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
-        . '" href="challenges?category=' . htmlspecialchars(to_permalink($cat['title'])) . '">'
+        . '" href="challenges?category=' . htmlspecialchars(urlencode($cat['title'])) . '">'
         . htmlspecialchars($cat['title'])
     . '</a>';
 }
@@ -84,7 +85,7 @@ foreach ($challenges as $challenge) {
         $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
             <input type="hidden" name="action" value="submit_flag" />
             <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
-            <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required></input>'
+            <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
             . form_xsrf_token();
 
         if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {

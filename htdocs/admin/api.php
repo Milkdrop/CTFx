@@ -74,25 +74,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                 if (!empty($challenge)) {
                     // Normally we would check if the category is valid, but you can't get it wrong unless you intend to
-                    foreach (array('title', 'description', 'flag', 'category', 'relies_on', 'exposed', 'flaggable') as $entry) {
+                    $fields = array('title', 'description', 'flag', 'case_insensitive_flag', 'category', 'relies_on', 'exposed', 'flaggable', 'initial_points', 'minimum_points', 'solves_until_minimum');
+                    
+                    foreach ($fields as $entry) {
                         if (isset($_POST[$entry])) {
                             $challenge[$entry] = trim($_POST[$entry]);
                         }
                     }
 
-                    if ($challenge['relies_on'] == '0') $challenge['relies_on'] = NULL;
+                    if ($challenge['relies_on'] == '0') {
+                        $challenge['relies_on'] = NULL;
+                    }
+
+                    if (ctf_started()) {
+                        if ($challenge['exposed'] && $challenge['release_time'] == 0) {
+                            $challenge['release_time'] = time();
+                        }
+                    } else {
+                        if ($challenge['exposed']) {
+                            $challenge['release_time'] = Config::get('CTF_START_TIME');
+                        } else {
+                            $challenge['release_time'] = 0;
+                        }
+                    }
 
                     db_update('challenges',
                         array(
+                            'category'=>$challenge['category'],
                             'title'=>$challenge['title'],
                             'description'=>$challenge['description'],
                             'flag'=>$challenge['flag'],
-                            'category'=>$challenge['category'],
-                            'relies_on'=>$challenge['relies_on'],
+                            'case_insensitive_flag'=>$challenge['case_insensitive_flag'],
+                            'initial_points'=>$challenge['initial_points'],
+                            'minimum_points'=>$challenge['minimum_points'],
+                            'solves_until_minimum'=>$challenge['solves_until_minimum'],
                             'exposed'=>$challenge['exposed'],
-                            'flaggable'=>$challenge['flaggable']
+                            'release_time'=>$challenge['release_time'],
+                            'flaggable'=>$challenge['flaggable'],
+                            'relies_on'=>$challenge['relies_on']
                         ),  array('id'=>$_POST['id'])
                     );
+
+                    update_challenge_points($challenge);
                 } else {
                     die_with_message_error('No such challenge');
                 }
