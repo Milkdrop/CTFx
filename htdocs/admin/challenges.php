@@ -70,8 +70,10 @@ foreach ($categories as $category) {
         }
 
         $content .= '</select></div>'
-            . '<input type="checkbox" name="exposed" value="1">'
-            . '<input type="text" name="flag" style="width:100%" placeholder="Flag" value="' . htmlspecialchars($challenge['flag']) . '"/>'
+            . '<div style="display:flex">'
+            . form_checkbox('Exposed', $challenge['exposed'] == '1', 'margin-right:8px')
+            . form_checkbox('Flaggable', $challenge['flaggable'] == '1')
+            . '</div><input type="text" name="flag" style="width:100%; margin-bottom:8px" placeholder="Flag" value="' . htmlspecialchars($challenge['flag']) . '"/>'
             . '<div style="display:flex">'
             . '<button style="margin-right:8px" class="btn-dynamic" type="submit">Update</button>'
         . '</form>'

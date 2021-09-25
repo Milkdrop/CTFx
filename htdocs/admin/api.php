@@ -74,12 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                 if (!empty($challenge)) {
                     // Normally we would check if the category is valid, but you can't get it wrong unless you intend to
-                    foreach (array('title', 'description', 'flag', 'category', 'relies_on') as $entry) {
+                    foreach (array('title', 'description', 'flag', 'category', 'relies_on', 'exposed', 'flaggable') as $entry) {
                         if (isset($_POST[$entry])) {
                             $challenge[$entry] = trim($_POST[$entry]);
                         }
                     }
-                    
+
                     if ($challenge['relies_on'] == '0') $challenge['relies_on'] = NULL;
 
                     db_update('challenges',
@@ -88,7 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             'description'=>$challenge['description'],
                             'flag'=>$challenge['flag'],
                             'category'=>$challenge['category'],
-                            'relies_on'=>$challenge['relies_on']
+                            'relies_on'=>$challenge['relies_on'],
+                            'exposed'=>$challenge['exposed'],
+                            'flaggable'=>$challenge['flaggable']
                         ),  array('id'=>$_POST['id'])
                     );
                 } else {

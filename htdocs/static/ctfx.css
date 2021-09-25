@@ -103,6 +103,10 @@ a {
 	transition: color 200ms ease-in-out;
 }
 
+img::selection {
+	background: none;
+}
+
 a:hover {
 	text-decoration: underline;
 	color: #FCDC42;
@@ -439,15 +443,6 @@ input::selection {
 	color: #FFFCF2;
 }
 
-.form-one-line {
-	display: flex;
-}
-
-.form-one-line input {
-	flex-grow: 1;
-	margin-right: 8px;
-}
-
 .input-silent {
 	background: inherit;
 	color: inherit;
@@ -473,6 +468,57 @@ input::selection {
 .input-silent::selection {
 	background-color: #FFFCF2;
 	color: #252422;
+}
+
+input[type="checkbox"] {
+	display: none;	
+}
+
+.checkbox {
+	display: flex;
+	width: 32px;
+	height: 32px;
+	margin-right: 8px;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	background: linear-gradient(#403D39 49.9%, #35AAFD 49.9%);
+	background-size: 100% 200%;
+	background-position: top;
+	transition: background-position 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+input:checked ~ .checkbox {
+	background-position: bottom;
+}
+
+.checkbox img {
+	width: 20px;
+	height: 20px;
+}
+
+input ~ .checkbox img:nth-child(1) {
+	opacity: 0.55;
+}
+
+input ~ .checkbox img:nth-child(2) {
+	display: none;
+}
+
+input:checked ~ .checkbox img:nth-child(1) {
+	display: none;
+}
+
+input:checked ~ .checkbox img:nth-child(2) {
+	display: inherit;
+}
+
+.container-checkbox {
+	display: flex;
+	align-items: center;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 8px;
 }
 
 /* Home page */

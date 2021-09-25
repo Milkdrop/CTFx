@@ -15,8 +15,10 @@ function addButtonMouseoverSFX() {
     var btn_dynamic_mouseover = document.getElementById("audio-btn-dynamic-mouseover");
     var btn_dynamic_click = document.getElementById("audio-btn-dynamic-click");
 
-    var btn_solid_mouseover = document.getElementById ("audio-btn-solid-mouseover");
-    var btn_solid_click = document.getElementById ("audio-btn-solid-click");
+    var btn_solid_mouseover = document.getElementById("audio-btn-solid-mouseover");
+    var btn_solid_click = document.getElementById("audio-btn-solid-click");
+
+    var checkbox_click = document.getElementById("audio-checkbox-click");
 
     document.querySelectorAll('.btn-dynamic').forEach((e) => {
         e.addEventListener('mouseenter', function() { btn_dynamic_mouseover.currentTime = 0; btn_dynamic_mouseover.play(); });
@@ -29,6 +31,10 @@ function addButtonMouseoverSFX() {
         e.addEventListener('mouseout', function() { btn_solid_mouseover.pause(); });
         e.addEventListener('click', function() { btn_solid_click.currentTime = 0; btn_solid_click.play(); });
     });
+
+    document.querySelectorAll('.container-checkbox').forEach((e) => {
+        e.addEventListener('click', function() { checkbox_click.currentTime = 0; checkbox_click.play(); });
+    });
 }
 
 function typeWriterSFX() {
@@ -36,7 +42,7 @@ function typeWriterSFX() {
         e = document.getElementById("audio-typewriter");
     null != t && (e.play(), setTimeout(function() {
         e.pause()
-    }, 300 + 1e3 / 65 * t.innerText.length))
+    }, 300 + 1000 / 65 * t.innerText.length))
 }
 
 function init_countdowns() {

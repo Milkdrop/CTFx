@@ -81,10 +81,10 @@ foreach ($challenges as $challenge) {
     }
 
     if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
-        $content .= '<form class="form-one-line" style="margin-top: 8px" method="post" action="api">
+        $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
             <input type="hidden" name="action" value="submit_flag" />
             <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
-            <input type="text" name="flag" placeholder="Input flag" required></input>'
+            <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required></input>'
             . form_xsrf_token();
 
         if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {

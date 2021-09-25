@@ -8,7 +8,7 @@ require(CONST_PATH_LAYOUT . '/forms.inc.php');
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0a4";
+$staticVersion = "1.3.0a5";
 
 function head($title = '') {
     global $head_sent;
@@ -257,7 +257,25 @@ function form_action_what($action, $what) {
 }
 
 function form_hidden($name, $value) {
-    return '<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($value) . '"/>';
+    $name = htmlspecialchars($name);
+    $value = htmlspecialchars($value);
+    return '<input type="hidden" name="' . $name . '" value="' . $value . '"/>';
+}
+
+function form_checkbox($name, $checked = false, $custom_style = '') {
+    $input_name = htmlspecialchars(str_replace(' ', '_', strtolower($name)));
+    $printed_name = htmlspecialchars($name);
+    $custom_style = htmlspecialchars($custom_style);
+
+    return '<div class="container-checkbox"' . (!empty($custom_style)?(' style="' . $custom_style . '"'):'').'>
+        <label>
+            <input type="hidden" name="' . $input_name . '" value="0"/>
+            <input type="checkbox" name="' . $input_name . '" value="1" ' . ($checked?'checked':'').'/>
+            <div class="checkbox">
+            <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/cross.png"/>
+            <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/check.png"/>
+            </div>
+        </label>' . $printed_name . '</div>';
 }
 
 function section_subhead ($title, $tagline = '', $strip_html = true) {
