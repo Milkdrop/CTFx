@@ -73,27 +73,48 @@ foreach ($challenges as $challenge) {
             ' . $challenge['points'] . ' Points
         </div>
     </div>';
-    
-    $content = parse_markdown($challenge['description']);
-
-    $files = api_get_files_for_challenge($challenge['id']);
-    $content .= '<div style="margin-top:8px; display:flex">';
-    foreach ($files as $file) {
-        $content .= tag('<a style="margin-right:4px; cursor:pointer" href="' . htmlspecialchars($file['url']) . '" target="_blank">' . htmlspecialchars($file['name']) . '</a>', 'package.png', true, "margin-right:8px", "btn-solid");
-    }
-    $content .= '</div>';
-
-    $hints = api_get_hints_for_challenge($challenge['id']);
-    $content .= '<div>';
-    foreach ($hints as $hint) {
-        $content .= tag('<b style="margin-right:8px">Hint!</b>' . parse_markdown($hint['content']), 'info.png', true);
-    }
-    $content .= '</div>';
-
-    $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true);
 
     if (!empty($challenge['relies_on']) && !$challenge['flaggable']) {
         $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $content . '</div>';
+    } else {
+        $content = parse_markdown($challenge['description']);
+
+        $targets = api_get_targets_for_challenge($challenge['id']);
+        $content .= '<div style="margin-top:8px; display:flex; flex-wrap: wrap">';
+
+        if (count($targets) > 0) {
+            foreach ($targets as $target) {
+                if (stripos($target['url'], "http") === 0) {
+                    $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
+                    . tag('<div style="margin-right:4px">' . htmlspecialchars($target['url']) . '</div>', 'link.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link") . '</a>';
+                } else {
+                    $content .= '<div style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
+                    . tag('<div style="margin-right:4px">' . htmlspecialchars($target['url']) . '</div>', 'target.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link btn-solid-link-unclickable") . '</div>';
+                }
+            }
+        }
+
+        $files = api_get_files_for_challenge($challenge['id']);
+
+        if (count($files) > 0) {
+            foreach ($files as $file) {
+                $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($file['url']) . '" target="_blank">'
+                . tag('<div style="margin-right:4px">' . htmlspecialchars($file['name']) . '</div>', 'package.png', true, "margin-bottom:0px", "btn-solid btn-solid-link") . '</a>';
+            }
+        }
+
+        $content .= '</div>';
+
+        $hints = api_get_hints_for_challenge($challenge['id']);
+        $content .= '<div>';
+        foreach ($hints as $hint) {
+            $content .= tag('<b style="margin-right:8px">Hint!</b>' . parse_markdown($hint['content']), 'info.png', true);
+        }
+        $content .= '</div>';
+        
+        if (!empty($challenge['authors'])) {
+            $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true, "margin-bottom:0px");
+        }
     }
 
     if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {

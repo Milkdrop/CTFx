@@ -45,12 +45,22 @@ foreach ($categories as $category) {
         
         $content = '<textarea name="description" style="width:100%; height:92px; resize:vertical; margin-bottom:8px" class="input-silent" placeholder="Challenge description">' . htmlspecialchars($challenge['description']) . '</textarea>';
 
+        $targets = api_get_targets_for_challenge($challenge['id']);
+        
+        foreach ($targets as $target) {
+            $content .= '<div style="display:flex; flex-grow:1">' 
+            . tag('<input style="flex-grow:1; height:24px" type="text" name="target_url_' . $target['id'] . '" class="input-silent" value="' . htmlspecialchars($target['url']) . '"/>', 'target.png', true, 'flex-grow:1')
+            . '
+            <button style="margin-left: 8px" class="btn-solid btn-solid-danger" name="delete_target_' . $target['id'] . '" value="1" type="submit">Delete</button>
+            </div>';
+        }
+
         $files = api_get_files_for_challenge($challenge['id']);
         
         foreach ($files as $file) {
             $content .= '<div style="display:flex; flex-grow:1">'
-            . tag('<input style="max-width: 88px" type="text" name="file_name_' . $file['id'] . '" class="input-silent" value="' . htmlspecialchars($file['name']) . '"/>', 'package.png', true, "width: 128px; margin-right:8px")
-            . tag('<input style="margin-left:-4px; flex-grow:1" type="text" name="file_url_' . $file['id'] . '" class="input-silent" value="' . htmlspecialchars($file['url']) . '"/>', '', true, 'flex-grow:1')
+            . tag('<input style="max-width: 88px; height:24px" type="text" name="file_name_' . $file['id'] . '" class="input-silent" value="' . htmlspecialchars($file['name']) . '"/>', 'package.png', true, "width: 128px; margin-right:8px")
+            . tag('<input style="margin-left:-4px; flex-grow:1; height:24px" type="text" name="file_url_' . $file['id'] . '" class="input-silent" value="' . htmlspecialchars($file['url']) . '"/>', '', true, 'flex-grow:1')
             . '
             <button style="margin-left: 8px" class="btn-solid btn-solid-danger" name="delete_file_' . $file['id'] . '" value="1" type="submit">Delete</button>
             </div>';
@@ -60,18 +70,19 @@ foreach ($categories as $category) {
         
         foreach ($hints as $hint) {
             $content .= '<div style="display:flex; flex-grow:1">' 
-            . tag('<b>Hint!</b><input style="flex-grow:1; font-weight:normal; margin-left:6px; height:26px" type="text" name="hint_content_' . $hint['id'] . '" class="input-silent" value="' . htmlspecialchars($hint['content']) . '"/>', 'info.png', true, 'flex-grow:1')
+            . tag('<b>Hint!</b><input style="flex-grow:1; font-weight:normal; margin-left:6px; height:24px" type="text" name="hint_content_' . $hint['id'] . '" class="input-silent" value="' . htmlspecialchars($hint['content']) . '"/>', 'info.png', true, 'flex-grow:1')
             . '
             <button style="margin-left: 8px" class="btn-solid btn-solid-danger" name="delete_hint_' . $hint['id'] . '" value="1" type="submit">Delete</button>
             </div>';
         }
         
-        $content .= tag('<b>By:</b><input style="flex-grow:1; font-weight:normal; margin-left:6px; height:26px" type="text" name="authors" class="input-silent" value="' . htmlspecialchars($challenge['authors']) . '"/>', 'user.png', true);
+        $content .= tag('<b>By:</b><input style="flex-grow:1; font-weight:normal; margin-left:6px; height:24px" type="text" name="authors" class="input-silent" value="' . htmlspecialchars($challenge['authors']) . '"/>', 'user.png', true);
         
         $content .= '
         <div style="display:flex; flex-grow:1; margin-bottom:8px">
-            <input style="flex-grow:1; margin-right:8px" class="input-silent" name="new_hint_content" placeholder="New Hint"/>
-            <input style="flex-grow:1" class="input-silent" name="new_file_url" placeholder="New File (URL)"/>
+        <input style="flex-grow:1; margin-right:8px" class="input-silent" name="new_target_url" placeholder="New Target (URL or text)"/>
+            <input style="flex-grow:1; margin-right:8px" class="input-silent" name="new_file_url" placeholder="New File (URL)"/>
+            <input style="flex-grow:1" class="input-silent" name="new_hint_content" placeholder="New Hint"/>
         </div>';
 
         $content .= '

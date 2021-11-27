@@ -47,9 +47,9 @@ function api_get_challenges_from_category($category, $for_user) {
 }
 
 // TODO: Forbid access when challenge is hidden
-function api_get_hints_for_challenge($challenge) {
+function api_get_targets_for_challenge($challenge) {
     if (is_valid_id($challenge)) {
-        return db_query_fetch_all('SELECT id, challenge, content FROM hints WHERE challenge=:challenge', array('challenge' => $challenge));
+        return db_query_fetch_all('SELECT id, challenge, url FROM targets WHERE challenge=:challenge', array('challenge' => $challenge));
     } else {
         return array();
     }
@@ -59,6 +59,15 @@ function api_get_hints_for_challenge($challenge) {
 function api_get_files_for_challenge($challenge) {
     if (is_valid_id($challenge)) {
         return db_query_fetch_all('SELECT id, challenge, name, url FROM files WHERE challenge=:challenge', array('challenge' => $challenge));
+    } else {
+        return array();
+    }
+}
+
+// TODO: Forbid access when challenge is hidden
+function api_get_hints_for_challenge($challenge) {
+    if (is_valid_id($challenge)) {
+        return db_query_fetch_all('SELECT id, challenge, content FROM hints WHERE challenge=:challenge', array('challenge' => $challenge));
     } else {
         return array();
     }

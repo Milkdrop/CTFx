@@ -119,31 +119,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                     update_challenge_points($challenge);
                     
-                    // Edit current hints
-                    $hints = api_get_hints_for_challenge($challenge['id']);
+                    // Edit current targets
+                    $targets = api_get_targets_for_challenge($challenge['id']);
                     
-                    foreach($hints as $hint) {
-                        $edited_hint_value = $_POST['hint_content_' . $hint['id']];
-                        $delete_hint = $_POST['delete_hint_' . $hint['id']];
+                    foreach ($targets as $target) {
+                        $edited_target_url = $_POST['target_url_' . $target['id']];
+                        $delete_target = $_POST['delete_target_' . $target['id']];
 
-                        if (isset($edited_hint_value) && strcmp($edited_hint_value, $hint['content']) !== 0) {
-                            db_update('hints', array('content'=>$edited_hint_value), array('id'=>$hint['id']));
+                        if (isset($edited_target_url) && strcmp($edited_target_url, $target['url']) !== 0) {
+                            db_update('targets', array('url'=>$edited_target_url), array('id'=>$target['id']));
                         }
 
-                        if ($delete_hint == 1) {
-                            db_delete('hints', array('id'=>$hint['id']));
+                        if ($delete_target == 1) {
+                            db_delete('targets', array('id'=>$target['id']));
                         }
                     }
 
-                    // Create new hint
-                    if (!empty($_POST['new_hint_content'])) {
-                        db_insert('hints', array(
+                    // Create new target
+                    if (!empty($_POST['new_target_url'])) {
+                        db_insert('targets', array(
                             'added'=>time(),
                             'challenge'=>$challenge['id'],
-                            'content'=>$_POST['new_hint_content']
+                            'url'=>$_POST['new_target_url']
                         ));
                     }
-                    
+
                     // Edit current files
                     $files = api_get_files_for_challenge($challenge['id']);
                     
@@ -175,6 +175,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         ));
                     }
 
+                    // Edit current hints
+                    $hints = api_get_hints_for_challenge($challenge['id']);
+                    
+                    foreach($hints as $hint) {
+                        $edited_hint_value = $_POST['hint_content_' . $hint['id']];
+                        $delete_hint = $_POST['delete_hint_' . $hint['id']];
+
+                        if (isset($edited_hint_value) && strcmp($edited_hint_value, $hint['content']) !== 0) {
+                            db_update('hints', array('content'=>$edited_hint_value), array('id'=>$hint['id']));
+                        }
+
+                        if ($delete_hint == 1) {
+                            db_delete('hints', array('id'=>$hint['id']));
+                        }
+                    }
+
+                    // Create new hint
+                    if (!empty($_POST['new_hint_content'])) {
+                        db_insert('hints', array(
+                            'added'=>time(),
+                            'challenge'=>$challenge['id'],
+                            'content'=>$_POST['new_hint_content']
+                        ));
+                    }
                 } else {
                     die_with_message_error('No such challenge');
                 }

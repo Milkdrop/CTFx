@@ -50,6 +50,15 @@ CREATE TABLE files (
   KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE targets (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  challenge int(10) unsigned NOT NULL,
+  url text NOT NULL DEFAULT '',
+  PRIMARY KEY (id),
+  KEY challenge (challenge)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE cookie_tokens (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,

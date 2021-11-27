@@ -232,10 +232,47 @@ ul {
 
 .card-content {
 	padding: 16px;
+    line-height: 20px;
 }
 
 label .card-header {
 	cursor: pointer;
+}
+
+/* Markdown */
+
+.card-content h1, .card-content h2, .card-content h3
+.card-content h4, .card-content h5, .card-content h6 {
+    margin: 0px 0px 8px 0px;
+}
+
+.card-content blockquote {
+    background-color: #403D39;
+    padding: 4px;
+    border-left: 4px solid #FFFCF2;
+    margin: 4px 0px;
+}
+
+.card-content ol, .card-content ul {
+    margin: 4px 0px;
+    padding: 0px 16px;
+}
+
+.card-content pre {
+    background-color: #252422;
+    color: #BAC1B8;
+    border-left: 4px solid #403D39;
+    padding: 4px;
+    margin: 8px 0px;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.card-content p code {
+    background-color: #252422;
+    color: #BAC1B8;
+    padding: 2px;
+    font-size: 14px;
 }
 
 /* Buttons */
@@ -268,9 +305,27 @@ label .card-header {
 	color: #FFFCF2;
 }
 
-.btn-solid a {
-    color: #FFFCF2;
-    text-decoration: none;
+.btn-solid-link.btn-solid-danger {
+    background-image: linear-gradient(to right, #403D39 49.9%, #E06552 49.9%);
+}
+
+.btn-solid-link {
+    background-image: linear-gradient(to right, #403D39 49.9%, #35AAFD 49.9%);
+	background-position-x: 4px;
+	background-size: 200% 100%;
+	transition: background-position 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 100ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-solid-link:hover, .btn-solid-link:active {
+    background-position-x: -100%;
+}
+
+.btn-solid-link.btn-solid-link-unclickable:hover, .btn-solid-link.btn-solid-link-unclickable:active {
+	background-position-x: 4px;
+}
+
+.btn-solid-link-unclickable {
+    cursor: auto;
 }
 
 .btn-dynamic {
@@ -655,4 +710,4 @@ input:checked ~ .checkbox img:nth-child(2) {
 @keyframes solve-background-scroll {
 	from { background-position-x: 0; }
 	to { background-position-x: 60px; }
- }
+}
