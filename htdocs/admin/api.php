@@ -71,10 +71,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 if (isset($_POST['title']) && empty($_POST['title'])) die_with_message_error('Challenge cannot have an empty title');
 
                 $challenge = db_query_fetch_one('SELECT * FROM challenges WHERE id=:id', array('id' => $_POST['id']));
-
+                
                 if (!empty($challenge)) {
                     // Normally we would check if the category is valid, but you can't get it wrong unless you intend to
-                    $fields = array('title', 'description', 'flag', 'case_insensitive_flag', 'category', 'relies_on', 'exposed', 'flaggable', 'initial_points', 'minimum_points', 'solves_until_minimum');
+                    $fields = array('title', 'description', 'flag', 'case_insensitive_flag', 'category', 'relies_on',
+                        'exposed', 'flaggable', 'initial_points', 'minimum_points', 'solves_until_minimum', 'authors');
                     
                     foreach ($fields as $entry) {
                         if (isset($_POST[$entry])) {
@@ -103,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             'category'=>$challenge['category'],
                             'title'=>$challenge['title'],
                             'description'=>$challenge['description'],
+                            'authors'=>$challenge['authors'],
                             'flag'=>$challenge['flag'],
                             'case_insensitive_flag'=>$challenge['case_insensitive_flag'],
                             'initial_points'=>$challenge['initial_points'],
@@ -112,10 +114,67 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             'release_time'=>$challenge['release_time'],
                             'flaggable'=>$challenge['flaggable'],
                             'relies_on'=>$challenge['relies_on']
-                        ),  array('id'=>$_POST['id'])
+                        ),  array('id'=>$challenge['id'])
                     );
 
                     update_challenge_points($challenge);
+                    
+                    // Edit current hints
+                    $hints = api_get_hints_for_challenge($challenge['id']);
+                    
+                    foreach($hints as $hint) {
+                        $edited_hint_value = $_POST['hint_content_' . $hint['id']];
+                        $delete_hint = $_POST['delete_hint_' . $hint['id']];
+
+                        if (isset($edited_hint_value) && strcmp($edited_hint_value, $hint['content']) !== 0) {
+                            db_update('hints', array('content'=>$edited_hint_value), array('id'=>$hint['id']));
+                        }
+
+                        if ($delete_hint == 1) {
+                            db_delete('hints', array('id'=>$hint['id']));
+                        }
+                    }
+
+                    // Create new hint
+                    if (!empty($_POST['new_hint_content'])) {
+                        db_insert('hints', array(
+                            'added'=>time(),
+                            'challenge'=>$challenge['id'],
+                            'content'=>$_POST['new_hint_content']
+                        ));
+                    }
+                    
+                    // Edit current files
+                    $files = api_get_files_for_challenge($challenge['id']);
+                    
+                    foreach($files as $file) {
+                        $edited_file_name = $_POST['file_name_' . $file['id']];
+                        $edited_file_url = $_POST['file_url_' . $file['id']];
+                        $delete_file = $_POST['delete_file_' . $file['id']];
+
+                        if (isset($edited_file_name) && strcmp($edited_file_name, $file['name']) !== 0) {
+                            db_update('files', array('name'=>$edited_file_name), array('id'=>$file['id']));
+                        }
+
+                        if (isset($edited_file_url) && strcmp($edited_file_url, $file['url']) !== 0) {
+                            db_update('files', array('url'=>$edited_file_url), array('id'=>$file['id']));
+                        }
+
+                        if ($delete_file == 1) {
+                            db_delete('files', array('id'=>$file['id']));
+                        }
+                    }
+
+                    // Create new file
+                    if (!empty($_POST['new_file_url'])) {
+                        db_insert('files', array(
+                            'added'=>time(),
+                            'challenge'=>$challenge['id'],
+                            'name'=>'files',
+                            'url'=>$_POST['new_file_url']
+                        ));
+                    }
+
                 } else {
                     die_with_message_error('No such challenge');
                 }

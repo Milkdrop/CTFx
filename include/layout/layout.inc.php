@@ -75,17 +75,6 @@ function head($title = '') {
 
     <div id="body-content">';
 
-    if (isset($_GET['generic_success'])) {
-        message_inline ("Action Successful", "green", true, "margin-bottom: 0px");
-        spacer ();
-    } else if (isset($_GET['generic_failure'])) {
-        message_inline ("Action Failed", "red", true, "margin-bottom: 0px");
-        spacer ();
-    } else if (isset($_GET['generic_warning'])) {
-        message_inline ("Something Went Wrong", "red", true, "margin-bottom: 0px");
-        spacer ();
-    }
-
     $head_sent = true;
 }
 
@@ -157,6 +146,16 @@ function collapsible_card($html_title, $html_header_right_side, $html_content) {
         <input id="' . $id . '" class="collapser" type="checkbox">
         <div class="card-content collapsible">' . $html_content . '</div>
     </div>';
+}
+
+function tag($html_content, $icon = '', $inline_tag = false, $extra_style = '', $extra_classes = '') {
+    $icon = htmlspecialchars($icon);
+    $extra_style = htmlspecialchars($extra_style);
+    $extra_classes = htmlspecialchars($extra_classes);
+    
+    return '<div class="tag' . ($inline_tag?' tag-inline':'') . ' ' . $extra_classes . '"' . (!empty($extra_style)?('style="' . $extra_style . '"'):'') . '>'
+        . (!empty($icon)?('<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/' . $icon . '" style="width:20px; height:20px; margin-right:8px"/>'):'')
+        . $html_content . '</div>';
 }
 
 function timestamp($time, $extra_text = '', $substract_with = false) {
@@ -278,69 +277,6 @@ function form_checkbox($name, $checked = false, $custom_style = '') {
         </label>' . $printed_name . '</div>';
 }
 
-function section_subhead ($title, $tagline = '', $strip_html = true) {
-    echo '
-    <div class="row">
-        <div class="col-lg-12">
-          <h3 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h3>
-        </div>
-    </div>
-    ';
-}
-
-function spacer () {
-    echo '<div style="margin-top:5px"></div>';
-}
-
-function tag ($text) {
-    echo '<div class="inline-tag">',$text,'</div>';
-}
-
-function icon ($img) {
-    echo '<span class="icon" style="background-image:url(\''.Config::get('URL_STATIC_RESOURCES').'/img/ui/',$img,'\')"></span>';
-}
-
-function card_simple ($title, $content = "", $icon = "") {
-    echo '<div class="ctfx-simple-card">';
-
-    if (!empty ($icon))
-        echo '<img class="card-icon" src="',htmlspecialchars($icon),'">';
-
-    echo '<div class="card-content">';
-    echo '<div class="card-title">', htmlspecialchars($title),'</div>';
-
-    if (!empty ($content))
-        echo '<div class="card-text">', htmlspecialchars($content),'</div>';
-
-    echo '</div></div>';
-}
-
-function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white") {
-    switch ($color) {
-        case "white": $color = "#F5F5F5"; break;
-        case "gray": $color = "#B0B0B0"; break;
-        default: break;
-    }
-
-    echo '<a href="', htmlspecialchars($url), '" style="color: ', htmlspecialchars($color), '">', $contents, '</a>';
-
-    if (!empty ($icon)) {
-        echo ' <span class="glyphicon ', htmlspecialchars($icon);
-
-        if (!empty ($tooltip)) {
-            echo ' has-tooltip" title="',htmlspecialchars($tooltip),'"
-            data-toggle="tooltip" data-placement="top"';
-        } else
-            echo '"';
-
-        echo "></span>";
-    }
-}
-
-function button_link($text, $url) {
-    return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-1">'.htmlspecialchars($text).'</a>';
-}
-
 function admin_menu() {
     $path = basename(strtok($_SERVER['REQUEST_URI'], '?'));
     $sections = array('Dashboard', 'Challenges');
@@ -380,10 +316,6 @@ function progress_bar ($percent, $type = false, $striped = true) {
         </div>
     </div>
     ';
-}
-
-function print_ri($val){
-    echo '<pre>',print_r($val),'</pre>';
 }
 
 function country_flag_link($country_name, $country_code, $return = false) {

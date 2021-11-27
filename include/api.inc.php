@@ -12,7 +12,7 @@ function api_get_challenges_from_category($category, $for_user) {
     if (is_valid_id($category)) {
         // TODO: If top 3 people submit correct flags at once, no one would have the first blood
         $result = db_query_fetch_all('
-            SELECT c.id, c.title, c.description, c.points, c.relies_on, c.flaggable,
+            SELECT c.id, c.title, c.description, c.authors, c.points, c.relies_on, c.flaggable,
             (SELECT COUNT(id) FROM submissions WHERE challenge = c.id AND correct = 1
                 AND added <= (SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1)) AS solve_position,
                 (SELECT max(added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id2) AS latest_submission_added
@@ -41,6 +41,24 @@ function api_get_challenges_from_category($category, $for_user) {
         }
 
         return $result;
+    } else {
+        return array();
+    }
+}
+
+// TODO: Forbid access when challenge is hidden
+function api_get_hints_for_challenge($challenge) {
+    if (is_valid_id($challenge)) {
+        return db_query_fetch_all('SELECT id, challenge, content FROM hints WHERE challenge=:challenge', array('challenge' => $challenge));
+    } else {
+        return array();
+    }
+}
+
+// TODO: Forbid access when challenge is hidden
+function api_get_files_for_challenge($challenge) {
+    if (is_valid_id($challenge)) {
+        return db_query_fetch_all('SELECT id, challenge, name, url FROM files WHERE challenge=:challenge', array('challenge' => $challenge));
     } else {
         return array();
     }

@@ -182,6 +182,18 @@ ul {
 	100% { height: 0px; } /* This should normally be an alternating animation, but it's now off to test out how it looks */
 }
 
+.collapser {
+	display: none;
+}
+
+.collapser ~ .collapsible {
+	display: none;
+}
+
+.collapser:checked ~ .collapsible {
+	display: inherit;
+}
+
 /* Cards */
 
 .card {
@@ -254,6 +266,11 @@ label .card-header {
 .btn-solid-danger:hover, .btn-solid-danger.active {
 	background-color: #E06552;
 	color: #FFFCF2;
+}
+
+.btn-solid a {
+    color: #FFFCF2;
+    text-decoration: none;
 }
 
 .btn-dynamic {
@@ -329,6 +346,22 @@ label .card-header {
 .tooltip:hover .tooltip-text {
 	opacity: 1;
 	visibility: visible;
+}
+
+/* Tags */
+
+.tag {
+	background-color: #403D39;
+	padding: 4px;
+	margin-bottom: 8px;
+}
+
+.tag-inline {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	min-height: 32px;
+	padding-left: 8px;
 }
 
 /* Messages */
@@ -497,18 +530,6 @@ input:checked ~ .checkbox img:nth-child(1) {
 }
 
 input:checked ~ .checkbox img:nth-child(2) {
-	display: inherit;
-}
-
-.collapser {
-	display: none;
-}
-
-.collapser ~ .collapsible {
-	display: none;
-}
-
-.collapser:checked ~ .collapsible {
 	display: inherit;
 }
 

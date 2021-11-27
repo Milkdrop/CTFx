@@ -31,6 +31,25 @@ CREATE TABLE challenges (
   KEY category (category)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE hints (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  challenge int(10) unsigned NOT NULL,
+  content text NOT NULL,
+  PRIMARY KEY (id),
+  KEY challenge (challenge)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE files (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  added int(10) unsigned NOT NULL,
+  challenge int(10) unsigned NOT NULL,
+  name varchar(255) NOT NULL,
+  url text NOT NULL DEFAULT '',
+  PRIMARY KEY (id),
+  KEY challenge (challenge)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE cookie_tokens (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -64,33 +83,6 @@ CREATE TABLE exceptions (
   user_agent text NOT NULL,
   unread BOOLEAN NOT NULL DEFAULT TRUE,
 PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE files (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  added_by int(10) unsigned NOT NULL,
-  title varchar(255) NOT NULL,
-  size int(10) unsigned NOT NULL DEFAULT '0',
-  md5 char(32) NOT NULL DEFAULT '',
-  download_key char(64) NOT NULL DEFAULT '',
-  challenge int(10) unsigned NOT NULL,
-  url text NOT NULL DEFAULT '',
-  file_type enum('local','remote') NOT NULL DEFAULT 'local',
-  PRIMARY KEY (id),
-  KEY challenge (challenge),
-  UNIQUE KEY (download_key)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE hints (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  challenge int(10) unsigned NOT NULL,
-  added int(10) unsigned NOT NULL,
-  added_by int(10) unsigned NOT NULL,
-  visible tinyint(1) NOT NULL DEFAULT '0',
-  body text NOT NULL,
-  PRIMARY KEY (id),
-  KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE ip_log (

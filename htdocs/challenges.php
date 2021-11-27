@@ -67,15 +67,30 @@ else
 $challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
 
 foreach ($challenges as $challenge) {
-
     $title = '<div style="display:flex"><a href="challenge?id=' . $challenge['id'] . '">' . htmlspecialchars($challenge['title']) . '</a>
         <div class="challenge-points">
             <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/flag.png">
             ' . $challenge['points'] . ' Points
         </div>
     </div>';
-
+    
     $content = parse_markdown($challenge['description']);
+
+    $files = api_get_files_for_challenge($challenge['id']);
+    $content .= '<div style="margin-top:8px; display:flex">';
+    foreach ($files as $file) {
+        $content .= tag('<a style="margin-right:4px; cursor:pointer" href="' . htmlspecialchars($file['url']) . '" target="_blank">' . htmlspecialchars($file['name']) . '</a>', 'package.png', true, "margin-right:8px", "btn-solid");
+    }
+    $content .= '</div>';
+
+    $hints = api_get_hints_for_challenge($challenge['id']);
+    $content .= '<div>';
+    foreach ($hints as $hint) {
+        $content .= tag('<b style="margin-right:8px">Hint!</b>' . parse_markdown($hint['content']), 'info.png', true);
+    }
+    $content .= '</div>';
+
+    $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true);
 
     if (!empty($challenge['relies_on']) && !$challenge['flaggable']) {
         $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $content . '</div>';
