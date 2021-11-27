@@ -59,6 +59,23 @@ CREATE TABLE targets (
   KEY challenge (challenge)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+CREATE TABLE users (
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  email varchar(255) NOT NULL,
+  team_name varchar(255) NOT NULL,
+  added int(10) unsigned NOT NULL,
+  last_active int(10) unsigned NOT NULL DEFAULT '0',
+  passhash varchar(255) NOT NULL,
+  admin tinyint(1) NOT NULL DEFAULT '0',
+  enabled tinyint(1) NOT NULL DEFAULT '1',
+  competing tinyint(1) NOT NULL DEFAULT '1',
+  country_id smallint(5) unsigned NOT NULL,
+  2fa_status enum('disabled','generated','enabled') NOT NULL DEFAULT 'disabled',
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email),
+  UNIQUE KEY team_name (team_name)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 CREATE TABLE cookie_tokens (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -145,30 +162,4 @@ CREATE TABLE two_factor_auth (
   UNIQUE KEY user_id (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE users (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  email varchar(255) NOT NULL,
-  team_name varchar(255) NOT NULL,
-  added int(10) unsigned NOT NULL,
-  last_active int(10) unsigned NOT NULL DEFAULT '0',
-  passhash varchar(255) NOT NULL,
-  download_key char(64) NOT NULL,
-  class tinyint(4) NOT NULL DEFAULT '0',
-  enabled tinyint(1) NOT NULL DEFAULT '1',
-  user_type tinyint(3) unsigned NOT NULL DEFAULT '0',
-  competing tinyint(1) NOT NULL DEFAULT '1',
-  country_id smallint(5) unsigned NOT NULL,
-  achievements int(10) unsigned NOT NULL DEFAULT '0',
-  2fa_status enum('disabled','generated','enabled') NOT NULL DEFAULT 'disabled',
-  PRIMARY KEY (id),
-  UNIQUE KEY email (email),
-  UNIQUE KEY team_name (team_name),
-  UNIQUE KEY (download_key)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE user_types (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  title varchar(255) NOT NULL,
-  description text NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

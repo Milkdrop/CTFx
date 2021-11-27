@@ -1,23 +1,13 @@
-function addLinkMouseoverSFX() {
-    for (var t = document.querySelectorAll("#navbar-buttons a,#navbar-buttons button,.challenge-filename"), e = document.getElementById("audio-nav-mouseover"), n = document.getElementById("audio-nav-click"), o = 0, i = t.length; o < i; o++) {
-        var a = t[o];
-        if (0 == a.classList.contains("active")) {
-            a.addEventListener("mouseenter", function() {
-                e.currentTime = 0, e.play()
-            }), a.addEventListener("click", function() {
-                n.play()
-            })
-        }
-    }
-}
-
-function addButtonMouseoverSFX() {
+function addSFX() {
     var btn_dynamic_mouseover = document.getElementById("audio-btn-dynamic-mouseover");
     var btn_dynamic_click = document.getElementById("audio-btn-dynamic-click");
 
     var btn_solid_mouseover = document.getElementById("audio-btn-solid-mouseover");
     var btn_solid_click = document.getElementById("audio-btn-solid-click");
 
+    var nav_mouseover = document.getElementById("audio-nav-mouseover");
+    var nav_click = document.getElementById("audio-nav-click");
+    
     var checkbox_click = document.getElementById("audio-checkbox-click");
 
     document.querySelectorAll('.btn-dynamic').forEach((e) => {
@@ -26,10 +16,16 @@ function addButtonMouseoverSFX() {
         e.addEventListener('click', function() { btn_dynamic_click.currentTime = 0; btn_dynamic_click.play(); });
     });
 
-    document.querySelectorAll('.btn-solid:not(.active)').forEach((e) => {
+    document.querySelectorAll('.btn-solid:not(.active):not(.btn-solid-link)').forEach((e) => {
         e.addEventListener('mouseenter', function() { btn_solid_mouseover.currentTime = 0; btn_solid_mouseover.play(); });
         e.addEventListener('mouseout', function() { btn_solid_mouseover.pause(); });
         e.addEventListener('click', function() { btn_solid_click.currentTime = 0; btn_solid_click.play(); });
+    });
+
+    document.querySelectorAll('.btn-solid-link:not(.active):not(.btn-solid-link-unclickable), #navbar-buttons a, #navbar-buttons button').forEach((e) => {
+        e.addEventListener('mouseenter', function() { btn_solid_mouseover.currentTime = 0; nav_mouseover.play(); });
+        e.addEventListener('mouseout', function() { nav_mouseover.pause(); });
+        e.addEventListener('click', function() { nav_click.currentTime = 0; nav_click.play(); });
     });
 
     document.querySelectorAll('.container-checkbox').forEach((e) => {
@@ -73,14 +69,6 @@ function init_countdowns() {
     }, 1000);
 }
 
-
-function ctfx_assign_sfx() {
-    typeWriterSFX();
-    addLinkMouseoverSFX();
-    addButtonMouseoverSFX();
-}
-
 init_countdowns();
-
-
-ctfx_assign_sfx();
+typeWriterSFX();
+addSFX();

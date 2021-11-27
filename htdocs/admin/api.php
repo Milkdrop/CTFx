@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         $delete_target = $_POST['delete_target_' . $target['id']];
 
                         if (isset($edited_target_url) && strcmp($edited_target_url, $target['url']) !== 0) {
-                            db_update('targets', array('url'=>$edited_target_url), array('id'=>$target['id']));
+                            db_update('targets', array('url'=>trim($edited_target_url)), array('id'=>$target['id']));
                         }
 
                         if ($delete_target == 1) {
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         db_insert('targets', array(
                             'added'=>time(),
                             'challenge'=>$challenge['id'],
-                            'url'=>$_POST['new_target_url']
+                            'url'=>trim($_POST['new_target_url'])
                         ));
                     }
 
@@ -153,11 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         $delete_file = $_POST['delete_file_' . $file['id']];
 
                         if (isset($edited_file_name) && strcmp($edited_file_name, $file['name']) !== 0) {
-                            db_update('files', array('name'=>$edited_file_name), array('id'=>$file['id']));
+                            db_update('files', array('name'=>trim($edited_file_name)), array('id'=>$file['id']));
                         }
 
                         if (isset($edited_file_url) && strcmp($edited_file_url, $file['url']) !== 0) {
-                            db_update('files', array('url'=>$edited_file_url), array('id'=>$file['id']));
+                            db_update('files', array('url'=>trim($edited_file_url)), array('id'=>$file['id']));
                         }
 
                         if ($delete_file == 1) {
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             'added'=>time(),
                             'challenge'=>$challenge['id'],
                             'name'=>'files',
-                            'url'=>$_POST['new_file_url']
+                            'url'=>trim($_POST['new_file_url'])
                         ));
                     }
 
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         $delete_hint = $_POST['delete_hint_' . $hint['id']];
 
                         if (isset($edited_hint_value) && strcmp($edited_hint_value, $hint['content']) !== 0) {
-                            db_update('hints', array('content'=>$edited_hint_value), array('id'=>$hint['id']));
+                            db_update('hints', array('content'=>trim($edited_hint_value)), array('id'=>$hint['id']));
                         }
 
                         if ($delete_hint == 1) {
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         db_insert('hints', array(
                             'added'=>time(),
                             'challenge'=>$challenge['id'],
-                            'content'=>$_POST['new_hint_content']
+                            'content'=>trim($_POST['new_hint_content'])
                         ));
                     }
                 } else {

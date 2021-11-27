@@ -64,18 +64,32 @@ else
     echo '<div style="margin-bottom: 8px"></div>';
 
 // Write challenges
-$challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
+if (user_is_staff()) {
+    $challenges = api_admin_get_challenges_from_category($current_category['id']);
+} else {
+    $challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
+}
 
 foreach ($challenges as $challenge) {
     $title = '<div style="display:flex"><a href="challenge?id=' . $challenge['id'] . '">' . htmlspecialchars($challenge['title']) . '</a>
         <div class="challenge-points">
             <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/flag.png">
-            ' . $challenge['points'] . ' Points
-        </div>
+            ' . $challenge['points'] . ' Points';
+    
+    if ($challenge['exposed'] == 0) {
+        $title .= '<img style="margin-left:8px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/hidden.png"> Hidden';
+    }
+
+    $title .= '</div>
     </div>';
 
-    if (!empty($challenge['relies_on']) && !$challenge['flaggable']) {
-        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $content . '</div>';
+    if ($challenge['dependency_unsatisfied']) {
+        $relies_on_data = $challenge['relies_on_data'];
+        $msg = '<b>To see this challenge, you must first solve <a href="challenge?id=' . $relies_on_data['id'] . '">'
+        . htmlspecialchars($relies_on_data['title']) . '</a>'
+        . ' from <a href="challenges?category=' . $relies_on_data['category'] . '">' . htmlspecialchars($relies_on_data['category_title']) . '</a></b>';
+
+        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $msg . '</div>';
     } else {
         $content = parse_markdown($challenge['description']);
 
@@ -86,10 +100,10 @@ foreach ($challenges as $challenge) {
             foreach ($targets as $target) {
                 if (stripos($target['url'], "http") === 0) {
                     $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
-                    . tag('<div style="margin-right:4px">' . htmlspecialchars($target['url']) . '</div>', 'link.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link") . '</a>';
+                    . tag(htmlspecialchars($target['url']), 'link.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link") . '</a>';
                 } else {
                     $content .= '<div style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
-                    . tag('<div style="margin-right:4px">' . htmlspecialchars($target['url']) . '</div>', 'target.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link btn-solid-link-unclickable") . '</div>';
+                    . tag(htmlspecialchars($target['url']), 'target.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link btn-solid-link-unclickable") . '</div>';
                 }
             }
         }
@@ -99,7 +113,7 @@ foreach ($challenges as $challenge) {
         if (count($files) > 0) {
             foreach ($files as $file) {
                 $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($file['url']) . '" target="_blank">'
-                . tag('<div style="margin-right:4px">' . htmlspecialchars($file['name']) . '</div>', 'package.png', true, "margin-bottom:0px", "btn-solid btn-solid-link") . '</a>';
+                . tag(htmlspecialchars($file['name']), 'package.png', true, "margin-bottom:0px", "btn-solid btn-solid-link") . '</a>';
             }
         }
 
@@ -115,47 +129,47 @@ foreach ($challenges as $challenge) {
         if (!empty($challenge['authors'])) {
             $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true, "margin-bottom:0px");
         }
-    }
 
-    if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
-        $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
-            <input type="hidden" name="action" value="submit_flag" />
-            <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
-            <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
-            . form_xsrf_token();
-
-        if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
-            display_captcha();
+        if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
+            $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
+                <input type="hidden" name="action" value="submit_flag" />
+                <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
+                <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
+                . form_xsrf_token();
+    
+            if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
+                display_captcha();
+            }
+    
+            $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
+            $content .= '</form>';
         }
-
-        $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
-        $content .= '</form>';
-    }
-
-    if ($challenge['solve_position'] != 0) {
-        $extra_class = 'card-challenge-solved';
-        
-        if ($challenge['solve_position'] === 1) {
-            $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
-            $solved_message = 'FIRST BLOOD';
-            $solved_image = '/img/icons/first.png';
-        } else if ($challenge['solve_position'] === 2) {
-            $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
-            $solved_message = 'SECOND BLOOD';
-            $solved_image = '/img/icons/second.png'; 
-        } else if ($challenge['solve_position'] === 3) {
-            $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
-            $solved_message = 'THIRD BLOOD';
-            $solved_image = '/img/icons/third.png'; 
+    
+        if ($challenge['solve_position'] != 0) {
+            $extra_class = 'card-challenge-solved';
+            
+            if ($challenge['solve_position'] === 1) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
+                $solved_message = 'FIRST BLOOD';
+                $solved_image = '/img/icons/first.png';
+            } else if ($challenge['solve_position'] === 2) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
+                $solved_message = 'SECOND BLOOD';
+                $solved_image = '/img/icons/second.png'; 
+            } else if ($challenge['solve_position'] === 3) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
+                $solved_message = 'THIRD BLOOD';
+                $solved_image = '/img/icons/third.png'; 
+            } else {
+                $solved_message = 'SOLVED';
+                $solved_image = '/img/icons/check.png';
+            }
+            
+            $side_header = $solved_message . '<img src="' . Config::get('URL_STATIC_RESOURCES') . $solved_image . '">';
         } else {
-            $solved_message = 'SOLVED';
-            $solved_image = '/img/icons/check.png';
+            $extra_class = '';
+            $side_header = '';
         }
-        
-        $side_header = $solved_message . '<img src="' . Config::get('URL_STATIC_RESOURCES') . $solved_image . '">';
-    } else {
-        $extra_class = '';
-        $side_header = '';
     }
 
     echo card($title, $side_header, $content, $extra_class);

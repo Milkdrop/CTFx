@@ -30,5 +30,5 @@ session_set_cookie_params(
     true
 );
 
-ini_set('session.gc_maxlifetime', 16 * 60 * 60);
+ini_set('session.gc_maxlifetime', Config::get('MELLIVORA_CONFIG_SESSION_TIMEOUT'));
 session_start();

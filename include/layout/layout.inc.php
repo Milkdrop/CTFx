@@ -152,13 +152,13 @@ function tag($html_content, $icon = '', $inline_tag = false, $extra_style = '', 
     $icon = htmlspecialchars($icon);
     $extra_style = htmlspecialchars($extra_style);
     $extra_classes = htmlspecialchars($extra_classes);
-    
+
     return '<div class="tag' . ($inline_tag?' tag-inline':'') . ' ' . $extra_classes . '"' . (!empty($extra_style)?('style="' . $extra_style . '"'):'') . '>'
         . (!empty($icon)?('<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/' . $icon . '" style="width:20px; height:20px; margin-right:8px"/>'):'')
         . $html_content . '</div>';
 }
 
-function timestamp($time, $extra_text = '', $substract_with = false) {
+function timestamp($time, $extra_text = '', $substract_with = false, $dont_change = false) {
     $extra_text = htmlspecialchars($extra_text);
     
     $full_timestamp = formatted_date($time);
@@ -190,7 +190,7 @@ function timestamp($time, $extra_text = '', $substract_with = false) {
     else if ($minutes) $content = $minutes . " Minute" . ($minutes==1?"":"s") . ", " . $seconds . " Second" . ($seconds==1?"":"s");
     else $content = $seconds . " Second" . ($seconds==1?"":"s");
 
-    return tooltip('<span class="countdown" time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
+    return tooltip('<span ' . ($dont_change?'':'class="countdown"') . ' time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
 }
 
 function tooltip($html_content, $tooltip_text) {

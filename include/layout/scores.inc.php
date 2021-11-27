@@ -61,7 +61,7 @@ function podium ($scores) {
 
 function challenges($categories) {
     $now = time();
-    $num_participating_users = get_num_participating_users();
+    $num_participating_users = get_num_participating_users(); // TODO: function doesnt exist
 
     foreach($categories as $category) {
 

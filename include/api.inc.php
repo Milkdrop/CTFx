@@ -26,16 +26,15 @@ function api_get_challenges_from_category($category, $for_user) {
             )
         );
 
+
         foreach ($result as &$challenge) {
             if (!empty($challenge['relies_on'])) {
                 $user_has_solved = db_query_fetch_one('SELECT max(correct) AS solved FROM submissions WHERE challenge=:challenge AND user_id=:user_id', array("challenge" => $challenge['relies_on'], "user_id" => $for_user))['solved'];
                 if (!$user_has_solved) {
                     $relies_on_data = db_query_fetch_one('SELECT ch.id, ch.title, ch.category, ca.title AS category_title FROM challenges AS ch LEFT JOIN categories AS ca ON ca.id = ch.category WHERE ch.id=:challenge', array("challenge" => $challenge['relies_on']));
                     
-                    $challenge['flaggable'] = 0;
-                    $challenge['description'] = '**To see this challenge, you must first solve ['
-                        .  htmlspecialchars($relies_on_data['title']) . '](challenge?id=' . $relies_on_data['id'] . ')'
-                        . ' from [' . htmlspecialchars($relies_on_data['category_title']) . '](challenges?category=' . $relies_on_data['category'] . ')**';
+                    $challenge['relies_on_data'] = $relies_on_data;
+                    $challenge['dependency_unsatisfied'] = true;    
                 }
             }
         }
@@ -44,6 +43,50 @@ function api_get_challenges_from_category($category, $for_user) {
     } else {
         return array();
     }
+}
+
+function api_get_challenge_info($challenge) {
+    if (is_valid_id($challenge)) {
+        $result = db_query_fetch_one('
+            SELECT c.id, c.title, c.description, c.authors, c.points, c.solves, c.release_time, c.relies_on, c.flaggable FROM challenges AS c
+            WHERE id = :id AND exposed = 1',
+            array(
+                'id' => $challenge
+            )
+        );
+
+        // Make sure to hide info if the user hasn't satisfied the dependency
+        return $result;
+    } else {
+        return array();
+    }
+}
+
+function get_submissions_for_challenge($challenge) {
+    if (is_valid_id($challenge)) {
+        return db_query_fetch_all(
+            'SELECT
+                u.id AS user_id,
+                u.team_name,
+                MAX(s.added) AS solve_timestamp,
+                MAX(s.correct) AS has_solve,
+                COUNT(s.id) AS tries
+            FROM users AS u
+            LEFT JOIN submissions AS s ON s.user_id = u.id
+            WHERE
+                u.competing = 1 AND
+                s.challenge = :id
+            GROUP BY u.id
+            ORDER BY solve_timestamp ASC',
+            array('id' => $_GET['id'])
+        );
+    } else {
+        return array();
+    }
+}
+
+function get_num_participating_users() {
+    return db_query_fetch_one('SELECT COUNT(*) AS num FROM users')['num'];
 }
 
 // TODO: Forbid access when challenge is hidden

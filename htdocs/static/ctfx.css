@@ -408,6 +408,7 @@ label .card-header {
 .tag {
 	background-color: #403D39;
 	padding: 4px;
+    padding-right: 8px;
 	margin-bottom: 8px;
 }
 
@@ -651,7 +652,8 @@ input:checked ~ .checkbox img:nth-child(2) {
 	font-size: 20px;
 	display: flex;
 	align-items: center;
-	margin-left: 8px;
+	margin: 0px 8px;
+    flex-shrink: 0;
 }
 
 .challenge-points img {
@@ -710,4 +712,51 @@ input:checked ~ .checkbox img:nth-child(2) {
 @keyframes solve-background-scroll {
 	from { background-position-x: 0; }
 	to { background-position-x: 60px; }
+}
+
+/* Tables */
+
+table {
+    table-layout: fixed;
+}
+
+table, tbody, thead {
+    width: 100%;
+    background-color: #403D39;
+    border-spacing: 0px;
+}
+
+tr {
+    display: flex;
+    flex-grow: 1;
+}
+
+tr a {
+    color: #FFFCF2;
+    font-weight: bold;
+}
+
+td .tooltip {
+    justify-content: left;
+}
+
+thead tr {
+    border-bottom: 4px solid #35AAFD;
+}
+
+tbody tr {
+    border-top: 4px solid #252422;
+}
+
+tbody tr:hover {
+    background-color:rgba(255, 252, 242, .1);
+}
+
+td, th {
+    flex-grow: 1;
+    padding: 4px;
+}
+
+th {
+    text-align: left;
 }
