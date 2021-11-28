@@ -26,7 +26,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
     $solve_percentage = number_format(((count($correct_submissions) / get_num_participating_users()) * 100), 1);
 
     echo '<div class="pre-category-name">Challenge:</div>
-    <div style="font-size:48px" class="category-name">' . $challenge['title'] . '</div>
+    <div style="font-size:48px" class="category-name">' . htmlspecialchars($challenge['title']) . '</div>
     <div style="display:flex; margin-top:8px">'
     . tag('<b>' . $challenge['points'] . ' Points</b>', "flag.png", true, 'margin-right:8px')
     . tag('<b>' . $challenge['solves'] . ' Solves (' . $solve_percentage . '% of users)</b>', "check.png", true, 'margin-right:8px')
@@ -41,8 +41,8 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         <thead>
             <tr>
                 <th style="flex-basis: 10%;">Position</th>
-                <th style="flex-basis: 60%;">Team</th>
-                <th style="flex-basis: 30%;">Solved</th>
+                <th style="flex-basis: 55%;">Team</th>
+                <th style="flex-basis: 35%;">Solved</th>
             </tr>
         </thead>
         <tbody>';
@@ -51,8 +51,8 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
         foreach ($correct_submissions as $submission) {
             echo '<tr>
                 <td style="flex-basis: 10%;">' . $i . '</td>
-                <td style="flex-basis: 60%; display: inline; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">' . htmlspecialchars($submission['team_name']) . '</a></td>
-                <td style="flex-basis: 30%;">' . timestamp($submission['solve_timestamp'], 'after release (after ' . htmlspecialchars($submission['tries']) . ' tries)', $challenge['release_time'], true) . '</td>
+                <td style="flex-basis: 55%; display: inline; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">' . htmlspecialchars($submission['team_name']) . '</a></td>
+                <td style="flex-basis: 35%;">' . timestamp($submission['solve_timestamp'], 'after release (' . htmlspecialchars($submission['tries']) . ' tries)', $challenge['release_time'], true) . '</td>
               </tr>
               ';
             $i++;

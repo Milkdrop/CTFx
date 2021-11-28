@@ -1,7 +1,5 @@
 <?php
-require(CONST_PATH_LAYOUT . '/messages.inc.php');
 require(CONST_PATH_LAYOUT . '/scores.inc.php');
-require(CONST_PATH_LAYOUT . '/user.inc.php');
 require(CONST_PATH_LAYOUT . '/forms.inc.php');
 
 $head_sent = false;
@@ -53,7 +51,8 @@ function head($title = '') {
                         . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
                 }
                 
-                echo '<form action="/actions/logout" method="post">' . form_xsrf_token() . '
+                echo '<form action="/api" method="post">' . form_xsrf_token() . '
+                    <input type="hidden" name="action" value="logout"/>
                     <button type="submit" id="logout-button">Logout</button>
                 </form>';
 

@@ -10,22 +10,15 @@ function api_get_categories() {
 
 function api_get_challenges_from_category($category, $for_user) {
     if (is_valid_id($category)) {
-        // TODO: If top 3 people submit correct flags at once, no one would have the first blood
         $result = db_query_fetch_all('
-            SELECT c.id, c.title, c.description, c.authors, c.points, c.relies_on, c.flaggable,
-            (SELECT COUNT(id) FROM submissions WHERE challenge = c.id AND correct = 1
-                AND added <= (SELECT added FROM submissions WHERE challenge = c.id AND user_id = :user_id AND correct = 1)) AS solve_position,
-                (SELECT max(added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id2) AS latest_submission_added
+            SELECT c.id, c.title, c.description, c.authors, c.points, c.exposed, c.relies_on, c.flaggable
             FROM challenges AS c
-            WHERE category = :category AND exposed = 1
+            WHERE c.category = :category AND c.exposed = 1
             ORDER BY points ASC, c.id ASC',
             array(
-                'category' => $category,
-                'user_id' => $for_user,
-                'user_id2' => $for_user
+                'category' => $category
             )
         );
-
 
         foreach ($result as &$challenge) {
             if (!empty($challenge['relies_on'])) {
@@ -37,6 +30,14 @@ function api_get_challenges_from_category($category, $for_user) {
                     $challenge['dependency_unsatisfied'] = true;    
                 }
             }
+
+            $last_submission = db_query_fetch_one(
+                'SELECT added, solve_position FROM submissions WHERE challenge = :challenge AND user_id = :user_id ORDER BY added DESC LIMIT 1',
+                array('challenge'=>$challenge['id'], 'user_id'=>$for_user)
+            );
+
+            $challenge['solve_position'] = $last_submission['solve_position'];
+            $challenge['last_submission'] = $last_submission['added'];
         }
 
         return $result;
@@ -112,7 +113,7 @@ function get_user_info($user) {
     }
 }
 
-function get_countries() {
+function api_get_countries() {
     return db_select_all('countries', array('id', 'country_name'), null, 'country_name ASC');
 }
 

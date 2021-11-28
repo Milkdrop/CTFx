@@ -127,6 +127,10 @@ ul {
 	margin: 0px;
 }
 
+small {
+    color: #BAC1B8;    
+}
+
 /* Sectioning */
 
 .section-header {
@@ -392,8 +396,8 @@ label .card-header {
 	top: 100%;
 	left: 50%;
 	transform: translateY(4px);
-	margin-left: -5px;
-	border-width: 5px;
+	margin-left: -4px;
+	border-width: 4px;
 	border-style: solid;
 	border-color: #BAC1B8 transparent transparent transparent;
 }

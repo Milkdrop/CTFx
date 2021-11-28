@@ -18,13 +18,13 @@ function get_two_factor_auth_qr_url() {
     );
 
     if (empty($user['id']) || empty($user['secret'])) {
-        message_error('No two-factor authentication tokens found for this user.');
+        die_with_message_error('No two-factor authentication tokens found.');
     }
 
     return Google2FA::get_qr_code_url($user['team_name'], $user['secret']);
 }
 
-function validate_two_factor_auth_code($code) {
+function validate_two_factor_auth_code($for_user, $code) {
     require_once(CONST_PATH_THIRDPARTY.'/Google2FA/Google2FA.php');
 
     $valid = false;
@@ -35,14 +35,14 @@ function validate_two_factor_auth_code($code) {
             'secret'
         ),
         array(
-            'user_id'=>$_SESSION['id']
+            'user_id'=>$for_user
         )
     );
 
     try {
         $valid = Google2FA::verify_key($secret['secret'], $code);
     } catch (Exception $e) {
-        message_error('Could not verify key.');
+        die_with_message_error('Error while validating 2FA code');
     }
 
     return $valid;

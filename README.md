@@ -51,17 +51,17 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:
-  - `CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;`
-  - `GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';` - Make sure you change the default db username and password!
+  - `CREATE DATABASE ctfx CHARACTER SET utf8 COLLATE utf8_general_ci;`
+  - `GRANT ALL PRIVILEGES ON ctfx.* TO 'ctfx'@'%' IDENTIFIED BY 'ctfx_pass';` - Make sure you change the default db username and password!
 
   - exit `mysql`
-  - `sudo mysql < install/sql/001-mellivora.sql`
+  - `sudo mysql < install/sql/001-ctfx.sql`
   - `sudo mysql < install/sql/002-countries.sql`
 
 **- Create Admin User**
   - Register your admin account on the website (and enable 2FA Authentication preferably)
   - Logout of your account
-  - sudo into `mysql` and run the query `USE mellivora; UPDATE users SET class=100 WHERE id=1;`
+  - sudo into `mysql` and run the query `USE ctfx; UPDATE users SET class=100 WHERE id=1;`
 
 ## Installation Tips:
 - It is **recommended** that you change the default database password, and if you do so you must also change it in `include/config/db.inc.php`

@@ -119,16 +119,6 @@ CREATE TABLE news (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-CREATE TABLE reset_password (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  user_id int(10) unsigned NOT NULL,
-  ip int(10) unsigned NOT NULL,
-  auth_key char(64) NOT NULL,
-  PRIMARY KEY (id),
-  KEY user_key (user_id,auth_key)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 CREATE TABLE submissions (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
@@ -136,6 +126,7 @@ CREATE TABLE submissions (
   user_id int(10) unsigned NOT NULL,
   flag text NOT NULL,
   correct tinyint(1) NOT NULL DEFAULT '0',
+  solve_position int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id),
   KEY challenge (challenge),
   KEY user_id (user_id),
@@ -149,5 +140,4 @@ CREATE TABLE two_factor_auth (
   PRIMARY KEY (id),
   UNIQUE KEY user_id (user_id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
 

@@ -2,11 +2,9 @@
 
 require('../include/ctfx.inc.php');
 
-login_session_refresh();
-
 send_cache_headers('home', Config::get('MELLIVORA_CONFIG_CACHE_TIME_HOME'));
 
-head(lang_get('home'));
+head('Home');
 
 echo '<div id="home-logo"><img src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo.png"></div>';
 

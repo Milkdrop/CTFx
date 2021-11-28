@@ -23,17 +23,6 @@ function generate_random_int($min = 0, $max = PHP_INT_MAX) {
     return $generator->generateInt($min, $max);
 }
 
-function generate_random_string($length, $alphabet = null) {
-    $factory = new RandomLib\Factory;
-    $generator = $factory->getMediumStrengthGenerator();
-
-    if (empty($alphabet)) {
-        return $generator->generateString($length);
-    } else {
-        return $generator->generateString($length, $alphabet);
-    }
-}
-
 function get_client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'];
 
@@ -112,7 +101,7 @@ function validate_url($url) {
 
     if (!$valid) {
         log_exception(new Exception('Invalid URL in redirect: ' . $url));
-        message_error('Invalid redirect URL. This has been reported.');
+        die_with_message_error('Invalid redirect URL. This has been reported.');
     }
 }
 

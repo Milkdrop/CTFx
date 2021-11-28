@@ -7,6 +7,8 @@ require('../include/ctfx.inc.php');
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
+    validate_xsrf_token();
+
     if ($_POST['action'] == 'register') {
         if (Config::get('ENABLE_CAPTCHA')) {
             validate_captcha();
@@ -22,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             die_with_message_error('Form data is invalid');
         }
 
-        if (empty($email) || empty($password) || empty($team_name)) {
+        if (empty($email) || empty($password) || empty($team_name) || empty($country)) {
             die_with_message_error('Form data is empty');
         }
 
@@ -63,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 'added'=>time(),
                 'team_name'=>$team_name,
                 'email'=>$email,
-                'passhash'=>password_hash($password),
+                'passhash'=>password_hash($password, PASSWORD_DEFAULT),
                 'country_id'=>$country,
                 'last_active'=>time()
             )
@@ -71,19 +73,196 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         
         if ($user_id) {
             login($user_id, false);
-            redirect(Config::get('REDIRECT_INDEX_TO'));
         } else {
             die_with_message_error('Could not register');
         }
-    }
+    } else if ($_POST['action'] == 'login') {
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
 
-    validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
+        if (!is_string($email) || !is_string($password)) {
+            die_with_message_error('Form data is invalid');
+        }
 
-    if ($_POST['action'] == 'submit_flag') {
-        enforce_authentication();
+        if (empty($email) || empty($password)) {
+            die_with_message_error('Form data is empty');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            die_with_message_error('Invalid email');
+        }
+
+        $user = db_query_fetch_one(
+            'SELECT id, email, passhash, admin, 2fa_status FROM users WHERE email = :email',
+            array('email' => $email)
+        );
         
+        if (is_valid_id($user['id']) && password_verify($password, $user['passhash'])) {
+            if ($user['2fa_status'] == 'enabled') {
+                $_SESSION['id_before_2fa'] = $user['id'];
+                $_SESSION['admin_before_2fa'] = ($user['admin'] == 1);
+                redirect('two_factor_auth');
+            } else {
+                login($user['id'], $user['admin'] == 1);
+            }
+        } else {
+            die_with_message_error("Wrong email or password.");
+        }
+    } else if ($_POST['action'] == 'login_2fa') {
+        if (!validate_two_factor_auth_code($_SESSION['id_before_2fa'], $_POST['code'])) {
+            die_with_message_error('Incorrect 2FA Code');
+        }
+
+        login($_SESSION['id_before_2fa'], $_SESSION['admin_before_2fa']);
+    }
+    
+    enforce_authentication();
+    
+    if ($_POST['action'] == 'logout') {
+        logout();
+    } else if ($_POST['action'] == 'update_profile') {
+        $team_name = trim($_POST['team_name']);
+        $email = trim($_POST['email']);
+        $country = trim($_POST['country']);
+
+        if (!is_string($team_name) || !is_string($email) || !is_string($country)) {
+            die_with_message_error('Form data is invalid');
+        }
+
+        if (empty($team_name) || empty($email) || empty($country)) {
+            die_with_message_error('Form data is empty');
+        }
+
+        if (strlen($team_name) > Config::get('MAX_TEAM_NAME_LENGTH')
+        || strlen($team_name) < Config::get('MIN_TEAM_NAME_LENGTH')) {
+            die_with_message_error('Team name is too long or too short');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            die_with_message_error('Invalid email');
+        }
+
+        $num_countries = db_select_one(
+            'countries',
+            array('COUNT(*) AS num')
+        )['num'];
+
+        if (!is_valid_id($country) || $country > $num_countries) {
+            die_with_message_error('Invalid country ID');
+        }
+
+        $user = db_query_fetch_one(
+            'SELECT id FROM users WHERE (team_name = :team_name OR email = :email) AND id != :id',
+            array('team_name' => $team_name, 'email' => $email, 'id' => $_SESSION['id'])
+        );
+        
+        if (empty($user)) {
+            db_update('users',
+                array(
+                'team_name'=>$team_name,
+                'email'=>$email,
+                'country_id'=>$country
+                ), array('id'=>$_SESSION['id'])
+            );
+            
+            redirect('profile');
+        } else {
+            die_with_message_error('There\'s already a user with this team name or e-mail.');
+        }
+
+    } else if ($_POST['action'] == 'change_password') {
+        $current_password = trim($_POST['current_password']);
+        $new_password = trim($_POST['new_password']);
+        $new_password_repeat = trim($_POST['new_password_repeat']);
+
+        if (!is_string($current_password) || !is_string($new_password) || !is_string($new_password_repeat)) {
+            die_with_message_error('Form data is invalid');
+        }
+
+        if (empty($current_password) || empty($new_password) || empty($new_password_repeat)) {
+            die_with_message_error('Form data is empty');
+        }
+
+        $user = db_query_fetch_one(
+            'SELECT passhash FROM users WHERE id = :id',
+            array('id' => $_SESSION['id'])
+        );
+
+        if (password_verify($current_password, $user['passhash'])) {
+            if (strcmp($new_password, $new_password_repeat) === 0) {
+                db_update('users',
+                    array(
+                        'passhash'=>password_hash($new_password, PASSWORD_DEFAULT)
+                    ), array('id'=>$_SESSION['id'])
+                );
+
+                redirect('profile');
+            } else {
+                die_with_message_error('New password doesn\'t match its repeat.');
+            }
+        } else {
+            die_with_message_error('Wrong password.');
+        }
+
+    } else if ($_POST['action'] == 'generate_2fa') {
+        db_delete('two_factor_auth',
+            array('user_id'=>$_SESSION['id'])
+        );
+
+        // TODO - Please...
+        $secret_key = '';
+        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+        for ($i = 0; $i < 32; $i++) {
+            $secret_key .= $alphabet[random_int(0, strlen($alphabet) - 1)];
+        }
+
+        db_insert('two_factor_auth',
+            array(
+                'user_id'=>$_SESSION['id'],
+                'secret'=>$secret_key
+            )
+        );
+
+        db_update('users',
+            array('2fa_status'=>'generated'),
+            array('id'=>$_SESSION['id'])
+        );
+
+        redirect('profile');
+    
+    } else if ($_POST['action'] == 'enable_2fa') {
+        if (!validate_two_factor_auth_code($_SESSION['id'], $_POST['code'])) {
+            die_with_message_error('Incorrect 2FA Code');
+        }
+
+        db_update('users',
+            array('2fa_status'=>'enabled'),
+            array('id'=>$_SESSION['id'])
+        );
+
+        redirect('profile');
+
+    } else if ($_POST['action'] == 'disable_2fa') {
+
+        db_update('users',
+            array('2fa_status'=>'disabled'),
+            array('id'=>$_SESSION['id'])
+        );
+
+        db_delete('two_factor_auth',
+            array('user_id'=>$_SESSION['id'])
+        );
+
+        redirect('profile');
+
+    } else if ($_POST['action'] == 'submit_flag') {
         if (!ctf_started()) {
             die_with_message_error('CTF has not started yet');
+        }
+
+        if (user_is_staff()) {
+            die_with_message_error('Temporary: Admins can\'t solve challenges');
         }
 
         validate_id($_POST['challenge']);
@@ -153,6 +332,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 }
             }
 
+            // TODO - Non-competing users make the API sad
+            $solve_position = 0;
+            if ($correct) {
+                $solve_position = db_query_fetch_one(
+                    'SELECT COUNT(id) AS num FROM submissions WHERE challenge = :challenge AND correct = 1',
+                    array('challenge' => $_POST['challenge'])
+                )["num"] + 1;
+            }
+            
             db_insert(
                 'submissions',
                 array(
@@ -160,7 +348,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     'challenge'=>$_POST['challenge'],
                     'user_id'=>$_SESSION['id'],
                     'flag'=>$_POST['flag'],
-                    'correct'=>($correct ? '1' : '0')
+                    'correct'=>($correct ? '1' : '0'),
+                    'solve_position'=>$solve_position
                 )
             );
 

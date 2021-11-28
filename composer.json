@@ -15,12 +15,7 @@
     "vendor-dir": "include/thirdparty/composer/vendor"
   },
   "require": {
-    "ircmaxell/password-compat": "dev-master",
-    "ircmaxell/random-lib": "1.2.*",
-    "google/recaptcha": "~1.1",
-    "phpmailer/phpmailer": "5.*",
-    "pear/cache_lite": "~1.8",
-    "aws/aws-sdk-php": "3.*"
+    "pear/cache_lite": "~1.8"
   },
   "require-dev": {
     "codeception/codeception": "2.*"

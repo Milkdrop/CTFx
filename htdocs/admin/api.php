@@ -7,7 +7,7 @@ enforce_authentication(true);
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
+    validate_xsrf_token();
 
     if ($_POST['action'] == 'create') {
         switch ($_POST['what']) {
@@ -220,6 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         db_delete('submissions', array('challenge'=>$challenge['id']));
                         db_delete('files', array('challenge'=>$challenge['id']));
                         db_delete('hints', array('challenge'=>$challenge['id']));
+                        db_delete('targets', array('challenge'=>$challenge['id']));
                         db_delete('challenges', array('id'=>$challenge['id']));
                     }
 
@@ -229,6 +230,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 case 'challenge': {
                     db_delete('submissions', array('challenge'=>$_POST['id']));
                     db_delete('files', array('challenge'=>$_POST['id']));
+                    db_delete('hints', array('challenge'=>$_POST['id']));
+                    db_delete('targets', array('challenge'=>$_POST['id']));
                     db_delete('challenges', array('id'=>$_POST['id']));
                 } break;
 
