@@ -1,6 +1,6 @@
 <?php
 
-require('../../include/mellivora.inc.php');
+require('../../include/ctfx.inc.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($_POST['action'] == 'authenticate') {

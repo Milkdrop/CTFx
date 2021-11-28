@@ -23,12 +23,12 @@ require(CONST_PATH_THIRDPARTY . '/Parsedown.php');
 set_exception_handler('log_exception');
 
 session_set_cookie_params(
-    Config::get('MELLIVORA_CONFIG_SESSION_TIMEOUT'),
+    Config::get('SESSION_TIMEOUT'),
     '/',
     null,
-    Config::get('MELLIVORA_CONFIG_SSL_COMPAT'),
+    Config::get('SSL_COMPAT'),
     true
 );
 
-ini_set('session.gc_maxlifetime', Config::get('MELLIVORA_CONFIG_SESSION_TIMEOUT'));
+ini_set('session.gc_maxlifetime', Config::get('SESSION_TIMEOUT'));
 session_start();

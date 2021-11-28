@@ -89,6 +89,33 @@ function get_num_participating_users() {
     return db_query_fetch_one('SELECT COUNT(*) AS num FROM users')['num'];
 }
 
+function get_user_info($user) {
+    if (is_valid_id($user)) {
+        return db_query_fetch_one('
+            SELECT
+                u.team_name,
+                u.email,
+                u.competing,
+                co.country_name,
+                co.country_code,
+                COALESCE(SUM(c.points),0) + extra_points AS score
+            FROM users AS u
+            LEFT JOIN countries AS co ON co.id = u.country_id
+            LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
+            LEFT JOIN challenges AS c ON c.id = s.challenge
+            WHERE
+            u.id = :user_id',
+            array('user_id' => $_GET['id'])
+        );
+    } else {
+        return array();
+    }
+}
+
+function get_countries() {
+    return db_select_all('countries', array('id', 'country_name'), null, 'country_name ASC');
+}
+
 // TODO: Forbid access when challenge is hidden
 function api_get_targets_for_challenge($challenge) {
     if (is_valid_id($challenge)) {

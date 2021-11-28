@@ -484,10 +484,6 @@ select {
 	padding: 0px 0px 0px 8px;
 }
 
-select:invalid {
-	color: red;
-}
-
 textarea {
 	min-height: 32px;
 	resize: none;

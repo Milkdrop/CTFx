@@ -112,19 +112,6 @@ function send_email (
     return $successfully_sent_to;
 }
 
-function valid_email ($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL);
-}
-
-function validate_email ($email) {
-    if (!valid_email($email)) {
-        // Don't show stack trace here in order to hide any plaintext passwords showing up in the logs
-        log_exception(new Exception('Invalid Email'), false, "User tried to register with invalid e-mail: " . $email);
-
-        message_error(lang_get('not_a_valid_email'));
-    }
-}
-
 function csv_email_list_to_array ($list) {
     return array_map('trim', str_getcsv($list));
 }

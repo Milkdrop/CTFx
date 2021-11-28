@@ -34,10 +34,10 @@ function generate_random_string($length, $alphabet = null) {
     }
 }
 
-function get_ip($as_integer = false) {
+function get_client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    if (Config::get('MELLIVORA_CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (Config::get('TRUST_HTTP_X_FORWARDED_FOR') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
         if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -55,19 +55,7 @@ function get_ip($as_integer = false) {
         }
     }
 
-    if ($as_integer) {
-        return inet_aton($ip);
-    } else {
-        return $ip;
-    }
-}
-
-function inet_aton ($ip) {
-    return sprintf('%u', ip2long($ip));
-}
-
-function inet_ntoa ($num) {
-    return long2ip(sprintf('%d', $num));
+    return ip2long($ip);
 }
 
 function is_valid_ip($ip, $public_only = false) {
@@ -150,7 +138,7 @@ function log_exception($exception, $showStackTrace = true, $customMessage = "") 
                 'trace'=>$showStackTrace? $exception->getTraceAsString() : $customMessage,
                 'file'=>$exception->getFile(),
                 'line'=>$exception->getLine(),
-                'user_ip'=>get_ip(true),
+                'user_ip'=>get_client_ip(true),
                 'user_agent'=>$_SERVER['HTTP_USER_AGENT']
             )
         );

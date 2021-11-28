@@ -61,32 +61,20 @@ CREATE TABLE targets (
 
 CREATE TABLE users (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  email varchar(255) NOT NULL,
-  team_name varchar(255) NOT NULL,
   added int(10) unsigned NOT NULL,
-  last_active int(10) unsigned NOT NULL DEFAULT '0',
+  team_name varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
   passhash varchar(255) NOT NULL,
-  admin tinyint(1) NOT NULL DEFAULT '0',
-  enabled tinyint(1) NOT NULL DEFAULT '1',
-  competing tinyint(1) NOT NULL DEFAULT '1',
   country_id smallint(5) unsigned NOT NULL,
+  competing tinyint(1) NOT NULL DEFAULT '1',
+  admin tinyint(1) NOT NULL DEFAULT '0',
+  last_active int(10) unsigned NOT NULL DEFAULT '0',
+  extra_points int(10) signed NOT NULL DEFAULT '0',
   2fa_status enum('disabled','generated','enabled') NOT NULL DEFAULT 'disabled',
   PRIMARY KEY (id),
   UNIQUE KEY email (email),
   UNIQUE KEY team_name (team_name)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
-CREATE TABLE cookie_tokens (
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  added int(10) unsigned NOT NULL,
-  user_id int(10) unsigned NOT NULL,
-  token_series char(16) NOT NULL,
-  token char(64) NOT NULL,
-  ip_created int(10) unsigned NOT NULL,
-  ip_last int(10) unsigned NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY user_t_ts (user_id,token,token_series)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE countries (
   id smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -113,8 +101,8 @@ PRIMARY KEY (id)
 
 CREATE TABLE ip_log (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
-  user_id int(10) unsigned NOT NULL,
   added int(10) unsigned NOT NULL,
+  user_id int(10) unsigned NOT NULL,
   last_used int(10) unsigned NOT NULL,
   ip int(10) unsigned NOT NULL,
   times_used int(10) unsigned NOT NULL DEFAULT '1',

@@ -1,8 +1,8 @@
 <?php
 
-require('../../include/mellivora.inc.php');
+require('../../include/ctfx.inc.php');
 
-enforce_authentication(CONST_USER_CLASS_MODERATOR);
+enforce_authentication(true);
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {

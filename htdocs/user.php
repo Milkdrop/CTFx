@@ -1,29 +1,13 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 validate_id(array_get($_GET, 'id'));
 
 head(lang_get('user_details'));
 
 if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_USER'))) {
-    $user = db_query_fetch_one('
-        SELECT
-            u.team_name,
-            u.email,
-            u.competing,
-            u.achievements,
-            co.country_name,
-            co.country_code,
-            COALESCE(SUM(c.points),0) AS score
-        FROM users AS u
-        LEFT JOIN countries AS co ON co.id = u.country_id
-        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge
-        WHERE
-          u.id = :user_id',
-        array('user_id' => $_GET['id'])
-    );
+
 
     if (empty($user)) {
         message_generic(

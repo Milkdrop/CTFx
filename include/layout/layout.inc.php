@@ -1,5 +1,4 @@
 <?php
-require(CONST_PATH_LAYOUT . '/login_dialog.inc.php');
 require(CONST_PATH_LAYOUT . '/messages.inc.php');
 require(CONST_PATH_LAYOUT . '/scores.inc.php');
 require(CONST_PATH_LAYOUT . '/user.inc.php');
@@ -8,14 +7,14 @@ require(CONST_PATH_LAYOUT . '/forms.inc.php');
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0a5";
+$staticVersion = "1.3.0a6";
 
 function head($title = '') {
     global $head_sent;
     global $staticVersion;
 
     header('Content-Type: text/html; charset=utf-8');
-    header('Content-Security-Policy: script-src \'self\'');
+    header('Content-Security-Policy: script-src \'self\' https://www.hCaptcha.com/1/api.js');
 
     echo '<!DOCTYPE html>
 <html lang="en">
@@ -33,10 +32,6 @@ function head($title = '') {
     echo '
     </head>
     <body>';
-
-    if (!user_is_logged_in()) {
-        login_dialog();
-    }
 
     echo '<div id="navbar">
         <a href="' . Config::get('URL_BASE_PATH') . '">

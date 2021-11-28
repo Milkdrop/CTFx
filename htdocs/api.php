@@ -1,16 +1,86 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 // TODO: Forbid people from seeing things when ctf is not started
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
+    if ($_POST['action'] == 'register') {
+        if (Config::get('ENABLE_CAPTCHA')) {
+            validate_captcha();
+        }
+
+        $team_name = trim($_POST['team_name']);
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
+        $country = trim($_POST['country']);
+
+        if (!is_string($team_name) || !is_string($email)
+        || !is_string($password) || !is_string($country)) {
+            die_with_message_error('Form data is invalid');
+        }
+
+        if (empty($email) || empty($password) || empty($team_name)) {
+            die_with_message_error('Form data is empty');
+        }
+
+        if (strlen($team_name) > Config::get('MAX_TEAM_NAME_LENGTH')
+        || strlen($team_name) < Config::get('MIN_TEAM_NAME_LENGTH')) {
+            die_with_message_error('Team name is too long or too short');
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            die_with_message_error('Invalid email');
+        }
+
+        $num_countries = db_select_one(
+            'countries',
+            array('COUNT(*) AS num')
+        )['num'];
+
+        if (!is_valid_id($country) || $country > $num_countries) {
+            die_with_message_error('Invalid country ID');
+        }
+        
+        $user = db_select_one('users', array('id'),
+            array(
+                'team_name' => $team_name,
+                'email' => $email
+            ),
+            null,
+            'OR'
+        );
+    
+        if ($user['id']) {
+            die_with_message_error('User already exists.');
+        }
+        
+        $user_id = db_insert(
+            'users',
+            array(
+                'added'=>time(),
+                'team_name'=>$team_name,
+                'email'=>$email,
+                'passhash'=>password_hash($password),
+                'country_id'=>$country,
+                'last_active'=>time()
+            )
+        );
+        
+        if ($user_id) {
+            login($user_id, false);
+            redirect(Config::get('REDIRECT_INDEX_TO'));
+        } else {
+            die_with_message_error('Could not register');
+        }
+    }
+
     validate_xsrf_token($_POST[CONST_XSRF_TOKEN_KEY]);
 
     if ($_POST['action'] == 'submit_flag') {
-        enforce_authentication(CONST_USER_CLASS_USER, true);
+        enforce_authentication();
         
         if (!ctf_started()) {
             die_with_message_error('CTF has not started yet');

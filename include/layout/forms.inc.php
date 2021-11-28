@@ -161,22 +161,4 @@ function form_select ($opts, $name, $value, $selected, $option, $optgroup='') {
 }
 
 function country_select() {
-    $countries = db_select_all(
-        'countries',
-        array(
-            'id',
-            'country_name'
-        ),
-        null,
-        'country_name ASC'
-    );
-
-    echo '<select name="country" class="form-control form-group" required="required">
-            <option disabled selected>-- ',lang_get('please_select_country'),' --</option>';
-
-    foreach ($countries as $country) {
-        echo '<option value="',htmlspecialchars($country['id']),'">',htmlspecialchars($country['country_name']),'</option>';
-    }
-
-    echo '</select>';
 }

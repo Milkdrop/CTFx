@@ -1,6 +1,6 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 head(lang_get('two_factor_auth_required'));
 

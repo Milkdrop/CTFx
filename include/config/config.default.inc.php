@@ -52,26 +52,23 @@ Config::set('DEFAULT_CATEGORY_ON_CHALLENGES_PAGE', 1);
 
 // redirects
 Config::set('REDIRECT_INDEX_TO', 'home');
-Config::set('MELLIVORA_CONFIG_LOGIN_REDIRECT_TO', 'home');
-Config::set('MELLIVORA_CONFIG_REGISTER_REDIRECT_TO', 'home');
+
+// captcha
+Config::set('ENABLE_CAPTCHA', false);
+Config::set('HCAPTCHA_SITE_KEY', 'site_key');
+Config::set('HCAPTCHA_SECRET', 'secret');
 
 // account limitations
-Config::set('MELLIVORA_CONFIG_MIN_TEAM_NAME_LENGTH', 2);
-Config::set('MELLIVORA_CONFIG_MAX_TEAM_NAME_LENGTH', 30);
-Config::set('MELLIVORA_CONFIG_ACCOUNTS_SIGNUP_ALLOWED', true);
-Config::set('MELLIVORA_CONFIG_ACCOUNTS_DEFAULT_ENABLED', true);
-
-// if set to true, a random password will be generated
-// on signup and sent out by email to the user
-Config::set('MELLIVORA_CONFIG_ACCOUNTS_EMAIL_PASSWORD_ON_SIGNUP', false);
+Config::set('MIN_TEAM_NAME_LENGTH', 2);
+Config::set('MAX_TEAM_NAME_LENGTH', 30);
 
 // is site SSL compatible? if true, cookies will be sent using only SSL
-Config::set('MELLIVORA_CONFIG_SSL_COMPAT', false);
+Config::set('SSL_COMPAT', false);
 
 // session & cookie expiry time in seconds
 // 0 until browser is closed
-Config::set('MELLIVORA_CONFIG_SESSION_TIMEOUT', 604800);
-Config::set('MELLIVORA_CONFIG_COOKIE_TIMEOUT', 604800);
+Config::set('SESSION_TIMEOUT', 604800);
+Config::set('COOKIE_TIMEOUT', 604800);
 
 // logging options
 Config::set('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID', true);
@@ -100,25 +97,17 @@ Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_AUTH', true);
 Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_USER', 'yourmail@gmail.com');
 Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_PASSWORD', 'mail_password_here');
 
-// enable re-captcha on signup and various public forms
-Config::set('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PUBLIC', false);
-// enabled captcha also on private forms for logged in users
-Config::set('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE', false);
-// re-captcha keys must be set to function
-Config::set('MELLIVORA_CONFIG_RECAPTCHA_PUBLIC_KEY', 'public_v2_captcha_key');
-Config::set('MELLIVORA_CONFIG_RECAPTCHA_PRIVATE_KEY', 'private_v2_captcha_key');
-
 // only trust x-forwarded-for ip address if you're running
 // some sort of reverse proxy, like Cloudflare. when set
 // to true, the latest added forwarded-for ip will be used
 // for logging and housekeeping
-Config::set('MELLIVORA_CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP', true);
+Config::set('TRUST_HTTP_X_FORWARDED_FOR', true);
 
 // when this is set to true, an IP address
 // will be resolved when it is listed. set
 // this to false if DNS resolution is too
 // slow when listing a users IPs
-Config::set('MELLIVORA_CONFIG_GET_IP_HOST_BY_ADDRESS', false);
+Config::set('MELLIVORA_CONFIG_get_client_ip_HOST_BY_ADDRESS', false);
 
 // cache times
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_SCORES', 10);
@@ -132,9 +121,3 @@ Config::set('MELLIVORA_CONFIG_CACHE_TIME_DYNAMIC', 60);
 Config::set('MELLIVORA_CONFIG_CACHE_TIME_REGISTER', 10);
 
 Config::set('MELLIVORA_CONFIG_SHOW_ACHIEVEMENTS', true);
-
-// Amazon S3 credentials, for storing files in S3.
-// Leave blank to store files locally.
-Config::set('MELLIVORA_CONFIG_AWS_S3_KEY_ID', '');
-Config::set('MELLIVORA_CONFIG_AWS_S3_SECRET', '');
-Config::set('MELLIVORA_CONFIG_AWS_S3_BUCKET', '');

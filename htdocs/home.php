@@ -1,6 +1,6 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 login_session_refresh();
 
