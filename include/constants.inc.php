@@ -26,7 +26,6 @@ const CONST_NUM_EXCEPTIONS_PER_PAGE = 30;
 define('CONST_PATH_INCLUDE', dirname(__FILE__));
 define('CONST_PATH_LAYOUT', CONST_PATH_INCLUDE . '/layout');
 define('CONST_PATH_THIRDPARTY', CONST_PATH_INCLUDE . '/thirdparty');
-define('CONST_PATH_THIRDPARTY_COMPOSER', CONST_PATH_THIRDPARTY . '/composer/vendor');
 define('CONST_PATH_CONFIG', CONST_PATH_INCLUDE . '/config');
 define('CONST_PATH_FILE_WRITABLE', dirname(__FILE__) . '/..' . '/writable');
 define('CONST_PATH_FILE_UPLOAD', CONST_PATH_FILE_WRITABLE . '/upload');

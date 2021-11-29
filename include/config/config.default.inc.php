@@ -73,54 +73,15 @@ Config::set('COOKIE_TIMEOUT', 604800);
 // How often to poll users for when they were last active
 Config::set('ACTIVITY_LOG_FREQUENCY', 300);
 
-// logging options
-Config::set('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID', true);
-
-// maximum file upload size
-Config::set('MELLIVORA_CONFIG_MAX_FILE_UPLOAD_SIZE', 5242880);
-Config::set('MELLIVORA_CONFIG_APPEND_MD5_TO_DOWNLOADS', false);
-
-// email stuff
-Config::set('MELLIVORA_CONFIG_EMAIL_USE_SMTP', true);
-Config::set('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL', 'yourmail@gmail.com');
-Config::set('MELLIVORA_CONFIG_EMAIL_FROM_NAME', 'X-MAS CTF Team');
-// blank for same as "FROM"
-Config::set('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL', '');
-Config::set('MELLIVORA_CONFIG_EMAIL_REPLYTO_NAME', '');
-// options:
-// 0 off (for production use)
-// 1 client messages
-// 2 client and server messages
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_DEBUG_LEVEL', 0);
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_HOST', 'smtp.gmail.com');
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_PORT', 587);
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_SECURITY', 'tls');
-// require SMTP authentication?
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_AUTH', true);
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_USER', 'yourmail@gmail.com');
-Config::set('MELLIVORA_CONFIG_EMAIL_SMTP_PASSWORD', 'mail_password_here');
-
 // only trust x-forwarded-for ip address if you're running
 // some sort of reverse proxy, like Cloudflare. when set
 // to true, the latest added forwarded-for ip will be used
 // for logging and housekeeping
 Config::set('TRUST_HTTP_X_FORWARDED_FOR', true);
 
-// when this is set to true, an IP address
-// will be resolved when it is listed. set
-// this to false if DNS resolution is too
-// slow when listing a users IPs
-Config::set('MELLIVORA_CONFIG_get_client_ip_HOST_BY_ADDRESS', false);
-
 // cache times
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_SCORES', 10);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_HOME', 10);
-Config::set('CACHE_USER_TIMEOUT', 5);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE', 0);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_HINTS', 10);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_FILES', 10);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_COUNTRIES', 60);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_DYNAMIC', 60);
-Config::set('MELLIVORA_CONFIG_CACHE_TIME_REGISTER', 10);
-
-Config::set('MELLIVORA_CONFIG_SHOW_ACHIEVEMENTS', true);
+Config::set('CACHE_TIME_SCOREBOARD', 10);
+Config::set('CACHE_TIME_HOME', 5);
+Config::set('CACHE_TIME_USER', 10);
+Config::set('CACHE_TIME_CHALLENGE', 10);
+Config::set('CACHE_TIME_LOGIN', 10);

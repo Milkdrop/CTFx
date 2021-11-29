@@ -1,91 +1,59 @@
 <?php
 
-require(CONST_PATH_THIRDPARTY_COMPOSER . '/pear/cache_lite/Cache/Lite/Output.php');
+$cache_fname = '';
+$cache_it = -1;
+$max_cache_it = 3;
 
-$caches = array();
+function cache_start($page, $lifetime, $id = '') {
+    global $cache_fname;
+    global $cache_it;
+    global $max_cache_it;
 
-function cache_array_get ($identifier, $max_age, $group = 'default') {
-    global $caches;
-
-    if (empty($caches[$group][$identifier])) {
-        initialize_cache($identifier, $group, $max_age, true);
-    }
-
-    return $caches[$group][$identifier]->get($identifier, $group);
-}
-
-function cache_array_save($data, $identifier, $group = 'default') {
-    global $caches;
-
-    $caches[$group][$identifier]->save($data, $identifier, $group);
-}
-
-function cache_start ($identifier, $lifetime, $group = 'default') {
-    global $caches;
-
-    // if lifetime is zero, we don't perform caching.
-    // by returning true, we signal that content needs to be recreated
-    if (!$lifetime) {
+    if ($lifetime == 0) {
         return true;
     }
+    
+    if (!empty($id)) {
+        validate_id($id);
+    }
 
-    initialize_cache($identifier, $group, $lifetime, false);
+    $cache_fname = CONST_PATH_CACHE . '/' . $page . $id;
 
-    // return true if cache has expired, and we need to recreate content
-    // return false if cache is still valid
-    return !($caches[$group][$identifier]->start($identifier, $group));
-}
+    $usable_cache_fname = '';
+    for ($i = 0; $i < $max_cache_it; $i++) {
+        if (file_exists($cache_fname . $i)) {
+            $usable_cache_fname = $cache_fname . $i;
+            $cache_it = $i;
+        }
+    }
 
-function cache_end ($identifier, $group = 'default') {
-    global $caches;
-
-    if (!empty($caches[$group][$identifier])) {
-        $caches[$group][$identifier]->end();
+    if (!empty($usable_cache_fname) && time() - filemtime($usable_cache_fname) <= $lifetime) {
+        echo file_get_contents($usable_cache_fname);
+        $cache_fname = '';
+        return false;
+    } else {
+        ob_start();
+        return true;
     }
 }
 
-function initialize_cache($identifier, $group, $lifetime, $serialize) {
-    global $caches;
+function cache_end() {
+    global $cache_fname;
+    global $cache_it;
+    global $max_cache_it;
 
-    // if no caching object exists for this identifier, create it
-    if (empty($caches[$group][$identifier])) {
-        $caches[$group][$identifier] = new Cache_Lite_Output(
-            array(
-                'cacheDir' => CONST_PATH_CACHE . '/',
-                'lifeTime' => $lifetime,
-                'fileNameProtection' => false,
-                'automaticSerialization' => $serialize
-            )
-        );
-    }
-}
+    if (!empty($cache_fname)) {
+        $data = ob_get_contents();
+        ob_end_flush();
 
-function send_cache_headers ($identifier, $lifetime, $group = 'default') {
-    header('Cache-Control: '.(user_is_logged_in() ? 'private' : 'public').', max-age=' . $lifetime);
+        if ($cache_it == -1) {
+            file_put_contents($cache_fname . '0', $data);
+        } else {
+            $new_cache_it = ($cache_it + 1) % $max_cache_it;
+            $delete_cache_it = ($max_cache_it + $cache_it - 1) % $max_cache_it;
 
-    $path = CONST_PATH_CACHE . '/cache_' . $group . '_' . $identifier;
-    if (file_exists($path)) {
-        $time_modified = filemtime($path);
-
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s ', $time_modified) . 'GMT');
-        header('Expires: ' . gmdate('D, d M Y H:i:s ', $time_modified + $lifetime) . 'GMT');
-    }
-}
-
-function invalidate_cache ($id, $group = 'default') {
-    $path = CONST_PATH_CACHE . '/cache_' . $group . '_' . $id;
-    if (file_exists($path)) {
-        unlink($path);
-    }
-}
-
-function invalidate_cache_group ($group = 'default') {
-    $prefix = 'cache_' . $group . '_';
-
-    $cache_files = scandir(CONST_PATH_CACHE);
-    foreach ($cache_files as $file) {
-        if (starts_with($file, $prefix)) {
-            unlink(CONST_PATH_CACHE . "/" . $file);
+            file_put_contents($cache_fname . $new_cache_it, $data);
+            unlink($cache_fname . $delete_cache_it);
         }
     }
 }

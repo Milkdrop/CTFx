@@ -1,11 +1,9 @@
 <?php
-require(CONST_PATH_LAYOUT . '/scores.inc.php');
-require(CONST_PATH_LAYOUT . '/forms.inc.php');
 
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0a6";
+$staticVersion = "1.3.0a7";
 
 function head($title = '') {
     global $head_sent;

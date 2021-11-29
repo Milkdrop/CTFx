@@ -760,3 +760,56 @@ td, th {
 th {
     text-align: left;
 }
+
+/* Scoreboard */
+
+.scoreboard-team-name {
+    font-weight:bold;
+    color: #FFFCF2;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.scoreboard {
+}
+
+.scoreboard-entry {
+    font-weight: bold;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 4px;
+}
+
+.scoreboard-entry .our-team {
+    color: #35AAFD;
+}
+
+.scoreboard-entry .other-team {
+    color: #FFFCF2;
+}
+
+.scoreboard-entry .scoreboard-score {
+    flex-basis: 80%;
+    flex-shrink: 0;
+    padding-bottom: 2px;
+    border-bottom: 4px solid #403D39;
+    max-height: 28px;
+    font-weight: bold;
+}
+
+.scoreboard-score .scoreboard-fill {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+	background: 
+		linear-gradient(315deg, #25242210 25%, transparent 25%) 0px 30px,
+		linear-gradient(135deg, #25242210 25%, transparent 25%);
+
+	background-size: 60px 60px;
+    background-color: #35AAFD;
+}

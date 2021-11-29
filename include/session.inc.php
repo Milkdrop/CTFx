@@ -40,6 +40,7 @@ function log_user_ip($user_id) {
     }
 }
 
+// TODO - When an user gets deleted, its session token should be deleted too
 function login($user_id, $admin) {
     log_user_ip($user_id);
 

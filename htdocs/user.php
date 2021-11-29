@@ -6,7 +6,7 @@ validate_id($_GET['id']);
 
 head('User');
 
-if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('CACHE_USER_TIMEOUT'))) {
+if (cache_start('user', Config::get('CACHE_TIME_USER'), $_GET['id'])) {
     $user = db_select_one(
         'users',
         array(
@@ -66,7 +66,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('CACHE_USER_TIM
         . tag('<b>' . $points . ' Points</b>', '', true)
         . '
         </div>
-        ' . (user['competing']?'':message_inline('This user is not competing')) . '
+        ' . (($user['competing'] == 0)?message_inline('This user is not competing'):'') . '
     </div>
     </div>';
 
@@ -97,7 +97,7 @@ if (cache_start(CONST_CACHE_NAME_USER . $_GET['id'], Config::get('CACHE_USER_TIM
         echo message_inline('User hasn\'t solved any challenges');
     }
     
-    cache_end(CONST_CACHE_NAME_USER . $_GET['id']);
+    cache_end();
 }
 
 foot();

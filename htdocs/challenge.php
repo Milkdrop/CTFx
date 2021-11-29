@@ -6,7 +6,7 @@ validate_id($_GET['id']);
 
 head('Challenge');
 
-if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE'))) {
+if (cache_start('challenge', Config::get('CACHE_TIME_CHALLENGE'), $_GET['id'])) {
 
     $challenge = api_get_challenge_info($_GET['id']);
     
@@ -63,7 +63,7 @@ if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA
          ';
     }
 
-    cache_end(CONST_CACHE_NAME_CHALLENGE . $_GET['id']);
+    cache_end();
 }
 
 foot();
