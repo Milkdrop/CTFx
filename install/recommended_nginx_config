@@ -105,7 +105,7 @@ http {
         #deny all;
 
         # Enable request limiting if you need it
-        limit_conn conn_limit_per_ip 10;
+        limit_conn conn_limit_per_ip 2;
         limit_req zone=req_limit_per_ip burst=10 nodelay;
 
         # deny access to . files, for security

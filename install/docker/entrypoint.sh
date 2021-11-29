@@ -5,6 +5,8 @@ mysql < 000-db.sql
 mysql < 001-ctfx.sql
 mysql < 002-countries.sql
 
+cd /var/www/ctfx/install/docker
+mysql < 003-custom-db.sql
 /etc/init.d/$(ls /etc/init.d | grep php) start
 nginx
 
