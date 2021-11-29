@@ -1,13 +1,9 @@
 <?php
 
 $cache_fname = '';
-$cache_it = -1;
-$max_cache_it = 3;
 
 function cache_start($page, $lifetime, $id = '') {
     global $cache_fname;
-    global $cache_it;
-    global $max_cache_it;
 
     if ($lifetime == 0) {
         return true;
@@ -19,16 +15,17 @@ function cache_start($page, $lifetime, $id = '') {
 
     $cache_fname = CONST_PATH_CACHE . '/' . $page . $id;
 
-    $usable_cache_fname = '';
-    for ($i = 0; $i < $max_cache_it; $i++) {
-        if (file_exists($cache_fname . $i)) {
-            $usable_cache_fname = $cache_fname . $i;
-            $cache_it = $i;
-        }
-    }
+    if (file_exists($cache_fname) && time() - filemtime($cache_fname) <= $lifetime) {
+        $fp = fopen($cache_fname, "r");
 
-    if (!empty($usable_cache_fname) && time() - filemtime($usable_cache_fname) <= $lifetime) {
-        echo file_get_contents($usable_cache_fname);
+        if (flock($fp, LOCK_SH)) {
+            echo fread($fp, filesize($cache_fname));
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        } else {
+            echo "Cache error.";
+        }
+
         $cache_fname = '';
         return false;
     } else {
@@ -39,21 +36,19 @@ function cache_start($page, $lifetime, $id = '') {
 
 function cache_end() {
     global $cache_fname;
-    global $cache_it;
-    global $max_cache_it;
 
     if (!empty($cache_fname)) {
         $data = ob_get_contents();
         ob_end_flush();
 
-        if ($cache_it == -1) {
-            file_put_contents($cache_fname . '0', $data);
-        } else {
-            $new_cache_it = ($cache_it + 1) % $max_cache_it;
-            $delete_cache_it = ($max_cache_it + $cache_it - 1) % $max_cache_it;
+        $fp = fopen($cache_fname, "w");
 
-            file_put_contents($cache_fname . $new_cache_it, $data);
-            unlink($cache_fname . $delete_cache_it);
+        if (flock($fp, LOCK_EX)) {
+            fwrite($fp, $data);
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        } else {
+            echo 'Cache erorr.';
         }
     }
 }

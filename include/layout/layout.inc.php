@@ -3,7 +3,7 @@
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0a7";
+$staticVersion = "1.3.0 Very Early Alpha";
 
 function head($title = '') {
     global $head_sent;

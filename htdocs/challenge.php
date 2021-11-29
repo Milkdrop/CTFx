@@ -10,7 +10,7 @@ if (cache_start('challenge', Config::get('CACHE_TIME_CHALLENGE'), $_GET['id'])) 
 
     $challenge = api_get_challenge_info($_GET['id']);
     
-    if (empty($challenge) || (!ctf_started() && !user_is_staff())) {
+    if (empty($challenge) || (!ctf_started())) {
         die_with_message("No such challenge");
     }
 

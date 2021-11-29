@@ -784,11 +784,11 @@ th {
     gap: 4px;
 }
 
-.scoreboard-entry .our-team {
+.our-team {
     color: #35AAFD;
 }
 
-.scoreboard-entry .other-team {
+.other-team {
     color: #FFFCF2;
 }
 

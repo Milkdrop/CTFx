@@ -77,9 +77,9 @@ echo '<form style="margin-top:8px; margin-bottom:8px" method="post" action="api"
 . form_xsrf_token();
 
 echo '<input type="hidden" name="action" value="change_password"/>
-<input style="margin-bottom:8px; width:384px" type="text" name="current_password" placeholder="Current password" required/><br>
-<input style="margin-bottom:8px; width:384px" type="text" name="new_password" placeholder="New password" required/><br>
-<input style="margin-bottom:8px; width:384px" type="text" name="new_password_repeat" placeholder="New password (repeat)" required/><br>
+<input style="margin-bottom:8px; width:384px" type="password" name="current_password" placeholder="Current password" required/><br>
+<input style="margin-bottom:8px; width:384px" type="password" name="new_password" placeholder="New password" required/><br>
+<input style="margin-bottom:8px; width:384px" type="password" name="new_password_repeat" placeholder="New password (repeat)" required/><br>
 <button class="btn-dynamic" type="submit">Update</button>
 </form>';
 

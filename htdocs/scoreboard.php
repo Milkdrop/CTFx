@@ -20,7 +20,7 @@ if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
         FROM users AS u
         LEFT JOIN countries AS co ON co.id = u.country_id
         LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge
+        LEFT JOIN challenges AS c ON c.id = s.challenge AND c.exposed = 1
         WHERE u.competing = 1
         GROUP BY u.id
         ORDER BY score DESC, tiebreaker ASC'
@@ -47,7 +47,7 @@ if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
         echo '<div>
             <a href="/user?id=' . $team['user_id'] . '">
             <img style="width:' . $widths[$i] . 'px; margin:0px 4px" src="' . $avatar . '">
-            ' . tooltip('<div class="scoreboard-team-name" style=" max-width:'. $widths[$i] .'px">' . ($top3[$i] + 1) . '. ' . htmlspecialchars($team['team_name']) . '</div>', $team['team_name']) . '
+            ' . tooltip('<div class="scoreboard-team-name" style=" max-width:'. $widths[$i] .'px">' . ($top3[$i] + 1) . '. <span class="' . (($team['user_id'] == $_SESSION['id'])?'our-team':'') . '">' . htmlspecialchars($team['team_name']) . '</span></div>', $team['team_name']) . '
             </a>
         </div>';
     }

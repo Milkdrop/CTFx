@@ -81,7 +81,6 @@ Config::set('TRUST_HTTP_X_FORWARDED_FOR', true);
 
 // cache times
 Config::set('CACHE_TIME_SCOREBOARD', 10);
-Config::set('CACHE_TIME_HOME', 5);
+Config::set('CACHE_TIME_HOME', 30);
 Config::set('CACHE_TIME_USER', 10);
 Config::set('CACHE_TIME_CHALLENGE', 10);
-Config::set('CACHE_TIME_LOGIN', 10);
