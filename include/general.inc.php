@@ -179,7 +179,7 @@ function check_server_configuration() {
 
 function check_server_php_version() {
     if (version_compare(PHP_VERSION, CONST_MIN_REQUIRED_PHP_VERSION, '<')) {
-        echo message_inline('Your version of PHP is too old. You need at least ' . CONST_MIN_REQUIRED_PHP_VERSION . '. You are running: ' . PHP_VERSION, true, "#E06552");
+        echo message_inline('Your version of PHP is too old. You need at least ' . CONST_MIN_REQUIRED_PHP_VERSION . '. You are running: ' . PHP_VERSION, true, "#EF3E36");
     }
 }
 
@@ -188,7 +188,7 @@ function check_server_writable_dirs() {
     foreach (array_diff(scandir(CONST_PATH_FILE_WRITABLE), array('.', '..')) as $dir) {
         $dir = CONST_PATH_FILE_WRITABLE . '/' . $dir;
         if (!is_writable($dir)) {
-            echo message_inline('Directory (' . $dir . ') must be writable.', true, "#E06552");
+            echo message_inline('Directory (' . $dir . ') must be writable.', true, "#EF3E36");
         }
     }
 }
@@ -198,11 +198,11 @@ function check_server_and_db_time() {
     $dbInfo = db_query_fetch_one('SELECT UNIX_TIMESTAMP() AS timestamp, TIMESTAMPDIFF(SECOND, UTC_TIMESTAMP(), NOW()) AS timezone_offzet_seconds');
     $error = abs(time() - $dbInfo['timestamp']);
     if ($error >= 5) {
-        echo message_inline('Database and PHP times are out of sync. (' . $error . ' seconds off)', true, "#E06552");
+        echo message_inline('Database and PHP times are out of sync. (' . $error . ' seconds off)', true, "#EF3E36");
     }
 
     if (date('Z') != $dbInfo['timezone_offzet_seconds']) {
-        echo message_inline('Database and PHP timezones are different.', true, "#E06552");
+        echo message_inline('Database and PHP timezones are different.', true, "#EF3E36");
     }
 }
 

@@ -11,7 +11,7 @@ if (user_is_logged_in() || !isset($_SESSION['id_before_2fa'])) {
 echo '
 <div class="pre-category-name">Gateway:</div>
 <div class="category-name typewriter">2FA</div>
-<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . ' Supply your Two-Factor Authentication code.</div>
+<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#EF3E36", true, true, 24) . ' Supply your Two-Factor Authentication code.</div>
 
 <form style="margin-top:8px; margin-bottom:8px" method="post" action="api" autocomplete="off">
 <input type="hidden" name="action" value="login_2fa"/>'

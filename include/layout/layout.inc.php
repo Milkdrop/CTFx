@@ -3,7 +3,7 @@
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0r1";
+$staticVersion = "1.3.0r2";
 
 function head($title = '') {
     global $head_sent;
@@ -23,7 +23,7 @@ function head($title = '') {
     <link rel="icon" href="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="/static/ctfx.css?v=' . $staticVersion . '" rel="stylesheet">';
+    <link href="/static/theme.css?v=' . $staticVersion . '" rel="stylesheet">';
 
     echo '
     </head>
@@ -77,7 +77,7 @@ function foot () {
 
     <div id="footer">
         <b><a href="https://github.com/Milkdrop/CTFx">CTFx</a></b> v'.$staticVersion.'<br>
-        Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
+        Made with &#x1F9E1; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
     </div>
 
     <!-- JS -->
@@ -94,7 +94,7 @@ function foot () {
     </html>';
 }
 
-function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
+function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#EB5E28", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
     $icon = htmlspecialchars($icon);
     $rotation = htmlspecialchars($rotation);
     $color = htmlspecialchars($color);
@@ -185,20 +185,21 @@ function timestamp($time, $extra_text = '', $substract_with = false, $dont_chang
     return tooltip('<span ' . ($dont_change?'':'class="countdown"') . ' time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
 }
 
-function tooltip($html_content, $tooltip_text) {
+function tooltip($html_content, $tooltip_text, $custom_style = '') {
     $tooltip_text = htmlspecialchars($tooltip_text);
+    $custom_style = htmlspecialchars($custom_style);
 
-    return '<span class="tooltip">' . $html_content . '<div class="tooltip-text">' . $tooltip_text . '</div></span>';
+    return '<span class="tooltip" style="' . $custom_style . '">' . $html_content . '<div class="tooltip-text">' . $tooltip_text . '</div></span>';
 }
 
-function message_inline($message, $strip_html = true, $color = "#35AAFD") {
+function message_inline($message, $strip_html = true, $color = "#EB5E28") {
     if ($strip_html)
         $message = htmlspecialchars($message);
     
     return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
 }
 
-function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#35AAFD") {
+function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#EB5E28") {
     global $head_sent;
 
     $message = htmlspecialchars($message);
@@ -223,7 +224,7 @@ function die_with_message($message, $submessage = "", $strip_html = true, $img =
 
 function die_with_message_error($error_message) {
     http_response_code(400);
-    die_with_message("Fatal Error", $error_message, true, 'cracked.png', '#E06552');
+    die_with_message("Fatal Error", $error_message, true, 'cracked.png', '#EF3E36');
 }
 
 function admin_delete_confirmation($explanation = '') {
@@ -238,7 +239,7 @@ function admin_delete_confirmation($explanation = '') {
     if (!empty($explanation))
         $submessage .= tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
         
-    die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#E06552');
+    die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#EF3E36');
 }
 
 /* Forms */
@@ -283,7 +284,7 @@ function admin_menu() {
     echo '<div class="pre-category-name">Admin section:</div>
         <div class="category-name typewriter">' . $active_path . '</div>';
 
-    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
+    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#F8C630", true);
     foreach ($sections as $entry) {
         echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ((stripos($path, $entry)!==false)?'active':'')
             . '" href="' . strtolower($entry) . '">' . $entry . '</a>';

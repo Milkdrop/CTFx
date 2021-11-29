@@ -46,7 +46,7 @@ echo '<div class="pre-category-name">Challenge category:</div>
 <div class="category-name typewriter">' . $current_category['title'] . '</div>';
 
 // Write categories selector
-echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
+echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#F8C630", true);
 
 foreach ($categories as $cat) {
     echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
@@ -89,7 +89,7 @@ foreach ($challenges as $challenge) {
         . htmlspecialchars($relies_on_data['title']) . '</a>'
         . ' from <a href="challenges?category=' . $relies_on_data['category'] . '">' . htmlspecialchars($relies_on_data['category_title']) . '</a></b>';
 
-        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $msg . '</div>';
+        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#EF3E36", true, true, 24) . $msg . '</div>';
     } else {
         $content = parse_markdown($challenge['description']);
 
