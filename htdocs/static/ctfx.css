@@ -42,6 +42,7 @@ body {
 #navbar-logo {
 	height: 48px;
 	margin-left: 16px;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 #navbar-buttons {

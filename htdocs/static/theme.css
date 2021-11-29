@@ -42,6 +42,7 @@ body {
 #navbar-logo {
 	height: 48px;
 	margin-left: 16px;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 #navbar-buttons {
@@ -599,6 +600,7 @@ input:checked ~ .checkbox img:nth-child(2) {
 
 #home-logo img {
 	width: 60%;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 #home-ctf-start-time {
