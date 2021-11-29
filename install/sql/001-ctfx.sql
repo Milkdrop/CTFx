@@ -113,7 +113,6 @@ CREATE TABLE ip_log (
 CREATE TABLE news (
   id int(10) unsigned NOT NULL AUTO_INCREMENT,
   added int(10) unsigned NOT NULL,
-  added_by int(10) unsigned NOT NULL,
   title varchar(255) NOT NULL,
   body text NOT NULL,
   PRIMARY KEY (id)

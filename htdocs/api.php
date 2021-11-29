@@ -5,6 +5,9 @@ require('../include/ctfx.inc.php');
 // TODO: Forbid people from seeing things when ctf is not started
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if ($_GET['get'] == 'xsrf_token') {
+        echo get_xsrf_token();
+    }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     validate_xsrf_token();

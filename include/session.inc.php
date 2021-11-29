@@ -42,8 +42,9 @@ function log_user_ip($user_id) {
 
 // TODO - When an user gets deleted, its session token should be deleted too
 function login($user_id, $admin) {
+    session_unset();
+    
     log_user_ip($user_id);
-
     $_SESSION['id'] = $user_id;
     $_SESSION['admin'] = ($admin === true);
     $_SESSION['ip'] = get_client_ip();
