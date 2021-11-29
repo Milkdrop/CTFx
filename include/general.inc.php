@@ -38,7 +38,6 @@ function get_client_ip() {
                 $forwarded_for = trim($forwarded_for);
                 if (is_valid_ip($forwarded_for, true)) {
                     $ip = $forwarded_for;
-                    break;
                 }
             }
         }

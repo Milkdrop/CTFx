@@ -1,7 +1,7 @@
 CTFx
 =========
 
-CTFx is a CTF Platform forked from [mellivora](https://github.com/Nakiami/mellivora), that focuses on low memory footprint and low server CPU usage. It has a futuristic interface that's optimized for slower hardware, meaning that there is no bulky Javascript running in the background, nor length CSS stylesheets. CTFx improves on the mellivora CTF engine by the UI redesign and the addition of new features.
+CTFx is a CTF Platform forked from [mellivora](https://github.com/Nakiami/mellivora), that focuses on low memory footprint and low server CPU usage. It has a futuristic interface that's optimized for slower hardware, meaning that there is no bulky Javascript running in the background, nor lengthy CSS stylesheets. CTFx improves on the mellivora CTF engine by the UI redesign and the addition of new features.
 
 <p align="center">
   <img src="readme-img/home.png" width="640" alt="CTFx home"/>
@@ -10,23 +10,15 @@ CTFx is a CTF Platform forked from [mellivora](https://github.com/Nakiami/melliv
 ## Features
 - Unlimited categories and challenges with configurable dynamic/static scoring
 - Challenge hints
-- Set custom start and end times for any challenge or category
 - Unlockable challenges (In order to see them requires you to solve another challenge (from any category you choose))
-- Local or [Amazon S3](https://aws.amazon.com/s3/) challenge file upload
 - Admin Panel with competition overview, IP logging, user/email search, exception log (that includes the users that caused them)
 - Create/edit front page news
-- Arbitrary menu items and internal pages
-- BBCode Support for challenge and category descriptions, news, etc ...
-- Optional solve count limit per challenge
-- [reCAPTCHA](https://www.google.com/recaptcha/) support
-- User-defined or auto-generated passwords on signup
+- Markdown support for challenges and categories and news
+- hCaptcha support
 - Configurable caching
 - Caching proxy (like [Cloudflare](https://www.cloudflare.com/)) aware (optional x-forwarded-for trust)
-- [Segment](https://segment.com/) analytics support
-- SMTP email support. Bulk or single email composition
 - TOTP two factor auth support
-- [CTF Time](https://ctftime.org/) compatible JSON scoreboard
-- And more ...
+- And more...
 
 ## Looks
 CTFx has a slick modern interface. See the [gallery](gallery.md).
@@ -36,13 +28,13 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 ## Installation
 **- Install the following dependencies**
-  - `nginx php-fpm php-xml php-curl php-mysql php-mbstring php-pear composer mysql-server`
+  - `nginx php-fpm php-mysql php-curl mariadb-server` (or `mysql-server` instead of `mariadb-server`)
 
 **- Secure mysql server**
   - Run the command `mysql_secure_installation` and remove anonymous users, disable root login and remove the test database
 
-**- Copy repo contents to /var/www/ctfx/**
-  - Run `composer install --no-dev --optimize-autoloader` under /var/www/ctfx
+**- Setup CTFx**
+  - Clone this repository's contents to /var/www/ctfx/
   - Make the folder `writable` writable
 
 **- Setup nginx**
@@ -61,7 +53,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 **- Create Admin User**
   - Register your admin account on the website (and enable 2FA Authentication preferably)
   - Logout of your account
-  - sudo into `mysql` and run the query `USE ctfx; UPDATE users SET class=100 WHERE id=1;`
+  - sudo into `mysql` and run the query `USE ctfx; UPDATE users SET admin=1 WHERE id=1;`
 
 ## Installation Tips:
 - It is **recommended** that you change the default database password, and if you do so you must also change it in `include/config/db.inc.php`
