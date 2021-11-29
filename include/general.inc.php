@@ -1,28 +1,5 @@
 <?php
 
-function cut_string ($string, $len) {
-    return substr($string, 0, $len);
-}
-
-function short_description ($string, $len) {
-
-    if (strlen($string) > $len) {
-        $string = cut_string($string, $len);
-        $string .= ' ...';
-    }
-
-    return $string;
-}
-
-function unichr($code) {
-    return mb_convert_encoding('&#x'.$code.';', 'UTF-8', 'HTML-ENTITIES');
-}
-
-function requested_file_name () {
-    $pathinfo = pathinfo($_SERVER['SCRIPT_NAME']);
-    return $pathinfo['filename'];
-}
-
 function php_bytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
@@ -46,21 +23,10 @@ function generate_random_int($min = 0, $max = PHP_INT_MAX) {
     return $generator->generateInt($min, $max);
 }
 
-function generate_random_string($length, $alphabet = null) {
-    $factory = new RandomLib\Factory;
-    $generator = $factory->getMediumStrengthGenerator();
-
-    if (empty($alphabet)) {
-        return $generator->generateString($length);
-    } else {
-        return $generator->generateString($length, $alphabet);
-    }
-}
-
-function get_ip($as_integer = false) {
+function get_client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    if (Config::get('MELLIVORA_CONFIG_TRUST_HTTP_X_FORWARDED_FOR_IP') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (Config::get('TRUST_HTTP_X_FORWARDED_FOR') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
         if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -78,19 +44,7 @@ function get_ip($as_integer = false) {
         }
     }
 
-    if ($as_integer) {
-        return inet_aton($ip);
-    } else {
-        return $ip;
-    }
-}
-
-function inet_aton ($ip) {
-    return sprintf('%u', ip2long($ip));
-}
-
-function inet_ntoa ($num) {
-    return long2ip(sprintf('%d', $num));
+    return ip2long($ip);
 }
 
 function is_valid_ip($ip, $public_only = false) {
@@ -113,7 +67,7 @@ function is_valid_ip($ip, $public_only = false) {
     }
 }
 
-function is_valid_id ($id) {
+function is_valid_id($id) {
     if (isset($id) && is_integer_value($id) && $id > 0) {
         return true;
     }
@@ -121,33 +75,20 @@ function is_valid_id ($id) {
     return false;
 }
 
-function validate_id ($id) {
+function validate_id($id) {
     if (!is_valid_id($id)) {
 
         if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid ID'));
         }
-
-        message_generic_error();
+        
+        die_with_message_error('Invalid ID provided');
     }
 
     return true;
 }
 
-function validate_integer ($id) {
-    if (!is_integer_value($id)) {
-
-        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
-            log_exception(new Exception('Invalid integer value'));
-        }
-
-        message_generic_error();
-    }
-
-    return true;
-}
-
-function validate_url ($url) {
+function validate_url($url) {
     $valid = false;
 
     if (filter_var ($url, FILTER_VALIDATE_URL)) {
@@ -160,15 +101,15 @@ function validate_url ($url) {
 
     if (!$valid) {
         log_exception(new Exception('Invalid URL in redirect: ' . $url));
-        message_error('Invalid redirect URL. This has been reported.');
+        die_with_message_error('Invalid redirect URL. This has been reported.');
     }
 }
 
-function is_integer_value ($val) {
+function is_integer_value($val) {
     return is_int($val) ? true : ctype_digit($val);
 }
 
-function log_exception ($exception, $showStackTrace = true, $customMessage = "") {
+function log_exception($exception, $showStackTrace = true, $customMessage = "") {
 
     // write exception to php's default error handler
     // in case we fail to insert it into the db
@@ -186,7 +127,7 @@ function log_exception ($exception, $showStackTrace = true, $customMessage = "")
                 'trace'=>$showStackTrace? $exception->getTraceAsString() : $customMessage,
                 'file'=>$exception->getFile(),
                 'line'=>$exception->getLine(),
-                'user_ip'=>get_ip(true),
+                'user_ip'=>get_client_ip(true),
                 'user_agent'=>$_SERVER['HTTP_USER_AGENT']
             )
         );
@@ -196,120 +137,12 @@ function log_exception ($exception, $showStackTrace = true, $customMessage = "")
     }
 }
 
-function time_remaining ($until, $from = false) {
-
-    if ($from===false) {
-        $until = $until - time();
-    } else {
-        $until = $until - $from;
-    }
-
-    return seconds_to_pretty_time($until);
+function formatted_date($timestamp) {
+    return date('d/m/Y - H:i:s', $timestamp) . " UTC+0";
 }
 
-function time_elapsed ($to, $from = false) {
-
-    if ($from===false) {
-        $to = time() - $to;
-    } else {
-        $to = $to - $from;
-    }
-
-    return seconds_to_pretty_time($to);
-}
-
-function date_time($timestamp = false, $specific = 6) {
-
-    if($timestamp === false) {
-        $timestamp = time();
-    }
-
-    $specific = substr('Y-m-d H:i:s', 0, ($specific*2)-1);
-
-    return date($specific, $timestamp);
-}
-
-function ctfStarted () {
-    $timeLeft = time () - Config::get ('MELLIVORA_CONFIG_CTF_START_TIME');
-    return $timeLeft >= 0;
-}
-
-function seconds_to_pretty_time ($seconds) {
-    $time = new DateTime(date('Y-m-d H:i:s', $seconds));
-    $start = new DateTime(date('Y-m-d H:i:s', 0));
-    $diff = $time->diff($start);
-
-    if ($diff->y) {
-        $time_string = $diff->y . append_if_plural(
-                ' '.lang_get('year'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->y
-            ) . ($diff->m ? ', ' . $diff->m . append_if_plural(
-                    ' '.lang_get('month'),
-                    lang_get('append_to_time_to_make_plural'),
-                    $diff->m
-                ) : '');
-    }
-
-    else if ($diff->m) {
-        $time_string = $diff->m . append_if_plural(
-                ' '.lang_get('month'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->m
-            ) . ($diff->d ? ', ' . $diff->d . append_if_plural(
-                    ' '.lang_get('day'),
-                    lang_get('append_to_time_to_make_plural'),
-                    $diff->d
-                ) : '');
-    }
-
-    else if ($diff->d) {
-        $time_string = $diff->d . append_if_plural(
-                ' '.lang_get('day'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->d) . ($diff->h ? ', ' . $diff->h . append_if_plural(
-                    ' '.lang_get('hour'),
-                    lang_get('append_to_time_to_make_plural'),
-                    $diff->h
-                ) : '');
-    }
-
-    else if ($diff->h) {
-        $time_string = $diff->h . append_if_plural(
-                ' '.lang_get('hour'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->h) . ($diff->i ? ', ' . $diff->i . append_if_plural(
-                    ' '.lang_get('minute'),
-                    lang_get('append_to_time_to_make_plural'),
-                    $diff->i
-                ) : '');
-    }
-
-    else if ($diff->i) {
-        $time_string = $diff->i . append_if_plural(
-                ' '.lang_get('minute'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->i) . ($diff->s ? ', ' . $diff->s . append_if_plural(
-                    ' '.lang_get('second'),
-                    lang_get('append_to_time_to_make_plural'),
-                    $diff->s
-                ) : '');
-    }
-
-    else {
-        $time_string = $diff->s . append_if_plural(
-                ' '.lang_get('second'),
-                lang_get('append_to_time_to_make_plural'),
-                $diff->s
-            );
-    }
-
-    return ($seconds < 0 ? '-' : '') . $time_string;
-
-}
-
-function append_if_plural($string, $to_add, $val) {
-    return $string . ($val > 1 ? $to_add : '');
+function ctf_started() {
+    return time() >= Config::get('CTF_START_TIME');
 }
 
 function get_system_memory_usage () {
@@ -320,126 +153,23 @@ function get_system_memory_usage () {
     return $mem;
 }
 
-function bytes_to_pretty_size($bytes) {
-    if ($bytes < 1000 * 1024) {
-        return number_format($bytes / 1024, 2) . ' KB';
-    }
-    else if ($bytes < 1000 * 1048576) {
-        return number_format($bytes / 1048576, 2) . ' MB';
-    }
-    else if ($bytes < 1000 * 1073741824) {
-        return number_format($bytes / 1073741824, 2) . ' GB';
-    }
-    else {
-        return number_format($bytes / 1099511627776, 2) . ' TB';
-    }
-}
-
-function delete_challenge_cascading ($id) {
-
-    if(!is_valid_id($id)) {
-        message_error('Invalid ID.');
-    }
-
-    try {
-        db_begin_transaction();
-
-        db_delete(
-            'challenges',
-            array(
-                'id'=>$id
-            )
-        );
-
-        db_delete(
-            'submissions',
-            array(
-                'challenge'=>$id
-            )
-        );
-
-        db_delete(
-            'hints',
-            array(
-                'challenge'=>$id
-            )
-        );
-
-        $files = db_select_all(
-            'files',
-            array('id'),
-            array('challenge'=>$id)
-        );
-
-        foreach ($files as $file) {
-            delete_file($file['id']);
-        }
-
-        db_end_transaction();
-
-    } catch(PDOException $e) {
-        db_rollback_transaction();
-        log_exception($e);
-    }
-}
-
 function starts_with($haystack, $needle) {
     return $needle === '' || strpos($haystack, $needle) === 0;
 }
 
-function ends_with($haystack, $needle) {
-    return $needle === '' || substr($haystack, -strlen($needle)) === $needle;
-}
-
-function redirectBack ($status) {
-    $url = $_SERVER["HTTP_REFERER"];
-    $url = explode ("&generic_success", $url)[0];
-    $url = explode ("?generic_success", $url)[0];
-    $url = explode ("&generic_failure", $url)[0];
-    $url = explode ("?generic_failure", $url)[0];
-    echo $url;
-
-    if (strpos ($url, '?') !== false)
-        redirect ($url . '&' . $status . '=1', true);
-    else
-        redirect ($url . '?' . $status . '=1', true);
-}
-
-function redirect ($url, $absolute = false) {
+function redirect($url, $absolute = false) {
     if (strpos($url, '/actions/') !== false) {
-        $url = Config::get('MELLIVORA_CONFIG_INDEX_REDIRECT_TO');
+        $url = Config::get('REDIRECT_INDEX_TO');
     }
 
     if (!$absolute) {
-        $url = Config::get('MELLIVORA_CONFIG_SITE_URL') . trim($url, '/');
+        $url = Config::get('URL_BASE_PATH') . trim($url, '/');
     }
 
     validate_url($url);
 
     header('location: ' . $url);
     exit();
-}
-
-function get_num_participating_users() {
-    $res = db_query_fetch_one('
-        SELECT COUNT(*) AS num FROM (
-          (
-            SELECT u.id
-            FROM users AS u
-            JOIN submissions AS s ON s.user_id = u.id AND s.correct
-            JOIN challenges AS c ON c.id = s.challenge
-            WHERE u.competing = 1
-            GROUP BY u.id
-            HAVING SUM(c.points) > 0
-          ) UNION DISTINCT (
-            SELECT DISTINCT id
-            FROM users
-            WHERE last_active > UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND competing = 1
-          )
-        ) AS x
-    ');
-
-    return $res['num'];
 }
 
 function check_server_configuration() {
@@ -450,15 +180,16 @@ function check_server_configuration() {
 
 function check_server_php_version() {
     if (version_compare(PHP_VERSION, CONST_MIN_REQUIRED_PHP_VERSION, '<')) {
-        message_inline('Your version of PHP is too old. You need at least '.CONST_MIN_REQUIRED_PHP_VERSION.'. You are running: ' . PHP_VERSION, "red");
+        echo message_inline('Your version of PHP is too old. You need at least ' . CONST_MIN_REQUIRED_PHP_VERSION . '. You are running: ' . PHP_VERSION, true, "#E06552");
     }
 }
 
 function check_server_writable_dirs() {
     // check that our writable dirs are writable
-    foreach (get_directory_list_recursive(CONST_PATH_FILE_WRITABLE) as $dir) {
+    foreach (array_diff(scandir(CONST_PATH_FILE_WRITABLE), array('.', '..')) as $dir) {
+        $dir = CONST_PATH_FILE_WRITABLE . '/' . $dir;
         if (!is_writable($dir)) {
-            message_inline('Directory ('.$dir.') must be writable.', "red");
+            echo message_inline('Directory (' . $dir . ') must be writable.', true, "#E06552");
         }
     }
 }
@@ -466,149 +197,35 @@ function check_server_writable_dirs() {
 function check_server_and_db_time() {
     // check for DB and PHP time mismatch
     $dbInfo = db_query_fetch_one('SELECT UNIX_TIMESTAMP() AS timestamp, TIMESTAMPDIFF(SECOND, UTC_TIMESTAMP(), NOW()) AS timezone_offzet_seconds');
-    $time = time();
-    $error = abs($time - $dbInfo['timestamp']);
+    $error = abs(time() - $dbInfo['timestamp']);
     if ($error >= 5) {
-        message_inline('Database and PHP times are out of sync. This will cause problems.
-        DB time: '.date_time($dbInfo['timestamp']).', PHP time: '.date_time($time).' ('.$error.' seconds off).', "red");
+        echo message_inline('Database and PHP times are out of sync. (' . $error . ' seconds off)', true, "#E06552");
     }
 
-    $php_timezone_offzet_seconds = date('Z');
-    if ($php_timezone_offzet_seconds != $dbInfo['timezone_offzet_seconds']) {
-        message_inline('PHP and Database timezones are different.
-        This will cause problems.
-        PHP zone: ' . $php_timezone_offzet_seconds / 3600 . ', Database zone: ' . $dbInfo['timezone_offzet_seconds'] / 3600, "red");
+    if (date('Z') != $dbInfo['timezone_offzet_seconds']) {
+        echo message_inline('Database and PHP timezones are different.', true, "#E06552");
     }
-}
-
-function visibility_enum_to_name ($visibility) {
-    switch ($visibility) {
-        case CONST_DYNAMIC_VISIBILITY_BOTH:
-            return 'Both public and private';
-        case CONST_DYNAMIC_VISIBILITY_PRIVATE:
-            return 'Private';
-        case CONST_DYNAMIC_VISIBILITY_PUBLIC:
-            return 'Public';
-    }
-
-    return 'Unknown';
 }
 
 function array_get ($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
 
-function to_permalink ($string) {
-
-    $string = strtolower($string);
-    $string = preg_replace('/[^a-z0-9\-\s]/', '', $string);
-    $string = preg_replace('/\s+/', ' ', $string);
-    $string = trim($string);
-
-    return str_replace(
-        array(' '),
-        array('-'),
-        $string
-    );
-}
-
-function array_search_matching_key ($needle, $haystack, $key, $transform_using_function = null) {
-
-    if ($transform_using_function) {
-        foreach ($haystack as $element) {
-            if (
-                call_user_func(
-                    $transform_using_function,
-                    array_get($element, $key)
-                ) == call_user_func(
-                    $transform_using_function,
-                    $needle
-                )
-            ) {
-                return $element;
-            }
-        }
-    } else {
-        foreach ($haystack as $element) {
-            if (array_get($element, $key) == $needle) {
-                return $element;
-            }
-        }
-    }
-
-    return false;
-}
-
-function is_item_available($available_from, $available_until) {
-    $now = time();
-
-    if ($available_from > $now) {
-        return false;
-    }
-
-    if ($available_until < $now) {
-        return false;
-    }
-
-    return true;
-}
-
-function empty_to_zero($val) {
-    if (empty($val)) {
-        return 0;
-    }
-    return $val;
-}
-
-function dynamicScoringFormula ($initial, $min, $decay, $solves) {
-    if ($decay == 0)
-        return $initial; // Avoid divide by 0 exception
-    else if ($solves >= $decay)
-        return $min; // Clamp at minimum solves
+function calculate_points_using_formula($init_pts, $min_pts, $solves_until_min, $solves) {
+    if ($solves_until_min == 0 || $solves >= $solves_until_min)
+        return $min_pts; // Avoid divide by 0 exception and clamp at min solves
     else
-        return $initial - (($initial - $min) / ($decay * $decay)) * ($solves * $solves);
+        return $init_pts - ($init_pts - $min_pts) * ($solves * $solves) / ($solves_until_min * $solves_until_min);
 }
 
-function challengeSolve ($id) {
-    $challenge = db_select_one(
-        'challenges',
-        array(
-            'initial_points',
-            'minimum_points',
-            'solve_decay',
-            'solves'
-        ),
-        array ('id' => $id)
-    );
+function update_challenge_points($challenge) {
+    $solves = db_query_fetch_one('SELECT COUNT(*) AS count FROM submissions WHERE challenge=:challenge AND correct=1', array('challenge' => $challenge['id']))['count'];
 
-    db_update(
-        'challenges',
+    db_update('challenges',
         array(
-            'solves'=>$challenge['solves'] + 1,
-            'points'=>dynamicScoringFormula ($challenge['initial_points'], $challenge['minimum_points'], $challenge['solve_decay'], $challenge['solves'] + 1)
+            'solves'=>$solves,
+            'points'=>calculate_points_using_formula($challenge['initial_points'], $challenge['minimum_points'], $challenge['solves_until_minimum'], $solves)
         ),
-        array('id'=>$id)
-    );
-}
-
-function challengeUnsolve ($id) {
-    $challenge = db_select_one(
-        'challenges',
-        array(
-            'initial_points',
-            'minimum_points',
-            'solve_decay',
-            'solves'
-        ),
-        array('id' => $id)
-    );
-
-    db_update(
-        'challenges',
-        array(
-            'solves'=>$challenge['solves'] - 1,
-            'points'=>dynamicScoringFormula ($challenge['initial_points'], $challenge['minimum_points'], $challenge['solve_decay'], $challenge['solves'] - 1)
-        ),
-        array('id'=>$id)
+        array('id' => $challenge['id'])
     );
 }

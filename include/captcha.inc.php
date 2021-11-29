@@ -1,29 +1,42 @@
 <?php
 
+$captcha_script_sent = false;
+
 function display_captcha() {
-    echo '
-    <div class="g-recaptcha" data-sitekey="',Config::get('MELLIVORA_CONFIG_RECAPTCHA_PUBLIC_KEY'),'"></div>
-    <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en"></script>';
+    global $captcha_script_sent;
+
+    $return = '';
+    if (!$captcha_script_sent) {
+        $return .= "<script src='https://www.hCaptcha.com/1/api.js' async defer></script>";
+        $captcha_script_sent = true;
+    }
+
+    $return .= '<div class="h-captcha" data-sitekey="' . htmlspecialchars(Config::get('HCAPTCHA_SITE_KEY')) . '"></div>';
+    return $return;
 }
 
-function validate_captcha () {
-    try {
-        $captcha = new \ReCaptcha\ReCaptcha(
-            Config::get('MELLIVORA_CONFIG_RECAPTCHA_PRIVATE_KEY'),
-            new \ReCaptcha\RequestMethod\CurlPost()
-        );
+function validate_captcha() {
+    if(!isset($_POST['h-captcha-response']) || empty($_POST['h-captcha-response'])) {
+        die_with_message_error("Captcha fail");
+        return false;
+    }
+    
+    $data = array(
+        'secret' => Config::get('HCAPTCHA_SECRET'),
+        'response' => $_POST['h-captcha-response']
+    );
 
-        $response = $captcha->verify(
-            $_POST['g-recaptcha-response'],
-            get_ip()
-        );
-
-        if (!$response->isSuccess()) {
-            message_error('Captcha error');
-        }
-
-    } catch (Exception $e) {
-        log_exception($e);
-        message_error('Caught exception processing captcha. Please contact '.(Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') ? Config::get('MELLIVORA_CONFIG_EMAIL_REPLYTO_EMAIL') : Config::get('MELLIVORA_CONFIG_EMAIL_FROM_EMAIL')));
+    $verify = curl_init();
+    curl_setopt($verify, CURLOPT_URL, "https://hcaptcha.com/siteverify");
+    curl_setopt($verify, CURLOPT_POST, true);
+    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($verify);
+    $responseData = json_decode($response);
+    
+    if ($responseData->success) {
+        return true;
+    } else {
+        die_with_message_error("Captcha fail");
     }
 }

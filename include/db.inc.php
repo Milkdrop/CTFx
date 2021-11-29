@@ -267,7 +267,7 @@ function db_rollback_transaction() {
 
 function sql_exception (PDOException $e) {
     log_exception($e);
-    message_error('An SQL exception occurred. Please check the exceptions log.');
+    die_with_message_error('An SQL exception occurred. Please check the exceptions log.');
 }
 
 function null_to_bool(&$val) {

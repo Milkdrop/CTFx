@@ -1,111 +1,71 @@
 <?php
-require(CONST_PATH_LAYOUT . 'login_dialog.inc.php');
-require(CONST_PATH_LAYOUT . 'messages.inc.php');
-require(CONST_PATH_LAYOUT . 'scores.inc.php');
-require(CONST_PATH_LAYOUT . 'user.inc.php');
-require(CONST_PATH_LAYOUT . 'forms.inc.php');
-require(CONST_PATH_LAYOUT . 'challenges.inc.php');
 
-// set global head_sent variable
 $head_sent = false;
-// singleton bbcode instance
-$bbc = null;
-
-$staticVersion = "1.2.4";
+$collapsible_cards_sent = 0;
+$parsedown = null;
+$staticVersion = "1.3.0r1";
 
 function head($title = '') {
     global $head_sent;
     global $staticVersion;
 
     header('Content-Type: text/html; charset=utf-8');
+    header('Content-Security-Policy: script-src \'self\' https://www.hCaptcha.com/1/api.js');
+
     echo '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('MELLIVORA_CONFIG_SITE_NAME'), ' - ', Config::get('MELLIVORA_CONFIG_SITE_SLOGAN'),'</title>
-    <meta name="description" content="',Config::get('MELLIVORA_CONFIG_SITE_DESCRIPTION'),'">
+    <title>',($title ? htmlspecialchars($title) . ' : ' : '') , Config::get('SITE_NAME'), ' - ', Config::get('SITE_SLOGAN'),'</title>
+    <meta name="description" content="',Config::get('SITE_DESCRIPTION'),'">
     <meta name="author" content="">
-    <link rel="icon" href="/img/favicon.png" type="image/png" />
+    <meta property="og:image" content="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png"/>
+    <link rel="icon" href="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/mellivora.css?ver=' . $staticVersion . '" rel="stylesheet">';
-
-    js_global_dict();
-
-    if (Config::get('MELLIVORA_CONFIG_SEGMENT_IO_KEY')) {
-        echo '
-        <script type="text/javascript">
-        window.analytics=window.analytics||[],window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(t){return function(){var a=Array.prototype.slice.call(arguments);return a.unshift(t),window.analytics.push(a),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(t){if(!document.getElementById("analytics-js")){var a=document.createElement("script");a.type="text/javascript",a.id="analytics-js",a.async=!0,a.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.io/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n)}},window.analytics.SNIPPET_VERSION="2.0.9",
-        window.analytics.load("',Config::get('MELLIVORA_CONFIG_SEGMENT_IO_KEY'),'");
-        window.analytics.page();
-        </script>
-        ';
-    }
+    <link href="/static/ctfx.css?v=' . $staticVersion . '" rel="stylesheet">';
 
     echo '
     </head>
-    <body>
-    <div class="background"></div>
-    <div class="background background-left"></div>
-    <div class="background background-right"></div>';
+    <body>';
 
-    if (!user_is_logged_in()) {
-        login_dialog();
-    }
+    echo '<div id="navbar">
+        <a href="' . Config::get('URL_BASE_PATH') . '">
+            <img id="navbar-logo" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/logo_navbar.png">
+        </a>
 
-    echo '
-    <div class="page">
-    <nav class="header" id="header">
-        <div id="header-inner">
-            <a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'">
-                <img id="header-logo" src="/img/theme/headerLogo.png">
-            </a>
-            <div id="header-menu">
-                <ul class="nav nav-pills pull-right" id="menu-main">';
+        <div id="navbar-buttons">';
 
-                    if (user_is_logged_in()) {
+        $path = strtok(strtok($_SERVER['REQUEST_URI'], '?'), '/');
 
-                        if (user_is_staff()) {
-                            echo '<li><a href="/admin/">',lang_get('manage'),'</a></li>';
-                        }
+            if (user_is_logged_in()) {
 
-                        echo '
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'challenges">',lang_get('challenges'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scores'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'profile">',lang_get('profile'),'</a></li>
-                            <li>',form_logout(),'</li>';
-
-                    } else {
-                        echo '
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'home">',lang_get('home'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'scores">',lang_get('scoreboard'),'</a></li>
-                            <li><a href="',Config::get('MELLIVORA_CONFIG_SITE_URL'),'register">',lang_get('register'),'</a></li>
-                            <li><a href="" data-toggle="modal" data-target="#login-dialog">',lang_get('log_in'),'</a></li>';
+                foreach (array('Admin', 'Home', 'Challenges', 'Scoreboard', 'Profile') as $entry) {
+                    if ($entry === 'Admin' && !user_is_staff()) {
+                        continue;
                     }
-                    echo '
-                </ul>
-            </div>
+                    
+                    echo '<a ' . ((stripos($path, $entry)!==false)?'class="active" ':'') . 'href="'
+                        . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
+                }
+                
+                echo '<form action="/api" method="post">' . form_xsrf_token() . '
+                    <input type="hidden" name="action" value="logout"/>
+                    <button type="submit" id="logout-button">Logout</button>
+                </form>';
+
+            } else {
+                foreach (array('Home', 'Scoreboard', 'Login') as $entry) {
+                    echo '<a ' . ((stripos($path, $entry)!==false)?'class="active" ':'') . 'href="'
+                        . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
+                }
+            }
+
+            echo '
         </div>
-    </nav><!-- navbar -->
+    </div>
 
-    <div id="background-dots"></div>
-    <div class="container" id="body-container">
-
-        <div id="content-container">
-        ';
-
-    if (isset($_GET['generic_success'])) {
-        message_inline ("Action Successful", "green", true, "margin-bottom: 0px");
-        spacer ();
-    } else if (isset($_GET['generic_failure'])) {
-        message_inline ("Action Failed", "red", true, "margin-bottom: 0px");
-        spacer ();
-    } else if (isset($_GET['generic_warning'])) {
-        message_inline ("Something Went Wrong", "red", true, "margin-bottom: 0px");
-        spacer ();
-    }
+    <div id="body-content">';
 
     $head_sent = true;
 }
@@ -113,256 +73,223 @@ function head($title = '') {
 function foot () {
     global $staticVersion;
     
-    echo '</div> <!-- / content container -->
-</div> <!-- /container -->
+    echo '</div>
 
-<div id="footer">
-    <b>CTFx</b> v1.2 Beta<br>
-	Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
-</div>
-
-</div> <!-- /page -->
-
-<!-- JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-<audio id="audio-typewriter" src="/audio/typewriter.mp3"></audio>
-<audio id="audio-navbar" src="/audio/navbar.mp3"></audio>
-<audio id="audio-navclick" src="/audio/navclick.mp3"></audio>
-<audio id="audio-footer-mouseover" src="/audio/footer_mouseover.mp3"></audio>
-<audio id="audio-button-mouseover" src="/audio/button_mouseover.mp3"></audio>
-<audio id="audio-button-click" src="/audio/button_click.mp3"></audio>
-<audio id="audio-button-cancel-mouseover" src="/audio/button_cancel_mouseover.mp3"></audio>
-<audio id="audio-button-cancel-click" src="/audio/button_cancel_click.mp3"></audio>
-<audio id="audio-button-small-mouseover" src="/audio/button_small_mouseover.mp3"></audio>
-<audio id="audio-button-small-click" src="/audio/button_small_click.mp3"></audio>
-<audio id="audio-dropdown-open" src="/audio/dropdown_open.mp3"></audio>
-<audio id="audio-checkbox-click" src="/audio/checkbox_click.mp3"></audio>
-
-<script type="text/javascript" src="/js/mellivora.js?ver=' . $staticVersion . '"></script>
-</body>
-</html>';
-}
-
-function section_title ($title, $tagline = '', $decorator_color = "green") {
-    echo '
-    <div class="row">
-        <div class="col-lg-12 page-header">
-            <h2 class="typewriter">', title_decorator ($decorator_color), htmlspecialchars ($title),
-            '<small>'.$tagline.'</small>','
-            </h2>
-        </div>
+    <div id="footer">
+        <b><a href="https://github.com/Milkdrop/CTFx">CTFx</a></b> v'.$staticVersion.'<br>
+        Made with &#x1f499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
     </div>
-    ';
+
+    <!-- JS -->
+    <audio id="audio-typewriter" src="/static/audio/typewriter.mp3"></audio>
+    <audio id="audio-nav-mouseover" src="/static/audio/nav_mouseover.mp3"></audio>
+    <audio id="audio-nav-click" src="/static/audio/nav_click.mp3"></audio>
+    <audio id="audio-btn-dynamic-mouseover" src="/static/audio/btn_dynamic_mouseover.mp3"></audio>
+    <audio id="audio-btn-dynamic-click" src="/static/audio/btn_dynamic_click.mp3"></audio>
+    <audio id="audio-btn-solid-mouseover" src="/static/audio/btn_solid_mouseover.mp3"></audio>
+    <audio id="audio-btn-solid-click" src="/static/audio/btn_solid_click.mp3"></audio>
+    <audio id="audio-checkbox-click" src="/static/audio/checkbox_click.mp3"></audio>
+    <script type="text/javascript" src="/static/ctfx.js?v=' . $staticVersion . '"></script>
+    </body>
+    </html>';
 }
 
-function section_head ($title, $tagline = '', $decorator_color = "green", $typewriter = true) {
-    echo '
-        <div class="row">
-            <div class="col-lg-12" style="margin-bottom: 5px">
-                <h2 ', $typewriter?'class="typewriter"':'','>', title_decorator ($decorator_color), htmlspecialchars ($title),
-                '<small>'.$tagline.'</small>','
-                </h2>
-            </div>
+function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
+    $icon = htmlspecialchars($icon);
+    $rotation = htmlspecialchars($rotation);
+    $color = htmlspecialchars($color);
+    $icon_size = htmlspecialchars($icon_size);
+
+    return '<div class="decorator-square-container" style="transform: rotate('.$rotation.')">
+        <div class="decorator-square-component" style="background-color:'.$color.'"></div>
+        <div class="decorator-square-component title-decorator-gray"></div>
+        <div class="decorator-square-component decorator-square-icon"
+            style="background-image: url(\''.Config::get('URL_STATIC_RESOURCES').'/img/icons/'.$icon.'\');'
+                . 'background-size: ' . $icon_size . 'px;'
+                .($invert_icon?'filter:invert(1);':'')
+                .($reset_icon_rotation?'transform: rotate(-'.$rotation.');':'')
+            .'">
         </div>
-    ';
-}
-
-function section_subhead ($title, $tagline = '', $strip_html = true) {
-    echo '
-    <div class="row">
-        <div class="col-lg-12">
-          <h3 class="page-header">',($strip_html ? htmlspecialchars($title) : $title),' ',($tagline ? $strip_html ? '<small>'.htmlspecialchars($tagline).'</small>' : '<small>'.$tagline.'</small>' : ''),'</h3>
-        </div>
-    </div>
-    ';
-}
-
-function title_decorator ($color, $rotation = "0deg", $img = "arrow.png") {
-    $colorcode = "#808080";
-
-    switch ($color) {
-        case "blue": $colorcode = "#0B90FD"; break;
-        case "green": $colorcode = "#C2E812"; break;
-        case "red": $colorcode = "#F2542D"; break;
-        default: break; // default: remains gray
-    }
-
-    echo '<div class="title-decorator-container title-decorator-', htmlspecialchars($color), '" style="transform: rotate(',$rotation,')">
-        <div class="title-decorator" style="background-color:', htmlspecialchars($colorcode), '"></div>
-        <div class="title-decorator title-decorator-gray"></div>
-        <div class="title-decorator title-decorator-icon" style="background-image: url(\'/img/ui/',$img,'\')"></div>
     </div>';
 }
 
-function spacer () {
-    echo '<div style="margin-top:5px"></div>';
+function section_header($title) {
+    $title = htmlspecialchars($title);
+    return '<div class="section-header">' . decorator_square() . $title . '</div>';
 }
 
-function tag ($text) {
-    echo '<div class="inline-tag">',$text,'</div>';
+function card($html_title, $html_header_right_side, $html_content, $extra_class = '') {
+    $extra_class = htmlspecialchars($extra_class);
+
+    return '<div class="card ' . $extra_class . '">
+        <div class="card-header">' . $html_title . '<small>' . $html_header_right_side . '</small></div>
+        <div class="card-content">' . $html_content . '</div>
+    </div>';
 }
 
-function icon ($img) {
-    echo '<span class="icon" style="background-image:url(\'/img/ui/',$img,'\')"></span>';
+function collapsible_card($html_title, $html_header_right_side, $html_content) {
+    global $collapsible_cards_sent;
+    
+    $collapsible_cards_sent += 1;
+    $id = "collapsible-card-" . $collapsible_cards_sent;
+
+    return '<div class="card">
+        <label for="' . $id . '"><div class="card-header">' . $html_title . '<small>' . $html_header_right_side . '</small></div></label>
+        <input id="' . $id . '" class="collapser" type="checkbox">
+        <div class="card-content collapsible">' . $html_content . '</div>
+    </div>';
 }
 
-function card_simple ($title, $content = "", $icon = "") {
-    echo '<div class="ctfx-simple-card">';
+function tag($html_content, $icon = '', $inline_tag = false, $extra_style = '', $extra_classes = '') {
+    $icon = htmlspecialchars($icon);
+    $extra_style = htmlspecialchars($extra_style);
+    $extra_classes = htmlspecialchars($extra_classes);
 
-    if (!empty ($icon))
-        echo '<img class="card-icon" src="',htmlspecialchars($icon),'">';
+    return '<div class="tag' . ($inline_tag?' tag-inline':'') . ' ' . $extra_classes . '"' . (!empty($extra_style)?('style="' . $extra_style . '"'):'') . '>'
+        . (!empty($icon)?('<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/' . $icon . '" style="width:20px; height:20px; margin-right:8px"/>'):'')
+        . $html_content . '</div>';
+}
 
-    echo '<div class="card-content">';
-    echo '<div class="card-title">', htmlspecialchars($title),'</div>';
+function timestamp($time, $extra_text = '', $substract_with = false, $dont_change = false) {
+    $extra_text = htmlspecialchars($extra_text);
+    
+    $full_timestamp = formatted_date($time);
 
-    if (!empty ($content))
-        echo '<div class="card-text">', htmlspecialchars($content),'</div>';
+    $time_difference = $time - time();
+    if ($substract_with !== false) {
+        $time_difference = $time - $substract_with;
+    }
+    
+    $seconds = $time_difference % 60;
+
+    if ($time_difference > 0) {
+        $minutes = floor($time_difference / 60) % 60;
+        $hours = floor($time_difference / (60 * 60)) % 24;
+        $days = floor($time_difference / (60 * 60 * 24));
+    } else {
+        $minutes = ceil($time_difference / 60) % 60;
+        $hours = ceil($time_difference / (60 * 60)) % 24;
+        $days = ceil($time_difference / (60 * 60 * 24));
+    }
+    
+    $seconds = abs($seconds);
+    $minutes = abs($minutes);
+    $hours = abs($hours);
+    $days = abs($days);
+    
+    if ($days) $content = $days . " Day" . ($days==1?"":"s") . ", " . $hours . " Hour" . ($hours==1?"":"s");
+    else if ($hours) $content = $hours . " Hour" . ($hours==1?"":"s") . ", " . $minutes . " Minute" . ($minutes==1?"":"s");
+    else if ($minutes) $content = $minutes . " Minute" . ($minutes==1?"":"s") . ", " . $seconds . " Second" . ($seconds==1?"":"s");
+    else $content = $seconds . " Second" . ($seconds==1?"":"s");
+
+    return tooltip('<span ' . ($dont_change?'':'class="countdown"') . ' time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
+}
+
+function tooltip($html_content, $tooltip_text) {
+    $tooltip_text = htmlspecialchars($tooltip_text);
+
+    return '<span class="tooltip">' . $html_content . '<div class="tooltip-text">' . $tooltip_text . '</div></span>';
+}
+
+function message_inline($message, $strip_html = true, $color = "#35AAFD") {
+    if ($strip_html)
+        $message = htmlspecialchars($message);
+    
+    return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
+}
+
+function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#35AAFD") {
+    global $head_sent;
+
+    $message = htmlspecialchars($message);
+    $color = htmlspecialchars($color);
+
+    if (!$head_sent)
+        head("Message");
+
+    echo '<div class="message-centered">
+        <img src="'.Config::get('URL_STATIC_RESOURCES').'/img/icons/' . htmlspecialchars($img) . '">
+        <div>
+        <div>' . $message . '</div>';
+
+    if (!empty($submessage))
+        echo '<div>' . message_inline($submessage, $strip_html, $color) . '</div>';
 
     echo '</div></div>';
+
+    foot();
+    die();
 }
 
-function dropdown ($name, $options = null) {
-    if (count ($options) <= 1) {
-        echo '<div class="btn-group">
-            <a href="',$options[0][1],'" class="btn btn-2 btn-xs">', $name, '</a>
-        </div>';
-    } else if (count ($options) > 1) {
-        echo '<div class="btn-group">
-            <button class="btn btn-2 dropdown-toggle btn-xs" data-toggle="dropdown">', $name, ' <span class="caret"></span></button>
-            <ul class="dropdown-menu">';
+function die_with_message_error($error_message) {
+    http_response_code(400);
+    die_with_message("Fatal Error", $error_message, true, 'cracked.png', '#E06552');
+}
 
-            foreach ($options as $option) {
-                echo '<li><a href="', $option[1], '">', $option[0], '</a></li>';
-            }
-        echo '</ul>
-        </div>';
+function admin_delete_confirmation($explanation = '') {
+    $submessage = '<form style="margin-right:8px" method="post" action="api">'
+        . form_xsrf_token()
+        . form_action_what($_POST['action'], $_POST['what'])
+        . form_hidden('id', $_POST['id'])
+        . form_hidden('delete_confirmation', 'yes')
+        . '<button class="btn-solid btn-solid-danger" type="submit">Yes</button>'
+        . '</form>';
+    
+    if (!empty($explanation))
+        $submessage .= tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
+        
+    die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#E06552');
+}
+
+/* Forms */
+
+function form_action_what($action, $what) {
+    return form_hidden('action', $action) . form_hidden('what', $what);
+}
+
+function form_hidden($name, $value) {
+    $name = htmlspecialchars($name);
+    $value = htmlspecialchars($value);
+    return '<input type="hidden" name="' . $name . '" value="' . $value . '"/>';
+}
+
+function form_checkbox($name, $checked = false, $custom_style = '') {
+    $input_name = htmlspecialchars(str_replace(array(' ', '-'), '_', strtolower($name)));
+    $printed_name = htmlspecialchars($name);
+    $custom_style = htmlspecialchars($custom_style);
+
+    return '<div class="section-header" style="font-size:20px; ' . $custom_style . '">
+        <label>
+            <input type="hidden" name="' . $input_name . '" value="0"/>
+            <input type="checkbox" name="' . $input_name . '" value="1" ' . ($checked?'checked':'').'/>
+            <div class="checkbox">
+            <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/cross.png"/>
+            <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/check.png"/>
+            </div>
+        </label>' . $printed_name . '</div>';
+}
+
+function admin_menu() {
+    $path = basename(strtok($_SERVER['REQUEST_URI'], '?'));
+    $sections = array('Dashboard', 'Challenges');
+    $active_path = "???";
+
+    foreach ($sections as $entry) {
+        if (stripos($path, $entry)!==false) {
+            $active_path = $entry;
+        }
     }
-}
 
-function edit_link ($url, $contents, $icon = "", $tooltip = "", $color = "white") {
-    switch ($color) {
-        case "white": $color = "#F5F5F5"; break;
-        case "gray": $color = "#B0B0B0"; break;
-        default: break;
+    echo '<div class="pre-category-name">Admin section:</div>
+        <div class="category-name typewriter">' . $active_path . '</div>';
+
+    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
+    foreach ($sections as $entry) {
+        echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ((stripos($path, $entry)!==false)?'active':'')
+            . '" href="' . strtolower($entry) . '">' . $entry . '</a>';
     }
 
-    echo '<a href="', htmlspecialchars($url), '" style="color: ', htmlspecialchars($color), '">', $contents, '</a>';
-
-    if (!empty ($icon)) {
-        echo ' <span class="glyphicon ', htmlspecialchars($icon);
-
-        if (!empty ($tooltip)) {
-            echo ' has-tooltip" title="',htmlspecialchars($tooltip),'"
-            data-toggle="tooltip" data-placement="top"';
-        } else
-            echo '"';
-
-        echo "></span>";
-    }
-}
-
-function button_link($text, $url) {
-    return '<a href="'.htmlspecialchars($url).'" class="btn btn-xs btn-1">'.htmlspecialchars($text).'</a>';
-}
-
-function menu_management () {
-    echo '<div id="menu-management" class="menu">';
-    dropdown ("Dashboard", [["Dashboard", "/admin/"]]);
-    dropdown ("Submissions", [["List submissions", "/admin/submissions"]]);
-    dropdown ("Users", [["List users", "/admin/users"]]);
-    dropdown ("Email", [["Send Email", "/admin/new_email"], ["Send Email to all users", "/admin/new_email?bcc=all"]]);
-    dropdown ("Exceptions", [["List exceptions", "/admin/exceptions"]]);
-    dropdown ("Search", [["Search", "/admin/search"]]);
-    dropdown ("Edit CTF", [["Edit", "/admin/edit_ctf"]]);
     echo '</div>';
-}
-
-function bbcode_manual () {
-    echo '
-    <table>
-        <tr>
-        <td>
-            <ul>
-            <li><b>Text Styles:</b>
-                <ul>
-                <li>[b]<b>Bold</b>[/b]</li>
-                <li>[i]<i>Italics</i>[/i]</li>
-                <li>[u]<u>Underline</u>[/u]</li>
-                <li>[s]<strike>Strikethrough</strike>[/s]</li>
-                <li>[sup]<sup>Superscript</sup>[/sup]</li>
-                <li>[sub]<sub>Subscript</sub>[/sub]</li>
-                <li>[spoiler]<span class="bbcode_spoiler">Spoiler</span>[/spoiler]</li>
-                <li>[size=2]<span style="font-size:.83em">Custom Size</span>[/size]</li>
-                <li>[color=red]<span style="color:red">Custom Color</span>[/color]</li>
-                <li>[font=verdana]<span style="font-family:\'verdana\'">Custom Font</span>[/font]</li>
-                </ul>
-            </li>
-            <li><b>Links:</b>
-                <ul>
-                <li>[url]<a href="https://www.eff.org/">https://www.eff.org/</a>[/url]</li>
-                <li>[url=https://www.eff.org/]<a href="https://www.eff.org/">Named link</a>[/url]</li>
-                <li>[email]<a href="mailto:mail@mail.com" class="bbcode_email">mail@mail.com</a>[/email]</li>
-                </ul>
-            </li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-            <li><b>Replaced Items:</b>
-                <ul>
-                <li>[img]/img/award_xenon.png[/img] => <img src="/img/award_xenon.png" alt="award_xenon.png" class="bbcode_img"></li>
-                <li>[br]</li>
-                </ul>
-            </li>
-            <li><b>Alignment:</b>
-                <ul>
-                <li>[center]...[/center]</li>
-                <li>[left]...[/left]</li>
-                <li>[right]...[/right]</li>
-                <li>[indent]...[/indent]</li>
-                </ul>
-            </li>
-            <li><b>Containers:</b>
-                <ul>
-                <li>[code]
-                <div class="bbcode_code">
-                    <div class="bbcode_code_head">Code:</div>
-                    <div class="bbcode_code_body" style="white-space:pre">',
-'for i in range (50):
-    print (i)',
-                '</div></div>[/code]</li>
-                <li>[quote]<div class="bbcode_quote">
-                    <div class="bbcode_quote_head">Quote:</div>
-                    <div class="bbcode_quote_body">Quoting Something</div>
-                </div>[/quote]</li>
-                </ul>
-            </li>
-            </ul>
-        </td>
-        </tr>
-    </table>
-    ';
-}
-
-function js_global_dict () {
-
-    $dict = array();
-    if (user_is_logged_in()) {
-        $dict['user_id'] = $_SESSION['id'];
-    }
-
-    echo '<script type="text/javascript">
-        var global_dict = {};
-        ';
-
-    foreach ($dict as $key => $val) {
-        echo 'global_dict["',htmlspecialchars($key),'"] = "',htmlspecialchars($val),'"';
-    }
-
-    echo '
-    </script>';
 }
 
 function progress_bar ($percent, $type = false, $striped = true) {
@@ -383,16 +310,12 @@ function progress_bar ($percent, $type = false, $striped = true) {
     ';
 }
 
-function print_ri($val){
-    echo '<pre>',print_r($val),'</pre>';
-}
-
 function country_flag_link($country_name, $country_code, $return = false) {
     $country_name = htmlspecialchars($country_name);
     $country_code = htmlspecialchars($country_code);
 
     $flag_link = '<a class="country-flag" href="country?code='.htmlspecialchars($country_code).'">' .
-        '<img src="/img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'"/>'.
+        '<img src="'.Config::get('URL_STATIC_RESOURCES').'/img/flags/'.$country_code.'.png" class="has-tooltip" data-toggle="tooltip" data-placement="right" alt="'.$country_code.'" title="'.$country_name.'"/>'.
     '</a>';
 
     if ($return) {
@@ -411,7 +334,9 @@ function pager_filter_from_get($get) {
 
 function pager($base_url, $max, $per_page, $current) {
     if (isset($current)){
-        validate_integer($current);
+        if (!is_integer_value($current)) {
+            die_with_message_error('Invalid starting page');
+        }
     }
 
     // by default, we add on any get parameter to the pager link
@@ -502,13 +427,13 @@ function get_pager_from($val) {
     return 0;
 }
 
-function get_bbcode() {
-    global $bbc;
+function parse_markdown($text) {
+    global $parsedown;
 
-    if ($bbc === null) {
-        $bbc = new BBCode();
-        $bbc->SetEnableSmileys(false);
+    if ($parsedown === null) {
+        $parsedown = new Parsedown();
+        $parsedown->setSafeMode(true);
     }
 
-    return $bbc;
+    return $parsedown->text($text);
 }

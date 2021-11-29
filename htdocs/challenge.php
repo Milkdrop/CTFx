@@ -1,109 +1,69 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 validate_id($_GET['id']);
 
-head(lang_get('challenge_details'));
+head('Challenge');
 
-if (cache_start(CONST_CACHE_NAME_CHALLENGE . $_GET['id'], Config::get('MELLIVORA_CONFIG_CACHE_TIME_CHALLENGE'))) {
+if (cache_start('challenge', Config::get('CACHE_TIME_CHALLENGE'), $_GET['id'])) {
 
-    $challenge = db_query_fetch_one('
-        SELECT
-           ch.title,
-           ch.description,
-           ch.available_from AS available_from,
-           ca.title AS category_title
-        FROM challenges AS ch
-        LEFT JOIN categories AS ca ON ca.id = ch.category
-        WHERE
-           ch.id = :id AND
-           ch.exposed = 1 AND
-           ca.exposed = 1',
-        array('id'=>$_GET['id'])
-    );
+    $challenge = api_get_challenge_info($_GET['id']);
     
-    if (empty($challenge) || !ctfStarted ()) {
-        message_generic(
-            lang_get('sorry'),
-            lang_get('no_challenge_for_id'),
-            false
-        );
+    if (empty($challenge) || (!ctf_started())) {
+        die_with_message("No such challenge");
     }
 
-    $now = time();
-    if ($challenge['available_from'] > $now) {
-        message_generic(
-            lang_get('sorry'),
-            lang_get('challenge_not_available'),
-            false
-        );
+    $submissions = get_submissions_for_challenge($challenge['id']);
+
+    $correct_submissions = [];
+    foreach ($submissions as $submission) {
+        if ($submission['has_solve'] == 1) {
+            array_push($correct_submissions, $submission);
+        }
     }
 
-    $submissions = db_query_fetch_all(
-        'SELECT
-            u.id AS user_id,
-            u.team_name,
-            s.added,
-            c.available_from
-          FROM users AS u
-          LEFT JOIN submissions AS s ON s.user_id = u.id
-          LEFT JOIN challenges AS c ON c.id = s.challenge
-          WHERE
-             u.competing = 1 AND
-             s.challenge = :id AND
-             s.correct = 1
-          ORDER BY s.added ASC',
-        array('id' => $_GET['id'])
-    );
+    $solve_percentage = number_format(((count($correct_submissions) / get_num_participating_users()) * 100), 1);
 
-    section_title ($challenge['title']);
+    echo '<div class="pre-category-name">Challenge:</div>
+    <div style="font-size:48px" class="category-name">' . htmlspecialchars($challenge['title']) . '</div>
+    <div style="display:flex; margin-top:8px">'
+    . tag('<b>' . $challenge['points'] . ' Points</b>', "flag.png", true, 'margin-right:8px')
+    . tag('<b>' . $challenge['solves'] . ' Solves (' . $solve_percentage . '% of users)</b>', "check.png", true, 'margin-right:8px')
+    . '</div>
+    ';
 
-    $num_correct_solves = count($submissions);
+    if (count($correct_submissions) == 0) {
+        die_with_message('No solves.');
+    } else {
+        echo section_header('Solvers');
+        echo '<table>
+        <thead>
+            <tr>
+                <th style="flex-basis: 10%;">Position</th>
+                <th style="flex-basis: 55%;">Team</th>
+                <th style="flex-basis: 35%;">Solved</th>
+            </tr>
+        </thead>
+        <tbody>';
 
-    if (!$num_correct_solves) {
-        echo lang_get('challenge_not_solved');
-    }
-
-    else {
-        $user_count = get_num_participating_users();
-        echo lang_get(
-            'challenge_solved_by_percentage',
-            array(
-                'solve_percentage' => number_format((($num_correct_solves / $user_count) * 100), 1)
-            )
-        );
-
-        echo '
-       <table class="challenge-table table table-striped table-hover">
-       <thead>
-       <tr>
-         <th>',lang_get('position'),'</th>
-         <th>',lang_get('team'),'</th>
-         <th>',lang_get('solved'),'</th>
-       </tr>
-       </thead>
-       <tbody>
-       ';
         $i = 1;
-        foreach ($submissions as $submission) {
-            echo '
-              <tr>
-                <td>', number_format($i), ' ', get_position_medal($i), '</td>
-                <td class="team-name"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">', htmlspecialchars($submission['team_name']), '</a></td>
-                <td>', time_elapsed($submission['added'], $submission['available_from']), ' ', lang_get('after_release'), ' (', date_time($submission['added']), ')</td>
+        foreach ($correct_submissions as $submission) {
+            echo '<tr>
+                <td style="flex-basis: 10%;">' . $i . '</td>
+                <td style="flex-basis: 55%; display: inline; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="user.php?id=', htmlspecialchars($submission['user_id']), '">' . htmlspecialchars($submission['team_name']) . '</a></td>
+                <td style="flex-basis: 35%;">' . timestamp($submission['solve_timestamp'], 'after release (' . htmlspecialchars($submission['tries']) . ' tries)', $challenge['release_time'], true) . '</td>
               </tr>
               ';
             $i++;
         }
 
-        echo '
-       </tbody>
+        echo '</tbody>
        </table>
          ';
     }
 
-    cache_end(CONST_CACHE_NAME_CHALLENGE . $_GET['id']);
+    cache_end();
 }
 
 foot();

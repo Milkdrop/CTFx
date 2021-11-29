@@ -51,23 +51,22 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:
-  - `CREATE DATABASE mellivora CHARACTER SET utf8 COLLATE utf8_general_ci;`
-  - `GRANT ALL PRIVILEGES ON mellivora.* TO 'mellivora'@'%' IDENTIFIED BY 'mellivora_pass';` - Make sure you change the default db username and password!
+  - `CREATE DATABASE ctfx CHARACTER SET utf8 COLLATE utf8_general_ci;`
+  - `GRANT ALL PRIVILEGES ON ctfx.* TO 'ctfx'@'%' IDENTIFIED BY 'ctfx_pass';` - Make sure you change the default db username and password!
 
   - exit `mysql`
-  - `sudo mysql < install/sql/001-mellivora.sql`
+  - `sudo mysql < install/sql/001-ctfx.sql`
   - `sudo mysql < install/sql/002-countries.sql`
 
 **- Create Admin User**
   - Register your admin account on the website (and enable 2FA Authentication preferably)
   - Logout of your account
-  - sudo into `mysql` and run the query `USE mellivora; UPDATE users SET class=100 WHERE id=1;`
+  - sudo into `mysql` and run the query `USE ctfx; UPDATE users SET class=100 WHERE id=1;`
 
 ## Installation Tips:
-- You can change the /var/www/ctfx path, but if you do so, you must update the `MELLIVORA_CONFIG_PATH_BASE` variable in `include/config/config.inc.php`
 - It is **recommended** that you change the default database password, and if you do so you must also change it in `include/config/db.inc.php`
 - You can change the homepage to your liking by modifying `htdocs/home.php`. Make sure to also change the css rules in `htdocs/css/mellivora.min.css` for #ctfx-main-logo and .main-intro-text, if you want a different overall style.
-- You might want to change the `MELLIVORA_CONFIG_CTF_START_TIME` and `MELLIVORA_CONFIG_CTF_END_TIME` variables in `include/config/config.inc.php`, so that each new challenge you create will have these times set as default.
+- You might want to change the `CTF_START_TIME` and `CTF_END_TIME` variables in `include/config/config.inc.php`, so that each new challenge you create will have these times set as default.
 
 ## License
 This software is licenced under the [GNU General Public License v3 (GPL-3)](http://www.tldrlegal.com/license/gnu-general-public-license-v3-%28gpl-3%29). The "include/thirdparty/" directory contains third party code. Please read their LICENSE files for information on the software availability and distribution.

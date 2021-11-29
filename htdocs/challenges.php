@@ -1,280 +1,178 @@
 <?php
 
-require('../include/mellivora.inc.php');
+require('../include/ctfx.inc.php');
 
 enforce_authentication();
 
-$now = time();
-
 head('Challenges');
 
-if (isset($_GET['status'])) {
-    if ($_GET['status']=='correct') {
-        message_dialog('Congratulations! You got the flag!', 'Correct flag', 'Lovely', 'challenge-attempt correct on-page-load form-group');
-    } else if ($_GET['status']=='incorrect') {
-        message_dialog('Sorry! That wasn\'t correct.', 'Incorrect flag', 'Ok', 'challenge-attempt incorrect on-page-load form-group', '4');
-    } else if ($_GET['status']=='manual') {
-        message_dialog('Your submission is awaiting manual marking.', 'Manual marking', 'Ok', 'challenge-attempt manual on-page-load form-group', '4');
-    } else if ($_GET['status']=='empty') {
-        message_inline('Did you really mean to submit an empty flag?');
-    }
-}
+$categories = api_get_categories();
 
-$categories = db_select_all(
-    'categories',
-    array(
-        'id',
-        'title',
-        'description'
-    ),
-    array(
-        'exposed'=>1
-    ),
-    'title ASC'
-);
-
-// determine which category to display
+// Determine which category to display
 if (isset($_GET['category'])) {
+    $category_to_select = $_GET['category'];
+} else {
+    $category_to_select = Config::get('DEFAULT_CATEGORY_ON_CHALLENGES_PAGE');
+}
 
-    if (is_valid_id($_GET['category'])) {
-        $current_category = array_search_matching_key(
-            $_GET['category'],
-            $categories,
-            'id'
-        );
-    } else {
-        $current_category = array_search_matching_key(
-            $_GET['category'],
-            $categories,
-            'title',
-            'to_permalink'
-        );
-    }
-
-    if (!$current_category) {
-        redirect('challenges');
-    }
-
-} else
-    $current_category = $categories[0];
-
-if (!ctfStarted ()) {
-    if (user_is_staff ()) {
-        message_inline ("CTF has not started yet, so only admins can see the challenges.");
-    } else {
-        $timeLeft = Config::get ('MELLIVORA_CONFIG_CTF_START_TIME') - time ();
-        message_center ("No challenges yet", "CTF will start in " . seconds_to_pretty_time ($timeLeft));
+foreach ($categories as $category) {
+    if ($category['id'] == $category_to_select || $category['title'] == $category_to_select) {
+        $current_category = $category;
     }
 }
 
-if (empty ($current_category))
-    message_center ("No challenges yet");
+if (!$current_category) {
+    if (isset($_GET['category'])) {
+        redirect('challenges');
+    } else {
+        $current_category = $categories[0];
+    }
+}
 
-// write category name
-echo '<h3 style="font-size: 18px">Category: </h3><div id="category-name" class="typewriter">', $current_category['title'], '</div>';
+if (!ctf_started()) {
+    if (user_is_staff()) {
+        echo message_inline("CTF has not started yet, so only admins can see the challenges.");
+    } else {
+        die_with_message("No challenges yet", "CTF will start in&nbsp;" . timestamp(Config::get('CTF_START_TIME')), false);
+    }
+}
 
-// write out our categories menu
-echo '<div id="categories-menu" class="menu">
-', title_decorator ("green", "270deg");
+if (!$current_category) {
+    die_with_message("No challenges yet");
+}
+
+// Write category title
+echo '<div class="pre-category-name">Challenge category:</div>
+<div class="category-name typewriter">' . $current_category['title'] . '</div>';
+
+// Write categories selector
+echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#FCDC4D", true);
 
 foreach ($categories as $cat) {
-    echo '<a class="btn btn-xs btn-2 ',($current_category['id'] == $cat['id'] ? 'active' : ''),'" href="/challenges?category=',htmlspecialchars(to_permalink($cat['title'])),'">',htmlspecialchars($cat['title']),'</a>';
+    echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
+        . '" href="challenges?category=' . htmlspecialchars(urlencode($cat['title'])) . '">'
+        . htmlspecialchars($cat['title'])
+    . '</a>';
 }
 
-echo '</div>
-<div id="category-description">', get_bbcode()->parse($current_category['description']), '</div>';
+echo '</div>';
 
-// get all the challenges for the selected category
-$challenges = db_query_fetch_all('
-    SELECT
-       c.id,
-       c.title,
-       c.description,
-       c.available_from,
-       c.available_until,
-       c.points,
-       c.num_attempts_allowed,
-       c.min_seconds_between_submissions,
-       c.automark,
-       c.relies_on,
-       c.exposed,
-       IF(c.automark = 1, 0, (SELECT ss.id FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_1 AND ss.marked = 0)) AS unmarked, -- a submission is waiting to be marked
-       (SELECT ss.added FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_2 AND ss.correct = 1) AS correct_submission_added, -- a correct submission has been made
-       (SELECT COUNT(*) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_3) AS num_submissions, -- number of submissions made
-       (SELECT max(ss.added) FROM submissions AS ss WHERE ss.challenge = c.id AND ss.user_id = :user_id_4) AS latest_submission_added
-    FROM challenges AS c
-    WHERE
-       c.category = :category ' . ((!user_is_staff())?'AND c.exposed = 1':'') .
-    ' ORDER BY c.points ASC, c.id ASC',
-    array(
-        'user_id_1'=>$_SESSION['id'],
-        'user_id_2'=>$_SESSION['id'],
-        'user_id_3'=>$_SESSION['id'],
-        'user_id_4'=>$_SESSION['id'],
-        'category'=>$current_category['id']
-    )
-);
+// Write category description
+if (!empty($current_category['description']))
+    echo '<div class="category-description"><img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/info.png"><div>' . parse_markdown($current_category['description']) . '</div></div>';
+else
+    echo '<div style="margin-bottom: 8px"></div>';
 
-foreach($challenges as $challenge) {
+// Write challenges
+if (user_is_staff()) {
+    $challenges = api_admin_get_challenges_from_category($current_category['id']);
+} else {
+    $challenges = api_get_challenges_from_category($current_category['id'], $_SESSION['id']);
+}
 
-    $has_remaining_submissions = has_remaining_submissions($challenge);
-
-    // if the challenge isn't available yet, display a message and continue to next challenge
-    if ($challenge['available_from'] > $now && !user_is_staff ()) {
-        echo '
-        <div class="ctfx-card">
-            <div class="ctfx-card-head">
-                <h4>Hidden challenge worth ', number_format($challenge['points']), 'pts</h4>
-            </div>
-            <div class="ctfx-card-body">
-                Available in ',time_remaining($challenge['available_from']),' (from ', date_time($challenge['available_from']), ' until ', date_time($challenge['available_until']), ')
-            </div>
-        </div>';
-
-        continue;
-    }
-
-    $position = 0;
-
-    if ($challenge['correct_submission_added']) {
-        $solve_position = db_query_fetch_one('
-                    SELECT
-                      COUNT(*)+1 AS pos
-                    FROM
-                      submissions AS s
-                    WHERE
-                      s.correct = 1 AND
-                      s.added < :correct_submission_added AND
-                      s.challenge = :challenge_id',
-                    array(
-                        'correct_submission_added'=>$challenge['correct_submission_added'],
-                        'challenge_id'=>$challenge['id']
-                    )
-        );
-
-        $position = $solve_position['pos'];
-    }
-
-    echo '
-    <div class="', get_submission_box_class($challenge, $has_remaining_submissions), ' ctfx-card">
-        <div class="ctfx-card-head ', (($position > 0 && $position <= 3)?('solver-' . $position):''),'">
-            <h4><a href="challenge?id=',htmlspecialchars($challenge['id']),'">',htmlspecialchars($challenge['title']), '</a> <small>', number_format($challenge['points']), ' Points</small>';
+foreach ($challenges as $challenge) {
+    $title = '<div style="display:flex"><a href="challenge?id=' . $challenge['id'] . '">' . htmlspecialchars($challenge['title']) . '</a>
+        <div class="challenge-points">
+            <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/flag.png">
+            ' . $challenge['points'] . ' Points';
     
-    if ($position > 0 && $position <= 3) {
-        echo ' ' . get_position_medal($solve_position['pos']);
+    if ($challenge['exposed'] == 0) {
+        $title .= '<img style="margin-left:8px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/hidden.png"> Hidden';
     }
 
-    echo '</h4>';
+    $title .= '</div>
+    </div>';
 
-    if ($challenge['correct_submission_added']) {
-        echo '<div class="challenge-solved-icon"></div><div class="challenge-solved-text">SOLVED</div>';
-    }
+    if ($challenge['dependency_unsatisfied']) {
+        $relies_on_data = $challenge['relies_on_data'];
+        $msg = '<b>To see this challenge, you must first solve <a href="challenge?id=' . $relies_on_data['id'] . '">'
+        . htmlspecialchars($relies_on_data['title']) . '</a>'
+        . ' from <a href="challenges?category=' . $relies_on_data['category'] . '">' . htmlspecialchars($relies_on_data['category_title']) . '</a></b>';
 
-    if (should_print_metadata($challenge)) {
-        print_time_left_tooltip($challenge);
-    }
+        $content = '<div style="display:flex; align-items:center">' . decorator_square("hand.png", "270deg", "#E06552", true, true, 24) . $msg . '</div>';
+    } else {
+        $content = parse_markdown($challenge['description']);
 
-    echo '</div>';
+        $targets = api_get_targets_for_challenge($challenge['id']);
+        $content .= '<div style="margin-top:8px; display:flex; flex-wrap: wrap">';
 
-    unset($relies_on);
-
-    // if this challenge relies on another being solved, get the related information
-    if ($challenge['relies_on']) {
-        $relies_on = db_query_fetch_one('
-            SELECT
-              c.id,
-              c.title,
-              cat.id AS category_id,
-              cat.title AS category_title,
-              s.correct AS has_solved_requirement
-            FROM
-              challenges AS c
-            LEFT JOIN categories AS cat ON cat.id = c.category
-            LEFT JOIN submissions AS s ON s.challenge = c.id AND s.correct = 1 AND s.user_id = :user_id
-            WHERE
-              c.id = :relies_on',
-            array(
-                'user_id'=>$_SESSION['id'],
-                'relies_on'=>$challenge['relies_on']
-            )
-        );
-    }
-
-    echo '<div class="ctfx-card-body">
-    <div class="challenge-description">';
-
-    // if this challenge relies on another, and the user hasn't solved that requirement
-    if (isset($relies_on) && !$relies_on['has_solved_requirement']) {
-        echo '<span class="glyphicon glyphicon-lock"></span> ',
-                lang_get(
-                    'challenge_relies_on',
-                    array(
-                        'relies_on_link' => '<a href="challenge?id='.htmlspecialchars($relies_on['id']).'">'.htmlspecialchars($relies_on['title']).'</a>',
-                        'relies_on_category_link' => '<a href="challenges?category='.htmlspecialchars($relies_on['category_id']).'">'.htmlspecialchars($relies_on['category_title']).'</a>'
-                    )
-                )
-            ,'</div>';
-    }
-
-    // this challenge either does not have a requirement, or has a requirement that has already been solved
-    else {
-        // write out challenge description
-        if ($challenge['description']) {
-            echo get_bbcode()->parse($challenge['description']);
+        if (count($targets) > 0) {
+            foreach ($targets as $target) {
+                if (stripos($target['url'], "http") === 0) {
+                    $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
+                    . tag(htmlspecialchars($target['url']), 'link.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link") . '</a>';
+                } else {
+                    $content .= '<div style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($target['url']) . '" target="_blank">'
+                    . tag(htmlspecialchars($target['url']), 'target.png', true, "margin-bottom:0px", "btn-solid btn-solid-danger btn-solid-link btn-solid-link-unclickable") . '</div>';
+                }
+            }
         }
 
-        echo "</div>";
+        $files = api_get_files_for_challenge($challenge['id']);
 
-        print_challenge_files(get_challenge_files($challenge));
-        print_hints($challenge);
-
-        // only show the hints and flag submission form if we're not already correct and if the challenge hasn't expired
-        if (!$challenge['correct_submission_added'] && $challenge['available_until'] > $now) {
-
-            // if we have already made a submission to a manually marked challenge
-            if ($challenge['num_submissions'] && !$challenge['automark'] && $challenge['unmarked']) {
-                message_inline('Your submission is awaiting manual marking.');
+        if (count($files) > 0) {
+            foreach ($files as $file) {
+                $content .= '<a style="text-decoration:none; margin-right:8px; margin-bottom:8px" href="' . htmlspecialchars($file['url']) . '" target="_blank">'
+                . tag(htmlspecialchars($file['name']), 'package.png', true, "margin-bottom:0px", "btn-solid btn-solid-link") . '</a>';
             }
+        }
 
-            // if we have remaining submissions, print the submission form
-            else if ($has_remaining_submissions) {
-                echo '<div class="challenge-submit">
-                    <form method="post" class="form-flag" action="actions/challenges">
-                        <input name="flag" id="flag-input-'.htmlspecialchars($challenge['id']).'" type="text" class="flag-input form-control form-group" placeholder="Please enter flag for challenge: ',htmlspecialchars($challenge['title']),'"></input>
-                        <input type="hidden" name="challenge" value="',htmlspecialchars($challenge['id']),'" />
-                        <input type="hidden" name="action" value="submit_flag" />';
+        $content .= '</div>';
 
-                form_xsrf_token();
+        $hints = api_get_hints_for_challenge($challenge['id']);
+        $content .= '<div>';
+        foreach ($hints as $hint) {
+            $content .= tag('<b style="margin-right:8px">Hint!</b>' . parse_markdown($hint['content']), 'info.png', true);
+        }
+        $content .= '</div>';
+        
+        if (!empty($challenge['authors'])) {
+            $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true, "margin-bottom:0px");
+        }
 
-                if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
-                    display_captcha();
-                }
-
-                echo '<button id="flag-submit-',htmlspecialchars($challenge['id']),'" class="btn btn-lg btn-1 flag-submit-button" type="submit" data-countdown="',max($challenge['latest_submission_added']+$challenge['min_seconds_between_submissions'], 0),'" data-countdown-done="Submit flag">Submit flag</button>';
-
-                if (should_print_metadata($challenge)) {
-                    echo '<div class="challenge-submit-metadata">';
-                    print_submit_metadata($challenge);
-                    echo '</div>';
-                }
-
-                echo '</form>';
-                echo '</div>';
-
+        if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
+            $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
+                <input type="hidden" name="action" value="submit_flag" />
+                <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
+                <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
+                . form_xsrf_token();
+    
+            if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
+                display_captcha();
             }
-            // no remaining submission attempts
-            else {
-                message_inline("You have no remaining submission attempts. If you've made an erroneous submission, please contact the organizers.");
+    
+            $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
+            $content .= '</form>';
+        }
+    
+        if ($challenge['solve_position'] != 0) {
+            $extra_class = 'card-challenge-solved';
+            
+            if ($challenge['solve_position'] === 1) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
+                $solved_message = 'FIRST BLOOD';
+                $solved_image = '/img/icons/first.png';
+            } else if ($challenge['solve_position'] === 2) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
+                $solved_message = 'SECOND BLOOD';
+                $solved_image = '/img/icons/second.png'; 
+            } else if ($challenge['solve_position'] === 3) {
+                $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
+                $solved_message = 'THIRD BLOOD';
+                $solved_image = '/img/icons/third.png'; 
+            } else {
+                $solved_message = 'SOLVED';
+                $solved_image = '/img/icons/check.png';
             }
-
-            if (user_is_staff() && (($challenge['available_from'] > $now && ctfStarted()) || ($challenge['exposed'] == 0))) {
-                message_inline ("This challenge is hidden from normal users");
-            }
+            
+            $side_header = $solved_message . '<img src="' . Config::get('URL_STATIC_RESOURCES') . $solved_image . '">';
+        } else {
+            $extra_class = '';
+            $side_header = '';
         }
     }
 
-    echo '</div>
-    </div> <!-- / challenge-container -->';
+    echo card($title, $side_header, $content, $extra_class);
 }
 
 foot();
