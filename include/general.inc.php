@@ -25,7 +25,7 @@ function generate_random_int($min = 0, $max = PHP_INT_MAX) {
 
 function get_client_ip() {
     $ip = $_SERVER['REMOTE_ADDR'];
-
+	
     if (Config::get('TRUST_HTTP_X_FORWARDED_FOR') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // in almost all cases, there will only be one IP in this header
         if (is_valid_ip($_SERVER['HTTP_X_FORWARDED_FOR'], true)) {
@@ -43,7 +43,7 @@ function get_client_ip() {
         }
     }
 
-    return ip2long($ip);
+    return $ip;
 }
 
 function is_valid_ip($ip, $public_only = false) {
@@ -77,7 +77,7 @@ function is_valid_id($id) {
 function validate_id($id) {
     if (!is_valid_id($id)) {
 
-        if (Config::get('MELLIVORA_CONFIG_LOG_VALIDATION_FAILURE_ID')) {
+        if (Config::get('LOG_VALIDATION_FAILURE_ID')) {
             log_exception(new Exception('Invalid ID'));
         }
         
@@ -126,7 +126,7 @@ function log_exception($exception, $showStackTrace = true, $customMessage = "") 
                 'trace'=>$showStackTrace? $exception->getTraceAsString() : $customMessage,
                 'file'=>$exception->getFile(),
                 'line'=>$exception->getLine(),
-                'user_ip'=>get_client_ip(true),
+                'user_ip'=>get_client_ip(),
                 'user_agent'=>$_SERVER['HTTP_USER_AGENT']
             )
         );

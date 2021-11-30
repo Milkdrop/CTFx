@@ -57,7 +57,7 @@ function enforce_authentication($admin = false) {
         logout();
     }
 
-    if ($_SESSION['ip'] != get_client_ip()) {
+    if (strcmp($_SESSION['ip'], get_client_ip()) !== 0) {
         log_exception(new Exception('Tried to use a different IP from their session.'));
         logout();
     }

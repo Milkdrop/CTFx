@@ -5,7 +5,6 @@ require('../include/ctfx.inc.php');
 head('Scoreboard');
 
 if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
-
     $now = time();
 
     $scores = db_query_fetch_all('

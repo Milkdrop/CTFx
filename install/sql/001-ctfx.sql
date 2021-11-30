@@ -93,7 +93,7 @@ CREATE TABLE exceptions (
   trace text NOT NULL,
   `file` varchar(255) NOT NULL,
   line int(10) unsigned NOT NULL,
-  user_ip int(10) unsigned NOT NULL,
+  user_ip varchar(255) NOT NULL,
   user_agent text NOT NULL,
   unread BOOLEAN NOT NULL DEFAULT TRUE,
 PRIMARY KEY (id)
@@ -104,7 +104,7 @@ CREATE TABLE ip_log (
   added int(10) unsigned NOT NULL,
   user_id int(10) unsigned NOT NULL,
   last_used int(10) unsigned NOT NULL,
-  ip int(10) unsigned NOT NULL,
+  ip varchar(255) NOT NULL,
   times_used int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (id),
   UNIQUE KEY user_ip (user_id,ip)

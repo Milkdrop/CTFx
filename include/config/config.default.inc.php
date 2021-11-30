@@ -79,6 +79,8 @@ Config::set('ACTIVITY_LOG_FREQUENCY', 300);
 // for logging and housekeeping
 Config::set('TRUST_HTTP_X_FORWARDED_FOR', true);
 
+Config::set('LOG_VALIDATION_FAILURE_ID', true);
+
 // cache times
 Config::set('CACHE_TIME_SCOREBOARD', 10);
 Config::set('CACHE_TIME_HOME', 30);
