@@ -1,5 +1,4 @@
 <?php
-
 require('../include/ctfx.inc.php');
 
 head('Home');

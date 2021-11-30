@@ -24,5 +24,6 @@ session_set_cookie_params(
     true
 );
 
+// This doesn't work! Change from php.ini (/etc/php/7.4/fpm/php.ini)
 ini_set('session.gc_maxlifetime', Config::get('SESSION_TIMEOUT'));
 session_start();

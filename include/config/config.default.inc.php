@@ -67,6 +67,7 @@ Config::set('SSL_COMPAT', false);
 
 // session & cookie expiry time in seconds
 // 0 until browser is closed
+// This doesn't work! Change from php.ini (/etc/php/7.4/fpm/php.ini)
 Config::set('SESSION_TIMEOUT', 604800);
 Config::set('COOKIE_TIMEOUT', 604800);
 
