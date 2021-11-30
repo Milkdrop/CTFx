@@ -83,7 +83,7 @@ foreach ($challenges as $challenge) {
     $title .= '</div>
     </div>';
 
-    if ($challenge['dependency_unsatisfied']) {
+    if (isset($challenge['dependency_unsatisfied']) && $challenge['dependency_unsatisfied']) {
         $relies_on_data = $challenge['relies_on_data'];
         $msg = '<b>To see this challenge, you must first solve <a href="challenge?id=' . $relies_on_data['id'] . '">'
         . htmlspecialchars($relies_on_data['title']) . '</a>'
@@ -136,10 +136,6 @@ foreach ($challenges as $challenge) {
                 <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
                 <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
                 . form_xsrf_token();
-    
-            if (Config::get('MELLIVORA_CONFIG_RECAPTCHA_ENABLE_PRIVATE')) {
-                display_captcha();
-            }
     
             $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
             $content .= '</form>';

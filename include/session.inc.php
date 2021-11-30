@@ -18,7 +18,7 @@ function log_user_ip($user_id) {
     $entry = db_select_one('ip_log', array('id', 'times_used'), array('user_id'=>$user_id, 'ip'=>$ip));
 
     // if the user has logged in with this IP previously
-    if ($entry['id']) {
+    if (isset($entry['id'])) {
         db_update('ip_log',
             array(
                 'last_used'=>time(),

@@ -36,8 +36,13 @@ function api_get_challenges_from_category($category, $for_user) {
                 array('challenge'=>$challenge['id'], 'user_id'=>$for_user)
             );
 
-            $challenge['solve_position'] = $last_submission['solve_position'];
-            $challenge['last_submission'] = $last_submission['added'];
+            if (isset($last_submission['solve_position'])) {
+                $challenge['solve_position'] = $last_submission['solve_position'];
+            }
+
+            if (isset($last_submission['added'])) {
+                $challenge['last_submission'] = $last_submission['added'];
+            }
         }
 
         return $result;
