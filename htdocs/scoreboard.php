@@ -47,7 +47,7 @@ if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
         echo '<div>
             <a href="/user?id=' . $team['user_id'] . '">
             <img style="width:' . $widths[$i] . 'px; margin:0px 4px" src="' . $avatar . '">
-            ' . tooltip('<div class="scoreboard-team-name" style=" max-width:'. $widths[$i] .'px">' . ($top3[$i] + 1) . '. <span class="' . ((isset($_SESSION['id']) && ($team['user_id'] == $_SESSION['id']))?'our-team':'') . '">' . htmlspecialchars($team['team_name']) . '</span></div>', $team['team_name']) . '
+            ' . tooltip('<div class="scoreboard-team-name" style=" max-width:'. $widths[$i] .'px">' . ($top3[$i] + 1) . '. <span>' . htmlspecialchars($team['team_name']) . '</span></div>', $team['team_name']) . '
             </a>
         </div>';
     }
@@ -64,7 +64,7 @@ if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
     foreach ($scores as $team) {
         echo '<div class="scoreboard-entry">
         <div style="margin-right:4px">' . $i . '.</div>
-        <a class="scoreboard-team-name ' . ((isset($_SESSION['id']) && ($team['user_id'] == $_SESSION['id']))?'our-team':'other-team') . '" href="user?id=' . $team['user_id'] . '">' . htmlspecialchars($team['team_name']) . '</a>
+        <a class="scoreboard-team-name" href="user?id=' . $team['user_id'] . '">' . htmlspecialchars($team['team_name']) . '</a>
         ' . tooltip('<img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/flags/' . htmlspecialchars($team['country_code']) . '.png">', $team['country_name']) . '
         <div class="scoreboard-score"><div class="scoreboard-fill ' . (($i <= 3)?('scoreboard-fill-position-' . $i):'') . '" style="width:' . max(($team['score'] * 100) / $maxScore, 0) . '%"><div style="margin-left:8px">' . $team['score'] . ' Points</div></div></div>
         </div>';
