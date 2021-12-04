@@ -13,7 +13,7 @@ function get_global_db_pdo() {
                 'host='.Config::get('MELLIVORA_CONFIG_DB_HOST').';' .
                 'port='.Config::get('MELLIVORA_CONFIG_DB_PORT').';' .
                 'dbname='.Config::get('MELLIVORA_CONFIG_DB_NAME').';' .
-                'charset=utf8', Config::get('MELLIVORA_CONFIG_DB_USER'),
+                'charset=utf8mb4', Config::get('MELLIVORA_CONFIG_DB_USER'),
                 Config::get('MELLIVORA_CONFIG_DB_PASSWORD')
             );
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
