@@ -5,8 +5,59 @@ require('../include/ctfx.inc.php');
 // TODO: Forbid people from seeing things when ctf is not started
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['get']) && ($_GET['get'] == 'xsrf_token')) {
-        echo get_xsrf_token();
+    if (isset($_GET['get'])) {
+        if ($_GET['get'] == 'xsrf_token') {
+            echo get_xsrf_token();
+        } else if ($_GET['get'] == 'my_user_id') {
+            echo $_SESSION['id'];
+        } else if ($_GET['get'] == 'user') {
+            validate_id($_GET['id']);
+            if (cache_start('api_user', Config::get('CACHE_TIME_USER'), $_GET['id'])) {
+
+                $user = db_select_one(
+                    'users',
+                    array(
+                        'team_name',
+                        'email',
+                        'country_id'
+                    ),
+                    array('id' => $_GET['id'])
+                );
+                
+                $country = db_select_one(
+                    'countries',
+                    array('country_name','country_code'),
+                    array('id' => $user['country_id'])
+                );
+
+                if (ctf_started()) {
+                    $challenges = db_query_fetch_all('
+                        SELECT c.id, c.title
+                        FROM challenges AS c
+                        LEFT JOIN submissions AS s ON s.challenge = c.id AND s.user_id = :user_id
+                        WHERE c.exposed = 1 AND s.correct = 1
+                        ORDER BY c.category ASC, c.id ASC',
+                        array(
+                            'user_id' => $_GET['id']
+                        )
+                    );
+                } else {
+                    $challenges = array();
+                }
+                
+                $output = [
+                    'team_name' => $user['team_name'],
+                    'avatar_url' => "https://www.gravatar.com/avatar/" . md5($user["email"]) . "?s=256&d=mp",
+                    'country_name' => $country['country_name'],
+                    'country_code' => $country['country_code'],
+                    'challenges_solved' => $challenges
+                ];
+
+                echo json_encode($output);
+
+                cache_end();
+            }
+        }
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
