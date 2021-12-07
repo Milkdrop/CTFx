@@ -24,6 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     array('id' => $_GET['id'])
                 );
                 
+                if (empty($user)) {
+                    echo '{}';
+                    return;
+                }
+
                 $country = db_select_one(
                     'countries',
                     array('country_name','country_code'),
@@ -54,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 ];
 
                 echo json_encode($output);
-
                 cache_end();
             }
         }
