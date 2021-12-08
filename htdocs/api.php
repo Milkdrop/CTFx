@@ -10,6 +10,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             echo get_xsrf_token();
         } else if ($_GET['get'] == 'my_user_id') {
             echo $_SESSION['id'];
+        } else if ($_GET['get'] == 'challenges') {
+            # Don't need to be logged in.
+            if (cache_start('api_challenges', Config::get('CACHE_TIME_CHALLENGE'))) {
+                if (ctf_started()) {
+                    $challenges = db_query_fetch_all('
+                        SELECT c.id, c.title
+                        FROM challenges AS c
+                        WHERE c.exposed = 1
+                        ORDER BY c.category ASC, c.id ASC'
+                    );
+                } else {
+                    $challenges = array();
+                }
+
+                echo json_encode($challenges);
+                cache_end();
+            }
+
         } else if ($_GET['get'] == 'user') {
             validate_id($_GET['id']);
             if (cache_start('api_user', Config::get('CACHE_TIME_USER'), $_GET['id'])) {
