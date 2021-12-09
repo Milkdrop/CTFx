@@ -271,6 +271,7 @@ label .card-header {
     margin: 8px 0px;
     white-space: pre-wrap;
     font-size: 14px;
+    word-break: break-word;
 }
 
 .card-content p code {
