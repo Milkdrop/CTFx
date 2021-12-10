@@ -3,7 +3,7 @@ RUN apt-get update
 RUN apt-get install nano apt-utils procps -y
 RUN apt-get upgrade -y
 RUN apt-get install nginx php-fpm mariadb-server -y
-RUN apt-get install php-fpm php-curl php-mysql -y
+RUN apt-get install php-fpm php-curl php-mysql php-mbstring -y
 
 RUN rm -rf /var/www/*
 RUN mkdir /var/www/ctfx

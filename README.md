@@ -28,7 +28,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 ## Installation
 **- Install the following dependencies**
-  - `nginx php-fpm php-mysql php-curl mariadb-server` (or `mysql-server` instead of `mariadb-server`)
+  - `nginx php-fpm php-mysql php-curl php-mbstring mariadb-server` (or `mysql-server` instead of `mariadb-server`)
 
 **- Secure mysql server**
   - Run the command `mysql_secure_installation` and remove anonymous users, disable root login and remove the test database

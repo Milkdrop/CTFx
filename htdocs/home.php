@@ -15,6 +15,7 @@ if (cache_start('home', Config::get('CACHE_TIME_HOME'))) {
     
     echo section_header("Proudly sponsored by:") . '<div style="margin-bottom:24px">
         <a target="_blank" href="https://www.hackthebox.com/"><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/hackthebox.png"></a>
+        <a style="margin-left:16px" target="_blank" href="https://armed-synapse.com/"><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/armed_synapse.png"></a>
     </div>';
 
     echo '<div style="display:flex; margin-bottom:16px">
