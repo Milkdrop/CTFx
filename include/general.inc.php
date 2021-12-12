@@ -144,6 +144,10 @@ function ctf_started() {
     return time() >= Config::get('CTF_START_TIME');
 }
 
+function ctf_ended() {
+    return time() > Config::get('CTF_END_TIME');
+}
+
 function get_system_memory_usage () {
     $output = trim (shell_exec ("free -b"));
     $output = explode ("\n", $output)[1];

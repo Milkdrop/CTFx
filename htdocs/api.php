@@ -336,6 +336,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         if (!ctf_started()) {
             die_with_message_error('CTF has not started yet');
         }
+        
+        if (ctf_ended()) {
+            die_with_message_error('CTF has ended.');
+        }
 
         if (user_is_staff()) {
             die_with_message_error('Temporary: Admins can\'t solve challenges');

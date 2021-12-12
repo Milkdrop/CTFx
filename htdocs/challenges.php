@@ -130,7 +130,7 @@ foreach ($challenges as $challenge) {
             $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true, "margin-bottom:0px");
         }
 
-        if ($challenge['solve_position'] == 0 && $challenge['flaggable']) {
+        if ($challenge['solve_position'] == 0 && $challenge['flaggable'] && !ctf_ended()) {
             $content .= '<form style="display:flex; margin-top:8px" method="post" action="api">
                 <input type="hidden" name="action" value="submit_flag" />
                 <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
