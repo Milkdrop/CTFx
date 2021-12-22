@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                         continue;
                     }
 
-                    $output_score = ["team" => $score['team_name'], "score" => $score['score']];
+                    $output_score = ["team" => $score['team_name'], "score" => intval($score['score'])];
                     array_push($output['standings'], $output_score);
                 }
 
