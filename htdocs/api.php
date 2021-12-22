@@ -8,8 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['get'])) {
         if ($_GET['get'] == 'xsrf_token') {
             echo get_xsrf_token();
+
+        } else if ($_GET['get'] == 'scoreboard') {
+            if (cache_start('api_scoreboard', Config::get('CACHE_TIME_SCOREBOARD'))) {
+                $output = ['standings' => []];
+                $scores = api_get_scores();
+
+                foreach($scores as $score) {
+                    if ($score['score'] <= 0) {
+                        continue;
+                    }
+
+                    $output_score = ["team" => $score['team_name'], "score" => $score['score']];
+                    array_push($output['standings'], $output_score);
+                }
+
+                echo json_encode($output);
+                cache_end();
+            }
+
         } else if ($_GET['get'] == 'my_user_id') {
             echo $_SESSION['id'];
+
         } else if ($_GET['get'] == 'challenges') {
             # Don't need to be logged in.
             if (cache_start('api_challenges', Config::get('CACHE_TIME_CHALLENGE'))) {
@@ -79,6 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 echo json_encode($output);
                 cache_end();
             }
+        } else {
+            die("I don't know what to get!");
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -7,23 +7,7 @@ head('Scoreboard');
 if (cache_start('scoreboard', Config::get('CACHE_TIME_CHALLENGE'))) {
     $now = time();
 
-    $scores = db_query_fetch_all('
-        SELECT
-            u.id AS user_id,
-            u.team_name,
-            u.email,
-            co.country_name,
-            co.country_code,
-            COALESCE(SUM(c.points),0) + u.extra_points AS score,
-            MAX(s.added) AS tiebreaker
-        FROM users AS u
-        LEFT JOIN countries AS co ON co.id = u.country_id
-        LEFT JOIN submissions AS s ON u.id = s.user_id AND s.correct = 1
-        LEFT JOIN challenges AS c ON c.id = s.challenge AND c.exposed = 1
-        WHERE u.competing = 1
-        GROUP BY u.id
-        ORDER BY score DESC, tiebreaker ASC'
-    );
+    $scores = api_get_scores();
     
     if (empty($scores)) {
         die_with_message("No teams");
