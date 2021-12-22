@@ -13,13 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             if (cache_start('api_scoreboard', Config::get('CACHE_TIME_SCOREBOARD'))) {
                 $output = ['standings' => []];
                 $scores = api_get_scores();
-
+                
+                $pos = 0;
                 foreach($scores as $score) {
                     if ($score['score'] <= 0) {
                         continue;
                     }
-
-                    $output_score = ["team" => $score['team_name'], "score" => intval($score['score'])];
+                    
+                    $pos += 1;
+                    $output_score = ["pos" => $pos, "team" => $score['team_name'], "score" => intval($score['score'])];
                     array_push($output['standings'], $output_score);
                 }
 
