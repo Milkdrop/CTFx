@@ -2,7 +2,7 @@
 
 require('../include/ctfx.inc.php');
 
-// TODO: Forbid people from seeing things when ctf is not started
+header('Content-type:application/json;charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['get'])) {
