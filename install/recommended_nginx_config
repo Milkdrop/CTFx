@@ -115,7 +115,7 @@ http {
         }
 
         location ~* \.(jpg|jpeg|png|gif|ico|css|js|mp3|mp4)$ {
-            expires 365d;
+            expires 14d;
         }
 
         location / {
