@@ -19,7 +19,6 @@ $user = db_select_one(
 );
 
 echo '
-<div class="pre-category-name">Gateway:</div>
 <div class="category-name typewriter">Edit profile</div>
 <br>
 <a style="font-weight:bold; font-size:24px; margin-bottom:8px" href="user?id=' . $_SESSION['id'] . '">View public profile</a>

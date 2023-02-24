@@ -9,7 +9,6 @@ if (user_is_logged_in()) {
 head('Login');
 
 echo '<div>
-<div class="pre-category-name">Gateway:</div>
 <div class="category-name typewriter">Login / Register</div>
 <form style="margin-top:8px; margin-bottom:8px" method="post" action="api">
 <input type="hidden" name="action" value="login" />
