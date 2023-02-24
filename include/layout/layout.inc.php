@@ -3,7 +3,7 @@
 $head_sent = false;
 $collapsible_cards_sent = 0;
 $parsedown = null;
-$staticVersion = "1.3.0r5";
+$staticVersion = "1.3.0r6";
 
 function head($title = '') {
     global $head_sent;
@@ -23,7 +23,7 @@ function head($title = '') {
     <link rel="icon" href="'.Config::get('URL_STATIC_RESOURCES').'/img/favicon.png" type="image/png" />
 
     <!-- CSS -->
-    <link href="/static/theme.css?v=' . $staticVersion . '" rel="stylesheet">';
+    <link href="/static/ctfx.css?v=' . $staticVersion . '" rel="stylesheet">';
 
     echo '
     </head>
@@ -77,7 +77,7 @@ function foot () {
 
     <div id="footer">
         <b><a href="https://github.com/Milkdrop/CTFx">CTFx</a></b> v'.$staticVersion.'<br>
-        Made with &#x1F9E1; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
+        Made with &#x1F499; by <a href="https://gitlab.com/Milkdrop">Milkdrop</a>, Based on <a href="https://github.com/Nakiami/mellivora">mellivora</a>
     </div>
 
     <!-- JS -->
@@ -94,7 +94,7 @@ function foot () {
     </html>';
 }
 
-function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#EB5E28", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
+function decorator_square($icon = "arrow.png", $rotation = "0deg", $color = "#35AAFD", $invert_icon = false, $reset_icon_rotation = false, $icon_size = 16) {
     $icon = htmlspecialchars($icon);
     $rotation = htmlspecialchars($rotation);
     $color = htmlspecialchars($color);
@@ -192,14 +192,14 @@ function tooltip($html_content, $tooltip_text, $custom_style = '') {
     return '<span class="tooltip" style="' . $custom_style . '">' . $html_content . '<div class="tooltip-text">' . $tooltip_text . '</div></span>';
 }
 
-function message_inline($message, $strip_html = true, $color = "#EB5E28") {
+function message_inline($message, $strip_html = true, $color = "#35AAFD") {
     if ($strip_html)
         $message = htmlspecialchars($message);
     
     return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
 }
 
-function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#EB5E28") {
+function die_with_message($message, $submessage = "", $strip_html = true, $img = "warning.png", $color = "#35AAFD") {
     global $head_sent;
 
     $message = htmlspecialchars($message);
