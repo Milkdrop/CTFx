@@ -10,7 +10,7 @@ RUN mkdir /var/www/ctfx
 
 COPY include /var/www/ctfx/include
 COPY install /var/www/ctfx/install
-COPY writable /var/www/ctfx/writable
+RUN mkdir -p /var/www/ctfx/writable/cache
 RUN chmod -R 777 /var/www/ctfx/writable
 
 WORKDIR /var/www/ctfx

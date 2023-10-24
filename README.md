@@ -35,7 +35,8 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup CTFx**
   - Clone this repository's contents to /var/www/ctfx/
-  - Make the folder `writable` writable
+  - Run `mkdir -p /var/www/ctfx/writable/cache`
+  - Run `chmod -R 777 /var/www/ctfx/writable`
 
 **- Setup nginx**
   - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/nginx.conf` - For the fastcgi_pass entry, you must change the PHP version to your current one.
