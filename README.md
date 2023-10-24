@@ -43,9 +43,10 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup MySQL**
   - sudo into `mysql`, then run the following queries:
-  - `CREATE DATABASE ctfx CHARACTER SET utf8 COLLATE utf8_general_ci;`
-  - `GRANT ALL PRIVILEGES ON ctfx.* TO 'ctfx'@'%' IDENTIFIED BY 'ctfx_pass';` - Make sure you change the default db username and password!
-
+  - `CREATE DATABASE ctfx CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+  - `CREATE USER 'ctfx'@'%' IDENTIFIED BY 'ctfx_pass';` - Make sure you change the default db username and password!
+  - `GRANT ALL PRIVILEGES ON ctfx.* TO 'ctfx'@'%';`
+  
   - exit `mysql`
   - `sudo mysql < install/sql/001-ctfx.sql`
   - `sudo mysql < install/sql/002-countries.sql`
