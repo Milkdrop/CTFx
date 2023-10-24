@@ -35,7 +35,8 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
 
 **- Setup CTFx**
   - Clone this repository's contents to /var/www/ctfx/
-  - Make the folder `writable` writable
+  - Run `mkdir -p /var/www/ctfx/writable/cache`
+  - Run `chmod -R 777 /var/www/ctfx/writable`
 
 **- Setup nginx**
   - Copy the recommended nginx config `install/recommended_nginx_config` to `/etc/nginx/nginx.conf` - For the fastcgi_pass entry, you must change the PHP version to your current one.
@@ -46,7 +47,7 @@ CTFx is extremely lightweight and fast. See the [benchmarks](benchmarks.md).
   - `CREATE DATABASE ctfx CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
   - `CREATE USER 'ctfx'@'%' IDENTIFIED BY 'ctfx_pass';` - Make sure you change the default db username and password!
   - `GRANT ALL PRIVILEGES ON ctfx.* TO 'ctfx'@'%';`
-  
+
   - exit `mysql`
   - `sudo mysql < install/sql/001-ctfx.sql`
   - `sudo mysql < install/sql/002-countries.sql`
