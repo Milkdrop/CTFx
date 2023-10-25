@@ -110,11 +110,11 @@ http {
 
         # deny access to . files, for security
         location ~ /\. {
-            log_not_found off; 
+            log_not_found off;
             deny all;
         }
 
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js|mp3|mp4)$ {
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js|mp3|mp4|ttf|woff|otf|svg)$ {
             expires 14d;
         }
 
