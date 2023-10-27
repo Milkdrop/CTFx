@@ -7,12 +7,12 @@ if (cache_start('home', Config::get('CACHE_TIME_HOME'))) {
     echo '<div id="home-logo"><img src="'.Config::get('URL_STATIC_RESOURCES').'/img/logo.png"></div>';
 
     if (!ctf_started()) {
-        echo '<div id="home-ctf-start-time">' . decorator_square("star.png", "270deg", "#F8C630", true, true, 24) . 'CTF starts in&nbsp;<b>' . timestamp(Config::get('CTF_START_TIME')) . '</b></div>';
+        echo '<div id="home-ctf-start-time">' . decorator_square("star.png", "270deg", "#fcdc42", true, true, 24) . 'CTF starts in&nbsp;<b>' . timestamp(Config::get('CTF_START_TIME')) . '</b></div>';
     }
 
     echo '<div id="home-intro-text">
     <b>X-MAS CTF</b> is a <a href="https://ctftime.org/ctf-wtf/">Capture The Flag competition</a> organized by <a href="https://ctftime.org/team/58218">HTsP</a>. This year we have prepared challenges from a diverse range of categories such as web exploitation, forensics, reverse engineering, binary exploitation, game hacking and more! We made sure that each category has challenges for every skill level, so that there is always something for everyone to enjoy and work on. This competition is using a dynamic scoring system, meaning that the more solves a challenge has, the less points it will bring to each of the solving teams. This system is put in place in order to keep the challenge score updated to its real difficulty level.</div>';
-    
+
     echo section_header("Proudly sponsored by:") . '<div style="margin-bottom:24px">
         <a target="_blank" href=""><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/sponsor_logo.png"></a>
         <a target="_blank" href=""><img class="ctfx-sponsor-logo" src="'.Config::get('URL_STATIC_RESOURCES').'/img/sponsors/sponsor_logo.png"></a>

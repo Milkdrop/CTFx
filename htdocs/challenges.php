@@ -46,7 +46,7 @@ echo '<div class="pre-category-name">Challenge category:</div>
 <div class="category-name typewriter">' . $current_category['title'] . '</div>';
 
 // Write categories selector
-echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#F8C630", true);
+echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#fcdc42", true);
 
 foreach ($categories as $cat) {
     echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ($current_category['id'] == $cat['id'] ? 'active' : '')
@@ -75,7 +75,7 @@ foreach ($challenges as $challenge) {
         <div class="challenge-points">
             <img src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/flag.png">
             ' . $challenge['points'] . ' Points';
-    
+
     if ($challenge['exposed'] == 0) {
         $title .= '<img style="margin-left:8px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/hidden.png"> Hidden';
     }
@@ -125,7 +125,7 @@ foreach ($challenges as $challenge) {
             $content .= tag('<b style="margin-right:8px">Hint!</b>' . parse_markdown($hint['content']), 'info.png', true);
         }
         $content .= '</div>';
-        
+
         if (!empty($challenge['authors'])) {
             $content .= tag('<b style="margin-right:8px">By:</b>' . htmlspecialchars($challenge['authors']), 'user.png', true, "margin-bottom:0px");
         }
@@ -136,14 +136,14 @@ foreach ($challenges as $challenge) {
                 <input type="hidden" name="challenge" value="' . $challenge['id'] . '" />
                 <input type="text" name="flag" style="flex-grow:1; margin-right:8px" placeholder="Input flag" required/>'
                 . form_xsrf_token();
-    
+
             $content .= '<button class="btn-dynamic" type="submit">Submit</button>';
             $content .= '</form>';
         }
-    
+
         if ($challenge['solve_position'] != 0) {
             $extra_class = 'card-challenge-solved';
-            
+
             if ($challenge['solve_position'] === 1) {
                 $extra_class .= ' card-challenge-scrolling-background card-challenge-first-blood';
                 $solved_message = 'FIRST BLOOD';
@@ -151,16 +151,16 @@ foreach ($challenges as $challenge) {
             } else if ($challenge['solve_position'] === 2) {
                 $extra_class .= ' card-challenge-scrolling-background card-challenge-second-blood';
                 $solved_message = 'SECOND BLOOD';
-                $solved_image = '/img/icons/second.png'; 
+                $solved_image = '/img/icons/second.png';
             } else if ($challenge['solve_position'] === 3) {
                 $extra_class .= ' card-challenge-scrolling-background card-challenge-third-blood';
                 $solved_message = 'THIRD BLOOD';
-                $solved_image = '/img/icons/third.png'; 
+                $solved_image = '/img/icons/third.png';
             } else {
                 $solved_message = 'SOLVED';
                 $solved_image = '/img/icons/check.png';
             }
-            
+
             $side_header = $solved_message . '<img src="' . Config::get('URL_STATIC_RESOURCES') . $solved_image . '">';
         } else {
             $extra_class = '';

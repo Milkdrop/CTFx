@@ -7,7 +7,7 @@ function addSFX() {
 
     var nav_mouseover = document.getElementById("audio-nav-mouseover");
     var nav_click = document.getElementById("audio-nav-click");
-    
+
     var checkbox_click = document.getElementById("audio-checkbox-click");
 
     document.querySelectorAll('.btn-dynamic').forEach((e) => {
@@ -43,25 +43,25 @@ function typeWriterSFX() {
 
 function init_countdowns() {
     var countdowns = document.querySelectorAll(".countdown");
-    
+
     setInterval(function() {
         for (countdown of countdowns) {
             var new_time = parseInt(countdown.attributes["time-difference"].value);
             if (new_time != 0) new_time -= 1;
 
             var approx_fun = (new_time > 0) ? Math.floor : Math.ceil;
-            
+
             var seconds = Math.abs(new_time % 60);
             var minutes = Math.abs(approx_fun(new_time / 60) % 60);
             var hours = Math.abs(approx_fun(new_time / (60 * 60)) % 24);
             var days = Math.abs(approx_fun(new_time / (60 * 60 * 24)));
-            
+
             var new_inner_text = "";
             if (days) new_inner_text = days + " Day" + (days==1?"":"s") + ", " + hours + " Hour" + (hours==1?"":"s");
             else if (hours) new_inner_text = hours + " Hour" + (hours==1?"":"s") + ", " + minutes + " Minute" + (minutes==1?"":"s");
             else if (minutes) new_inner_text = minutes + " Minute" + (minutes==1?"":"s") + ", " + seconds + " Second" + (seconds==1?"":"s");
             else new_inner_text = seconds + " Second" + (seconds==1?"":"s");
-            
+
             // Lazy update
             if (new_inner_text != countdown.innerText) countdown.innerText = new_inner_text;
             countdown.attributes["time-difference"].value = new_time;

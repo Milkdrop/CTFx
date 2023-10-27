@@ -44,11 +44,11 @@ function head($title = '') {
                     if ($entry === 'Admin' && !user_is_staff()) {
                         continue;
                     }
-                    
+
                     echo '<a ' . ((stripos($path, $entry)!==false)?'class="active" ':'') . 'href="'
                         . Config::get('URL_BASE_PATH') . strtolower($entry) . '">' . $entry . '</a>';
                 }
-                
+
                 echo '<form action="/api" method="post">' . form_xsrf_token() . '
                     <input type="hidden" name="action" value="logout"/>
                     <button type="submit" id="logout-button">Logout</button>
@@ -72,7 +72,7 @@ function head($title = '') {
 
 function foot () {
     global $staticVersion;
-    
+
     echo '</div>
 
     <div id="footer">
@@ -129,7 +129,7 @@ function card($html_title, $html_header_right_side, $html_content, $extra_class 
 
 function collapsible_card($html_title, $html_header_right_side, $html_content) {
     global $collapsible_cards_sent;
-    
+
     $collapsible_cards_sent += 1;
     $id = "collapsible-card-" . $collapsible_cards_sent;
 
@@ -152,14 +152,14 @@ function tag($html_content, $icon = '', $inline_tag = false, $extra_style = '', 
 
 function timestamp($time, $extra_text = '', $substract_with = false, $dont_change = false) {
     $extra_text = htmlspecialchars($extra_text);
-    
+
     $full_timestamp = formatted_date($time);
 
     $time_difference = $time - time();
     if ($substract_with !== false) {
         $time_difference = $time - $substract_with;
     }
-    
+
     $seconds = $time_difference % 60;
 
     if ($time_difference > 0) {
@@ -171,18 +171,28 @@ function timestamp($time, $extra_text = '', $substract_with = false, $dont_chang
         $hours = ceil($time_difference / (60 * 60)) % 24;
         $days = ceil($time_difference / (60 * 60 * 24));
     }
-    
+
     $seconds = abs($seconds);
     $minutes = abs($minutes);
     $hours = abs($hours);
     $days = abs($days);
-    
+
     if ($days) $content = $days . " Day" . ($days==1?"":"s") . ", " . $hours . " Hour" . ($hours==1?"":"s");
     else if ($hours) $content = $hours . " Hour" . ($hours==1?"":"s") . ", " . $minutes . " Minute" . ($minutes==1?"":"s");
     else if ($minutes) $content = $minutes . " Minute" . ($minutes==1?"":"s") . ", " . $seconds . " Second" . ($seconds==1?"":"s");
     else $content = $seconds . " Second" . ($seconds==1?"":"s");
 
-    return tooltip('<span ' . ($dont_change?'':'class="countdown"') . ' time-difference="' . $time_difference . '">' . $content . '</span>&nbsp;' . $extra_text, $full_timestamp);
+    $text = '<span ' . ($dont_change?'':'class="countdown"') . ' time-difference="' . $time_difference . '">' . $content;
+
+    // include the text in the same <span> if we aren't going to countdown, to avoid the time and the extra_text from
+    // appearing next to each other in a weird way
+    if ($dont_change) {
+        $text .= '&nbsp;' . $extra_text . '</span>';
+    } else {
+        $text .= '</span>&nbsp;' . $extra_text;
+    }
+
+    return tooltip($text, $full_timestamp);
 }
 
 function tooltip($html_content, $tooltip_text, $custom_style = '') {
@@ -195,7 +205,7 @@ function tooltip($html_content, $tooltip_text, $custom_style = '') {
 function message_inline($message, $strip_html = true, $color = "#35AAFD") {
     if ($strip_html)
         $message = htmlspecialchars($message);
-    
+
     return '<div class="section-header">' . decorator_square("arrow.png", "270deg", $color) . $message . '</div>';
 }
 
@@ -235,10 +245,10 @@ function admin_delete_confirmation($explanation = '') {
         . form_hidden('delete_confirmation', 'yes')
         . '<button class="btn-solid btn-solid-danger" type="submit">Yes</button>'
         . '</form>';
-    
+
     if (!empty($explanation))
         $submessage .= tooltip('<img style="width:24px; height:24px" src="' . Config::get('URL_STATIC_RESOURCES') . '/img/icons/question.png"></img>', $explanation);
-        
+
     die_with_message('Confirm delete?', $submessage, false, 'delete.png', '#EF3E36');
 }
 
@@ -284,7 +294,7 @@ function admin_menu() {
     echo '<div class="pre-category-name">Admin section:</div>
         <div class="category-name typewriter">' . $active_path . '</div>';
 
-    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#F8C630", true);
+    echo '<div style="display:flex; flex-wrap:wrap">' . decorator_square("arrow.png", "270deg", "#fcdc42", true);
     foreach ($sections as $entry) {
         echo '<a style="margin:0px 8px 8px 0px" class="btn-solid btn-solid-warning ' . ((stripos($path, $entry)!==false)?'active':'')
             . '" href="' . strtolower($entry) . '">' . $entry . '</a>';
